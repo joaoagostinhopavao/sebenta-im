@@ -1,0 +1,643 @@
+---
+title: "Fundamentos da Informática Médica"
+lang: pt-PT
+---
+
+## O que é a Informática Médica {#sec-im-definicao}
+
+### Definição e âmbito disciplinar
+
+A Informática Médica constitui uma disciplina científica situada na
+intersecção de três domínios do conhecimento: a Ciência da Informação,
+a Ciência dos Computadores e a Ciência da Saúde [@Haux2006]. O seu
+objecto de estudo centra-se na forma como a informação é gerada,
+organizada, armazenada, recuperada e utilizada no contexto clínico e
+organizacional da saúde.
+
+Verifica-se, com frequência, uma tendência para reduzir a Informática
+Médica à mera aplicação de ferramentas informáticas na área da saúde.
+Esta perspectiva é, contudo, redutora: trata-se, antes, de uma
+disciplina que integra de forma indissociável a tecnologia, a gestão
+da informação e a prática clínica, exigindo competências simultâneas
+nos três domínios que a compõem [@Collen2015].
+
+### Os três pilares fundacionais
+
+Identificam-se três pilares estruturantes que sustentam a disciplina:
+
+**Informação** — abrange os modelos de representação do conhecimento
+clínico, a semântica dos dados e a sua estruturação formal. Note-se
+que a qualidade da informação clínica é determinante para a segurança
+do doente e para a continuidade dos cuidados.
+
+**Computação** — compreende os sistemas de informação, as arquitecturas
+de rede e os modelos computacionais que suportam o processamento e a
+comunicação de dados clínicos. Este pilar fornece os meios técnicos
+sem os quais a partilha de informação entre sistemas seria impossível.
+
+**Saúde** — engloba a prática clínica, os processos assistenciais e
+as responsabilidades éticas e legais que decorrem da utilização de
+sistemas de informação no contexto do cuidado ao doente. Nenhuma
+solução tecnológica pode ser concebida sem um conhecimento sólido do
+domínio clínico que pretende suportar.
+
+A figura seguinte ilustra a posição da Informática Médica como área de
+intersecção dos três domínios:
+
+```{=html}
+<!--
+  Diagrama de Venn — três pilares da Informática Médica
+  SVG estático, paleta teal da sebenta.
+-->
+<div style="display:flex;justify-content:center;margin:2rem 0;">
+<svg viewBox="0 0 420 360" width="380" height="330"
+     xmlns="http://www.w3.org/2000/svg"
+     aria-label="Diagrama de Venn — três pilares da Informática Médica">
+  <defs>
+    <radialGradient id="gInfo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0d7c8c" stop-opacity="0.50"/>
+      <stop offset="100%" stop-color="#0d7c8c" stop-opacity="0.15"/>
+    </radialGradient>
+    <radialGradient id="gComp" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1ab3a6" stop-opacity="0.50"/>
+      <stop offset="100%" stop-color="#1ab3a6" stop-opacity="0.15"/>
+    </radialGradient>
+    <radialGradient id="gSau" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0a5c6b" stop-opacity="0.50"/>
+      <stop offset="100%" stop-color="#0a5c6b" stop-opacity="0.15"/>
+    </radialGradient>
+  </defs>
+  <!-- Círculo Ciência da Informação (esquerda) -->
+  <circle cx="168" cy="148" r="108" fill="url(#gInfo)" stroke="#0d7c8c" stroke-width="1.6"/>
+  <!-- Círculo Ciência dos Computadores (direita) -->
+  <circle cx="252" cy="148" r="108" fill="url(#gComp)" stroke="#1ab3a6" stroke-width="1.6"/>
+  <!-- Círculo Ciência da Saúde (baixo) -->
+  <circle cx="210" cy="220" r="108" fill="url(#gSau)" stroke="#0a5c6b" stroke-width="1.6"/>
+  <!-- Rótulos externos -->
+  <text x="112" y="96" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Ciência da</text>
+  <text x="112" y="111" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Informação</text>
+  <text x="308" y="96" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Ciência dos</text>
+  <text x="308" y="111" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Computadores</text>
+  <text x="210" y="322" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Ciência da Saúde</text>
+  <!-- Rótulo central — Informática Médica -->
+  <text x="210" y="192" text-anchor="middle" font-size="13" font-weight="700"
+        fill="#fff" font-family="system-ui,sans-serif">Informática</text>
+  <text x="210" y="208" text-anchor="middle" font-size="13" font-weight="700"
+        fill="#fff" font-family="system-ui,sans-serif">Médica</text>
+</svg>
+</div>
+```
+
+### Especificidades face à informática convencional
+
+A Informática Médica distingue-se da informática de uso geral por um
+conjunto de características que impõem requisitos adicionais de rigor,
+segurança e responsabilidade:
+
+- **Dados sensíveis e críticos** — os dados clínicos são, por natureza,
+  dados pessoais de categoria especial, sujeitos a enquadramento legal
+  específico (designadamente o Regulamento Geral sobre a Protecção de
+  Dados e legislação sectorial de saúde).
+
+- **Impacto clínico directo** — erros no registo, na transmissão ou na
+  interpretação de informação clínica podem ter consequências directas
+  sobre a saúde e a segurança do doente.
+
+- **Regulação exigente** — os sistemas de informação em saúde estão
+  sujeitos a normas técnicas e requisitos legais que não têm paralelo
+  noutros sectores de actividade.
+
+- **Complexidade organizacional elevada** — os hospitais e centros de
+  saúde são organizações altamente complexas, multidisciplinares e
+  multi-serviço, o que impõe desafios particulares à integração e
+  governação dos sistemas de informação.
+
+## Evolução Histórica {#sec-evolucao}
+
+### Da administração hospitalar à saúde digital
+
+A história da Informática Médica pode ser traçada ao longo de quatro
+grandes períodos, cada um marcado por uma transformação tecnológica
+que alterou profundamente a forma como a informação clínica é gerida.
+
+**Anos 60–70: primeiros sistemas administrativos hospitalares.**
+Os primeiros sistemas informáticos introduzidos nos hospitais tinham
+um âmbito essencialmente administrativo: gestão de admissões, controlo
+de camas e processamento de faturação. O registo clínico permanecia,
+na sua quase totalidade, em suporte papel.
+
+**Anos 80–90: informatização clínica e imagem digital.**
+Este período ficou marcado pela progressiva introdução de sistemas de
+apoio à actividade clínica e, de forma particularmente significativa,
+pelo desenvolvimento do standard DICOM (*Digital Imaging and
+Communications in Medicine*), que veio normalizar o armazenamento e a
+transmissão de imagem médica digital. Estabeleceu-se, assim, a base
+tecnológica para os modernos sistemas PACS (*Picture Archiving and
+Communication Systems*).
+
+**Anos 2000: integração com HL7 e registos electrónicos.**
+A primeira década do século XXI assistiu à generalização dos registos
+clínicos electrónicos e à adopção do standard HL7 (*Health Level Seven*)
+como linguagem de integração entre sistemas hospitalares. A
+interoperabilidade técnica entre aplicações distintas passou a ser um
+requisito operacional, e não apenas uma aspiração.
+
+**Hoje: APIs FHIR, interoperabilidade e saúde digital.**
+O paradigma actual assenta na norma FHIR (*Fast Healthcare
+Interoperability Resources*), que substitui o modelo de mensagens
+do HL7 clássico por uma arquitectura de APIs REST, tornando a
+integração mais ágil e alinhada com os padrões da Web moderna.
+Observa-se, simultaneamente, uma pressão crescente para a criação
+de espaços de dados de saúde à escala europeia, materializada no
+regulamento EHDS [@EHDS2025].
+
+A linha temporal seguinte resume os quatro marcos fundamentais:
+
+```{=html}
+<!--
+  Linha temporal horizontal — evolução histórica da Informática Médica.
+  Quatro etapas com cor de acento teal. Responsivo via flexbox.
+-->
+<div style="overflow-x:auto;margin:2rem 0;">
+<div style="display:flex;align-items:flex-start;min-width:560px;
+            padding:0 1rem;gap:0;position:relative;">
+  <!-- linha de ligação -->
+  <div style="position:absolute;top:28px;left:calc(12.5% + 20px);
+              right:calc(12.5% + 20px);height:3px;
+              background:linear-gradient(90deg,#0d7c8c,#1ab3a6);
+              z-index:0;"></div>
+  <!-- etapa 1 -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#0d7c8c;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(13,124,140,0.35);">1</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">Anos 60–70</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">Sistemas administrativos hospitalares</div>
+  </div>
+  <!-- etapa 2 -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#0b8f9e;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(13,124,140,0.30);">2</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">Anos 80–90</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">Informatização clínica e DICOM</div>
+  </div>
+  <!-- etapa 3 -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#0fa2ae;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(26,179,166,0.30);">3</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">Anos 2000</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">Integração HL7 e registos electrónicos</div>
+  </div>
+  <!-- etapa 4 -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#1ab3a6;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(26,179,166,0.35);">4</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">Hoje</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">APIs FHIR e saúde digital</div>
+  </div>
+</div>
+</div>
+```
+
+::: {.callout-note}
+**Integrar é ligar. Interoperar é compreender.**
+A distinção entre integração técnica e interoperabilidade semântica
+constitui um dos eixos conceptuais centrais desta unidade curricular.
+:::
+
+## O Hospital como Sistema Sociotécnico {#sec-sociotecnico}
+
+### Dimensões tecnologia, pessoas e processos
+
+O hospital moderno não é apenas uma organização de saúde — é um
+sistema sociotécnico complexo em que tecnologia, pessoas e processos
+se articulam de forma indissociável. Nenhum sistema de informação
+produz valor se for concebido ou implementado de forma isolada,
+sem considerar os outros dois vértices deste triângulo.
+
+A dimensão **tecnológica** abrange os sistemas de informação
+propriamente ditos, a infraestrutura de rede que os interliga e os
+dispositivos médicos que geram e consomem dados clínicos. Note-se que
+a tecnologia é condição necessária, mas não suficiente, para a
+melhoria dos cuidados de saúde.
+
+A dimensão das **pessoas** compreende os profissionais de saúde
+(médicos, enfermeiros, técnicos), os gestores e administradores
+hospitalares, e os próprios doentes e seus cuidadores. São as pessoas
+que produzem, validam e utilizam a informação clínica; são também
+elas que suportam as consequências de eventuais falhas nos sistemas.
+
+A dimensão dos **processos** engloba os fluxos clínicos que estruturam
+a actividade assistencial, os protocolos e normas de boa prática, e
+os mecanismos de coordenação inter-serviços. Verifica-se que a
+qualidade dos processos é, frequentemente, o factor determinante para
+o sucesso ou insucesso de um projecto de informatização hospitalar.
+
+### Complexidade hospitalar
+
+A complexidade particular dos hospitais resulta da conjugação de três
+características estruturais:
+
+- **Carácter multidisciplinar** — diferentes especialidades clínicas,
+  com linguagens, processos e culturas organizacionais próprias,
+  coexistem na mesma instituição e partilham informação sobre os
+  mesmos doentes.
+
+- **Carácter multi-serviço** — cada serviço hospitalar detém um grau
+  significativo de autonomia funcional e organizacional, o que
+  dificulta a adopção de soluções uniformes e a governação centralizada
+  da informação.
+
+- **Multiplicidade de sistemas** — num hospital de média dimensão
+  coexistem, habitualmente, dezenas de sistemas de informação
+  especializados (sistema hospitalar central, sistema de imagem
+  médica, sistema laboratorial, sistema de bloco operatório, entre
+  outros), cada um com os seus modelos de dados, interfaces e
+  fornecedores.
+
+### Dados clínicos versus dados administrativos
+
+No contexto hospitalar, distinguem-se dois grandes tipos de dados,
+com naturezas e requisitos distintos:
+
+| Tipo | Exemplos | Requisitos |
+|------|----------|-----------|
+| **Clínicos** | Diagnósticos, prescrições, resultados de exames, observações clínicas | Precisão, confidencialidade, integridade temporal |
+| **Administrativos** | Identificação do utente, agendamentos, faturação, episódios | Consistência, unicidade, disponibilidade |
+
+: Tipos de dados em contexto hospitalar {#tbl-dados}
+
+Demonstra-se que a natureza distinta destes dois tipos de dados implica
+requisitos igualmente distintos de modelação, protecção e governação.
+Os dados clínicos exigem um grau de precisão semântica que os dados
+administrativos, por si só, não requerem; estes últimos, por sua vez,
+são frequentemente a chave de ligação que permite agregar informação
+clínica dispersa por múltiplos sistemas.
+
+## Sistemas de Informação em Saúde {#sec-si}
+
+### Definição de sistema de informação
+
+Um sistema de informação define-se como um conjunto organizado de
+pessoas, processos e tecnologia que recolhe, armazena, processa e
+distribui informação com o objectivo de suportar a tomada de decisão
+numa organização [@Haux2006]. Esta definição tripartida — entrada,
+processamento, saída — aplica-se tanto a sistemas de informação
+genéricos como aos sistemas especificamente concebidos para o contexto
+de saúde.
+
+No domínio hospitalar, a entrada corresponde à recolha de dados
+clínicos e administrativos gerados ao longo do percurso do doente;
+o processamento envolve o armazenamento, a validação e a estruturação
+desses dados; e a saída materializa-se em informação disponível para
+suportar decisões clínicas, de gestão e de reporte estatístico.
+
+### Da cadeia dados–informação–conhecimento
+
+Distinguem-se três níveis na hierarquia da informação clínica, com
+implicações directas para a concepção e avaliação dos sistemas:
+
+**Dados** constituem registos isolados, sem contexto: um valor
+numérico, uma data, um código. Por si só, os dados não têm
+significado clínico operacional.
+
+**Informação** resulta da contextualização dos dados: um valor
+numérico associado a um parâmetro fisiológico, a um doente e a um
+momento temporal torna-se informação com potencial de utilização
+clínica.
+
+**Conhecimento** emerge quando a informação é interpretada à luz de
+modelos clínicos e de experiência acumulada, permitindo fundamentar
+uma decisão diagnóstica ou terapêutica.
+
+Observe-se que a Informática Médica não se ocupa apenas do
+armazenamento de dados, mas da transformação destes em conhecimento
+útil para a prática clínica.
+
+O diagrama seguinte ilustra esta progressão, usando como exemplo
+um registo de glicemia:
+
+```{=html}
+<!--
+  Cadeia Dados → Informação → Conhecimento
+  Exemplo concreto: registo de glicemia.
+  Três cartões ligados por setas, com conteúdo progressivamente
+  mais rico em cada nível.
+-->
+<div style="display:flex;flex-wrap:wrap;gap:0;
+            align-items:stretch;margin:2rem 0;justify-content:center;">
+
+  <!-- DADOS -->
+  <div style="flex:1;min-width:150px;max-width:200px;
+              background:#f0fafa;border:2px solid #0d7c8c;
+              border-radius:8px 0 0 8px;padding:1.2rem 1rem;
+              display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;
+                text-transform:uppercase;color:#0d7c8c;margin-bottom:.5rem;">
+      Dados
+    </div>
+    <div style="font-size:1.6rem;font-weight:800;color:#0a3d4a;">
+      210
+    </div>
+    <div style="font-size:.75rem;color:#555;margin-top:.3rem;
+                text-align:center;">
+      Valor numérico isolado.<br>Sem contexto.
+    </div>
+  </div>
+
+  <!-- seta 1 -->
+  <div style="display:flex;align-items:center;padding:0 .3rem;">
+    <svg width="32" height="24" viewBox="0 0 32 24"
+         xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 12 H26 M20 5 L28 12 L20 19"
+            stroke="#0d7c8c" stroke-width="2.5"
+            fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- INFORMAÇÃO -->
+  <div style="flex:1;min-width:160px;max-width:210px;
+              background:#e6f7f6;border:2px solid #1ab3a6;
+              border-radius:0;padding:1.2rem 1rem;
+              display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;
+                text-transform:uppercase;color:#0d7c8c;margin-bottom:.5rem;">
+      Informação
+    </div>
+    <div style="font-size:.9rem;font-weight:700;color:#0a3d4a;
+                text-align:center;">
+      Glicemia = 210 mg/dL<br>
+      <span style="font-weight:400;font-size:.8rem;">
+        João Silva · 14h32 · em jejum
+      </span>
+    </div>
+    <div style="font-size:.75rem;color:#555;margin-top:.5rem;
+                text-align:center;">
+      Dado contextualizado:<br>quem, o quê, quando.
+    </div>
+  </div>
+
+  <!-- seta 2 -->
+  <div style="display:flex;align-items:center;padding:0 .3rem;">
+    <svg width="32" height="24" viewBox="0 0 32 24"
+         xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 12 H26 M20 5 L28 12 L20 19"
+            stroke="#1ab3a6" stroke-width="2.5"
+            fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- CONHECIMENTO -->
+  <div style="flex:1;min-width:160px;max-width:220px;
+              background:#d6f2ef;border:2px solid #0a5c6b;
+              border-radius:0 8px 8px 0;padding:1.2rem 1rem;
+              display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;
+                text-transform:uppercase;color:#0a5c6b;margin-bottom:.5rem;">
+      Conhecimento
+    </div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;
+                text-align:center;">
+      Hiperglicemia em jejum.<br>
+      <span style="font-weight:400;font-size:.8rem;">
+        Critério diagnóstico ADA: ≥ 126 mg/dL.<br>
+        Avaliar DM tipo 2.
+      </span>
+    </div>
+    <div style="font-size:.75rem;color:#555;margin-top:.5rem;
+                text-align:center;">
+      Decisão fundamentada<br>em modelos clínicos.
+    </div>
+  </div>
+
+</div>
+```
+
+### Fluxos organizacionais e papel estrutural dos SI
+
+A informação clínica não existe em silos estanques: circula
+continuamente entre serviços, entre profissionais e entre instituições.
+Desta circulação depende a coordenação entre os diferentes actores do
+sistema de saúde; da coordenação depende a continuidade dos cuidados;
+e da continuidade dos cuidados depende, em última instância, a
+segurança do doente.
+
+Estabelece-se, assim, uma cadeia lógica com implicações directas para
+a governação dos sistemas de informação hospitalares:
+
+> *Sem sistemas de informação → sem coordenação → sem continuidade de
+> cuidados → aumento do risco clínico.*
+
+Esta cadeia demonstra que os sistemas de informação não são, nos
+hospitais modernos, uma conveniência tecnológica: são infraestrutura
+crítica. A sua indisponibilidade ou degradação tem efeitos directos
+sobre a qualidade e a segurança dos cuidados prestados.
+
+## Interoperabilidade {#sec-interop}
+
+### Três níveis de interoperabilidade
+
+A interoperabilidade é a capacidade de sistemas distintos trocarem
+informação e utilizarem mutuamente essa informação de forma eficaz
+[@BensonGrieve2021]. No contexto da saúde, identificam-se três níveis
+complementares:
+
+**Interoperabilidade técnica** — os sistemas conseguem comunicar entre
+si ao nível do transporte, do formato e do protocolo. É condição
+necessária, mas não suficiente: garante que os dados chegam ao
+destino, não que sejam correctamente interpretados.
+
+**Interoperabilidade semântica** — os sistemas partilham o significado
+dos dados trocados. Para que dois sistemas "se entendam", é necessário
+que utilizem vocabulários controlados e terminologias normalizadas
+(como SNOMED CT, LOINC ou ICD), de modo a que um mesmo conceito
+clínico tenha o mesmo significado em ambos os sistemas.
+
+**Interoperabilidade organizacional** — os processos, as políticas e
+o enquadramento legal são compatíveis entre as organizações que
+pretendem partilhar informação. Este nível é frequentemente o mais
+difícil de alcançar, pois implica acordos de governação que transcendem
+a dimensão puramente técnica.
+
+O esquema seguinte posiciona os três níveis de forma hierárquica,
+evidenciando que cada nível superior pressupõe o inferior:
+
+```{=html}
+<!--
+  Pirâmide de interoperabilidade — três níveis empilhados.
+  Técnico (base) → Semântico → Organizacional (topo).
+  Cores progressivas da paleta teal.
+-->
+<div style="display:flex;flex-direction:column;align-items:center;
+            margin:2rem 0;gap:4px;">
+
+  <!-- Nível 3 — Organizacional (topo) -->
+  <div style="width:260px;background:#0a3d4a;color:#fff;
+              border-radius:6px;padding:.8rem 1rem;text-align:center;
+              box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;
+                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;">
+      Nível 3
+    </div>
+    <div style="font-size:.95rem;font-weight:700;">Organizacional</div>
+    <div style="font-size:.75rem;opacity:.85;margin-top:.2rem;">
+      Políticas, governação, enquadramento legal
+    </div>
+  </div>
+
+  <!-- seta descendente -->
+  <div style="color:#0a5c6b;font-size:1.2rem;line-height:1;">▼</div>
+
+  <!-- Nível 2 — Semântica -->
+  <div style="width:340px;background:#0d7c8c;color:#fff;
+              border-radius:6px;padding:.8rem 1rem;text-align:center;
+              box-shadow:0 2px 8px rgba(13,124,140,0.20);">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;
+                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;">
+      Nível 2
+    </div>
+    <div style="font-size:.95rem;font-weight:700;">Semântica</div>
+    <div style="font-size:.75rem;opacity:.85;margin-top:.2rem;">
+      Vocabulários controlados, terminologias normalizadas
+    </div>
+  </div>
+
+  <!-- seta descendente -->
+  <div style="color:#0d7c8c;font-size:1.2rem;line-height:1;">▼</div>
+
+  <!-- Nível 1 — Técnica (base) -->
+  <div style="width:420px;background:#1ab3a6;color:#fff;
+              border-radius:6px;padding:.8rem 1rem;text-align:center;
+              box-shadow:0 2px 8px rgba(26,179,166,0.20);">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;
+                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;">
+      Nível 1
+    </div>
+    <div style="font-size:.95rem;font-weight:700;">Técnica</div>
+    <div style="font-size:.75rem;opacity:.85;margin-top:.2rem;">
+      Transporte, formato, protocolo (HL7, FHIR, TCP/IP)
+    </div>
+  </div>
+
+</div>
+```
+
+::: {.callout-tip}
+**Exemplo ilustrativo**
+
+Dois hospitais conseguem trocar mensagens (interoperabilidade técnica).
+Um regista o diagnóstico como "Hipertensão arterial"; o outro usa a
+abreviatura "HTA". Os sistemas comunicam — mas entendem-se? A resposta
+é negativa, na ausência de terminologias normalizadas partilhadas. Este
+exemplo ilustra a diferença entre interoperabilidade técnica e
+semântica.
+:::
+
+### O problema da fragmentação da informação
+
+Um dos principais obstáculos à interoperabilidade nos sistemas de saúde
+actuais é a fragmentação da informação clínica: o mesmo doente pode ter
+registos distribuídos por múltiplos sistemas, em múltiplas instituições,
+sem que exista um mecanismo eficaz de agregação e partilha.
+
+As consequências práticas desta fragmentação são bem documentadas
+[@Haggerty2003]:
+
+- repetição desnecessária de exames e actos clínicos, por
+  desconhecimento de resultados anteriores;
+- atrasos na tomada de decisão clínica, por indisponibilidade de
+  informação relevante no momento do cuidado;
+- aumento do risco clínico associado a erros de medicação, alergias
+  não registadas ou diagnósticos contraditórios entre instituições.
+
+### Desafios actuais
+
+Os principais desafios que se colocam à Informática Médica na
+actualidade podem ser agrupados em quatro vectores:
+
+- **Fragmentação** — a informação clínica continua dispersa por
+  sistemas heterogéneos, sem interoperabilidade efectiva entre eles.
+
+- **Sistemas legados** — muitos hospitais operam com sistemas
+  instalados há décadas, com arquitecturas monolíticas e limitada
+  capacidade de integração com tecnologias modernas.
+
+- **Segurança e protecção de dados** — a crescente digitalização dos
+  dados clínicos amplia a superfície de ataque e exige investimento
+  contínuo em cibersegurança e conformidade regulatória.
+
+- **Sustentabilidade tecnológica** — a evolução acelerada das
+  tecnologias de informação impõe ciclos de actualização que as
+  organizações de saúde, com recursos limitados, têm dificuldade
+  em acompanhar.
+
+## Síntese {#sec-sintese}
+
+Este capítulo estabeleceu os fundamentos conceptuais sobre os quais
+assenta a Informática Médica enquanto disciplina científica. Os
+conceitos introduzidos — sistema sociotécnico, cadeia
+dados–informação–conhecimento, níveis de interoperabilidade — serão
+retomados e aprofundados à medida que se introduzem os standards
+técnicos e as arquitecturas de integração que os operacionalizam.
+
+Retêm-se os seguintes pontos essenciais:
+
+1. A Informática Médica é uma disciplina de intersecção, que não pode
+   ser reduzida a nenhum dos seus três domínios constituintes isoladamente.
+2. O hospital é um sistema sociotécnico: a tecnologia só produz valor
+   quando alinhada com processos clínicos e práticas organizacionais.
+3. A interoperabilidade tem três níveis — técnico, semântico e
+   organizacional — e a ausência de qualquer um deles compromete a
+   continuidade dos cuidados.
+4. A fragmentação da informação clínica é o principal obstáculo à
+   integração dos sistemas de saúde e tem consequências directas sobre
+   a segurança do doente.
+
+## Exercícios de consolidação {.unnumbered}
+
+1. Identifique, para cada um dos três pilares da Informática Médica
+   (Informação, Computação, Saúde), um exemplo concreto de problema
+   que não pode ser resolvido sem conhecimento simultâneo dos outros
+   dois pilares.
+
+2. Um hospital decide substituir o seu sistema de registo clínico
+   por uma nova aplicação. Que factores, para além dos técnicos,
+   deverão ser considerados neste processo? Estruture a resposta
+   recorrendo ao modelo do sistema sociotécnico.
+
+3. Explique, com um exemplo concreto, porque é que a
+   interoperabilidade técnica é condição necessária mas não suficiente
+   para a continuidade de cuidados entre instituições.
+
+4. Considerando a cadeia lógica *sem SI → sem coordenação → sem
+   continuidade → aumento do risco clínico*, identifique um cenário
+   real ou plausível em que a falha de um sistema de informação
+   hospitalar teve ou poderia ter consequências clínicas directas.

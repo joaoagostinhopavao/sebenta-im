@@ -1,0 +1,564 @@
+---
+title: "Serviços DICOM e Arquitectura PACS"
+lang: pt-PT
+---
+
+## Serviços DICOM — DIMSE: imagens em ação  {#sec-dicom-dimse}
+
+### Application Entities, SCU e SCP
+
+Para além do modelo de dados, já tratado no capítulo anterior, o DICOM define também como a informação é manipulada, através das definições contidas no **DIMSE** (*DICOM Message Service Element*). 
+
+O **DIMSE**  é a camada de serviços da norma, especificada na parte PS3.7 [@DICOM_PS37].
+
+O primeiro conceito a ter em conta num sistema de comunicações é acerca das **entidades** responsáveis pela comunicação, isto é, **emissor** e **recetor**. Num sistema DICOM, toda a comunicação ocorre entre **Application Entities** (AE).
+Uma AE é qualquer dispositivo ou aplicação que implementa a norma DICOM:
+um *scanner* de CT, um servidor de arquivo PACS, uma estação de
+visualização ou uma impressora. Cada AE é identificada univocamente
+por um **AE Title** — uma cadeia de caracteres alfanumérica configurada
+pelo administrador do sistema.
+
+Em cada interacção, uma AE assume um de dois papéis:
+
+- **SCU** (*Service Class User*) — a entidade que solicita o serviço,
+  enviando o pedido (`-Rq`). Também podemos identificar esta entidade, informalmente, como *cliente*.
+- **SCP** (*Service Class Provider*) — a entidade que fornece o serviço,
+  respondendo ao pedido (`-Rsp`). Podemos igualmente identificar esta entidade como *servidor*, de um modo informal. 
+
+Os papéis SCU e SCP não são fixos: a mesma AE pode ser SCU numa
+interacção (quando envia imagens para o arquivo) e SCP noutra (quando
+recebe um pedido de pesquisa de uma estação de visualização). Esta
+flexibilidade é fundamental para o funcionamento de sistemas distribuídos
+com múltiplos dispositivos [@DICOM_PS37].
+
+Os serviços DIMSE seguem uma nomenclatura normalizada: o prefixo `C-`
+indica que o serviço opera sobre dados compostos (*Composite*); o
+prefixo `N-` indica dados normalizados (*Normalized*). O sufixo `-Rq`
+identifica o pedido e `-Rsp` a resposta.
+
+### Estrutura de uma mensagem DIMSE
+
+Cada mensagem DIMSE é composta por dois elementos: um **DICOM Command
+Object** e, opcionalmente, um **DICOM Data Object**. O Command Object
+é codificado como um conjunto de Data Elements do grupo `0000` —
+seguindo exactamente a mesma estrutura TAG + VR + Valor dos restantes
+Data Elements, mas definido na parte PS3.7 (não no Data Dictionary
+PS3.6). Os campos de comando mais relevantes são `(0000,0100)` (*Command
+Field*, que identifica o tipo de serviço), `(0000,0110)` (*Message ID*)
+e `(0000,0800)` (*Data Set Type*, que indica se existe um IOD anexado)
+[@DICOM_PS37].
+
+O campo *Data Set Type* tem valor `0101h` quando não existe IOD anexado
+(como no C-ECHO) e outro valor quando o IOD está presente (como no
+C-STORE). Esta distinção permite ao receptor saber, antes de processar
+o corpo da mensagem, se deve ou não aguardar dados adicionais. A estrutura
+completa de uma mensagem DIMSE encontra-se ilustrada na Figura 5.1.
+
+```{=html}
+<!--
+  Diagrama: estrutura de uma mensagem DIMSE.
+  Bloco esquerdo: DICOM Command Object (grupo 0000) com campos.
+  Bloco direito: DICOM Data Object (IOD), opcional.
+  Seta a indicar que Data Set Type controla a presença do bloco direito.
+  Nota: se Data Set Type = 0101h, bloco direito ausente.
+  Paleta teal.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="290" rx="10" fill="#f8fbfc"/>
+
+  <!-- Título geral -->
+  <text x="350" y="22" text-anchor="middle" font-size="12"
+        font-weight="bold" fill="#0a3d4a">Mensagem DIMSE</text>
+
+  <!-- BLOCO ESQUERDO: Command Object -->
+  <rect x="20" y="32" width="290" height="220" rx="8"
+        fill="#0a3d4a" opacity="0.06" stroke="#0a3d4a" stroke-width="1.5"/>
+  <rect x="20" y="32" width="290" height="28" rx="8" fill="#0a3d4a"/>
+  <text x="165" y="51" text-anchor="middle" font-size="11"
+        font-weight="bold" fill="#fff">DICOM Command Object (grupo 0000)</text>
+
+  <!-- Linhas da tabela Command Object -->
+  <!-- Cabeçalho -->
+  <rect x="30" y="68" width="175" height="22" rx="3" fill="#0d7c8c"/>
+  <rect x="210" y="68" width="90" height="22" rx="3" fill="#0d7c8c"/>
+  <text x="38"  y="83" font-size="10" font-weight="bold" fill="#fff">Elemento (TAG)</text>
+  <text x="218" y="83" font-size="10" font-weight="bold" fill="#fff">Valor</text>
+
+  <!-- Linha 1: Type -->
+  <rect x="30" y="92" width="175" height="20" rx="2" fill="#e2f4f3"/>
+  <rect x="210" y="92" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="38"  y="106" font-size="9" fill="#0a3d4a">(0000,0100)  Command Field</text>
+  <text x="218" y="106" font-size="10" fill="#374151">Store</text>
+
+  <!-- Linha 2: Message ID -->
+  <rect x="30" y="114" width="175" height="20" rx="2" fill="#e2f4f3"/>
+  <rect x="210" y="114" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="38"  y="128" font-size="9" fill="#0a3d4a">(0000,0110)  Message ID</text>
+  <text x="218" y="128" font-size="10" fill="#374151">24</text>
+
+  <!-- Linha 3: Priority -->
+  <rect x="30" y="136" width="175" height="20" rx="2" fill="#e2f4f3"/>
+  <rect x="210" y="136" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="38"  y="150" font-size="9" fill="#0a3d4a">(0000,0700)  Priority</text>
+  <text x="218" y="150" font-size="10" fill="#374151">Medium</text>
+
+  <!-- Linha 4: SOP -->
+  <rect x="30" y="158" width="175" height="20" rx="2" fill="#e2f4f3"/>
+  <rect x="210" y="158" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="38"  y="172" font-size="9" fill="#0a3d4a">(0000,0002)  Aff. SOP Class UID</text>
+  <text x="218" y="172" font-size="10" fill="#374151">1.2.840…</text>
+
+  <!-- Linha 5: Data Set Type — destaque -->
+  <rect x="30" y="180" width="175" height="22" rx="2" fill="#1ab3a6"/>
+  <rect x="210" y="180" width="90" height="22" rx="2" fill="#1ab3a6" opacity="0.3" stroke="#1ab3a6" stroke-width="1"/>
+  <text x="38"  y="195" font-size="9" font-weight="bold" fill="#fff">(0000,0800)  Data Set Type</text>
+  <text x="218" y="195" font-size="9" font-weight="bold" fill="#0a3d4a">≠ 0101h</text>
+
+  <!-- Nota 0101h -->
+  <rect x="30" y="210" width="270" height="30" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+  <text x="165" y="224" text-anchor="middle" font-size="9" fill="#92400e">
+    Se Data Set Type = 0101h → sem IOD anexado
+  </text>
+  <text x="165" y="235" text-anchor="middle" font-size="9" fill="#92400e">
+    (ex.: C-ECHO não transporta IOD)
+  </text>
+
+  <!-- BLOCO DIREITO: Data Object -->
+  <rect x="390" y="32" width="290" height="220" rx="8"
+        fill="#1ab3a6" opacity="0.06" stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="6"/>
+  <rect x="390" y="32" width="290" height="28" rx="8" fill="#1ab3a6"/>
+  <text x="535" y="51" text-anchor="middle" font-size="11"
+        font-weight="bold" fill="#fff">DICOM Data Object (IOD) — opcional</text>
+
+  <!-- Cabeçalho Data Object -->
+  <rect x="400" y="68" width="120" height="22" rx="3" fill="#0d7c8c"/>
+  <rect x="525" y="68" width="145" height="22" rx="3" fill="#0d7c8c"/>
+  <text x="460" y="83" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Atributo</text>
+  <text x="598" y="83" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Valor</text>
+
+  <!-- Linhas Data Object -->
+  <rect x="400" y="92"  width="120" height="20" rx="2" fill="#e2f4f3"/>
+  <rect x="525" y="92"  width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="460" y="106" text-anchor="middle" font-size="10" fill="#0a3d4a">Patient Name</text>
+  <text x="598" y="106" text-anchor="middle" font-size="10" fill="#374151">Couto^Fernando</text>
+
+  <rect x="400" y="114" width="120" height="20" rx="2" fill="#e2f4f3"/>
+  <rect x="525" y="114" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="460" y="128" text-anchor="middle" font-size="10" fill="#0a3d4a">Patient ID</text>
+  <text x="598" y="128" text-anchor="middle" font-size="10" fill="#374151">987654</text>
+
+  <rect x="400" y="136" width="120" height="20" rx="2" fill="#e2f4f3"/>
+  <rect x="525" y="136" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="460" y="150" text-anchor="middle" font-size="10" fill="#0a3d4a">Modality</text>
+  <text x="598" y="150" text-anchor="middle" font-size="10" fill="#374151">CT</text>
+
+  <rect x="400" y="158" width="120" height="20" rx="2" fill="#e2f4f3"/>
+  <rect x="525" y="158" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="460" y="172" text-anchor="middle" font-size="10" fill="#0a3d4a">Rows</text>
+  <text x="598" y="172" text-anchor="middle" font-size="10" fill="#374151">512</text>
+
+  <rect x="400" y="180" width="120" height="20" rx="2" fill="#e2f4f3"/>
+  <rect x="525" y="180" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="460" y="194" text-anchor="middle" font-size="10" fill="#0a3d4a">Pixel Data</text>
+  <text x="598" y="194" text-anchor="middle" font-size="10" fill="#374151">[dados binários]</text>
+
+  <!-- Seta entre blocos -->
+  <line x1="312" y1="191" x2="388" y2="191" stroke="#1ab3a6" stroke-width="2"
+        marker-end="url(#ma)"/>
+  <text x="350" y="185" text-anchor="middle" font-size="8" fill="#1ab3a6">se ≠ 0101h</text>
+  <defs>
+    <marker id="ma" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"/>
+    </marker>
+  </defs>
+
+  <!-- Legenda -->
+  <text x="350" y="278" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 5.1 — Estrutura de uma mensagem DIMSE: Command Object + Data Object opcional (PS3.7)
+  </text>
+</svg>
+</div>
+```
+
+### Os quatro serviços principais: C-ECHO, C-STORE, C-FIND, C-MOVE
+
+**C-ECHO** — verifica a existência de uma ligação DICOM funcional entre
+dois AE. Vai além de um simples `ping` TCP/IP: confirma que a camada
+aplicacional DICOM está operacional. Não transporta IOD. É utilizado
+rotineiramente para monitorizar a disponibilidade dos componentes do
+sistema [@DICOM_PS37]. 
+
+**C-STORE** — envia uma instância DICOM completa de um AE para outro.
+É o serviço mais utilizado no fluxo clínico: ocorre imediatamente após
+cada aquisição, quando o equipamento envia as imagens para o servidor
+de arquivo. O equipamento actua como SCU e o servidor como SCP.
+
+**C-FIND** — pesquisa estudos, séries ou imagens num AE remoto, com base
+em critérios como identificador do paciente, data, modalidade ou
+descrição do estudo. O SCU especifica os critérios; o SCP devolve uma
+lista de resultados correspondentes. Note-se que o C-FIND não transfere
+imagens — apenas metadados [@DICOM_PS37].
+
+**C-MOVE** — solicita ao SCP que transfira imagens para um terceiro AE.
+O SCU especifica o destino por AE Title; o SCP usa C-STORE para enviar
+as imagens para esse destino. Este mecanismo indirecto é típico das
+estações de visualização, que pedem ao servidor para enviar imagens
+directamente para si próprias. A Figura 5.2 ilustra o modelo
+pedido–resposta dos três serviços principais.
+
+```{=html}
+<!--
+  Diagrama: os quatro serviços DIMSE com SCU → SCP.
+  Linhas horizontais com setas; modelo pedido-resposta.
+  Paleta teal.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:660px;font-family:sans-serif;">
+  <rect width="660" height="240" rx="10" fill="#f8fbfc"/>
+  <rect x="20"  y="15" width="120" height="28" rx="5" fill="#0a3d4a"/>
+  <text x="80"  y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">SCU</text>
+  <rect x="520" y="15" width="120" height="28" rx="5" fill="#0a3d4a"/>
+  <text x="580" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">SCP</text>
+  <text x="20" y="72" font-size="11" font-weight="bold" fill="#0d7c8c">C-ECHO</text>
+  <line x1="80" y1="78" x2="520" y2="78" stroke="#0d7c8c" stroke-width="2" marker-end="url(#a1)"/>
+  <line x1="520" y1="88" x2="80" y2="88" stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#a2)"/>
+  <text x="300" y="74" text-anchor="middle" font-size="10" fill="#0d7c8c">C-Echo-Rq (sem IOD)</text>
+  <text x="300" y="100" text-anchor="middle" font-size="10" fill="#64748b">C-Echo-Rsp</text>
+  <text x="20" y="128" font-size="11" font-weight="bold" fill="#1ab3a6">C-STORE</text>
+  <line x1="80" y1="134" x2="520" y2="134" stroke="#1ab3a6" stroke-width="2" marker-end="url(#a1)"/>
+  <line x1="520" y1="144" x2="80" y2="144" stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#a2)"/>
+  <text x="300" y="130" text-anchor="middle" font-size="10" fill="#1ab3a6">C-Store-Rq + CT Image IOD</text>
+  <text x="300" y="156" text-anchor="middle" font-size="10" fill="#64748b">C-Store-Rsp (Success/Failure)</text>
+  <text x="20" y="184" font-size="11" font-weight="bold" fill="#0d7c8c">C-FIND</text>
+  <line x1="80" y1="190" x2="520" y2="190" stroke="#0d7c8c" stroke-width="2" marker-end="url(#a1)"/>
+  <line x1="520" y1="200" x2="80" y2="200" stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#a2)"/>
+  <text x="300" y="186" text-anchor="middle" font-size="10" fill="#0d7c8c">C-Find-Rq (critérios de pesquisa)</text>
+  <text x="300" y="212" text-anchor="middle" font-size="10" fill="#64748b">C-Find-Rsp (lista de resultados)</text>
+  <text x="330" y="232" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 5.2 — Serviços DIMSE principais: modelo pedido–resposta (PS3.7)
+  </text>
+  <defs>
+    <marker id="a1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"/></marker>
+    <marker id="a2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>
+  </defs>
+</svg>
+</div>
+```
+
+### SOP Class: o contrato serviço–objecto
+
+Um **SOP Class** (*Service-Object Pair Class*) é a combinação formal de
+um grupo de serviços DIMSE com um IOD. Define, de forma normativa, o que
+se pode fazer com um determinado tipo de objecto de informação. Cada SOP
+Class é identificado por um UID globalmente único, registado na parte
+PS3.6 [@DICOM_PS34; @DICOM_PS36].
+
+O exemplo paradigmático é o **CT Image Storage SOP Class**: combina o
+serviço C-STORE com o CT Image IOD, identificado pelo UID
+`1.2.840.10008.5.1.4.1.1.2`. Quando um scanner de CT envia imagens para
+um servidor de arquivo, ambos os dispositivos negociam durante o
+estabelecimento da ligação (*Association Negotiation*) se suportam este
+SOP Class — só se ambos o suportarem é que a transferência ocorre
+[@DICOM_PS34].
+
+Note-se que um IOD não é necessariamente uma imagem com pixels: o IOD
+*Modality Worklist* contém a lista de exames pendentes para uma
+modalidade, sem qualquer dado de pixel; e o SOP Class *Verification*
+(C-ECHO) não tem sequer qualquer IOD associado. A Tabela 5.1 apresenta
+exemplos representativos de SOP Classes normalizadas estão listados na @tbl-sop:
+
+| SOP Class | IOD | Serviço |
+|---|---|---|
+| CT Image Storage `1.2.840.10008.5.1.4.1.1.2` | CT Image IOD | C-STORE |
+| MR Image Storage `1.2.840.10008.5.1.4.1.1.4` | MR Image IOD | C-STORE |
+| Study Root Q/R — FIND `1.2.840.10008.5.1.4.1.2.2.1` | Study Root IOD | C-FIND |
+| Study Root Q/R — MOVE `1.2.840.10008.5.1.4.1.2.2.2` | Study Root IOD | C-MOVE |
+| Modality Worklist `1.2.840.10008.5.1.4.31` | Modality Worklist IOD | C-FIND |
+| Verification `1.2.840.10008.1.1` | *(sem IOD)* | C-ECHO |
+
+: Exemplos de SOP Classes normalizadas [@DICOM_PS34; @DICOM_PS36]. {#tbl-sop}
+
+Verifica-se assim que o DIMSE, o IOD e o SOP Class têm papéis distintos
+mas complementares: o DIMSE define o formato das mensagens; o IOD define
+a estrutura dos dados; e o SOP Class declara o contrato válido entre
+ambos, identificado por um UID negociável.
+
+## Sistemas PACS {#sec-pacs}
+
+### Da radiologia analógica ao PACS
+
+O **PACS** (*Picture Archiving and Communication System*) é o sistema
+informático que gere o ciclo de vida completo da imagem médica numa
+instituição hospitalar: desde a aquisição nas modalidades até ao arquivo,
+distribuição e visualização para fins de diagnóstico e relatório
+[@Huang2010].
+
+O fluxo de trabalho da radiologia antes do PACS era integralmente manual:
+registo do paciente com emissão de requisição impressa; realização do
+exame e revelação do filme analógico; pesquisa manual do arquivo físico
+para localizar exames anteriores; transporte dos dossiers para o
+radiologista; ditado oral do relatório; transcrição; revisão e assinatura;
+e inserção do relatório final no RIS [@Huang2010].
+
+Com o PACS, este fluxo é integralmente digitalizado: as imagens chegam
+directamente do equipamento ao arquivo via DICOM C-STORE, os exames
+anteriores são pré-carregados automaticamente nas estações de diagnóstico,
+o radiologista trabalha num ambiente digital integrado, e o relatório
+assinado é distribuído electronicamente. O tempo entre aquisição e
+disponibilidade do diagnóstico cai de horas para segundos.
+
+Os benefícios documentados incluem a eliminação do custo do filme
+analógico (estimado entre 6 e 8 % do orçamento de radiologia nos
+hospitais pré-PACS), a redução da taxa de exames repetidos por
+impossibilidade de acesso a estudos anteriores, e o suporte ao
+diagnóstico remoto (*teleradiologia*) [@Huang2010].
+
+### Arquitectura geral e fluxo de trabalho
+
+Num PACS genérico, o **RIS** (*Radiology Information System*) coordena
+o fluxo administrativo e clínico, enquanto o protocolo DICOM transporta
+a imagem entre os componentes técnicos. O fluxo integrado compreende:
+
+1. O paciente regista-se no RIS, que lhe atribui um identificador único.
+2. O RIS envia mensagens HL7 com os dados do exame para o **PACS Broker**.
+3. O PACS Broker notifica o servidor de arquivo da marcação.
+4. Os exames anteriores relevantes são pré-carregados nas estações de
+   diagnóstico (*prefetch*).
+5. A sala de exames consulta a **Modality Worklist** DICOM (C-FIND sobre
+   o *Modality Worklist IOD*) para obter os dados do exame pendente.
+6. O técnico realiza o exame; o equipamento envia as imagens (C-STORE)
+   para a estação de controlo de qualidade (QC WS).
+7. A QC WS encaminha o exame para a estação de diagnóstico do
+   radiologista.
+8. O exame é arquivado no servidor PACS (base de dados actualizada).
+9. O servidor distribui o exame para as estações dos serviços clínicos.
+10. O radiologista dita e assina o relatório; a base de dados é marcada
+    como concluída.
+11. O relatório é transcrito e distribuído electronicamente [@Huang2010].
+
+### Tipos de arquitectura: stand-alone, cliente-servidor e web
+
+Identificam-se três arquitecturas PACS fundamentais, com compromissos
+distintos entre resiliência, flexibilidade e dependência de rede
+[@Huang2010]:
+
+**Stand-alone (thick client)** — as imagens são distribuídas
+automaticamente pelo servidor para as estações de diagnóstico, que
+mantêm armazenamento local. A estação pode continuar a trabalhar mesmo
+que o servidor fique indisponível. A desvantagem é que cada estação tem
+a sua própria *worklist*, criando risco de leitura duplicada do mesmo
+exame. A função *query/retrieve* (C-FIND + C-MOVE) permite obter do
+arquivo imagens não pré-carregadas.
+
+**Cliente-servidor (thin client)** — as estações não têm armazenamento
+local; acedem directamente à *worklist* central e carregam as imagens
+da memória do servidor. A *worklist* é única e partilhada, eliminando
+leituras duplicadas. A desvantagem estrutural é que o servidor constitui
+um ponto único de falha (SPOF): qualquer interrupção impede o acesso
+às imagens.
+
+**Baseada na web** — as imagens são servidas via HTTPS através da
+interface **DICOMweb** (PS3.18), que expõe os serviços DICOM como API
+REST. Qualquer dispositivo com um navegador compatível pode aceder ao
+arquivo sem instalação de software especializado. O modelo partilha as
+fragilidades de rede do cliente-servidor, mas acrescenta independência
+de plataforma e suporte natural à teleradiologia [@Huang2010]. A
+Figura 5.3 compara as arquitecturas stand-alone e cliente-servidor.
+
+```{=html}
+<!--
+  Diagrama comparativo: Stand-alone vs Cliente-servidor.
+  Dois painéis lado a lado.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="230" rx="10" fill="#f8fbfc"/>
+  <text x="170" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0a3d4a">Stand-alone (thick client)</text>
+  <text x="510" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0d7c8c">Cliente-servidor (thin client)</text>
+  <line x1="340" y1="10" x2="340" y2="220" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5"/>
+  <rect x="130" y="35" width="80" height="36" rx="6" fill="#0a3d4a"/>
+  <text x="170" y="58" text-anchor="middle" font-size="11" fill="#fff">Servidor PACS</text>
+  <rect x="30"  y="110" width="80" height="30" rx="5" fill="#1ab3a6"/>
+  <text x="70"  y="130" text-anchor="middle" font-size="10" fill="#fff">WS + Storage</text>
+  <rect x="130" y="110" width="80" height="30" rx="5" fill="#1ab3a6"/>
+  <text x="170" y="130" text-anchor="middle" font-size="10" fill="#fff">WS + Storage</text>
+  <rect x="230" y="110" width="80" height="30" rx="5" fill="#1ab3a6"/>
+  <text x="270" y="130" text-anchor="middle" font-size="10" fill="#fff">WS + Storage</text>
+  <line x1="170" y1="71" x2="70"  y2="110" stroke="#0d7c8c" stroke-width="1.5"/>
+  <line x1="170" y1="71" x2="170" y2="110" stroke="#0d7c8c" stroke-width="1.5"/>
+  <line x1="170" y1="71" x2="270" y2="110" stroke="#0d7c8c" stroke-width="1.5"/>
+  <text x="170" y="165" text-anchor="middle" font-size="10" fill="#16a34a">✓ Resiliente a falha</text>
+  <text x="170" y="178" text-anchor="middle" font-size="10" fill="#dc2626">✗ Worklist por WS</text>
+  <rect x="470" y="35" width="80" height="36" rx="6" fill="#0d7c8c"/>
+  <text x="510" y="58" text-anchor="middle" font-size="11" fill="#fff">Servidor PACS</text>
+  <rect x="370" y="110" width="80" height="30" rx="5" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/>
+  <text x="410" y="130" text-anchor="middle" font-size="10" fill="#0a3d4a">WS (sem cache)</text>
+  <rect x="470" y="110" width="80" height="30" rx="5" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/>
+  <text x="510" y="130" text-anchor="middle" font-size="10" fill="#0a3d4a">WS (sem cache)</text>
+  <rect x="570" y="110" width="80" height="30" rx="5" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/>
+  <text x="610" y="130" text-anchor="middle" font-size="10" fill="#0a3d4a">WS (sem cache)</text>
+  <line x1="510" y1="71" x2="410" y2="110" stroke="#1ab3a6" stroke-width="1.5"/>
+  <line x1="510" y1="71" x2="510" y2="110" stroke="#1ab3a6" stroke-width="1.5"/>
+  <line x1="510" y1="71" x2="610" y2="110" stroke="#1ab3a6" stroke-width="1.5"/>
+  <text x="510" y="165" text-anchor="middle" font-size="10" fill="#16a34a">✓ Worklist única</text>
+  <text x="510" y="178" text-anchor="middle" font-size="10" fill="#dc2626">✗ SPOF no servidor</text>
+  <text x="340" y="215" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 5.3 — Comparação arquitectural: stand-alone vs. cliente-servidor (Huang, 2010)
+  </text>
+</svg>
+</div>
+```
+
+### Integração PACS com HIS e RIS
+
+O PACS integra-se bidirecionalmente com o **HIS** (*Hospital Information
+System*) e o **RIS** (*Radiology Information System*) através de
+mensagens HL7 — uma norma de interoperabilidade clínica abordada num
+capítulo posterior. A @tbl-integracao resume os fluxos mais relevantes:
+
+| De          | Para        | Mensagem / Serviço             | Protocolo    |
+|-------------|-------------|--------------------------------|--------------|
+| HIS         | RIS         | Admissão do paciente (ADT A01) | HL7 v2       |
+| RIS         | PACS Broker | Marcação do exame (ORM O01)    | HL7 v2       |
+| RIS         | Modalidade  | Worklist do exame (MWL)        | DICOM        |
+| Modalidade  | PACS        | Imagens adquiridas             | DICOM C-STORE|
+| PACS        | RIS         | Confirmação de exame (ORU R01) | HL7 v2       |
+
+: Fluxos de integração PACS–HIS–RIS [@Huang2010]. {#tbl-integracao}
+
+O mecanismo **Modality Worklist** (MWL) merece atenção particular: é
+através dele que o equipamento de aquisição recebe, via C-FIND, a lista
+de exames pendentes. Sem MWL, o técnico introduziria manualmente os
+dados do paciente no equipamento — com risco de erros de transcrição.
+Com MWL, os dados fluem automaticamente do RIS para o equipamento,
+garantindo que todos os ficheiros DICOM gerados já contêm os metadados
+correctos desde o primeiro momento [@Huang2010].
+
+## Segurança em DICOM e PACS {#sec-dicom-seguranca}
+
+### Mecanismos normativos: CMS, TLS e HTTPS
+
+A norma DICOM define mecanismos de segurança desde 1999, impulsionada
+pela HIPAA (*Health Insurance Portability and Accountability Act*).
+Especificados na parte PS3.15, organizam-se em três camadas [@DICOM_PS315]:
+
+**CMS — *Cryptographic Message Syntax*** — actua ao nível do objecto
+DICOM. Permite encriptar partes sensíveis, nomeadamente os dados do
+paciente ou o *Pixel Data*. A protecção é **permanente**: mantém-se no
+ficheiro independentemente do meio de transporte ou do sistema de
+destino.
+
+**TLS — *Transport Layer Security*** — actua ao nível da ligação TCP/IP
+durante a transferência via DIMSE. Cria um canal cifrado entre dois AE
+durante a sessão. A protecção existe **apenas em trânsito**: o objecto
+no destino fica desprotegido após a recepção, salvo se CMS estiver
+também aplicado.
+
+**HTTPS — Web Services** — quando os objectos são servidos via
+**DICOMweb** (PS3.18, API REST sobre HTTP), a norma define o uso de
+HTTPS para a camada de transporte. Tal como o TLS, a protecção é
+restrita ao canal de comunicação [@DICOM_PS315].
+
+Os três mecanismos não são mutuamente exclusivos: uma implementação
+robusta combina CMS nos objectos com TLS nas ligações DIMSE e HTTPS nas
+interfaces web, cobrindo dados em repouso e em trânsito. A Figura 5.4
+ilustra as três camadas e o âmbito de protecção de cada uma.
+
+```{=html}
+<!--
+  Diagrama: três camadas de segurança DICOM.
+  Cada bloco: rectângulo colorido em cima + labels descritivas em baixo.
+  CMS (objecto) | TLS (rede) | HTTPS (web).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:660px;font-family:sans-serif;">
+  <rect width="660" height="200" rx="10" fill="#f8fbfc"/>
+
+  <!-- CMS -->
+  <rect x="20"  y="20" width="190" height="130" rx="8" fill="none"
+        stroke="#0a3d4a" stroke-width="2.5" stroke-dasharray="6"/>
+  <rect x="45"  y="32" width="140" height="44" rx="6" fill="#0a3d4a"/>
+  <text x="115" y="59" text-anchor="middle" font-size="14"
+        font-weight="bold" fill="#fff">CMS</text>
+  <text x="115" y="95"  text-anchor="middle" font-size="11" fill="#0a3d4a">Objecto DICOM</text>
+  <text x="115" y="111" text-anchor="middle" font-size="10" fill="#64748b">(dados em repouso)</text>
+  <text x="115" y="130" text-anchor="middle" font-size="11" fill="#16a34a">✓ Permanente</text>
+
+  <!-- TLS -->
+  <rect x="235" y="20" width="190" height="130" rx="8" fill="none"
+        stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="6"/>
+  <rect x="260" y="32" width="140" height="44" rx="6" fill="#0d7c8c"/>
+  <text x="330" y="59" text-anchor="middle" font-size="14"
+        font-weight="bold" fill="#fff">TLS</text>
+  <text x="330" y="95"  text-anchor="middle" font-size="11" fill="#0d7c8c">Ligação DIMSE</text>
+  <text x="330" y="111" text-anchor="middle" font-size="10" fill="#64748b">(dados em trânsito)</text>
+  <text x="330" y="130" text-anchor="middle" font-size="11" fill="#dc2626">✗ Só em trânsito</text>
+
+  <!-- HTTPS -->
+  <rect x="450" y="20" width="190" height="130" rx="8" fill="none"
+        stroke="#1ab3a6" stroke-width="2.5" stroke-dasharray="6"/>
+  <rect x="475" y="32" width="140" height="44" rx="6" fill="#1ab3a6"/>
+  <text x="545" y="59" text-anchor="middle" font-size="14"
+        font-weight="bold" fill="#fff">HTTPS</text>
+  <text x="545" y="95"  text-anchor="middle" font-size="11" fill="#1ab3a6">DICOMweb</text>
+  <text x="545" y="111" text-anchor="middle" font-size="10" fill="#64748b">(REST / web)</text>
+  <text x="545" y="130" text-anchor="middle" font-size="11" fill="#dc2626">✗ Só em trânsito</text>
+
+  <!-- Legenda -->
+  <text x="330" y="182" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 5.4 — Camadas de segurança DICOM: CMS (objecto), TLS (rede), HTTPS (web) — PS3.15
+  </text>
+</svg>
+</div>
+```
+
+### Responsabilidade de implementação
+
+Um aspecto crítico da norma DICOM: **define os mecanismos disponíveis
+mas não os impõe**. A decisão de aplicar segurança é da responsabilidade
+da instituição hospitalar e do fornecedor do sistema [@DICOM_PS315].
+
+Verifica-se na prática que muitas instalações funcionam sem TLS activo
+nas ligações DIMSE internas — aceitável numa rede segmentada e
+controlada, mas problemático com ligações a redes externas ou face a
+risco de acesso interno não autorizado. A alternativa mínima é o acesso
+exclusivamente por VPN; contudo, esta abordagem não protege os objectos
+no destino.
+
+No contexto do **RGPD** e das obrigações para dados de saúde (categoria
+especial, Art.º 9.º), a ausência de encriptação de ficheiros DICOM com
+dados identificativos do paciente constitui um risco legal e
+organizacional que as instituições devem avaliar e mitigar activamente.
+
+## Síntese e Exercícios {#sec-pacs-sintese}
+
+### Exercícios de consolidação {.unnumbered}
+
+1. Um scanner de ressonância magnética adquire uma série de imagens e
+   pretende enviá-las para o servidor de arquivo. Identifique: (a) o
+   serviço DIMSE utilizado; (b) o SOP Class envolvido; (c) os papéis
+   SCU e SCP de cada dispositivo.
+
+2. Distinga *Modality Worklist* de *Query/Retrieve*. Em que momento
+   do fluxo clínico PACS cada um é utilizado e que serviço DIMSE
+   implementa cada função?
+
+3. Explique por que razão o modelo cliente-servidor introduz um SPOF
+   no PACS e proponha uma medida arquitectural para mitigar esse risco
+   sem abandonar o modelo cliente-servidor.
+
+4. Um hospital decide não activar TLS nas ligações DIMSE internas,
+   invocando que a rede hospitalar é segmentada. Avalie esta decisão
+   à luz do RGPD, considerando que os ficheiros DICOM contêm dados de
+   saúde identificativos (categoria especial de dados, Art.º 9.º).
+
+5. O campo *Data Set Type* de uma mensagem DIMSE tem o valor `0101h`.
+   O que indica este valor ao receptor e qual o serviço DICOM que
+   tipicamente gera mensagens com este valor?

@@ -1,0 +1,648 @@
+---
+title: "Terminologias e Interoperabilidade Semântica"
+lang: pt-PT
+---
+
+## O Problema do Texto Livre {#sec-texto-livre}
+
+### Ambiguidade na informação clínica
+
+A documentação clínica em texto livre é, historicamente, a forma
+dominante de registo nos sistemas de saúde. Todavia, o texto livre
+introduz um problema estrutural: a ambiguidade semântica. O mesmo
+conceito clínico pode ser expresso de formas distintas por profissionais
+diferentes, em contextos diferentes, tornando impossível a agregação
+e comparação automática da informação [@BensonGrieve2021].
+
+Um exemplo paradigmático: o termo "tensão alta" pode ser interpretado
+como hipertensão arterial sistémica, como tensão emocional ou como
+cefaleia tensional, consoante o profissional e o contexto clínico.
+Três interpretações distintas do mesmo termo livre, com implicações
+diagnósticas e terapêuticas completamente diferentes.
+
+As consequências práticas desta ambiguidade são bem documentadas:
+erros de comunicação entre profissionais; impossibilidade de agregar
+dados para estatística ou investigação clínica; falha na continuidade
+de cuidados entre instituições; e, no limite, sistemas que trocam
+dados mas não partilham significado.
+
+### Da ambiguidade à codificação estruturada
+
+A solução para o problema da ambiguidade reside na substituição do
+texto livre por **codificação estruturada**: a atribuição de códigos
+normalizados a conceitos clínicos, de modo a que o mesmo conceito
+tenha sempre o mesmo código, independentemente de quem o regista ou
+de onde é registado. A Figura 3.1 ilustra este contraste.
+
+```{=html}
+<!--
+  Contraste visual: texto livre (vermelho/aviso) vs codificado (verde/ok).
+  Dois cartões lado a lado com seta de transformação.
+-->
+<div style="display:flex;flex-wrap:wrap;gap:1rem;
+            align-items:stretch;margin:2rem 0;justify-content:center;">
+
+  <!-- Texto livre -->
+  <div style="flex:1;min-width:200px;max-width:300px;
+              background:#fff5f5;border:2px solid #c0392b;
+              border-radius:8px;padding:1.2rem;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem;">
+      <span style="font-size:1.1rem;">⚠️</span>
+      <span style="font-weight:700;font-size:.85rem;color:#c0392b;">
+        Anamnese (texto livre)
+      </span>
+    </div>
+    <p style="font-size:.85rem;color:#444;font-style:italic;margin:0;">
+      "Doente com tensão alta, açúcar elevado,
+       queixa-se de dores no peito desde ontem."
+    </p>
+    <p style="font-size:.75rem;color:#888;margin:.6rem 0 0;">
+      Ambíguo · não pesquisável · não comparável
+    </p>
+  </div>
+
+  <!-- seta -->
+  <div style="display:flex;align-items:center;font-size:1.6rem;
+              color:#0d7c8c;padding:0 .5rem;">→</div>
+
+  <!-- Codificado -->
+  <div style="flex:1;min-width:200px;max-width:300px;
+              background:#f0fafa;border:2px solid #0d7c8c;
+              border-radius:8px;padding:1.2rem;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem;">
+      <span style="font-size:1.1rem;">✅</span>
+      <span style="font-weight:700;font-size:.85rem;color:#0d7c8c;">
+        Codificado (SNOMED CT)
+      </span>
+    </div>
+    <div style="font-size:.85rem;line-height:1.5;color:#0a3d4a;">
+      <p style="margin:0 0 .6rem 0;"><strong>38341003:</strong><br>Hypertension</p>
+      <p style="margin:0 0 .6rem 0;"><strong>44054006:</strong><br>Diabetes type 2</p>
+      <p style="margin:0;"><strong>29857009:</strong><br>Chest pain</p>
+    </div>
+    <p style="font-size:.75rem;color:#0d7c8c;margin:.6rem 0 0;font-weight:600;">
+      Preciso · pesquisável · interoperável
+    </p>
+  </div>
+</div>
+```
+
+<p style="text-align:center;font-size:14px;color:#475569;margin-top:.5rem;">
+Figura 3.1 — Contraste entre registo em texto livre e codificação estruturada (SNOMED CT)
+</p>
+
+## Conceitos-Chave {#sec-conceitos-chave}
+
+### Interoperabilidade técnica versus semântica
+
+A distinção entre interoperabilidade técnica e semântica é central na
+Informática Médica e importa clarificá-la com precisão:
+
+A **interoperabilidade técnica** refere-se à capacidade de dois sistemas
+trocarem dados ao nível do transporte, do formato e do protocolo.
+Garante que os bytes chegam ao destino; não garante que o significado
+se preserve. Exemplo: o envio de uma mensagem HL7 v2 entre dois sistemas.
+
+A **interoperabilidade semântica** refere-se à capacidade de dois
+sistemas partilharem o significado dos dados trocados. Garante que o
+receptor interpreta o conteúdo da mensagem da mesma forma que o emissor.
+Exemplo: ambos os sistemas interpretam o código `386661006` como febre,
+porque ambos usam SNOMED CT [@BensonGrieve2021].
+
+### Terminologia, classificação e ontologia
+
+Três conceitos relacionados mas distintos estruturam o ecossistema
+de codificação clínica:
+
+Uma **terminologia** é um vocabulário controlado e detalhado que
+codifica a entrada de dados clínicos. Admite múltiplos sinónimos por
+conceito e visa a documentação clínica granular. O SNOMED CT é o
+exemplo de referência.
+
+Uma **classificação** agrupa conceitos em categorias fixas para
+propósitos de saída estatística e reporte. Cada conceito ocupa um
+único lugar na árvore hierárquica. A ICD e a ICF são os exemplos
+paradigmáticos.
+
+Uma **ontologia** é um modelo formal de conhecimento que define
+conceitos e as suas relações lógicas, permitindo inferência automática.
+O SNOMED CT é simultaneamente terminologia e ontologia: a sua estrutura
+de relacionamentos permite raciocínio computacional sobre os conceitos.
+
+## SNOMED CT {#sec-snomed}
+
+### O que é o SNOMED CT?
+
+O SNOMED CT (*Systematized Nomenclature of Medicine — Clinical Terms*)
+é o sistema de terminologia e ontologia clínica mais abrangente do
+mundo. Mantido pela SNOMED International, encontra-se em uso em mais
+de 40 países e constitui a terminologia de referência para a
+codificação da entrada de dados clínicos nos EHR modernos [@SNOMED2024].
+
+A sua abrangência organiza-se em três dimensões: terminologia
+(vocabulário clínico controlado com mais de 350 000 conceitos),
+interoperabilidade (normalização da linguagem clínica entre
+instituições e sistemas) e estrutura ontológica (grafo poli-hierárquico
+de conceitos e relacionamentos).
+
+### Os três componentes fundamentais
+
+O SNOMED CT organiza-se em torno de três componentes que se articulam
+para representar o conhecimento clínico de forma precisa e computável:
+
+**Conceitos** — unidades atómicas de significado clínico, cada uma
+identificada por um *Concept ID* numérico único e permanente.
+Exemplos: `38341003` = Hipertensão arterial; `73211009` = Diabetes
+mellitus; `386661006` = Febre.
+
+**Descrições** — termos legíveis associados a cada conceito: o
+*Fully Specified Name* (FSN), que especifica o conceito de forma
+não ambígua; o *Preferred Term*, que é o nome preferido no idioma
+local; e os sinónimos, que permitem múltiplas designações para o
+mesmo conceito.
+
+**Relacionamentos** — ligações tipadas entre conceitos que formam
+o grafo ontológico. Os principais tipos são: `is-a` (hierarquia
+taxonómica), `finding-site` (localização anatómica), e
+`causative-agent` (agente causador). A poli-hierarquia permite que
+um conceito tenha múltiplos pais, reflectindo a complexidade da
+realidade clínica.
+
+### Exemplo: Pneumonia Bacteriana
+
+O conceito de pneumonia bacteriana ilustra a riqueza expressiva do
+SNOMED CT através dos seus relacionamentos. A expressão formal do
+conceito é a seguinte:
+
+```{=html}
+<!--
+  Expressão formal SNOMED CT — apresentada em linhas curtas independentes.
+-->
+<div style="background:#e8f7f8;border-left:4px solid #0d7c8c;
+            border-radius:4px;padding:.8rem 1.2rem;margin:1rem 0;
+            font-family:monospace;font-size:.8rem;line-height:1.6;
+            color:#0a3d4a;">
+  <div><strong>53084003</strong> | Bacterial pneumonia (disorder)</div>
+  <div style="padding-left:1.2rem;color:#0d7c8c;">├─ finding-site:
+    <strong>39607008</strong> | Lung structure</div>
+  <div style="padding-left:1.2rem;color:#0d7c8c;">└─ causative-agent:
+    <strong>56415008</strong> | Genus Streptococcus</div>
+</div>
+```
+
+Forma compacta (sintaxe ECL — *Expression Constraint Language*):
+
+```{=html}
+<div style="background:#e8f7f8;border-left:4px solid #1ab3a6;
+            border-radius:4px;padding:.7rem 1.2rem;margin:1rem 0;
+            font-family:monospace;font-size:.85rem;color:#0a3d4a;
+            line-height:1.4;white-space:nowrap;overflow-x:auto;">
+  53084003:363698007=39607008,246075003=9861002
+</div>
+```
+
+Este exemplo demonstra que o SNOMED CT não se limita a nomear
+conceitos: permite exprimir relações clínicas complexas de forma
+computável, possibilitando raciocínio automático sobre o conhecimento
+médico. A Figura 3.2 representa esta hierarquia graficamente.
+
+```{=html}
+<!--
+  Hierarquia SNOMED CT para Pneumonia Bacteriana.
+  Árvore vertical: Situação clínica → Doença → Doença resp. →
+  Pneumonia → Pneumonia bacteriana, com ramos finding-site e causative-agent.
+-->
+<div style="overflow-x:auto;margin:2rem 0;">
+<svg viewBox="0 0 580 350" width="560" height="340"
+     xmlns="http://www.w3.org/2000/svg"
+     aria-label="Hierarquia SNOMED CT — Pneumonia Bacteriana">
+
+  <!-- linha is-a vertical principal -->
+  <line x1="290" y1="36" x2="290" y2="82"
+        stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <line x1="290" y1="104" x2="290" y2="148"
+        stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <line x1="290" y1="170" x2="290" y2="214"
+        stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <line x1="290" y1="236" x2="290" y2="268"
+        stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"/>
+
+  <!-- Situação clínica (raiz) -->
+  <rect x="180" y="8" width="220" height="28" rx="5"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.2"/>
+  <text x="290" y="27" text-anchor="middle" font-size="12"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">
+    Situação clínica [raiz SNOMED]</text>
+
+  <!-- Doença -->
+  <rect x="180" y="82" width="220" height="24" rx="5"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.2"/>
+  <text x="290" y="99" text-anchor="middle" font-size="12"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Doença (Disorder)</text>
+
+  <!-- Doença resp. -->
+  <rect x="180" y="148" width="220" height="24" rx="5"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.2"/>
+  <text x="290" y="165" text-anchor="middle" font-size="12"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Doença do sistema resp.</text>
+
+  <!-- Pneumonia -->
+  <rect x="180" y="214" width="220" height="24" rx="5"
+        fill="#cceef2" stroke="#0d7c8c" stroke-width="1.3"/>
+  <text x="290" y="231" text-anchor="middle" font-size="12"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Pneumonia [233604007]</text>
+
+  <!-- Pneumonia bacteriana (destaque) -->
+  <rect x="175" y="268" width="230" height="28" rx="6"
+        fill="#0d7c8c" stroke="#0a3d4a" stroke-width="1.5"/>
+  <text x="290" y="287" text-anchor="middle" font-size="12"
+        font-weight="700" fill="#fff" font-family="system-ui,sans-serif">
+    Pneumonia bacteriana [53084003]</text>
+
+  <!-- ramo finding-site → Pulmão -->
+  <line x1="250" y1="282" x2="110" y2="252"
+        stroke="#1ab3a6" stroke-width="2.5"/>
+  <rect x="28" y="234" width="115" height="36" rx="5"
+        fill="#d6f2ef" stroke="#1ab3a6" stroke-width="1.2"/>
+  <text x="85" y="249" text-anchor="middle" font-size="12"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">finding-site →</text>
+  <text x="85" y="263" text-anchor="middle" font-size="12"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Pulmão [39607008]</text>
+
+  <!-- ramo causative-agent → Streptococcus -->
+  <line x1="330" y1="282" x2="454" y2="252"
+        stroke="#f39c12" stroke-width="2.5"/>
+  <rect x="400" y="234" width="158" height="36" rx="5"
+        fill="#fef9ec" stroke="#f39c12" stroke-width="1.2"/>
+  <text x="479" y="249" text-anchor="middle" font-size="12"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">causative-agent →</text>
+  <text x="479" y="263" text-anchor="middle" font-size="12"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Genus Streptococcus</text>
+
+  <!-- legenda de tipos de relação — deslocada para baixo dos nós -->
+  <line x1="22" y1="310" x2="46" y2="310"
+        stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <text x="50" y="314" font-size="11" fill="#555"
+        font-family="system-ui,sans-serif">is-a</text>
+  <line x1="90" y1="310" x2="114" y2="310"
+        stroke="#1ab3a6" stroke-width="2.5"/>
+  <text x="118" y="314" font-size="11" fill="#555"
+        font-family="system-ui,sans-serif">finding-site</text>
+  <line x1="190" y1="310" x2="214" y2="310"
+        stroke="#f39c12" stroke-width="2.5"/>
+  <text x="218" y="314" font-size="11" fill="#555"
+        font-family="system-ui,sans-serif">causative-agent</text>
+</svg>
+</div>
+
+<p style="text-align:center;font-size:14px;color:#475569;margin-top:.5rem;">
+Figura 3.2 — Hierarquia SNOMED CT para o conceito de Pneumonia Bacteriana (53084003), com os relacionamentos <em>is-a</em>, <em>finding-site</em> e <em>causative-agent</em>
+</p>
+```
+
+## ICD — Classificação Internacional de Doenças {#sec-icd}
+
+
+### Caracterização e propósito
+
+A ICD (*International Classification of Diseases and Related Health
+Problems*) é um sistema de classificação mantido pela Organização
+Mundial de Saúde (OMS) e adoptado por 194 estados-membros. A versão
+actualmente em vigor é a ICD-11, adoptada em 2022, com mais de 55 000
+códigos organizados em 26 capítulos [@WHO_ICD11].
+
+O propósito da ICD é fundamentalmente distinto do SNOMED CT: enquanto
+este último serve a entrada de dados clínicos com alta granularidade,
+a ICD serve a **saída** — o reporte epidemiológico, a estatística de
+saúde e a faturação hospitalar. Trata-se de uma classificação, não de
+uma terminologia: organiza doenças em categorias fixas segundo uma
+hierarquia mono-axial.
+
+### Estrutura hierárquica
+
+A estrutura da ICD organiza-se em três níveis: capítulo, bloco e
+categoria. O exemplo do capítulo respiratório ilustra esta organização:
+
+```{=html}
+<!--
+  Árvore hierárquica ICD-11 — capítulo respiratório.
+  Caixa estilizada, sem scroll horizontal.
+-->
+<div style="background:#fef9ec;border-left:4px solid #f39c12;
+            border-radius:4px;padding:1rem 1.2rem;margin:1rem 0;
+            font-family:monospace;font-size:.85rem;line-height:1.9;
+            color:#0a3d4a;overflow-wrap:break-word;">
+  <div>Capítulo 12 — Doenças do sistema respiratório</div>
+  <div style="padding-left:1.2rem;">└── Bloco CA00–CA08 — Infecções respiratórias agudas</div>
+  <div style="padding-left:2.4rem;">├── CA40 — Constipação comum</div>
+  <div style="padding-left:3.6rem;">├── CA40.0 — Rinite aguda</div>
+  <div style="padding-left:3.6rem;">└── CA40.Z — Constipação s/ especificação</div>
+  <div style="padding-left:2.4rem;">└── BA00 — Pneumonia bacteriana</div>
+</div>
+```
+
+Alguns códigos de referência frequentes:
+
+| Código ICD-11 | Doença |
+|---|---|
+| `CA40` | Constipação comum |
+| `BA00` | Pneumonia bacteriana |
+| `5A11` | Diabetes mellitus tipo 2 |
+| `8B11` | AVC isquémico |
+| `BA41` | Enfarte agudo do miocárdio |
+
+: Exemplos de códigos ICD-11 {#tbl-icd}
+
+### SNOMED CT versus ICD — complementaridade
+
+SNOMED CT e ICD não são concorrentes: são complementares, cada um
+adequado ao seu propósito. O SNOMED CT codifica o detalhe clínico
+no ponto de cuidado; a ICD classifica para reporte e faturação.
+A SNOMED International mantém mapas oficiais entre os dois sistemas,
+permitindo que um conceito SNOMED seja automaticamente traduzido para
+o código ICD correspondente.
+
+| Dimensão | SNOMED CT | ICD |
+|---|---|---|
+| **Tipo** | Terminologia clínica | Classificação estatística |
+| **Função** | Entrada — registo clínico | Saída — reporte e faturação |
+| **Granularidade** | Muito alta (>350 000) | Média (~55 000) |
+| **Estrutura** | Grafo poli-hierárquico | Árvore mono-hierárquica |
+| **Manutenção** | SNOMED International | OMS |
+
+: SNOMED CT vs ICD — comparação {#tbl-snomed-icd}
+
+## LOINC — Observações Laboratoriais {#sec-loinc}
+
+### Definição e âmbito
+
+O LOINC (*Logical Observation Identifiers Names and Codes*) é uma
+terminologia mantida pelo Regenstrief Institute que fornece uma
+linguagem universal para identificar medições laboratoriais,
+observações clínicas e documentos de saúde [@McDonald2003].
+O seu âmbito organiza-se em três domínios: laboratório clínico
+(hemograma, glicose, marcadores tumorais); observações fisiológicas
+(sinais vitais, escalas de avaliação); e documentos (notas de alta,
+relatórios).
+
+### A anatomia de um código LOINC — os seis eixos
+
+Cada código LOINC é um identificador opaco (e.g., `2345-7`), cujo
+significado está inteiramente codificado no seu nome formal. Este
+nome resulta da combinação de seis eixos que descrevem, com precisão,
+todos os aspectos relevantes de uma medição:
+
+| Eixo | Nome | Pergunta | Exemplo (glicemia) |
+|---|---|---|---|
+| 1 | Component | O quê? | Glucose |
+| 2 | Property | Que grandeza? | MCnc (massa/volume) |
+| 3 | Timing | Quando? | Pt (ponto no tempo) |
+| 4 | System | Onde? | Ser/Plas (soro/plasma) |
+| 5 | Scale | Como? | Qn (quantitativo) |
+| 6 | Method | Com quê? | (opcional) Enzimático |
+
+: Os seis eixos de um código LOINC — exemplo da glicemia {#tbl-loinc}
+
+O código `2345-7` corresponde a: *Glucose \[Mass/volume\] in Serum or
+Plasma*. Este identificador único garante que dois laboratórios de
+instituições distintas reportam a glicemia de forma comparável,
+independentemente dos seus sistemas internos. A Figura 3.3 visualiza
+os seis eixos para este exemplo concreto.
+
+```{=html}
+<!--
+  Seis eixos LOINC visualizados como cartões empilhados horizontalmente.
+  Exemplo concreto: Glucose no soro = 95 mg/dL, colheita pontual.
+-->
+<div style="overflow-x:auto;margin:2rem 0;">
+<div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:center;">
+
+  <!-- cartão de contexto -->
+  <div style="background:#0a3d4a;color:#fff;border-radius:6px;
+              padding:.7rem .9rem;min-width:120px;
+              display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-size:.7rem;opacity:.7;margin-bottom:.3rem;">Medição real</div>
+    <div style="font-size:.8rem;font-weight:600;line-height:1.4;">
+      Glucose no soro<br>95 mg/dL<br>em jejum
+    </div>
+    <div style="margin-top:.6rem;font-size:.75rem;font-weight:700;
+                color:#1ab3a6;">Código: 2345-7</div>
+  </div>
+
+  <!-- eixo 1 Component -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:82px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">1 Component</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">Glucose</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">O quê?</div>
+  </div>
+
+  <!-- eixo 2 Property -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:82px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">2 Property</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">MCnc</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">Que grandeza?</div>
+  </div>
+
+  <!-- eixo 3 Timing -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:72px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">3 Timing</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">Pt</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">Quando?</div>
+  </div>
+
+  <!-- eixo 4 System -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:82px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">4 System</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">Ser/Plas</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">Onde?</div>
+  </div>
+
+  <!-- eixo 5 Scale -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:72px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">5 Scale</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">Qn</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">Como?</div>
+  </div>
+
+  <!-- eixo 6 Method -->
+  <div style="background:#f0fafa;border:1.5px solid #1ab3a6;
+              border-radius:6px;
+              padding:.6rem .7rem;min-width:82px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#1ab3a6;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">6 Method</div>
+    <div style="font-size:.82rem;font-weight:700;color:#0a3d4a;">Enzimático</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">(opcional)</div>
+  </div>
+
+</div>
+</div>
+
+<p style="text-align:center;font-size:14px;color:#475569;margin-top:.5rem;">
+Figura 3.3 — Os seis eixos de um código LOINC, exemplificados com a glicemia em soro/plasma (código 2345-7)
+</p>
+```
+
+
+## ICF — Classificação Internacional de Funcionalidade {#sec-icf}
+
+A ICF (*International Classification of Functioning, Disability and
+Health*) é uma classificação da OMS que complementa a ICD, deslocando
+o foco da doença para a **funcionalidade** e a participação social da
+pessoa [@WHO_ICF]. Enquanto a ICD responde à questão *"o que tem o
+doente?"*, a ICF responde à questão *"o que o doente consegue fazer?"*.
+
+Esta distinção é clinicamente relevante: dois doentes com o mesmo
+diagnóstico ICD podem ter perfis de funcionalidade completamente
+distintos, com implicações diferentes para a reabilitação, o apoio
+social e o regresso à actividade.
+
+A ICF adopta um modelo biopsicossocial, que reconhece que a
+incapacidade resulta da interacção entre a condição de saúde do
+indivíduo e os factores contextuais — tanto pessoais como ambientais.
+
+## Integração das Terminologias no Fluxo Clínico {#sec-integracao}
+
+Nenhuma das terminologias descritas funciona de forma isolada. A
+interoperabilidade semântica efectiva resulta da sua utilização
+coordenada ao longo do fluxo clínico:
+
+No momento do **registo clínico**, o profissional de saúde codifica
+sintomas, diagnósticos e procedimentos em SNOMED CT, garantindo a
+precisão semântica da entrada de dados.
+
+No momento do **exame laboratorial**, os pedidos e resultados são
+identificados por códigos LOINC, assegurando que a mesma análise tem
+o mesmo significado em qualquer laboratório.
+
+No momento do **reporte e faturação**, os códigos SNOMED CT são
+automaticamente mapeados para ICD, através dos mapas oficiais mantidos
+pela SNOMED International, produzindo os dados estatísticos e de
+faturação exigidos pelas autoridades de saúde. A Figura 3.4 sintetiza
+este fluxo integrado.
+
+```{=html}
+<!--
+  Fluxo integrado das três terminologias: SNOMED CT → LOINC → ICD.
+  Três caixas em sequência com setas e rótulos de contexto.
+-->
+<div style="display:flex;flex-wrap:wrap;align-items:center;
+            justify-content:center;gap:.5rem;margin:2rem 0;">
+
+  <div style="flex:1;min-width:140px;max-width:175px;
+              background:#e8f7f8;border:2px solid #0d7c8c;
+              border-radius:8px;padding:1rem;text-align:center;">
+    <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;
+                color:#0d7c8c;letter-spacing:.06em;margin-bottom:.4rem;">
+      Registo Clínico</div>
+    <div style="font-size:1.05rem;font-weight:800;color:#0a3d4a;">
+      SNOMED CT</div>
+    <div style="font-size:.75rem;color:#555;margin-top:.4rem;">
+      Sintomas, diagnósticos, procedimentos</div>
+  </div>
+
+  <div style="font-size:1.4rem;color:#0d7c8c;">→</div>
+
+  <div style="flex:1;min-width:140px;max-width:175px;
+              background:#e8f7f8;border:2px solid #1ab3a6;
+              border-radius:8px;padding:1rem;text-align:center;">
+    <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;
+                color:#1ab3a6;letter-spacing:.06em;margin-bottom:.4rem;">
+      Laboratório</div>
+    <div style="font-size:1.05rem;font-weight:800;color:#0a3d4a;">
+      LOINC</div>
+    <div style="font-size:.75rem;color:#555;margin-top:.4rem;">
+      Exames, observações, resultados</div>
+  </div>
+
+  <div style="font-size:1.4rem;color:#1ab3a6;">→</div>
+
+  <div style="flex:1;min-width:140px;max-width:175px;
+              background:#fef9ec;border:2px solid #f39c12;
+              border-radius:8px;padding:1rem;text-align:center;">
+    <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;
+                color:#e67e22;letter-spacing:.06em;margin-bottom:.4rem;">
+      Reporte / Faturação</div>
+    <div style="font-size:1.05rem;font-weight:800;color:#0a3d4a;">
+      ICD</div>
+    <div style="font-size:.75rem;color:#555;margin-top:.4rem;">
+      Epidemiologia e codificação GDH</div>
+  </div>
+
+</div>
+
+<p style="text-align:center;font-size:14px;color:#475569;margin-top:.5rem;">
+Figura 3.4 — Fluxo integrado das terminologias clínicas: SNOMED CT no registo, LOINC no laboratório e ICD no reporte e faturação
+</p>
+
+```
+
+
+## Síntese {#sec-sintese-03}
+
+Este capítulo abordou o problema da ambiguidade semântica na informação
+clínica e as terminologias normalizadas que permitem resolvê-lo. O
+ecossistema SNOMED CT / LOINC / ICD / ICF foi apresentado como um
+conjunto coordenado de ferramentas, cada uma com um propósito distinto
+no fluxo clínico, e nenhuma suficiente por si só.
+
+Retêm-se os seguintes pontos essenciais:
+
+1. O texto livre é o principal obstáculo à interoperabilidade semântica;
+   a codificação estruturada é a sua alternativa operacional.
+2. A interoperabilidade semântica distingue-se da técnica: não basta
+   que os dados cheguem ao destino — é necessário que sejam
+   correctamente interpretados.
+3. O SNOMED CT é a terminologia de entrada clínica de referência;
+   a ICD é a classificação de saída para reporte e faturação; o
+   LOINC normaliza as observações laboratoriais; a ICF enquadra a
+   dimensão de funcionalidade.
+4. As terminologias são complementares e articulam-se através de mapas
+   oficiais: o clínico regista em SNOMED CT; o sistema mapeia para
+   ICD; o gestor obtém estatísticas comparáveis.
+
+## Exercícios de consolidação {.unnumbered}
+
+1. Explique, com um exemplo concreto diferente dos apresentados no
+   capítulo, como o texto livre pode introduzir ambiguidade clínica
+   com consequências para a segurança do doente.
+
+2. Distinga terminologia, classificação e ontologia. Para cada um
+   dos três conceitos, indique um exemplo do ecossistema de
+   terminologias em saúde e descreva o seu propósito específico.
+
+3. Construa a expressão SNOMED CT (em notação compacta) para
+   o conceito de "Pneumonia por *Klebsiella pneumoniae*", indicando
+   os atributos `finding-site` e `causative-agent` com os respectivos
+   códigos (pesquise em `browser.ihtsdotools.org` se necessário).
+
+4. Um laboratório hospitalar reporta um valor de hemoglobina com
+   o código LOINC `718-7`. Identifique os seis eixos deste código
+   e explique por que razão o uso de LOINC garante comparabilidade
+   entre laboratórios de instituições distintas.
+
+5. Considere o fluxo completo de um doente com diagnóstico de
+   pneumonia bacteriana. Indique, para cada etapa do fluxo
+   (registo clínico, laboratório, alta/faturação), qual a
+   terminologia utilizada e qual o código correspondente.

@@ -1,0 +1,567 @@
+---
+title: "DICOM e PACS"
+lang: pt-PT
+---
+
+## A Norma DICOM {#sec-dicom-norma}
+
+### O problema antes da DICOM
+
+Até ao início da década de 1980, a imagem médica digital era produzida
+por equipamentos cujo formato de armazenamento era definido
+exclusivamente por cada fabricante. Um tomógrafo computadorizado da
+General Electric não conseguia exportar imagens para uma estação de
+visualização da Siemens; um aparelho de ressonância magnética da Philips
+guardava os seus ficheiros num formato incompatível com qualquer outro
+sistema. Esta fragmentação criava uma dependência absoluta do fornecedor
+— o chamado *vendor lock-in* — e tornava impossível a partilha de
+imagens entre instituições, mesmo quando tal partilha seria clinicamente
+relevante [@Pianykh2012].
+
+As consequências práticas eram significativas: os filmes radiológicos
+circulavam fisicamente em envelopes de cartão, com risco de perda e
+deterioração; a comparação com exames anteriores dependia da
+disponibilidade do arquivo físico; e a integração com os sistemas de
+informação hospitalar era inexistente. Verificava-se, assim, um
+paradoxo: os equipamentos de aquisição eram tecnologicamente avançados,
+mas a informação que produziam permanecia num formato proprietário
+e isolado [@Huang2010].
+
+### Definição, âmbito e governação
+
+A norma DICOM (*Digital Imaging and Communications in Medicine*)
+constitui o padrão internacional para a imagem médica digital.
+Publicada como norma ISO 12052:2017 e gerida pela MITA (*Medical
+Imaging & Technology Alliance*), divisão da NEMA (*National Electrical
+Manufacturers Association*), a norma é de actualização contínua —
+não existem versões *major* fixas, mas edições datadas; a edição
+corrente designa-se PS3 2025e [@NEMA_DICOM2025] (em abril de 2026).
+
+A norma organiza-se em 22 partes activas, cada uma cobrindo um domínio
+específico: desde a introdução e definição de conformidade (PS3.1–PS3.2)
+até à estrutura dos dados (PS3.5–PS3.6), aos serviços de mensagens
+(PS3.7), ao protocolo de rede (PS3.8), ao formato de ficheiro (PS3.10)
+e aos perfis de segurança (PS3.15). Mais de trinta grupos de trabalho
+contribuem para a sua manutenção e evolução permanentes.
+
+Em termos de âmbito, a norma cobre todas as modalidades de imagiologia
+clínica relevantes: tomografia computadorizada (CT), ressonância
+magnética (MR), ultrassonografia (US), radiografia digital (DX),
+medicina nuclear (NM), radioterapia, oftalmologia e outras. A abrangência
+da norma é, portanto, transversal a toda a imagem médica digital
+[@NEMA_DICOM2025; @ISO12052].
+
+### Capacidades funcionais e ecossistema
+
+A norma DICOM cobre o ciclo de vida completo da imagem médica: desde o
+**produzir** — criar imagens em formato normalizado em qualquer
+equipamento; **armazenar** — guardar imagens com todos os metadados
+associados; **transmitir** — enviar entre equipamentos e instituições;
+**pesquisar** — encontrar estudos por paciente, data ou modalidade;
+**visualizar** — apresentar imagens em estações de diagnóstico com
+parâmetros adequados; até ao **imprimir** — enviar para impressoras de filme
+ou papel [@NEMA_DICOM2025].
+
+Do ponto de vista do ecossistema, a norma beneficia todos os
+intervenientes: os **clínicos** acedem rapidamente a imagens e
+relatórios, incluindo por via de diagnóstico remoto; os **pacientes**
+beneficiam de cuidados mais céleres e de dados que podem ser transferidos entre
+instituições; os **hospitais** podem comprar equipamentos de diferentes
+fabricantes com garantia de compatibilidade; e a **indústria** tem
+acesso a um mercado alargado e concorrencial, desde que os seus produtos
+respeitem a norma [@Pianykh2012].
+
+```{=html}
+<!--
+  Diagrama: Sem DICOM (formatos proprietários, ilhas isoladas)
+             vs Com DICOM (nó central, interoperabilidade universal).
+  Paleta teal: #0d7c8c principal, #1ab3a6 acento, #0a3d4a escuro.
+  Largura: 700px, altura: 220px.
+-->
+<div style="overflow-x:auto; margin: 1.5rem 0;">
+<svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:700px;font-family:sans-serif;">
+  <!-- Fundo -->
+  <rect width="700" height="220" rx="12" fill="#f8fbfc"/>
+  <!-- Coluna SEM DICOM -->
+  <text x="170" y="28" text-anchor="middle" font-size="13"
+        font-weight="bold" fill="#b91c1c">Sem DICOM</text>
+  <!-- Ícones fabricante — ilhas -->
+  <rect x="30"  y="45" width="90" height="36" rx="6" fill="#fca5a5"/>
+  <text x="75"  y="68" text-anchor="middle" font-size="11" fill="#7f1d1d">GE (CT)</text>
+  <rect x="140" y="45" width="90" height="36" rx="6" fill="#fca5a5"/>
+  <text x="185" y="68" text-anchor="middle" font-size="11" fill="#7f1d1d">Siemens (MR)</text>
+  <rect x="30"  y="105" width="90" height="36" rx="6" fill="#fca5a5"/>
+  <text x="75"  y="128" text-anchor="middle" font-size="11" fill="#7f1d1d">Philips (US)</text>
+  <rect x="140" y="105" width="90" height="36" rx="6" fill="#fca5a5"/>
+  <text x="185" y="128" text-anchor="middle" font-size="11" fill="#7f1d1d">Canon (DX)</text>
+  <!-- X a ligar -->
+  <line x1="120" y1="63" x2="140" y2="63" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"/>
+  <line x1="120" y1="123" x2="140" y2="123" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"/>
+  <line x1="75" y1="81" x2="75" y2="105" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"/>
+  <line x1="185" y1="81" x2="185" y2="105" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"/>
+  <text x="152" y="95" text-anchor="middle" font-size="18" fill="#b91c1c">✗</text>
+  <!-- Separador -->
+  <line x1="350" y1="20" x2="350" y2="200" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6"/>
+  <!-- Coluna COM DICOM -->
+  <text x="530" y="28" text-anchor="middle" font-size="13"
+        font-weight="bold" fill="#0d7c8c">Com DICOM</text>
+  <!-- Nó central DICOM -->
+  <ellipse cx="530" cy="110" rx="52" ry="30" fill="#0d7c8c"/>
+  <text x="530" y="115" text-anchor="middle" font-size="13"
+        font-weight="bold" fill="#fff">DICOM</text>
+  <!-- Satélites -->
+  <rect x="415" y="45" width="70" height="28" rx="5" fill="#1ab3a6"/>
+  <text x="450" y="64" text-anchor="middle" font-size="10" fill="#fff">GE (CT)</text>
+  <rect x="415" y="140" width="70" height="28" rx="5" fill="#1ab3a6"/>
+  <text x="450" y="159" text-anchor="middle" font-size="10" fill="#fff">Philips (US)</text>
+  <rect x="600" y="45" width="70" height="28" rx="5" fill="#1ab3a6"/>
+  <text x="635" y="64" text-anchor="middle" font-size="10" fill="#fff">Siemens (MR)</text>
+  <rect x="600" y="140" width="70" height="28" rx="5" fill="#1ab3a6"/>
+  <text x="635" y="159" text-anchor="middle" font-size="10" fill="#fff">Canon (DX)</text>
+  <!-- Linhas ligação -->
+  <line x1="485" y1="94" x2="483" y2="73" stroke="#0a3d4a" stroke-width="1.5"/>
+  <line x1="485" y1="126" x2="483" y2="144" stroke="#0a3d4a" stroke-width="1.5"/>
+  <line x1="575" y1="94" x2="600" y2="73" stroke="#0a3d4a" stroke-width="1.5"/>
+  <line x1="575" y1="126" x2="600" y2="144" stroke="#0a3d4a" stroke-width="1.5"/>
+  <!-- Legenda -->
+  <text x="350" y="208" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 4.1 — Fragmentação proprietária - vendor lock-in (esq.) vs. interoperabilidade DICOM (dir.)
+  </text>
+</svg>
+</div>
+```
+
+## O Modelo de Dados DICOM {#sec-dicom-modelo}
+
+### Do mundo real ao mundo DICOM
+
+O ponto de partida conceptual da norma DICOM é o mapeamento entre
+entidades do mundo real (em contexto clínico) e a sua representação formal e
+normalizada em sistemas informáticos. No mundo real, um paciente tem nome, identificação, data de nascimento,
+sexo e peso; na norma, cada um destes atributos é codificado através
+de um código numérico padronizado (TAG), um tipo de dados bem definido e um
+valor que segue regras de formatação precisas [@DICOM_PS36].
+
+Este mapeamento é assegurado por um **dicionário** e garante que, independentemente do fabricante do
+equipamento, do sistema de armazenamento ou da estação de visualização, o
+mesmo atributo é sempre representado da mesma forma. O conceito
+"nome do paciente" é sempre codificado pela mesma entrada no dicionário,
+com o mesmo formato; "data de nascimento" segue sempre a notação
+`AAAAMMDD`; "sexo" aceita apenas os valores enumerados `M`, `F` ou `O`.
+A uniformidade não é recomendação — é obrigação imposta pela norma.
+
+| Atributo clínico        | TAG DICOM    | Valor exemplo   |
+|-------------------------|--------------|-----------------|
+| Nome do paciente        | (0010,0010)  | `Andrade^Maria` |
+| Identificador           | (0010,0020)  | `1234567`       |
+| Data de nascimento      | (0010,0030)  | `19650412`      |
+| Peso (kg)               | (0010,1030)  | `57.3`          |
+| Sexo                    | (0010,0040)  | `F`             |
+
+: Exemplo de mapeamento mundo real → mundo DICOM [@DICOM_PS36]. {#tbl-mapeamento}
+
+### Data Elements, TAGs e o Dicionário (PS3.6)
+
+A unidade fundamental de informação na norma DICOM é o **Data Element**.
+No ficheiro — o chamado *wire format* (PS3.5) — cada Data Element é
+codificado com exactamente quatro campos: a TAG, o VR (*Value
+Representation*), o *Value Length* e o *Value Field* [@DICOM_PS35].
+Estes quatro campos são tudo o que existe no byte-stream transmitido ou
+armazenado; não há outros campos no ficheiro.
+
+A **TAG** é um par de inteiros hexadecimais de 16 bits, escrito na forma
+`(gggg,eeee)`, em que `gggg` é o número de grupo e `eeee` o número de
+elemento. O número de grupo agrupa tematicamente os atributos: o grupo
+`0010` reúne todos os atributos do paciente, o grupo `0008` os de
+identificação da modalidade, o grupo `0020` os do estudo, o grupo `0028`
+os parâmetros da imagem, e o grupo `7FE0` contém os próprios dados de
+pixel [@DICOM_PS36].
+
+O **Data Dictionary**, definido na parte PS3.6 da norma, constitui o
+registo oficial de todos os Data Elements normalizados. Cada entrada
+do dicionário é um tuplo de seis campos — mas atenção: trata-se de um
+nível diferente do Data Element no ficheiro. Dos seis campos, apenas
+três (TAG, Nome e VR) são codificados no *wire format* (PS3.5); os
+restantes três (VM, Tipo e Descrição) pertencem exclusivamente ao
+modelo do dicionário — definem o contrato semântico do atributo mas
+não aparecem como campos no ficheiro [@DICOM_PS35; @DICOM_PS36].
+A figura seguinte ilustra esta distinção:
+
+```{=html}
+<!--
+  Diagrama: dois níveis do Data Element DICOM.
+  Nível superior (ficheiro): 4 campos codificados no wire format.
+  Nível inferior (dicionário): 6 campos da entrada PS3.6.
+  Setas a indicar quais dos 6 campos do dicionário correspondem
+  aos campos do ficheiro (TAG, VR) e quais são apenas do modelo
+  (VM, Tipo, Descrição). Nome não tem campo directo no wire format.
+  Paleta teal.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="260" rx="10" fill="#f8fbfc"/>
+
+  <!-- RÓTULO nível Data Element -->
+  <text x="14" y="28" font-size="10" font-weight="bold" fill="#0a3d4a">Data Element — campos serializados (PS3.5, §7.1)</text>
+
+  <!-- 4 blocos do wire format -->
+  <rect x="14"  y="34" width="110" height="44" rx="6" fill="#0a3d4a"/>
+  <text x="69"  y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">TAG</text>
+  <text x="69"  y="70" text-anchor="middle" font-size="9"  fill="#7dd3d0">on wire</text>
+
+  <rect x="136" y="34" width="110" height="44" rx="6" fill="#0d7c8c"/>
+  <text x="191" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">VR</text>
+  <text x="191" y="70" text-anchor="middle" font-size="9"  fill="#b2ebf2">on wire</text>
+
+  <rect x="258" y="34" width="140" height="44" rx="6" fill="#1ab3a6"/>
+  <text x="328" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Value Length</text>
+  <text x="328" y="70" text-anchor="middle" font-size="9"  fill="#e0f7f5">on wire</text>
+
+  <rect x="410" y="34" width="270" height="44" rx="6" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/>
+  <text x="545" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#0a3d4a">Value Field</text>
+  <text x="545" y="70" text-anchor="middle" font-size="9"  fill="#0d7c8c">on wire</text>
+
+  <!-- Separador -->
+  <line x1="14" y1="106" x2="686" y2="106" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5"/>
+
+  <!-- RÓTULO nível dicionário -->
+  <text x="14" y="122" font-size="10" font-weight="bold" fill="#6b7280">Entrada no Data Dictionary (PS3.6)</text>
+
+  <!-- 6 blocos do dicionário -->
+  <!-- TAG — corresponde ao ficheiro -->
+  <rect x="14"  y="130" width="95" height="44" rx="6" fill="#0a3d4a"/>
+  <text x="61"  y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">TAG</text>
+  <text x="61"  y="165" text-anchor="middle" font-size="8"  fill="#7dd3d0">(grupo, elem.)</text>
+
+  <!-- Nome — só dicionário -->
+  <rect x="120" y="130" width="95" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="167" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">Nome</text>
+  <text x="167" y="165" text-anchor="middle" font-size="8"  fill="#6b7280">só dicionário</text>
+
+  <!-- VR — corresponde ao ficheiro -->
+  <rect x="226" y="130" width="95" height="44" rx="6" fill="#0d7c8c"/>
+  <text x="273" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">VR</text>
+  <text x="273" y="165" text-anchor="middle" font-size="8"  fill="#b2ebf2">tipo de dados</text>
+
+  <!-- VM — só dicionário -->
+  <rect x="332" y="130" width="95" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="379" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">VM</text>
+  <text x="379" y="165" text-anchor="middle" font-size="8"  fill="#6b7280">só dicionário</text>
+
+  <!-- Tipo — só dicionário -->
+  <rect x="438" y="130" width="95" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="485" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">Tipo</text>
+  <text x="485" y="165" text-anchor="middle" font-size="8"  fill="#6b7280">só dicionário</text>
+
+  <!-- Descrição — só dicionário -->
+  <rect x="544" y="130" width="140" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="614" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">Descrição</text>
+  <text x="614" y="165" text-anchor="middle" font-size="8"  fill="#6b7280">só dicionário</text>
+
+  <!-- Setas de correspondência: TAG (ficheiro) ↔ TAG (dicionário) -->
+  <line x1="69" y1="78" x2="61" y2="130" stroke="#0a3d4a" stroke-width="1.5" stroke-dasharray="4"/>
+  <!-- Setas de correspondência: VR (ficheiro) ↔ VR (dicionário) -->
+  <line x1="191" y1="78" x2="273" y2="130" stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="4"/>
+
+  <!-- Legenda -->
+  <rect x="14"  y="196" width="14" height="10" rx="2" fill="#0a3d4a"/>
+  <text x="32"  y="206" font-size="9" fill="#374151">Campo serializado no Data Element (wire format)</text>
+  <rect x="220" y="196" width="14" height="10" rx="2" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+  <text x="238" y="206" font-size="9" fill="#374151">Campo apenas no dicionário (contrato semântico, não serializado)</text>
+
+  <text x="350" y="250" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 4.3 — Data Element no ficheiro (PS3.5) vs. entrada no Data Dictionary (PS3.6)
+  </text>
+</svg>
+</div>
+```
+
+
+O campo **Tipo** indica a obrigatoriedade: `1` = obrigatório e não vazio;
+`1C` = condicional; `2` = obrigatório mas pode estar vazio; `3` =
+opcional. Esta distinção é relevante para a validação de conformidade
+dos sistemas DICOM.
+
+O campo **VM** (*Value Multiplicity*) indica quantos valores são
+permitidos no *Value Field* de um dado atributo. VM `1` significa um
+único valor; VM `1-n` significa um ou mais valores; VM `2-2n` significa
+um número par de valores. Por exemplo, o atributo `(0008,0061) Modalities in Study` tem VM `1-n`
+— pode conter uma única modalidade (`CT`) ou várias (`CT`, `MR`, `US`),
+conforme o número de séries de diferentes tipos presentes no estudo. Note-se que o VM é uma restrição
+declarada no dicionário; o *Value Field* no ficheiro não transporta
+explicitamente o número de valores — o receptor infere-o pelo
+comprimento (*Value Length*) e pelo tipo (VR) [@DICOM_PS35; @DICOM_PS36].
+
+
+### Value Representations (VR)
+
+Os *Value Representations* (VR) definem o tipo de dados de cada Data
+Element. A norma especifica 27 tipos de VR, constituindo o equivalente
+DICOM aos tipos de dados de uma linguagem de programação — `int`,
+`string`, `date`, entre outros [@DICOM_PS35].
+
+Cada VR é identificado por um código de dois caracteres ASCII. Entre os VR
+mais relevantes na prática clínica e técnica são os seguintes:
+
+| VR   | Nome              | Descrição                                      | Exemplo              |
+|------|-------------------|------------------------------------------------|----------------------|
+| `PN` | Person Name       | Nome no formato `Apelido^Nome^Próprio`         | `Andrade^Maria`      |
+| `DA` | Date              | Data no formato `AAAAMMDD`                     | `19650412`           |
+| `DS` | Decimal String    | Número decimal representado como texto         | `57.3`               |
+| `CS` | Code String       | Código de domínio controlado                   | `CT`, `MR`, `US`     |
+| `UI` | Unique Identifier | UID globalmente único (sintaxe ponto-separada) | `1.2.840.10008...`   |
+| `US` | Unsigned Short    | Inteiro sem sinal de 16 bits                   | `512`                |
+| `OW` | Other Word        | Dados binários (ex.: pixels)                   | *(dados binários)*   |
+| `LO` | Long String       | Texto até 64 caracteres                        | `Hospital UTAD`      |
+
+: Principais Value Representations da norma DICOM [@DICOM_PS35]. {#tbl-vr}
+
+Note-se que o VR `OW` (*Other Word*) é utilizado para o campo
+`(7FE0,0010) Pixel Data`, que contém os dados binários da imagem —
+podendo estes estar em formato bruto (*raw*) ou comprimido (JPEG,
+JPEG 2000, RLE). A escolha do formato de compressão é negociada entre
+os dispositivos durante o estabelecimento da ligação DICOM.
+
+### Visão integrada: TAG + VR + VM
+
+Os três conceitos — TAG, VR e VM  — articulam-se
+numa relação precisa: a TAG identifica **o quê**, o VR define **como**
+o valor é codificado, e o VM indica **quantos** valores são permitidos
+no *Value Field*. Este triplo contrato é declarado no Data Dictionary
+para cada atributo normalizado [@DICOM_PS36].
+
+A tabela seguinte ilustra a visão integrada de um conjunto de Data
+Elements representativos:
+
+| TAG          | Nome                    | VR   | VM  | Notas                              |
+|--------------|-------------------------|------|-----|------------------------------------|
+| `(0008,0060)`| Modality                | `CS` | 1   | Valores: `CT`, `MR`, `US`, `DX`…   |
+| `(0010,0010)`| Patient's Name          | `PN` | 1   | Formato: `Apelido^Nome`            |
+| `(0010,0030)`| Patient's Birth Date    | `DA` | 1   | Formato: `AAAAMMDD`                |
+| `(0010,1030)`| Patient's Weight        | `DS` | 1   | Peso em kg como string decimal     |
+| `(0020,000D)`| Study Instance UID      | `UI` | 1   | UID único e global do estudo       |
+| `(0028,0010)`| Rows                    | `US` | 1   | N.º de linhas; inteiro 16 bits     |
+| `(7FE0,0010)`| Pixel Data              | `OW` | 1   | Dados binários da imagem           |
+
+: Visão integrada de Data Elements seleccionados [@DICOM_PS35;@DICOM_PS36]. {#tbl-de-integrado}
+
+Um Data Element completo com valor real tem a seguinte aparência:
+
+```
+TAG         VR    Value Length   Value Field
+(0010,0010) PN    16             COUTO^FERNANDO
+```
+
+Neste exemplo, a TAG `(0010,0010)` identifica o atributo "nome do
+paciente"; o VR `PN` especifica que o valor segue o formato *Person
+Name*; o *Value Length* indica que o valor ocupa 16 bytes; e o *Value
+Field* contém o nome codificado na convenção `Apelido^Nome` [@DICOM_PS35].
+
+## Entidades, IODs e Módulos {#sec-dicom-iod}
+
+### A hierarquia Patient → Study → Series → Image
+
+O modelo de informação DICOM organiza os dados numa hierarquia de quatro
+níveis que reflecte o fluxo clínico real. Cada nível corresponde a uma
+**Information Entity** (IE) e contém um ou mais elementos do nível
+imediatamente inferior [@DICOM_PS33].
+
+**Patient** — representa a pessoa. Armazena os dados demográficos:
+nome, identificador, data de nascimento, sexo. Um paciente pode ter
+múltiplos estudos ao longo do tempo.
+
+**Study** — corresponde a um episódio clínico de imagiologia: uma data,
+uma descrição, um médico requisitante e um UID de estudo globalmente
+único. Cada estudo contém uma ou mais séries.
+
+**Series** — corresponde a uma aquisição específica dentro do estudo.
+Identifica a modalidade (`CT`, `MR`…), o número de série e a posição do
+paciente. Um estudo de TAC cerebral pode ter, por exemplo, cinco séries:
+sem contraste, com contraste, reconstrução óssea, reconstrução 3D e
+imagem de localização (*scout*).
+
+**Image** — é a unidade atómica de informação: uma imagem individual,
+com as suas dimensões em pixels, profundidade de bit, parâmetros de
+compressão e, sobretudo, o próprio *Pixel Data*. Cada imagem é
+identificada por um UID único e globalmente irrepetível, gerado pelo
+equipamento de aquisição no momento da captura.
+
+A consequência prática desta hierarquia é directa: uma única TAC
+cerebral multi-série pode gerar aproximadamente 1 500 ficheiros DICOM
+distintos — cada um contendo todos os metadados dos quatro níveis
+(Patient, Study, Series, Image) mais os pixels daquela imagem específica
+[@Huang2010].
+
+```{=html}
+<!--
+  Diagrama: hierarquia Patient → Study → Series → Image.
+  Quatro caixas em cascata, indentadas, com setas de contenção.
+  Paleta teal.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:640px;font-family:sans-serif;">
+  <rect width="640" height="200" rx="10" fill="#f8fbfc"/>
+  <!-- Patient -->
+  <rect x="20"  y="20" width="580" height="38" rx="7" fill="#0a3d4a"/>
+  <text x="40"  y="44" font-size="13" font-weight="bold" fill="#fff">Patient</text>
+  <text x="160" y="44" font-size="11" fill="#7dd3d0">nome · ID · data de nascimento · sexo</text>
+  <!-- Study -->
+  <rect x="50"  y="68" width="520" height="34" rx="7" fill="#0d7c8c"/>
+  <text x="70"  y="90" font-size="12" font-weight="bold" fill="#fff">Study</text>
+  <text x="160" y="90" font-size="11" fill="#b2ebf2">data · descrição · médico requisitante · Study UID</text>
+  <!-- Series -->
+  <rect x="80"  y="112" width="460" height="34" rx="7" fill="#1ab3a6"/>
+  <text x="100" y="134" font-size="12" font-weight="bold" fill="#fff">Series</text>
+  <text x="185" y="134" font-size="11" fill="#e0f7f5">modalidade · n.º série · posição do paciente</text>
+  <!-- Image -->
+  <rect x="110" y="156" width="400" height="30" rx="7" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/>
+  <text x="130" y="176" font-size="12" font-weight="bold" fill="#0a3d4a">Image</text>
+  <text x="210" y="176" font-size="11" fill="#0d7c8c">pixels · dimensões · bits · UID único</text>
+  <!-- Setas de contenção -->
+  <line x1="38" y1="58" x2="38" y2="68" stroke="#7dd3d0" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="68" y1="102" x2="68" y2="112" stroke="#b2ebf2" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="98" y1="146" x2="98" y2="156" stroke="#1ab3a6" stroke-width="1.5" marker-end="url(#arr)"/>
+  <defs>
+    <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <!-- Legenda -->
+  <text x="320" y="197" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 4.3 — Hierarquia de entidades de informação DICOM (PS3.3, §A.1)
+  </text>
+</svg>
+</div>
+```
+
+### Information Object Definitions (IOD)
+
+Um **IOD** (*Information Object Definition*) é a especificação formal
+do conjunto de atributos que descreve um determinado tipo de objecto
+DICOM. Não é um ficheiro — é uma definição normativa: diz quais os
+atributos obrigatórios, condicionais e opcionais para um dado tipo de
+imagem ou documento médico [@DICOM_PS33].
+
+A norma define um IOD composto (*Composite IOD*) para cada modalidade
+relevante: CT Image IOD, MR Image IOD, CR Image IOD, US Image IOD, entre
+outros. Um ponto fundamental que merece atenção explícita: **um IOD
+composto descreve sempre uma única imagem** — não um estudo nem uma
+série. O IOD é instanciado uma vez por imagem; uma TAC com 300 cortes
+gera 300 instâncias do CT Image IOD, cada uma num ficheiro DICOM
+independente.
+
+Cada instância carrega consigo os atributos de *todos* os níveis
+hierárquicos: os dados do paciente, do estudo, da série e da própria
+imagem. O agrupamento lógico em séries e estudos não é feito por
+referências físicas entre ficheiros — é inferido a partir de UIDs
+partilhados: todas as imagens da mesma série têm o mesmo
+`Series Instance UID`; todas as do mesmo estudo partilham o mesmo
+`Study Instance UID`. A hierarquia existe nos metadados de cada
+ficheiro individual; qualquer sistema que os leia consegue reconstruí-la
+sem necessidade de estruturas externas [@DICOM_PS33].
+
+Cada IOD composto é derivado de um modelo geral de entidades
+(*DICOM Composite Instance IOD Information Model*) que formaliza as
+relações entre Patient, Study, Equipment, Frame of Reference, Series e
+os vários tipos de instâncias possíveis (Image, SR Document, Waveform,
+Surface, etc.) [@DICOM_PS33].
+
+Por exemplo, o **CR Image IOD** (*Computed Radiography*) inclui,
+em termos de entidades de informação (IE): Patient, Study, Series,
+Equipment e Image — todas presentes em cada ficheiro individual. Cada
+IE é especificada pelos módulos que lhe pertencem, com o respectivo
+nível de obrigatoriedade.
+
+### Módulos de informação e tipos de uso (M/C/U)
+
+Cada IE de um IOD é composta por **módulos** — agrupamentos temáticos
+de Data Elements relacionados. Um módulo tem sempre um nível de uso
+associado [@DICOM_PS33]:
+
+- **M** (*Mandatory*) — obrigatório; deve estar presente e preenchido.
+- **C** (*Conditional*) — condicional; obrigatório apenas quando uma
+  condição específica se verifica (ex.: o módulo *Contrast/Bolus* é `C`
+  — obrigatório se foi usado meio de contraste).
+- **U** (*User Optional*) — opcional; pode ser incluído ou omitido pelo
+  fabricante.
+
+O módulo **Patient Module** (referência C.7.1.1), obrigatório (`M`) em
+todos os IODs compostos, agrupa os atributos de identificação do
+paciente: `(0010,0010) Patient's Name` (Tipo 2), `(0010,0020) Patient ID`
+(Tipo 2), `(0010,0030) Patient's Birth Date` (Tipo 3) e
+`(0010,0040) Patient's Sex` (Tipo 2), entre outros. Note-se que Tipo 2
+significa que o atributo deve estar presente, mas pode ter valor vazio —
+algo clinicamente relevante em contextos de urgência [@DICOM_PS33].
+
+### O ficheiro DICOM: formato de armazenamento
+
+O IOD composto define *quais* os atributos que descrevem uma imagem; a
+parte PS3.10 da norma define *como* esses atributos são fisicamente
+armazenados num ficheiro. São dois planos distintos: o modelo e a
+embalagem.
+
+Um ficheiro DICOM começa com um **preâmbulo** de 128 bytes (reservado,
+geralmente nulo) seguido do prefixo ASCII `DICM`. A seguir vem o
+**File Meta Information** — um conjunto de Data Elements do grupo
+`0002` que descrevem o próprio ficheiro: a versão do formato, o SOP
+Class armazenado, o UID da instância e a Transfer Syntax negociada
+(que determina o formato de compressão do Pixel Data). Após este
+cabeçalho segue a sequência de Data Elements do IOD, ordenados por
+TAG crescente [@DICOM_PS310].
+
+A Transfer Syntax é um detalhe importante: é ela que indica ao receptor
+se o Pixel Data está em formato bruto (*raw*, sem compressão), JPEG
+Baseline, JPEG 2000 ou RLE. Esta informação está no cabeçalho do
+ficheiro — não no Pixel Data em si — o que permite ao receptor
+escolher o descodificador correcto antes de ler os pixels.
+
+Um excerto representativo de um ficheiro DICOM de uma TAC, tal como
+aparece num visualizador de metadados como o `dcmdump` (DCMTK),
+ilustra a sequência de Data Elements ordenados por TAG:
+
+```
+(0008,0060) CS  Modality              [CT]
+(0008,1030) LO  Study Description     [TAC CEREBRAL]
+(0010,0010) PN  Patient's Name        [COUTO^FERNANDO]
+(0010,0020) LO  Patient ID            [987654]
+(0010,0030) DA  Patient's Birth Date  [19650412]
+(0028,0010) US  Rows                  [512]
+(0028,0011) US  Columns               [512]
+(7FE0,0010) OW  Pixel Data            [binary — 524288 bytes]
+```
+
+Note-se que todos os metadados dos quatro níveis hierárquicos (Patient,
+Study, Series, Image) estão presentes em cada ficheiro DICOM individual.
+Esta redundância intencional garante que qualquer ficheiro é
+auto-suficiente e pode ser interpretado sem depender de uma base de
+dados externa [@DICOM_PS310; @Pianykh2012].
+
+## Síntese e Exercícios {#sec-dicom-modelo-sintese}
+
+### Exercícios de consolidação {.unnumbered}
+
+1. Um ficheiro DICOM de uma TAC contém o Data Element
+   `(0010,0030) DA 8 19820915`. Interprete cada campo (TAG, VR,
+   *Value Length*, *Value Field*), indicando o grupo temático a que
+   pertence a TAG e o significado clínico do valor.
+
+2. Explique por que razão um CT Image IOD composto com 300 imagens
+   origina 300 ficheiros DICOM independentes e não um único ficheiro.
+   De que forma é reconstruída a hierarquia Study/Series a partir
+   desses ficheiros?
+
+3. Distinga os campos que existem fisicamente num Data Element
+   serializado dos campos que pertencem exclusivamente à entrada
+   correspondente no Data Dictionary. Porque é que esta distinção
+   é relevante para a implementação de um sistema DICOM?
+
+4. Uma entrada no Data Dictionary tem VM `1-n` e Tipo `2`. O que
+   significam estes dois valores em conjunto para um sistema que
+   valida a conformidade de um ficheiro DICOM recebido?
+
+5. O preâmbulo de 128 bytes de um ficheiro DICOM está corrompido.
+   Discuta o impacto desta corrupção na capacidade de um sistema
+   conforme com PS3.10 de processar o ficheiro.

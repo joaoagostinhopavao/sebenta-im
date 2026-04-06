@@ -1,0 +1,82 @@
+project:
+  type: book
+  output-dir: docs
+
+lang: pt-PT
+
+bibliography: referencias.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+
+book:
+  title: "Informática Médica"
+  subtitle: "Sebenta da Unidade Curricular"
+  author:
+    - name: "João Pavão"
+      affiliation: "Universidade de Trás-os-Montes e Alto Douro"
+  date: last-modified
+
+  chapters:
+    - index.qmd
+    - capitulos/cap01.qmd
+    - capitulos/cap02.qmd
+    - capitulos/cap03.qmd
+    - capitulos/cap04.qmd
+    - capitulos/cap05.qmd
+    - referencias.qmd
+
+  sidebar:
+    search: true
+
+  page-footer:
+    left: "Informática Médica — Mestrado em Engenharia Biomédica · UTAD"
+
+format:
+  html:
+    theme:
+      light: litera
+      dark: darkly
+    css: assets/css/custom.css
+    toc: true
+    toc-depth: 3
+    smooth-scroll: true
+    number-sections: true
+    number-depth: 3
+    highlight-style: github
+    code-fold: false
+    code-tools: true
+    fig-align: center
+
+  pdf:
+    documentclass: scrbook
+    classoption: [oneside]
+    papersize: a4
+    fontsize: 11pt
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    colorlinks: true
+    linkcolor: "NavyBlue"
+    urlcolor: "NavyBlue"
+    geometry:
+      - top=2.5cm
+      - bottom=2.5cm
+      - left=3cm
+      - right=2.5cm
+    include-in-header:
+      text: |
+        \usepackage{booktabs}
+        \usepackage{longtable}
+        \usepackage{array}
+        \usepackage{multirow}
+        \usepackage{amssymb}
+        \usepackage{amsmath}
+        \usepackage{caption}
+        \captionsetup{font=small, labelfont=bf}
+    engine: lualatex
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+jupyter: /Users/jpavao/QProjects/venv/bin/python

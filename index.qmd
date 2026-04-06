@@ -1,0 +1,38 @@
+# Prefácio {.unnumbered}
+
+```{=html}
+<div class="hero">
+  <div class="hero-badge">UTAD · 2025/2026</div>
+  <h1>Informática Médica</h1>
+  <h2>Sebenta da Unidade Curricular</h2>
+  <p>Mestrado em Engenharia Biomédica &nbsp;·&nbsp; 1.º Ano<br>
+     Universidade de Trás-os-Montes e Alto Douro</p>
+</div>
+```
+
+Esta sebenta acompanha a unidade curricular de **Informática Médica** do
+Mestrado em Engenharia Biomédica da Universidade de Trás-os-Montes e Alto Douro.
+
+## Organização da sebenta {.unnumbered}
+
+A sebenta está organizada em capítulos correspondentes aos blocos temáticos
+da unidade curricular:
+
+1. **Fundamentos e Contexto** — informática médica, sistemas de informação
+   hospitalares e interoperabilidade
+2. **DICOM e PACS** — imagem médica e integração técnica
+3. **Do HL7 ao FHIR** — mensagens e APIs modernas
+4. **IHE** — perfis de integração e operacionalização
+5. **Privacidade e Governação** — requisitos estruturais e segurança
+6. **Arquitectura Integrada** — visão integrada final
+
+## Como usar esta sebenta {.unnumbered}
+
+Os conceitos são apresentados com rigor académico e ilustrados com exemplos
+concretos provenientes de sistemas reais utilizados no sistema de saúde
+português e internacional. Os exercícios no final de cada capítulo
+destinam-se à consolidação autónoma dos conteúdos.
+
+## Autor {.unnumbered}
+
+**João Pavão** — Professor Auxiliar, UTAD · Investigador Sénior, INESC TEC

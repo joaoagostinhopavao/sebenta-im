@@ -1,0 +1,545 @@
+---
+title: "Sistemas de Informação Hospitalares e Registos Electrónicos de Saúde"
+lang: pt-PT
+---
+
+## O Sistema de Informação Hospitalar {#sec-his}
+
+### Definição e componentes
+
+Um Sistema de Informação Hospitalar (*Hospital Information System* —
+HIS) define-se como um sistema de informação cujos dados, processos e
+actores estão orientados para os cuidados de saúde, integrando
+funcionalidades clínicas, administrativas e financeiras numa
+plataforma comum. Trata-se, em substância, da instância concreta do
+modelo genérico de sistema de informação — pessoas, processos,
+tecnologia — aplicada ao contexto hospitalar.
+
+Distinguem-se três componentes estruturais num HIS:
+
+**Dados** — abrangem a informação clínica e administrativa produzida
+ao longo do percurso do doente: identificação do paciente, episódios
+e diagnósticos, procedimentos realizados, imagens e relatórios.
+
+**Processos** — incluem os fluxos de admissão, alta e transferência
+(*Admission, Discharge, Transfer* — ADT), o agendamento e gestão do
+bloco operatório, a faturação e codificação clínica, e os fluxos de
+aprovação com validação clínica.
+
+**Tecnologia** — compreende as bases de dados (relacionais ou NoSQL),
+as interfaces de integração normalizadas (HL7, FHIR), os módulos
+especializados (PACS, LIS) e os mecanismos de segurança e controlo
+de acesso [@Haux2006].
+
+### Arquitectura modular
+
+A arquitectura de um HIS é tipicamente modular: um núcleo central —
+frequentemente designado por módulo ADT — agrega e gere o registo
+único do paciente, ao qual se ligam módulos especializados por área
+funcional. Esta arquitectura garante que todos os módulos partilham a
+mesma base de dados central, assegurando a unicidade do registo.
+
+Os módulos que habitualmente compõem um HIS de referência são:
+Urgência/Admissões, Consulta Externa, Internamento, Bloco Operatório,
+Hospital de Dia, PACS/Imagem, LIS/Laboratório e Faturação/Codificação.
+
+O diagrama seguinte ilustra esta organização em estrela, com o núcleo
+HIS/ADT no centro:
+
+```{=html}
+<!--
+  Arquitectura modular do HIS — diagrama em estrela.
+  Núcleo central ligado a 8 módulos por linhas tracejadas.
+  SVG responsivo, paleta teal.
+-->
+<div style="display:flex;justify-content:center;margin:2rem 0;">
+<svg viewBox="0 0 500 400" width="480" height="384"
+     xmlns="http://www.w3.org/2000/svg"
+     aria-label="Arquitectura modular de um HIS">
+
+  <!-- linhas de ligação ao núcleo (cx=250, cy=200) -->
+  <!-- Urgência (80,60) -->
+  <line x1="250" y1="200" x2="110" y2="75"
+        stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- Consulta Externa (60,200) -->
+  <line x1="250" y1="200" x2="85" y2="200"
+        stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- Internamento (80,330) -->
+  <line x1="250" y1="200" x2="110" y2="318"
+        stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- Bloco Operatório (250,370) -->
+  <line x1="250" y1="200" x2="210" y2="355"
+        stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- Hospital de Dia (310,355) -->
+  <line x1="250" y1="200" x2="295" y2="355"
+        stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- PACS (420,330) -->
+  <line x1="250" y1="200" x2="390" y2="318"
+        stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- LIS (440,200) -->
+  <line x1="250" y1="200" x2="415" y2="200"
+        stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- Faturação (420,70) -->
+  <line x1="250" y1="200" x2="390" y2="82"
+        stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+  <!-- NÚCLEO -->
+  <rect x="178" y="163" width="144" height="74" rx="8"
+        fill="#0a3d4a" stroke="#0d7c8c" stroke-width="2"/>
+  <text x="250" y="194" text-anchor="middle" font-size="13"
+        font-weight="700" fill="#fff" font-family="system-ui,sans-serif">NÚCLEO</text>
+  <text x="250" y="212" text-anchor="middle" font-size="12"
+        font-weight="600" fill="#1ab3a6" font-family="system-ui,sans-serif">HIS / ADT</text>
+  <text x="250" y="228" text-anchor="middle" font-size="9.5"
+        fill="rgba(255,255,255,0.65)" font-family="system-ui,sans-serif">registo único do paciente</text>
+
+  <!-- módulos externos — caixas pequenas -->
+  <!-- helper: rect + 2 linhas de texto, definidos individualmente -->
+
+  <!-- Urgência / Admissões -->
+  <rect x="42" y="42" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.3"/>
+  <text x="101" y="62" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Urgência /</text>
+  <text x="101" y="77" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Admissões</text>
+
+  <!-- Consulta Externa -->
+  <rect x="10" y="177" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.3"/>
+  <text x="69" y="197" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Consulta</text>
+  <text x="69" y="212" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Externa</text>
+
+  <!-- Internamento -->
+  <rect x="42" y="296" width="118" height="36" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.3"/>
+  <text x="101" y="319" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Internamento</text>
+
+  <!-- Bloco Operatório -->
+  <rect x="148" y="340" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.3"/>
+  <text x="207" y="360" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Bloco</text>
+  <text x="207" y="375" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Operatório</text>
+
+  <!-- Hospital de Dia -->
+  <rect x="238" y="340" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#1ab3a6" stroke-width="1.3"/>
+  <text x="297" y="360" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Hospital</text>
+  <text x="297" y="375" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">de Dia</text>
+
+  <!-- PACS / Imagem -->
+  <rect x="338" y="296" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#1ab3a6" stroke-width="1.3"/>
+  <text x="397" y="316" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">PACS /</text>
+  <text x="397" y="331" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Imagem</text>
+
+  <!-- LIS / Laboratório -->
+  <rect x="370" y="177" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#1ab3a6" stroke-width="1.3"/>
+  <text x="429" y="197" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">LIS /</text>
+  <text x="429" y="212" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Laboratório</text>
+
+  <!-- Faturação / Codificação -->
+  <rect x="338" y="42" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#1ab3a6" stroke-width="1.3"/>
+  <text x="397" y="62" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Faturação /</text>
+  <text x="397" y="77" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Codificação</text>
+
+</svg>
+</div>
+```
+
+### O fluxo típico do paciente no HIS
+
+O percurso do doente num hospital materializa-se, do ponto de vista
+informático, numa sequência de eventos registados no HIS. O fluxo
+genérico compreende quatro momentos fundamentais: **Admissão** —
+registo da entrada do doente no sistema, seja pela urgência, consulta
+externa ou internamento programado; **Exame** — realização e registo
+de actos diagnósticos ou terapêuticos nos módulos especializados
+(laboratório, imagem, bloco); **Diagnóstico** — consolidação da
+informação clínica e formulação do diagnóstico; **Alta** — encerramento
+do episódio, com registo da nota de alta e codificação para faturação.
+
+::: {.callout-note}
+O módulo ADT (*Admission, Discharge, Transfer*) é o núcleo operacional
+do HIS: é nele que se regista a entrada do doente no sistema, se
+controla a ocupação de camas e se gere a transferência entre serviços.
+Todos os eventos clínicos subsequentes ficam associados ao episódio
+criado no ADT.
+:::
+
+## Tipos de Registo Electrónico de Saúde {#sec-emr-ehr}
+
+### EMR, EHR e PHR — definições e distinções
+
+No vocabulário da Informática Médica, distinguem-se três tipos de
+registo electrónico de saúde com âmbitos e propósitos distintos
+[@NAHIT2008; @Garets2006]:
+
+O **EMR** (*Electronic Medical Record*) corresponde ao registo clínico
+electrónico de uma única organização. É criado e utilizado pelos
+profissionais de saúde e pelo pessoal autorizado dessa organização;
+não segue o doente quando este muda de instituição; e pode ser
+consultado apenas internamente. O exemplo português de referência é
+o SAM (*Sistema de Apoio ao Médico*).
+
+O **EHR** (*Electronic Health Record*) tem um âmbito multi-institucional:
+cumpre normas de interoperabilidade que permitem a sua partilha entre
+múltiplas organizações, acompanha o doente ao longo de todo o sistema
+de saúde e constitui a base dos sistemas de saúde modernos. Em
+Portugal, o RSE (*Registo de Saúde Electrónico*) do SNS é o exemplo
+de referência.
+
+O **PHR** (*Personal Health Record*) é gerido, controlado e partilhado
+pelo próprio utente. Pode agregar dados de múltiplas fontes —
+aplicações móveis, sensores de saúde, registos institucionais — e não
+é necessariamente clínico no sentido estrito. Plataformas como o
+Apple Health ou o Google Health constituem exemplos paradigmáticos.
+Note-se que o PHR é complementar ao EHR, não seu substituto.
+
+A tabela seguinte sintetiza as diferenças fundamentais entre os três tipos:
+
+| | **EMR** | **EHR** | **PHR** |
+|---|---|---|---|
+| **Âmbito** | 1 instituição | Multi-instituição | Pessoal / global |
+| **Interop.** | Não exigida | Exigida | Exigida |
+| **Controlo** | Instituição | Instituição | Utente |
+| **Exemplo PT** | SAM | RSE | Apple Health |
+
+: Comparação entre EMR, EHR e PHR {#tbl-emr-ehr}
+
+### Da jornada do paciente ao EHR
+
+A jornada clínica de um doente crónico envolve, tipicamente, múltiplas
+instituições ao longo do tempo: um internamento hospitalar, consultas
+de acompanhamento num centro de saúde, uma cirurgia noutro hospital,
+prescrições aviadas em farmácia. Cada uma destas instituições mantém
+o seu próprio EMR, com o seu modelo de dados, os seus identificadores
+internos e as suas regras de acesso.
+
+O EHR emerge exactamente da necessidade de agregar esta informação
+dispersa numa vista longitudinal e partilhada do utente. A
+interoperabilidade entre EMRs é a condição técnica que torna o EHR
+possível — e este é o desafio central que as normas HL7, FHIR e os
+perfis IHE procuram endereçar [@BensonGrieve2021].
+
+### Requisitos técnicos do EHR
+
+Para que um EHR seja operacional, verificam-se três requisitos técnicos
+fundamentais que se articulam entre si:
+
+- **Unicidade do paciente** — é necessário que exista um identificador
+  único e universal que permita associar, sem ambiguidade, todos os
+  registos dispersos ao mesmo doente. Na ausência deste requisito,
+  o EHR torna-se impossível e os erros clínicos por confusão de
+  identidade tornam-se prováveis [@Just2016].
+
+- **Interoperabilidade técnica entre sistemas** — os sistemas
+  institucionais têm de ser capazes de comunicar entre si,
+  recorrendo a protocolos e formatos normalizados (HL7 v2, FHIR R4).
+
+- **Terminologias normalizadas** — para que os dados tenham o mesmo
+  significado entre sistemas, é necessário o uso de vocabulários
+  controlados partilhados (SNOMED CT para conceitos clínicos, LOINC
+  para observações laboratoriais, ICD para diagnósticos).
+
+## O SONHO — Caso de Estudo Português {#sec-sonho}
+
+### Caracterização e papel no SNS
+
+O SONHO (*Sistema de Informação Hospitalar*) é o HIS de referência
+do Serviço Nacional de Saúde português, presente em aproximadamente
+90% dos hospitais públicos. Em produção contínua desde a década de
+1990, classifica-se funcionalmente como um EMR: o seu âmbito é
+institucional, e a sua interoperabilidade com sistemas externos é
+limitada pela arquitectura da versão original.
+
+O papel do SONHO no SNS organiza-se em torno de cinco funções
+essenciais: identificação única do utente pelo número SNS;
+gestão administrativa do episódio hospitalar; registo de urgência,
+internamento, consulta externa e bloco operatório; registo de alta
+e codificação para faturação pelo sistema de Grupos de Diagnóstico
+Homogéneo (GDH); e funcionamento como *backbone* de integração para
+os restantes sistemas do hospital [@SPMS2019].
+
+### Módulos funcionais
+
+O SONHO organiza-se em oito módulos funcionais principais:
+
+| Módulo | Função principal |
+|--------|-----------------|
+| **1 — Identificação** | Dados demográficos, nº SNS, Cartão de Cidadão |
+| **2 — Urgência** | Triagem de Manchester, encaminhamento, transferência |
+| **3 — Internamento** | Admissão, cama, serviço responsável, alta |
+| **4 — Consulta Externa** | Agendas médicas, marcação, listas de espera |
+| **5 — Bloco Operatório** | Agendamento cirúrgico, anestesia, lista de espera |
+| **6 — Hospital de Dia** | Sessões de hemodiálise, quimioterapia, gestão de agendas |
+| **7 — Arquivo / Estatística** | Requisição de processos, mapas estatísticos |
+| **8 — Faturação** | Episódios, entidades financiadoras, copagamentos |
+
+: Módulos funcionais do SONHO {#tbl-sonho-modulos}
+
+O SONHO serve ainda de *backbone* para os sistemas clínicos que sobre
+ele assentam: o SAM (*Sistema de Apoio ao Médico*), o SAPE (*Sistema
+de Apoio à Prática de Enfermagem*) e, mais recentemente, o SClínico,
+que substitui SAM e SAPE nas versões mais actualizadas.
+
+### Limitações e trajectória de evolução
+
+O SONHO apresenta limitações estruturais que decorrem da sua
+arquitectura original, desenvolvida numa época em que os requisitos
+de interoperabilidade actuais não existiam:
+
+**Arquitectura obsoleta** — a versão original assenta numa base de
+dados Progress, tecnologia da década de 1990, com arquitectura
+monolítica sujeita a falhas de disponibilidade e com sérias
+dificuldades de integração com os padrões modernos HL7 e FHIR.
+
+**Custos de licenciamento** — a migração para Oracle RDBMS na versão
+mais recente resolveu alguns problemas de desempenho, mas introduziu
+uma dependência de fornecedor único (*vendor lock-in*) com custos
+elevados de licenciamento por hospital e actualizações lentas.
+
+A trajectória de evolução aponta para três vectores: o SClínico como
+plataforma clínica evolutiva; o RSE (*Registo de Saúde Electrónico*)
+como componente EHR do SNS; e a integração com FHIR prevista nos
+*roadmaps* nacionais, impulsionada pela pressão regulatória europeia
+do EHDS — *European Health Data Space* [@EHDS2025].
+
+## Identificação do Paciente {#sec-identificacao}
+
+### O problema da unicidade do registo
+
+A identificação inequívoca do doente é um pré-requisito absoluto para
+qualquer sistema EHR. O problema fundamental decorre do facto de o
+mesmo doente poder ter identificadores distintos em cada hospital,
+centro de saúde ou sistema que frequente. Sem unicidade, o EHR é
+tecnicamente impossível e os erros clínicos por confusão de identidade
+tornam-se estruturalmente prováveis [@Just2016].
+
+Note-se que este não é um problema meramente administrativo: a
+associação incorrecta de registos — por exemplo, confundir dois doentes
+com nome semelhante — pode ter consequências clínicas graves, incluindo
+erros de medicação, transfusões incompatíveis ou cirurgias no doente
+errado.
+
+### Identificadores em Portugal
+
+No sistema de saúde português coexistem quatro identificadores
+relevantes para a identificação do doente:
+
+| Identificador | Descrição |
+|---|---|
+| **Nº SNS** | Número de utente do SNS — 9 dígitos, único nacional, permanente |
+| **Cartão de Cidadão** | Identificação civil — usado na admissão para confirmar identidade |
+| **MRN** | *Medical Record Number* — número interno de cada instituição |
+| **NIF** | Número de Identificação Fiscal — usado para faturação |
+
+: Identificadores do doente em Portugal {#tbl-identificadores}
+
+O **Número Nacional do Utente (NNU)** — incorporado no número SNS —
+é o identificador de referência em todos os sistemas de informação
+do SNS. A sua atribuição é única e permanente, garantindo a
+rastreabilidade longitudinal do doente ao longo de toda a sua vida
+dentro do sistema de saúde.
+
+### Master Patient Index e o RNU
+
+O conceito de *Master Patient Index* (MPI) designa o sistema
+centralizado de correspondência entre os identificadores locais de
+cada instituição e o identificador universal do doente. Em Portugal,
+esta função é desempenhada pelo **RNU** (*Registo Nacional de Utentes*),
+gerido pela SPMS (*Serviços Partilhados do Ministério da Saúde*).
+
+O mecanismo de funcionamento do RNU é o seguinte: cada hospital mantém
+os seus MRN locais; quando um doente é admitido, o sistema consulta
+o RNU para obter o NNU correspondente; o *matching* é efectuado por
+combinação de nome, data de nascimento, NIF e NNU.
+
+```{=html}
+<!--
+  Diagrama MPI — três hospitais com MRN locais distintos
+  convergem para o RNU, que resolve para um NNU único.
+  SVG com setas descendentes e caixa de resolução.
+-->
+<div style="display:flex;justify-content:center;margin:2rem 0;">
+<svg viewBox="0 0 500 260" width="480" height="250"
+     xmlns="http://www.w3.org/2000/svg"
+     aria-label="Diagrama MPI — RNU como Master Patient Index">
+
+  <!-- Hospital A -->
+  <rect x="30" y="20" width="120" height="54" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.4"/>
+  <text x="90" y="43" text-anchor="middle" font-size="11"
+        font-weight="700" fill="#0a3d4a" font-family="system-ui,sans-serif">Hospital A</text>
+  <text x="90" y="60" text-anchor="middle" font-size="10"
+        fill="#0d7c8c" font-family="system-ui,sans-serif">MRN 1234</text>
+
+  <!-- Hospital B -->
+  <rect x="190" y="20" width="120" height="54" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.4"/>
+  <text x="250" y="43" text-anchor="middle" font-size="11"
+        font-weight="700" fill="#0a3d4a" font-family="system-ui,sans-serif">Hospital B</text>
+  <text x="250" y="60" text-anchor="middle" font-size="10"
+        fill="#0d7c8c" font-family="system-ui,sans-serif">MRN 8882</text>
+
+  <!-- Hospital C -->
+  <rect x="350" y="20" width="120" height="54" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.4"/>
+  <text x="410" y="43" text-anchor="middle" font-size="11"
+        font-weight="700" fill="#0a3d4a" font-family="system-ui,sans-serif">Hospital C</text>
+  <text x="410" y="60" text-anchor="middle" font-size="10"
+        fill="#0d7c8c" font-family="system-ui,sans-serif">MRN 5510</text>
+
+  <!-- setas para RNU -->
+  <line x1="90"  y1="74" x2="200" y2="148"
+        stroke="#0d7c8c" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="250" y1="74" x2="250" y2="148"
+        stroke="#0d7c8c" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="410" y1="74" x2="300" y2="148"
+        stroke="#0d7c8c" stroke-width="1.8" marker-end="url(#arr)"/>
+
+  <!-- RNU -->
+  <rect x="140" y="148" width="220" height="44" rx="6"
+        fill="#0d7c8c" stroke="#0a3d4a" stroke-width="1.5"/>
+  <text x="250" y="167" text-anchor="middle" font-size="11.5"
+        font-weight="700" fill="#fff" font-family="system-ui,sans-serif">RNU</text>
+  <text x="250" y="183" text-anchor="middle" font-size="10"
+        fill="rgba(255,255,255,0.85)" font-family="system-ui,sans-serif">Master Patient Index nacional</text>
+
+  <!-- seta RNU → NNU -->
+  <line x1="250" y1="192" x2="250" y2="216"
+        stroke="#1ab3a6" stroke-width="2" marker-end="url(#arr2)"/>
+
+  <!-- NNU -->
+  <rect x="110" y="216" width="280" height="36" rx="6"
+        fill="#0a3d4a" stroke="#1ab3a6" stroke-width="1.8"/>
+  <text x="250" y="239" text-anchor="middle" font-size="11.5"
+        font-weight="700" fill="#fff" font-family="system-ui,sans-serif">NNU 123456789 — João Silva</text>
+
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8"
+            refX="6" refY="4" orient="auto">
+      <path d="M1,1 L6,4 L1,7" stroke="#0d7c8c" stroke-width="1.2"
+            fill="none"/>
+    </marker>
+    <marker id="arr2" markerWidth="8" markerHeight="8"
+            refX="6" refY="4" orient="auto">
+      <path d="M1,1 L6,4 L1,7" stroke="#1ab3a6" stroke-width="1.2"
+            fill="none"/>
+    </marker>
+  </defs>
+</svg>
+</div>
+```
+
+## Continuidade de Cuidados {#sec-continuidade}
+
+### Definição e dimensões
+
+A continuidade de cuidados define-se como a capacidade de um
+profissional de saúde aceder ao historial clínico relevante de um
+paciente, independentemente de quando ou onde os cuidados foram
+prestados [@Haggerty2003]. Trata-se de um conceito multidimensional
+que a literatura organiza em três componentes:
+
+**Continuidade informacional** — o registo clínico acompanha o doente.
+Diagnósticos, medicação activa, alergias e episódios anteriores estão
+disponíveis no ponto de cuidado, independentemente da instituição.
+Esta dimensão é a que mais directamente depende da existência de um
+EHR operacional.
+
+**Continuidade de gestão** — os planos de tratamento e as decisões
+clínicas anteriores são conhecidos e respeitados pelos profissionais
+que prestam cuidados em cada momento. Evita a duplicação de exames
+e as prescrições contraditórias, com impacto directo na segurança
+e na eficiência.
+
+**Continuidade relacional** — o doente tem um médico de família ou
+equipa de referência que conhece a sua história clínica de forma
+longitudinal. O EHR facilita a comunicação e a coordenação entre os
+diferentes prestadores que integram esta equipa alargada.
+
+### O EHR como requisito técnico da continuidade
+
+A continuidade de cuidados não é, portanto, apenas uma aspiração
+clínica: tem requisitos técnicos precisos que o EHR deve satisfazer.
+Esses requisitos articulam-se em três níveis que se implicam
+mutuamente:
+
+1. **Unicidade do paciente** via MPI (RNU em Portugal) — sem esta
+   condição, não é possível agregar os registos do mesmo doente
+   provenientes de diferentes instituições.
+
+2. **Interoperabilidade técnica** via HL7 e FHIR — sem esta condição,
+   os sistemas não conseguem trocar dados de forma estruturada e
+   automática.
+
+3. **Terminologias normalizadas** (SNOMED CT, LOINC, ICD) — sem esta
+   condição, os dados chegam ao destino mas não são correctamente
+   interpretados, comprometendo a interoperabilidade semântica.
+
+::: {.callout-tip}
+**Síntese:** a interoperabilidade técnica é necessária mas não
+suficiente para a continuidade de cuidados. Para que sistemas
+diferentes se entendam, os dados têm de partilhar o mesmo significado
+— o que exige terminologias normalizadas. É esta articulação entre
+os três níveis que torna o EHR eficaz na prática clínica.
+:::
+
+## Síntese {#sec-sintese-02}
+
+Este capítulo abordou a arquitectura dos sistemas de informação
+hospitalares e os diferentes tipos de registo electrónico de saúde.
+O SONHO foi analisado como caso de estudo do sistema de saúde
+português, evidenciando tanto as suas capacidades como as suas
+limitações estruturais. A identificação do paciente e a continuidade
+de cuidados foram enquadradas como requisitos técnicos e clínicos
+que convergem no conceito de EHR.
+
+Retêm-se os seguintes pontos essenciais:
+
+1. O HIS é a instância concreta do sistema de informação no contexto
+   hospitalar, com arquitectura modular centrada no núcleo ADT.
+2. EMR, EHR e PHR distinguem-se pelo âmbito e pela interoperabilidade:
+   o EHR segue o doente; o EMR fica na instituição.
+3. Sem unicidade do paciente (MPI/RNU), não é possível construir um
+   EHR efectivo — a identificação é um requisito, não um detalhe.
+4. A continuidade de cuidados depende simultaneamente de
+   interoperabilidade técnica e semântica; nenhuma é suficiente
+   isoladamente.
+
+## Exercícios de consolidação {.unnumbered}
+
+1. Considere um hospital com os módulos SONHO activos. Descreva o
+   percurso informático de um doente que entra pela urgência, é
+   internado, realiza uma cirurgia e tem alta, indicando quais os
+   módulos envolvidos em cada etapa.
+
+2. Explique por que razão o SONHO é classificado funcionalmente como
+   EMR e não como EHR. Que alterações técnicas e organizacionais
+   seriam necessárias para que evoluísse para EHR?
+
+3. Um doente português realiza uma consulta no Hospital de Braga
+   (MRN 4421) e é posteriormente transferido para o Hospital de São
+   João no Porto (MRN 9903). Explique o papel do RNU neste cenário
+   e o que aconteceria na ausência de um MPI nacional.
+
+4. Identifique, para cada uma das três dimensões da continuidade de
+   cuidados (informacional, de gestão, relacional), um exemplo
+   concreto de falha que poderia ocorrer na ausência de um EHR
+   operacional.
