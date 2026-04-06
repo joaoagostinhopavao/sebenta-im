@@ -195,7 +195,7 @@ electrónico de uma única organização. É criado e utilizado pelos
 profissionais de saúde e pelo pessoal autorizado dessa organização;
 não segue o doente quando este muda de instituição; e pode ser
 consultado apenas internamente. O exemplo português de referência é
-o SAM (*Sistema de Apoio ao Médico*).
+o SClínico, que é o sistema clínico institucional, integrado no ecossistema do SNS (Serviço Nacional de Saúde).
 
 O **EHR** (*Electronic Health Record*) tem um âmbito multi-institucional:
 cumpre normas de interoperabilidade que permitem a sua partilha entre
@@ -218,7 +218,7 @@ A tabela seguinte sintetiza as diferenças fundamentais entre os três tipos:
 | **Âmbito** | 1 instituição | Multi-instituição | Pessoal / global |
 | **Interop.** | Não exigida | Exigida | Exigida |
 | **Controlo** | Instituição | Instituição | Utente |
-| **Exemplo PT** | SAM | RSE | Apple Health |
+| **Exemplo PT** | SClinico | RSE | Apple Health |
 
 : Comparação entre EMR, EHR e PHR {#tbl-emr-ehr}
 
