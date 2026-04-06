@@ -32,7 +32,3 @@ Os conceitos são apresentados com rigor académico e ilustrados com exemplos
 concretos provenientes de sistemas reais utilizados no sistema de saúde
 português e internacional. Os exercícios no final de cada capítulo
 destinam-se à consolidação autónoma dos conteúdos.
-
-## Autor {.unnumbered}
-
-**João Pavão** — Professor Auxiliar, UTAD 

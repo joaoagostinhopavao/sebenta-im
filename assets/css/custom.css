@@ -130,3 +130,36 @@ caption,
 #tbl-sop th {
   font-size: 0.78rem !important;
 }
+
+/* ============================================================
+   Foto do autor no cabeçalho gerado pelo Quarto
+   ============================================================ */
+
+/* A classe .author contém o nome do autor gerado pelo Quarto.
+   Usamos flexbox no contentor pai e ::before para injectar a foto. */
+
+.quarto-title-meta-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+p.author {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin: 0;
+}
+
+p.author::before {
+  content: "";
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-image: url('../img/jpavao.jpg');
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #0d7c8c;
+  flex-shrink: 0;
+}
