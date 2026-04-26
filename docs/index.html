@@ -174,13 +174,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./capitulos/cap04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM e PACS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM como Data Model</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./capitulos/cap05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Serviços DICOM e Arquitectura PACS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Modelo de Mensagens e Limitações</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -237,7 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Data de Publicação</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">6 de abril de 2026</p>
+      <p class="date">26 de abril de 2026</p>
     </div>
   </div>
   
@@ -254,14 +260,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="hero">
   <div class="hero-badge">UTAD · 2025/2026</div>
   <h1>Informática Médica</h1>
-  <h2 class="anchored" data-anchor-id="prefácio">Sebenta da Unidade Curricular</h2>
-  <p>Mestrado em Engenharia Biomédica &nbsp;·&nbsp; 1.º Ano<br>
-     Universidade de Trás-os-Montes e Alto Douro</p>
+  <h2 class="anchored" data-anchor-id="prefácio">Sebenta de estudo</h2>
+  <p>Universidade de Trás-os-Montes e Alto Douro</p>
 </div>
-<p>Esta sebenta acompanha a unidade curricular de <strong>Informática Médica</strong> do Mestrado em Engenharia Biomédica da Universidade de Trás-os-Montes e Alto Douro.</p>
+<p>Esta sebenta é um documento de estudo autónomo para a disciplina de <strong>Informática Médica</strong>, cobrindo os principais temas de sistemas de informação em saúde, normas de interoperabilidade e arquitecturas de integração clínica.</p>
 <section id="organização-da-sebenta" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="organização-da-sebenta">Organização da sebenta</h2>
-<p>A sebenta está organizada em capítulos correspondentes aos blocos temáticos da unidade curricular:</p>
+<p>A sebenta está organizada em seis blocos temáticos:</p>
 <ol type="1">
 <li><strong>Fundamentos e Contexto</strong> — informática médica, sistemas de informação hospitalares e interoperabilidade</li>
 <li><strong>DICOM e PACS</strong> — imagem médica e integração técnica</li>
@@ -909,34 +914,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div class="hero"&gt;</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div class="hero-badge"&gt;UTAD · 2025/2026&lt;/div&gt;</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;h1&gt;Informática Médica&lt;/h1&gt;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;h2&gt;Sebenta da Unidade Curricular&lt;/h2&gt;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;p&gt;Mestrado em Engenharia Biomédica &amp;nbsp;·&amp;nbsp; 1.º Ano&lt;br&gt;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="in">     Universidade de Trás-os-Montes e Alto Douro&lt;/p&gt;</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>Esta sebenta acompanha a unidade curricular de **Informática Médica** do</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Mestrado em Engenharia Biomédica da Universidade de Trás-os-Montes e Alto Douro.</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;h2&gt;Sebenta de estudo&lt;/h2&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;p&gt;Universidade de Trás-os-Montes e Alto Douro&lt;/p&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Esta sebenta é um documento de estudo autónomo para a disciplina de</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>**Informática Médica**, cobrindo os principais temas de sistemas de informação</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>em saúde, normas de interoperabilidade e arquitecturas de integração clínica.</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Organização da sebenta {.unnumbered}</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>A sebenta está organizada em capítulos correspondentes aos blocos temáticos</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>da unidade curricular:</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Fundamentos e Contexto** — informática médica, sistemas de informação</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>   hospitalares e interoperabilidade</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**DICOM e PACS** — imagem médica e integração técnica</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Do HL7 ao FHIR** — mensagens e APIs modernas</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**IHE** — perfis de integração e operacionalização</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Privacidade e Governação** — requisitos estruturais e segurança</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Arquitectura Integrada** — visão integrada final</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## Como usar esta sebenta {.unnumbered}</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>Os conceitos são apresentados com rigor académico e ilustrados com exemplos</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>concretos provenientes de sistemas reais utilizados no sistema de saúde</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>português e internacional. Os exercícios no final de cada capítulo</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>destinam-se à consolidação autónoma dos conteúdos.</span></code><button title="Copiar para a área de transferência" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>A sebenta está organizada em seis blocos temáticos:</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Fundamentos e Contexto** — informática médica, sistemas de informação</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>   hospitalares e interoperabilidade</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**DICOM e PACS** — imagem médica e integração técnica</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Do HL7 ao FHIR** — mensagens e APIs modernas</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**IHE** — perfis de integração e operacionalização</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Privacidade e Governação** — requisitos estruturais e segurança</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Arquitectura Integrada** — visão integrada final</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Como usar esta sebenta {.unnumbered}</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>Os conceitos são apresentados com rigor académico e ilustrados com exemplos</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>concretos provenientes de sistemas reais utilizados no sistema de saúde</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>português e internacional. Os exercícios no final de cada capítulo</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>destinam-se à consolidação autónoma dos conteúdos.</span></code><button title="Copiar para a área de transferência" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

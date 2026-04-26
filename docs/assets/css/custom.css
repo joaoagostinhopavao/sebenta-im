@@ -1,10 +1,10 @@
-/* custom.css — Sebenta IM */
+/* custom.css — Sebenta IM (paleta: azul) */
 
 /* ============================================================
    HERO — capa da página principal (Prefácio)
    ============================================================ */
 .hero {
-  background: linear-gradient(135deg, #0a3d4a 0%, #0d7c8c 60%, #1ab3a6 100%);
+  background: linear-gradient(135deg, #050d28 0%, #1448c0 60%, #3570e0 100%);
   color: #fff;
   border-radius: 8px;
   padding: 3.5rem 3rem 3rem;
@@ -68,6 +68,7 @@
   margin-bottom: 1.2rem;
   color: rgba(255,255,255,0.9);
 }
+
 /* ============================================================
    Tipografia
    ============================================================ */
@@ -78,18 +79,47 @@ body {
 
 /* Blocos de código */
 pre {
-  border-left: 3px solid #0d7c8c;
-  background: #f6fafb;
+  border-left: 3px solid #1448c0;
+  background: #f0f4fc;
   border-radius: 4px;
 }
 
-/* Callouts — cor de acento IM */
+/* ============================================================
+   Cabeçalho de capítulo — banner colorido
+   ============================================================ */
+#title-block-header.quarto-title-block {
+  background: linear-gradient(120deg, #050d28 0%, #1448c0 100%);
+  padding: 2rem 2.5rem 1.75rem;
+  margin: -1rem -1rem 2.5rem;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+}
+
+#title-block-header.quarto-title-block h1.title {
+  color: #fff !important;
+  border: none !important;
+  font-size: 1.85rem;
+  margin: 0;
+  line-height: 1.25;
+}
+
+#title-block-header.quarto-title-block h1.title .chapter-number {
+  opacity: 0.65;
+  font-weight: 300;
+}
+
+#title-block-header.quarto-title-block .quarto-title-meta {
+  display: none;
+}
+
+/* ============================================================
+   Callouts — cor de acento IM */
 .callout-note {
-  border-left-color: #0d7c8c !important;
+  border-left-color: #1448c0 !important;
 }
 
 .callout-tip {
-  border-left-color: #1ab3a6 !important;
+  border-left-color: #3570e0 !important;
 }
 
 /* Tabelas */
@@ -98,33 +128,31 @@ table {
 }
 
 thead {
-  background: #0d7c8c;
+  background: #1448c0;
   color: #fff;
 }
 
 /* Destaque inline */
 code {
-  color: #0a3d4a;
-  background: #eaf6f6;
+  color: #0a1845;
+  background: #e8eefa;
   padding: 0.1em 0.35em;
   border-radius: 3px;
   font-size: 0.88em;
 }
 
 /* ============================================================
-   Legendas de figuras e tabelas — mínimo 14px
+   Legendas de figuras e tabelas
    ============================================================ */
-
-/* Legendas de tabelas Quarto (caption + .table-caption) */
 caption,
 .table-caption,
 .quarto-float-caption,
 .figure-caption {
-  font-size: 0.9rem !important;  /* ≈ 14-15px em base 1rem=16px */
+  font-size: 0.9rem !important;
   color: #475569;
 }
 
-/* Tabela SOP Classes — fonte mais pequena para acomodar os UIDs */
+/* Tabela SOP Classes */
 #tbl-sop table,
 #tbl-sop td,
 #tbl-sop th {
@@ -132,12 +160,8 @@ caption,
 }
 
 /* ============================================================
-   Foto do autor no cabeçalho gerado pelo Quarto
+   Foto do autor
    ============================================================ */
-
-/* A classe .author contém o nome do autor gerado pelo Quarto.
-   Usamos flexbox no contentor pai e ::before para injectar a foto. */
-
 .quarto-title-meta-author {
   display: flex;
   align-items: center;
@@ -160,6 +184,6 @@ p.author::before {
   background-image: url('../img/jpavao.jpg');
   background-size: cover;
   background-position: center;
-  border: 2px solid #0d7c8c;
+  border: 2px solid #1448c0;
   flex-shrink: 0;
 }
