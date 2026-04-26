@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; DICOM as a Data Model – Medical Informatics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/cap05.html" rel="next">
+<link href="../capitulos/cap03.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a023c9ade86a60361e96e3e3f11bc54.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-61bc4ac84974e0785b3107ee93e74bfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bc9f1d3aef906c45e091843ae87821a0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../../assets/css/custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap04.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Medical Informatics</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations of Medical Informatics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hospital Information Systems and Electronic Health Records</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-dicom-norma" id="toc-sec-dicom-norma" class="nav-link active" data-scroll-target="#sec-dicom-norma"><span class="header-section-number">4.1</span> The DICOM Standard</a>
+  <ul class="collapse">
+  <li><a href="#the-problem-before-dicom" id="toc-the-problem-before-dicom" class="nav-link" data-scroll-target="#the-problem-before-dicom"><span class="header-section-number">4.1.1</span> The problem before DICOM</a></li>
+  <li><a href="#definition-scope-and-governance" id="toc-definition-scope-and-governance" class="nav-link" data-scroll-target="#definition-scope-and-governance"><span class="header-section-number">4.1.2</span> Definition, scope, and governance</a></li>
+  <li><a href="#functional-capabilities-and-ecosystem" id="toc-functional-capabilities-and-ecosystem" class="nav-link" data-scroll-target="#functional-capabilities-and-ecosystem"><span class="header-section-number">4.1.3</span> Functional capabilities and ecosystem</a></li>
+  </ul></li>
+  <li><a href="#sec-dicom-modelo" id="toc-sec-dicom-modelo" class="nav-link" data-scroll-target="#sec-dicom-modelo"><span class="header-section-number">4.2</span> The DICOM Data Model</a>
+  <ul class="collapse">
+  <li><a href="#from-the-real-world-to-the-dicom-world" id="toc-from-the-real-world-to-the-dicom-world" class="nav-link" data-scroll-target="#from-the-real-world-to-the-dicom-world"><span class="header-section-number">4.2.1</span> From the real world to the DICOM world</a></li>
+  <li><a href="#data-elements-tags-and-the-dictionary-ps3.6" id="toc-data-elements-tags-and-the-dictionary-ps3.6" class="nav-link" data-scroll-target="#data-elements-tags-and-the-dictionary-ps3.6"><span class="header-section-number">4.2.2</span> Data Elements, TAGs, and the Dictionary (PS3.6)</a></li>
+  <li><a href="#value-representations-vr" id="toc-value-representations-vr" class="nav-link" data-scroll-target="#value-representations-vr"><span class="header-section-number">4.2.3</span> Value Representations (VR)</a></li>
+  <li><a href="#integrated-view-tag-vr-vm" id="toc-integrated-view-tag-vr-vm" class="nav-link" data-scroll-target="#integrated-view-tag-vr-vm"><span class="header-section-number">4.2.4</span> Integrated view: TAG + VR + VM</a></li>
+  </ul></li>
+  <li><a href="#sec-dicom-iod" id="toc-sec-dicom-iod" class="nav-link" data-scroll-target="#sec-dicom-iod"><span class="header-section-number">4.3</span> Entities, IODs, and Modules</a>
+  <ul class="collapse">
+  <li><a href="#the-patient-study-series-image-hierarchy" id="toc-the-patient-study-series-image-hierarchy" class="nav-link" data-scroll-target="#the-patient-study-series-image-hierarchy"><span class="header-section-number">4.3.1</span> The Patient → Study → Series → Image hierarchy</a></li>
+  <li><a href="#information-object-definitions-iod" id="toc-information-object-definitions-iod" class="nav-link" data-scroll-target="#information-object-definitions-iod"><span class="header-section-number">4.3.2</span> Information Object Definitions (IOD)</a></li>
+  <li><a href="#information-modules-and-usage-types-mcu" id="toc-information-modules-and-usage-types-mcu" class="nav-link" data-scroll-target="#information-modules-and-usage-types-mcu"><span class="header-section-number">4.3.3</span> Information modules and usage types (M/C/U)</a></li>
+  <li><a href="#the-dicom-file-storage-format" id="toc-the-dicom-file-storage-format" class="nav-link" data-scroll-target="#the-dicom-file-storage-format"><span class="header-section-number">4.3.4</span> The DICOM file: storage format</a></li>
+  </ul></li>
+  <li><a href="#sec-dicom-modelo-sintese" id="toc-sec-dicom-modelo-sintese" class="nav-link" data-scroll-target="#sec-dicom-modelo-sintese"><span class="header-section-number">4.4</span> Summary and Exercises</a>
+  <ul class="collapse">
+  <li><a href="#consolidation-exercises" id="toc-consolidation-exercises" class="nav-link" data-scroll-target="#consolidation-exercises">Consolidation exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-dicom-norma" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-dicom-norma"><span class="header-section-number">4.1</span> The DICOM Standard</h2>
+<section id="the-problem-before-dicom" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="the-problem-before-dicom"><span class="header-section-number">4.1.1</span> The problem before DICOM</h3>
+<p>Until the early 1980s, digital medical imaging was produced by equipment whose storage format was defined exclusively by each manufacturer. A General Electric computed tomography scanner could not export images to a Siemens workstation; a Philips magnetic resonance system stored its files in a format incompatible with any other system. This fragmentation created an absolute dependency on the vendor — the so-called <em>vendor lock-in</em> — and made it impossible to share images between institutions, even when such sharing would have been clinically relevant <span class="citation" data-cites="Pianykh2012">(<a href="../references.html#ref-Pianykh2012" role="doc-biblioref">Pianykh, 2012</a>)</span>.</p>
+<p>The practical consequences were significant: radiological films circulated physically in cardboard envelopes, with risk of loss and deterioration; comparison with previous examinations depended on the availability of the physical archive; and integration with hospital information systems was non-existent. A paradox thus arose: acquisition equipment was technologically advanced, yet the information it produced remained in a proprietary, isolated format <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>.</p>
+</section>
+<section id="definition-scope-and-governance" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="definition-scope-and-governance"><span class="header-section-number">4.1.2</span> Definition, scope, and governance</h3>
+<p>The DICOM standard (<em>Digital Imaging and Communications in Medicine</em>) is the international standard for digital medical imaging. Published as ISO 12052:2017 and managed by MITA (<em>Medical Imaging &amp; Technology Alliance</em>), a division of NEMA (<em>National Electrical Manufacturers Association</em>), the standard is continuously updated — there are no fixed major versions, but dated editions; the current edition is designated PS3 2025e <span class="citation" data-cites="NEMA_DICOM2025">(<a href="../references.html#ref-NEMA_DICOM2025" role="doc-biblioref">NEMA / MITA, 2025e</a>)</span> (as of April 2026).</p>
+<p>The standard is organised into 22 active parts, each covering a specific domain: from introduction and conformance definition (PS3.1–PS3.2) to data structure (PS3.5–PS3.6), message services (PS3.7), network protocol (PS3.8), file format (PS3.10), and security profiles (PS3.15). More than thirty working groups contribute to its ongoing maintenance and evolution.</p>
+<p>In terms of scope, the standard covers all relevant clinical imaging modalities: computed tomography (CT), magnetic resonance (MR), ultrasonography (US), digital radiography (DX), nuclear medicine (NM), radiotherapy, ophthalmology, and others. The standard’s coverage is therefore transversal to all digital medical imaging <span class="citation" data-cites="NEMA_DICOM2025 ISO12052">(<a href="../references.html#ref-ISO12052" role="doc-biblioref">International Organization for Standardization, 2017</a>; <a href="../references.html#ref-NEMA_DICOM2025" role="doc-biblioref">NEMA / MITA, 2025e</a>)</span>.</p>
+</section>
+<section id="functional-capabilities-and-ecosystem" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="functional-capabilities-and-ecosystem"><span class="header-section-number">4.1.3</span> Functional capabilities and ecosystem</h3>
+<p>The DICOM standard covers the complete lifecycle of medical imaging: from <strong>producing</strong> — creating images in a standardised format on any equipment; <strong>storing</strong> — preserving images with all associated metadata; <strong>transmitting</strong> — sending between devices and institutions; <strong>querying</strong> — finding studies by patient, date, or modality; <strong>displaying</strong> — presenting images on diagnostic workstations with appropriate parameters; to <strong>printing</strong> — sending to film or paper printers <span class="citation" data-cites="NEMA_DICOM2025">(<a href="../references.html#ref-NEMA_DICOM2025" role="doc-biblioref">NEMA / MITA, 2025e</a>)</span>.</p>
+<p>From an ecosystem perspective, the standard benefits all stakeholders: <strong>clinicians</strong> gain rapid access to images and reports, including via remote diagnosis; <strong>patients</strong> benefit from faster care and data that can be transferred between institutions; <strong>hospitals</strong> can purchase equipment from different manufacturers with guaranteed compatibility; and the <strong>industry</strong> has access to a broad, competitive market, provided its products comply with the standard <span class="citation" data-cites="Pianykh2012">(<a href="../references.html#ref-Pianykh2012" role="doc-biblioref">Pianykh, 2012</a>)</span>.</p>
+<!--
+  Diagram: Without DICOM (proprietary formats, isolated islands)
+           vs With DICOM (central node, universal interoperability).
+  Teal palette: #0d7c8c main, #1ab3a6 accent, #0a3d4a dark.
+  Width: 700px, height: 220px.
+-->
+<div style="overflow-x:auto; margin: 1.5rem 0;">
+<svg viewbox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;font-family:sans-serif;">
+  <!-- Background -->
+  <rect width="700" height="220" rx="12" fill="#f8fbfc"></rect>
+  <!-- WITHOUT DICOM column -->
+  <text x="170" y="28" text-anchor="middle" font-size="13" font-weight="bold" fill="#b91c1c">Without DICOM</text>
+  <!-- Manufacturer icons — islands -->
+  <rect x="30" y="45" width="90" height="36" rx="6" fill="#fca5a5"></rect>
+  <text x="75" y="68" text-anchor="middle" font-size="11" fill="#7f1d1d">GE (CT)</text>
+  <rect x="140" y="45" width="90" height="36" rx="6" fill="#fca5a5"></rect>
+  <text x="185" y="68" text-anchor="middle" font-size="11" fill="#7f1d1d">Siemens (MR)</text>
+  <rect x="30" y="105" width="90" height="36" rx="6" fill="#fca5a5"></rect>
+  <text x="75" y="128" text-anchor="middle" font-size="11" fill="#7f1d1d">Philips (US)</text>
+  <rect x="140" y="105" width="90" height="36" rx="6" fill="#fca5a5"></rect>
+  <text x="185" y="128" text-anchor="middle" font-size="11" fill="#7f1d1d">Canon (DX)</text>
+  <!-- X connectors -->
+  <line x1="120" y1="63" x2="140" y2="63" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"></line>
+  <line x1="120" y1="123" x2="140" y2="123" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"></line>
+  <line x1="75" y1="81" x2="75" y2="105" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"></line>
+  <line x1="185" y1="81" x2="185" y2="105" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"></line>
+  <text x="152" y="95" text-anchor="middle" font-size="18" fill="#b91c1c">✗</text>
+  <!-- Separator -->
+  <line x1="350" y1="20" x2="350" y2="200" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6"></line>
+  <!-- WITH DICOM column -->
+  <text x="530" y="28" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d7c8c">With DICOM</text>
+  <!-- Central DICOM node -->
+  <ellipse cx="530" cy="110" rx="52" ry="30" fill="#0d7c8c"></ellipse>
+  <text x="530" y="115" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">DICOM</text>
+  <!-- Satellites -->
+  <rect x="415" y="45" width="70" height="28" rx="5" fill="#1ab3a6"></rect>
+  <text x="450" y="64" text-anchor="middle" font-size="10" fill="#fff">GE (CT)</text>
+  <rect x="415" y="140" width="70" height="28" rx="5" fill="#1ab3a6"></rect>
+  <text x="450" y="159" text-anchor="middle" font-size="10" fill="#fff">Philips (US)</text>
+  <rect x="600" y="45" width="70" height="28" rx="5" fill="#1ab3a6"></rect>
+  <text x="635" y="64" text-anchor="middle" font-size="10" fill="#fff">Siemens (MR)</text>
+  <rect x="600" y="140" width="70" height="28" rx="5" fill="#1ab3a6"></rect>
+  <text x="635" y="159" text-anchor="middle" font-size="10" fill="#fff">Canon (DX)</text>
+  <!-- Connection lines -->
+  <line x1="485" y1="94" x2="483" y2="73" stroke="#0a3d4a" stroke-width="1.5"></line>
+  <line x1="485" y1="126" x2="483" y2="144" stroke="#0a3d4a" stroke-width="1.5"></line>
+  <line x1="575" y1="94" x2="600" y2="73" stroke="#0a3d4a" stroke-width="1.5"></line>
+  <line x1="575" y1="126" x2="600" y2="144" stroke="#0a3d4a" stroke-width="1.5"></line>
+  <!-- Caption -->
+  <text x="350" y="208" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 4.1 — Proprietary fragmentation / vendor lock-in (left) vs. DICOM interoperability (right)
+  </text>
+</svg>
+</div>
+</section>
+</section>
+<section id="sec-dicom-modelo" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-dicom-modelo"><span class="header-section-number">4.2</span> The DICOM Data Model</h2>
+<section id="from-the-real-world-to-the-dicom-world" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="from-the-real-world-to-the-dicom-world"><span class="header-section-number">4.2.1</span> From the real world to the DICOM world</h3>
+<p>The conceptual starting point of the DICOM standard is the mapping between entities in the real world (in a clinical context) and their formal, standardised representation in computer systems. In the real world, a patient has a name, identifier, date of birth, sex, and weight; in the standard, each of these attributes is encoded through a standardised numeric code (TAG), a well-defined data type, and a value that follows precise formatting rules <span class="citation" data-cites="DICOM_PS36">(<a href="../references.html#ref-DICOM_PS36" role="doc-biblioref">NEMA / MITA, 2025d</a>)</span>.</p>
+<p>This mapping is ensured by a <strong>dictionary</strong> and guarantees that, regardless of the equipment manufacturer, storage system, or visualisation workstation, the same attribute is always represented in the same way. The concept “patient name” is always encoded by the same dictionary entry, in the same format; “date of birth” always follows the <code>YYYYMMDD</code> notation; “sex” accepts only the enumerated values <code>M</code>, <code>F</code>, or <code>O</code>. Uniformity is not a recommendation — it is an obligation imposed by the standard.</p>
+<div id="tbl-mapeamento" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mapeamento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: Example mapping from the real world to the DICOM world <span class="citation" data-cites="DICOM_PS36">(<a href="../references.html#ref-DICOM_PS36" role="doc-biblioref">NEMA / MITA, 2025d</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-mapeamento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Clinical attribute</th>
+<th>DICOM TAG</th>
+<th>Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Patient’s name</td>
+<td>(0010,0010)</td>
+<td><code>Andrade^Maria</code></td>
+</tr>
+<tr class="even">
+<td>Identifier</td>
+<td>(0010,0020)</td>
+<td><code>1234567</code></td>
+</tr>
+<tr class="odd">
+<td>Date of birth</td>
+<td>(0010,0030)</td>
+<td><code>19650412</code></td>
+</tr>
+<tr class="even">
+<td>Weight (kg)</td>
+<td>(0010,1030)</td>
+<td><code>57.3</code></td>
+</tr>
+<tr class="odd">
+<td>Sex</td>
+<td>(0010,0040)</td>
+<td><code>F</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="data-elements-tags-and-the-dictionary-ps3.6" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="data-elements-tags-and-the-dictionary-ps3.6"><span class="header-section-number">4.2.2</span> Data Elements, TAGs, and the Dictionary (PS3.6)</h3>
+<p>The fundamental unit of information in the DICOM standard is the <strong>Data Element</strong>. In the file — the so-called <em>wire format</em> (PS3.5) — each Data Element is encoded with exactly four fields: the TAG, the VR (<em>Value Representation</em>), the <em>Value Length</em>, and the <em>Value Field</em> <span class="citation" data-cites="DICOM_PS35">(<a href="../references.html#ref-DICOM_PS35" role="doc-biblioref">NEMA / MITA, 2025c</a>)</span>. These four fields are everything that exists in the byte-stream transmitted or stored; there are no other fields in the file.</p>
+<p>The <strong>TAG</strong> is a pair of 16-bit hexadecimal integers written in the form <code>(gggg,eeee)</code>, where <code>gggg</code> is the group number and <code>eeee</code> the element number. The group number thematically groups attributes: group <code>0010</code> contains all patient attributes, group <code>0008</code> the modality identification attributes, group <code>0020</code> the study attributes, group <code>0028</code> the image parameters, and group <code>7FE0</code> contains the pixel data itself <span class="citation" data-cites="DICOM_PS36">(<a href="../references.html#ref-DICOM_PS36" role="doc-biblioref">NEMA / MITA, 2025d</a>)</span>.</p>
+<p>The <strong>Data Dictionary</strong>, defined in part PS3.6 of the standard, constitutes the official registry of all normalised Data Elements. Each dictionary entry is a six-field tuple — but note: this is a different level from the Data Element in the file. Of the six fields, only three (TAG, Name, and VR) are encoded in the <em>wire format</em> (PS3.5); the remaining three (VM, Type, and Description) belong exclusively to the dictionary model — they define the semantic contract of the attribute but do not appear as fields in the file <span class="citation" data-cites="DICOM_PS35 DICOM_PS36">(<a href="../references.html#ref-DICOM_PS35" role="doc-biblioref">NEMA / MITA, 2025c</a>, <a href="../references.html#ref-DICOM_PS36" role="doc-biblioref">2025d</a>)</span>. The following figure illustrates this distinction:</p>
+<!--
+  Diagram: two levels of the DICOM Data Element.
+  Upper level (file): 4 fields encoded in the wire format.
+  Lower level (dictionary): 6 fields of the PS3.6 entry.
+  Arrows indicating which of the 6 dictionary fields correspond
+  to the file fields (TAG, VR) and which are model-only
+  (VM, Type, Description). Name has no direct field in the wire format.
+  Teal palette.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="260" rx="10" fill="#f8fbfc"></rect>
+
+  <!-- LABEL Data Element level -->
+  <text x="14" y="28" font-size="10" font-weight="bold" fill="#0a3d4a">Data Element — serialised fields (PS3.5, §7.1)</text>
+
+  <!-- 4 wire format blocks -->
+  <rect x="14" y="34" width="110" height="44" rx="6" fill="#0a3d4a"></rect>
+  <text x="69" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">TAG</text>
+  <text x="69" y="70" text-anchor="middle" font-size="9" fill="#7dd3d0">on wire</text>
+
+  <rect x="136" y="34" width="110" height="44" rx="6" fill="#0d7c8c"></rect>
+  <text x="191" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">VR</text>
+  <text x="191" y="70" text-anchor="middle" font-size="9" fill="#b2ebf2">on wire</text>
+
+  <rect x="258" y="34" width="140" height="44" rx="6" fill="#1ab3a6"></rect>
+  <text x="328" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Value Length</text>
+  <text x="328" y="70" text-anchor="middle" font-size="9" fill="#e0f7f5">on wire</text>
+
+  <rect x="410" y="34" width="270" height="44" rx="6" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"></rect>
+  <text x="545" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#0a3d4a">Value Field</text>
+  <text x="545" y="70" text-anchor="middle" font-size="9" fill="#0d7c8c">on wire</text>
+
+  <!-- Separator -->
+  <line x1="14" y1="106" x2="686" y2="106" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5"></line>
+
+  <!-- LABEL dictionary level -->
+  <text x="14" y="122" font-size="10" font-weight="bold" fill="#6b7280">Data Dictionary entry (PS3.6)</text>
+
+  <!-- 6 dictionary blocks -->
+  <!-- TAG — corresponds to file -->
+  <rect x="14" y="130" width="95" height="44" rx="6" fill="#0a3d4a"></rect>
+  <text x="61" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">TAG</text>
+  <text x="61" y="165" text-anchor="middle" font-size="8" fill="#7dd3d0">(group, elem.)</text>
+
+  <!-- Name — dictionary only -->
+  <rect x="120" y="130" width="95" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"></rect>
+  <text x="167" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">Name</text>
+  <text x="167" y="165" text-anchor="middle" font-size="8" fill="#6b7280">dictionary only</text>
+
+  <!-- VR — corresponds to file -->
+  <rect x="226" y="130" width="95" height="44" rx="6" fill="#0d7c8c"></rect>
+  <text x="273" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">VR</text>
+  <text x="273" y="165" text-anchor="middle" font-size="8" fill="#b2ebf2">data type</text>
+
+  <!-- VM — dictionary only -->
+  <rect x="332" y="130" width="95" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"></rect>
+  <text x="379" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">VM</text>
+  <text x="379" y="165" text-anchor="middle" font-size="8" fill="#6b7280">dictionary only</text>
+
+  <!-- Type — dictionary only -->
+  <rect x="438" y="130" width="95" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"></rect>
+  <text x="485" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">Type</text>
+  <text x="485" y="165" text-anchor="middle" font-size="8" fill="#6b7280">dictionary only</text>
+
+  <!-- Description — dictionary only -->
+  <rect x="544" y="130" width="140" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"></rect>
+  <text x="614" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151">Description</text>
+  <text x="614" y="165" text-anchor="middle" font-size="8" fill="#6b7280">dictionary only</text>
+
+  <!-- Correspondence arrows: TAG (file) ↔ TAG (dictionary) -->
+  <line x1="69" y1="78" x2="61" y2="130" stroke="#0a3d4a" stroke-width="1.5" stroke-dasharray="4"></line>
+  <!-- Correspondence arrows: VR (file) ↔ VR (dictionary) -->
+  <line x1="191" y1="78" x2="273" y2="130" stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="4"></line>
+
+  <!-- Legend -->
+  <rect x="14" y="196" width="14" height="10" rx="2" fill="#0a3d4a"></rect>
+  <text x="32" y="206" font-size="9" fill="#374151">Field serialised in the Data Element (wire format)</text>
+  <rect x="220" y="196" width="14" height="10" rx="2" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"></rect>
+  <text x="238" y="206" font-size="9" fill="#374151">Field in dictionary only (semantic contract, not serialised)</text>
+
+  <text x="350" y="250" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 4.3 — Data Element in the file (PS3.5) vs. Data Dictionary entry (PS3.6)
+  </text>
+</svg>
+</div>
+<p>The <strong>Type</strong> field indicates the requirement level: <code>1</code> = mandatory and non-empty; <code>1C</code> = conditional; <code>2</code> = mandatory but may be empty; <code>3</code> = optional. This distinction is relevant for validating the conformance of DICOM systems.</p>
+<p>The <strong>VM</strong> (<em>Value Multiplicity</em>) field indicates how many values are permitted in the <em>Value Field</em> of a given attribute. VM <code>1</code> means a single value; VM <code>1-n</code> means one or more values; VM <code>2-2n</code> means an even number of values. For example, the attribute <code>(0008,0061) Modalities in Study</code> has VM <code>1-n</code> — it may contain a single modality (<code>CT</code>) or several (<code>CT</code>, <code>MR</code>, <code>US</code>), depending on the number of series of different types present in the study. Note that VM is a restriction declared in the dictionary; the <em>Value Field</em> in the file does not explicitly carry the number of values — the receiver infers it from the length (<em>Value Length</em>) and the type (VR) <span class="citation" data-cites="DICOM_PS35 DICOM_PS36">(<a href="../references.html#ref-DICOM_PS35" role="doc-biblioref">NEMA / MITA, 2025c</a>, <a href="../references.html#ref-DICOM_PS36" role="doc-biblioref">2025d</a>)</span>.</p>
+</section>
+<section id="value-representations-vr" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="value-representations-vr"><span class="header-section-number">4.2.3</span> Value Representations (VR)</h3>
+<p><em>Value Representations</em> (VR) define the data type of each Data Element. The standard specifies 27 VR types, constituting the DICOM equivalent of data types in a programming language — <code>int</code>, <code>string</code>, <code>date</code>, among others <span class="citation" data-cites="DICOM_PS35">(<a href="../references.html#ref-DICOM_PS35" role="doc-biblioref">NEMA / MITA, 2025c</a>)</span>.</p>
+<p>Each VR is identified by a two-character ASCII code. The most relevant VRs in clinical and technical practice are as follows:</p>
+<div id="tbl-vr" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-vr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.2: Main Value Representations of the DICOM standard <span class="citation" data-cites="DICOM_PS35">(<a href="../references.html#ref-DICOM_PS35" role="doc-biblioref">NEMA / MITA, 2025c</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-vr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 19%">
+<col style="width: 51%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>VR</th>
+<th>Name</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PN</code></td>
+<td>Person Name</td>
+<td>Name in <code>Family^Given^Middle</code> format</td>
+<td><code>Andrade^Maria</code></td>
+</tr>
+<tr class="even">
+<td><code>DA</code></td>
+<td>Date</td>
+<td>Date in <code>YYYYMMDD</code> format</td>
+<td><code>19650412</code></td>
+</tr>
+<tr class="odd">
+<td><code>DS</code></td>
+<td>Decimal String</td>
+<td>Decimal number represented as text</td>
+<td><code>57.3</code></td>
+</tr>
+<tr class="even">
+<td><code>CS</code></td>
+<td>Code String</td>
+<td>Controlled-domain code</td>
+<td><code>CT</code>, <code>MR</code>, <code>US</code></td>
+</tr>
+<tr class="odd">
+<td><code>UI</code></td>
+<td>Unique Identifier</td>
+<td>Globally unique UID (dot-separated syntax)</td>
+<td><code>1.2.840.10008...</code></td>
+</tr>
+<tr class="even">
+<td><code>US</code></td>
+<td>Unsigned Short</td>
+<td>16-bit unsigned integer</td>
+<td><code>512</code></td>
+</tr>
+<tr class="odd">
+<td><code>OW</code></td>
+<td>Other Word</td>
+<td>Binary data (e.g.&nbsp;pixels)</td>
+<td><em>(binary data)</em></td>
+</tr>
+<tr class="even">
+<td><code>LO</code></td>
+<td>Long String</td>
+<td>Text up to 64 characters</td>
+<td><code>Hospital UTAD</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Note that the VR <code>OW</code> (<em>Other Word</em>) is used for the field <code>(7FE0,0010) Pixel Data</code>, which contains the binary image data — which may be in raw or compressed format (JPEG, JPEG 2000, RLE). The choice of compression format is negotiated between devices during the establishment of the DICOM association.</p>
+</section>
+<section id="integrated-view-tag-vr-vm" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="integrated-view-tag-vr-vm"><span class="header-section-number">4.2.4</span> Integrated view: TAG + VR + VM</h3>
+<p>The three concepts — TAG, VR, and VM — articulate in a precise relationship: the TAG identifies <strong>what</strong>, the VR defines <strong>how</strong> the value is encoded, and the VM indicates <strong>how many</strong> values are permitted in the <em>Value Field</em>. This triple contract is declared in the Data Dictionary for each normalised attribute <span class="citation" data-cites="DICOM_PS36">(<a href="../references.html#ref-DICOM_PS36" role="doc-biblioref">NEMA / MITA, 2025d</a>)</span>.</p>
+<p>The following table illustrates the integrated view of a set of representative Data Elements:</p>
+<div id="tbl-de-integrado" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-de-integrado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.3: Integrated view of selected Data Elements <span class="citation" data-cites="DICOM_PS35 DICOM_PS36">(<a href="../references.html#ref-DICOM_PS35" role="doc-biblioref">NEMA / MITA, 2025c</a>, <a href="../references.html#ref-DICOM_PS36" role="doc-biblioref">2025d</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-de-integrado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 29%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>TAG</th>
+<th>Name</th>
+<th>VR</th>
+<th>VM</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>(0008,0060)</code></td>
+<td>Modality</td>
+<td><code>CS</code></td>
+<td>1</td>
+<td>Values: <code>CT</code>, <code>MR</code>, <code>US</code>, <code>DX</code>…</td>
+</tr>
+<tr class="even">
+<td><code>(0010,0010)</code></td>
+<td>Patient’s Name</td>
+<td><code>PN</code></td>
+<td>1</td>
+<td>Format: <code>Family^Given</code></td>
+</tr>
+<tr class="odd">
+<td><code>(0010,0030)</code></td>
+<td>Patient’s Birth Date</td>
+<td><code>DA</code></td>
+<td>1</td>
+<td>Format: <code>YYYYMMDD</code></td>
+</tr>
+<tr class="even">
+<td><code>(0010,1030)</code></td>
+<td>Patient’s Weight</td>
+<td><code>DS</code></td>
+<td>1</td>
+<td>Weight in kg as decimal string</td>
+</tr>
+<tr class="odd">
+<td><code>(0020,000D)</code></td>
+<td>Study Instance UID</td>
+<td><code>UI</code></td>
+<td>1</td>
+<td>Globally unique study UID</td>
+</tr>
+<tr class="even">
+<td><code>(0028,0010)</code></td>
+<td>Rows</td>
+<td><code>US</code></td>
+<td>1</td>
+<td>Number of rows; 16-bit integer</td>
+</tr>
+<tr class="odd">
+<td><code>(7FE0,0010)</code></td>
+<td>Pixel Data</td>
+<td><code>OW</code></td>
+<td>1</td>
+<td>Binary image data</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A complete Data Element with a real value looks as follows:</p>
+<pre><code>TAG         VR    Value Length   Value Field
+(0010,0010) PN    16             COUTO^FERNANDO</code></pre>
+<p>In this example, the TAG <code>(0010,0010)</code> identifies the attribute “patient name”; the VR <code>PN</code> specifies that the value follows the <em>Person Name</em> format; the <em>Value Length</em> indicates that the value occupies 16 bytes; and the <em>Value Field</em> contains the name encoded in the <code>Family^Given</code> convention <span class="citation" data-cites="DICOM_PS35">(<a href="../references.html#ref-DICOM_PS35" role="doc-biblioref">NEMA / MITA, 2025c</a>)</span>.</p>
+</section>
+</section>
+<section id="sec-dicom-iod" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-dicom-iod"><span class="header-section-number">4.3</span> Entities, IODs, and Modules</h2>
+<section id="the-patient-study-series-image-hierarchy" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="the-patient-study-series-image-hierarchy"><span class="header-section-number">4.3.1</span> The Patient → Study → Series → Image hierarchy</h3>
+<p>The DICOM information model organises data in a four-level hierarchy that reflects the real clinical workflow. Each level corresponds to an <strong>Information Entity</strong> (IE) and contains one or more elements of the immediately lower level <span class="citation" data-cites="DICOM_PS33">(<a href="../references.html#ref-DICOM_PS33" role="doc-biblioref">NEMA / MITA, 2025b</a>)</span>.</p>
+<p><strong>Patient</strong> — represents the person. Stores demographic data: name, identifier, date of birth, sex. A patient may have multiple studies over time.</p>
+<p><strong>Study</strong> — corresponds to a clinical imaging episode: a date, a description, a referring physician, and a globally unique study UID. Each study contains one or more series.</p>
+<p><strong>Series</strong> — corresponds to a specific acquisition within the study. It identifies the modality (<code>CT</code>, <code>MR</code>…), the series number, and the patient’s position. A brain CT study may have, for example, five series: non-contrast, contrast-enhanced, bone reconstruction, 3D reconstruction, and localiser image (<em>scout</em>).</p>
+<p><strong>Image</strong> — is the atomic unit of information: an individual image, with its pixel dimensions, bit depth, compression parameters, and above all, the <em>Pixel Data</em> itself. Each image is identified by a globally unique, non-repeating UID generated by the acquisition equipment at capture time.</p>
+<p>The practical consequence of this hierarchy is direct: a single multi-series brain CT can generate approximately 1,500 distinct DICOM files — each containing all the metadata from the four levels (Patient, Study, Series, Image) plus the pixels of that specific image <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>.</p>
+<!--
+  Diagram: Patient → Study → Series → Image hierarchy.
+  Four cascading boxes, indented, with containment arrows.
+  Teal palette.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 640 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;font-family:sans-serif;">
+  <rect width="640" height="200" rx="10" fill="#f8fbfc"></rect>
+  <!-- Patient -->
+  <rect x="20" y="20" width="580" height="38" rx="7" fill="#0a3d4a"></rect>
+  <text x="40" y="44" font-size="13" font-weight="bold" fill="#fff">Patient</text>
+  <text x="160" y="44" font-size="11" fill="#7dd3d0">name · ID · date of birth · sex</text>
+  <!-- Study -->
+  <rect x="50" y="68" width="520" height="34" rx="7" fill="#0d7c8c"></rect>
+  <text x="70" y="90" font-size="12" font-weight="bold" fill="#fff">Study</text>
+  <text x="160" y="90" font-size="11" fill="#b2ebf2">date · description · referring physician · Study UID</text>
+  <!-- Series -->
+  <rect x="80" y="112" width="460" height="34" rx="7" fill="#1ab3a6"></rect>
+  <text x="100" y="134" font-size="12" font-weight="bold" fill="#fff">Series</text>
+  <text x="185" y="134" font-size="11" fill="#e0f7f5">modality · series no. · patient position</text>
+  <!-- Image -->
+  <rect x="110" y="156" width="400" height="30" rx="7" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"></rect>
+  <text x="130" y="176" font-size="12" font-weight="bold" fill="#0a3d4a">Image</text>
+  <text x="210" y="176" font-size="11" fill="#0d7c8c">pixels · dimensions · bits · unique UID</text>
+  <!-- Containment arrows -->
+  <line x1="38" y1="58" x2="38" y2="68" stroke="#7dd3d0" stroke-width="1.5" marker-end="url(#arr)"></line>
+  <line x1="68" y1="102" x2="68" y2="112" stroke="#b2ebf2" stroke-width="1.5" marker-end="url(#arr)"></line>
+  <line x1="98" y1="146" x2="98" y2="156" stroke="#1ab3a6" stroke-width="1.5" marker-end="url(#arr)"></line>
+  <defs>
+    <marker id="arr" markerwidth="6" markerheight="6" refx="3" refy="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"></path>
+    </marker>
+  </defs>
+  <!-- Caption -->
+  <text x="320" y="197" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 4.3 — DICOM information entity hierarchy (PS3.3, §A.1)
+  </text>
+</svg>
+</div>
+</section>
+<section id="information-object-definitions-iod" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="information-object-definitions-iod"><span class="header-section-number">4.3.2</span> Information Object Definitions (IOD)</h3>
+<p>An <strong>IOD</strong> (<em>Information Object Definition</em>) is the formal specification of the set of attributes that describes a particular type of DICOM object. It is not a file — it is a normative definition: it states which attributes are mandatory, conditional, and optional for a given type of medical image or document <span class="citation" data-cites="DICOM_PS33">(<a href="../references.html#ref-DICOM_PS33" role="doc-biblioref">NEMA / MITA, 2025b</a>)</span>.</p>
+<p>The standard defines a composite IOD (<em>Composite IOD</em>) for each relevant modality: CT Image IOD, MR Image IOD, CR Image IOD, US Image IOD, and others. A fundamental point that deserves explicit attention: <strong>a composite IOD always describes a single image</strong> — not a study or a series. The IOD is instantiated once per image; a CT with 300 slices generates 300 instances of the CT Image IOD, each in an independent DICOM file.</p>
+<p>Each instance carries with it the attributes of <em>all</em> hierarchical levels: patient, study, series, and image data. The logical grouping into series and studies is not performed by physical references between files — it is inferred from shared UIDs: all images in the same series share the same <code>Series Instance UID</code>; all images in the same study share the same <code>Study Instance UID</code>. The hierarchy exists in the metadata of each individual file; any system reading them can reconstruct it without requiring external structures <span class="citation" data-cites="DICOM_PS33">(<a href="../references.html#ref-DICOM_PS33" role="doc-biblioref">NEMA / MITA, 2025b</a>)</span>.</p>
+<p>Each composite IOD is derived from a general entity model (<em>DICOM Composite Instance IOD Information Model</em>) that formalises the relationships between Patient, Study, Equipment, Frame of Reference, Series, and the various types of possible instances (Image, SR Document, Waveform, Surface, etc.) <span class="citation" data-cites="DICOM_PS33">(<a href="../references.html#ref-DICOM_PS33" role="doc-biblioref">NEMA / MITA, 2025b</a>)</span>.</p>
+<p>For example, the <strong>CR Image IOD</strong> (<em>Computed Radiography</em>) includes, in terms of information entities (IE): Patient, Study, Series, Equipment, and Image — all present in each individual file. Each IE is specified by the modules that belong to it, with their respective usage level.</p>
+</section>
+<section id="information-modules-and-usage-types-mcu" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="information-modules-and-usage-types-mcu"><span class="header-section-number">4.3.3</span> Information modules and usage types (M/C/U)</h3>
+<p>Each IE of an IOD is composed of <strong>modules</strong> — thematic groupings of related Data Elements. A module always has an associated usage level <span class="citation" data-cites="DICOM_PS33">(<a href="../references.html#ref-DICOM_PS33" role="doc-biblioref">NEMA / MITA, 2025b</a>)</span>:</p>
+<ul>
+<li><strong>M</strong> (<em>Mandatory</em>) — mandatory; must be present and populated.</li>
+<li><strong>C</strong> (<em>Conditional</em>) — conditional; mandatory only when a specific condition is met (e.g., the <em>Contrast/Bolus</em> module is <code>C</code> — mandatory if contrast medium was used).</li>
+<li><strong>U</strong> (<em>User Optional</em>) — optional; may be included or omitted by the manufacturer.</li>
+</ul>
+<p>The <strong>Patient Module</strong> (reference C.7.1.1), mandatory (<code>M</code>) in all composite IODs, groups the patient identification attributes: <code>(0010,0010) Patient's Name</code> (Type 2), <code>(0010,0020) Patient ID</code> (Type 2), <code>(0010,0030) Patient's Birth Date</code> (Type 3), and <code>(0010,0040) Patient's Sex</code> (Type 2), among others. Note that Type 2 means the attribute must be present but may have an empty value — something clinically relevant in emergency contexts <span class="citation" data-cites="DICOM_PS33">(<a href="../references.html#ref-DICOM_PS33" role="doc-biblioref">NEMA / MITA, 2025b</a>)</span>.</p>
+</section>
+<section id="the-dicom-file-storage-format" class="level3" data-number="4.3.4">
+<h3 data-number="4.3.4" class="anchored" data-anchor-id="the-dicom-file-storage-format"><span class="header-section-number">4.3.4</span> The DICOM file: storage format</h3>
+<p>The composite IOD defines <em>which</em> attributes describe an image; part PS3.10 of the standard defines <em>how</em> those attributes are physically stored in a file. These are two distinct planes: the model and the packaging.</p>
+<p>A DICOM file begins with a <strong>preamble</strong> of 128 bytes (reserved, usually null) followed by the ASCII prefix <code>DICM</code>. Next comes the <strong>File Meta Information</strong> — a set of group <code>0002</code> Data Elements describing the file itself: the format version, the stored SOP Class, the instance UID, and the negotiated Transfer Syntax (which determines the compression format of the Pixel Data). After this header follows the sequence of IOD Data Elements, ordered by ascending TAG <span class="citation" data-cites="DICOM_PS310">(<a href="../references.html#ref-DICOM_PS310" role="doc-biblioref">NEMA / MITA, 2025a</a>)</span>.</p>
+<p>The Transfer Syntax is an important detail: it tells the receiver whether the Pixel Data is in raw format (uncompressed), JPEG Baseline, JPEG 2000, or RLE. This information is in the file header — not in the Pixel Data itself — which allows the receiver to select the correct decoder before reading the pixels.</p>
+<p>A representative excerpt from a CT DICOM file, as displayed in a metadata viewer such as <code>dcmdump</code> (DCMTK), illustrates the sequence of Data Elements ordered by TAG:</p>
+<pre><code>(0008,0060) CS  Modality              [CT]
+(0008,1030) LO  Study Description     [BRAIN CT]
+(0010,0010) PN  Patient's Name        [COUTO^FERNANDO]
+(0010,0020) LO  Patient ID            [987654]
+(0010,0030) DA  Patient's Birth Date  [19650412]
+(0028,0010) US  Rows                  [512]
+(0028,0011) US  Columns               [512]
+(7FE0,0010) OW  Pixel Data            [binary — 524288 bytes]</code></pre>
+<p>Note that all metadata from the four hierarchical levels (Patient, Study, Series, Image) are present in each individual DICOM file. This intentional redundancy ensures that any file is self-sufficient and can be interpreted without depending on an external database <span class="citation" data-cites="DICOM_PS310 Pianykh2012">(<a href="../references.html#ref-DICOM_PS310" role="doc-biblioref">NEMA / MITA, 2025a</a>; <a href="../references.html#ref-Pianykh2012" role="doc-biblioref">Pianykh, 2012</a>)</span>.</p>
+</section>
+</section>
+<section id="sec-dicom-modelo-sintese" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-dicom-modelo-sintese"><span class="header-section-number">4.4</span> Summary and Exercises</h2>
+<section id="consolidation-exercises" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="consolidation-exercises">Consolidation exercises</h3>
+<ol type="1">
+<li><p>A CT DICOM file contains the Data Element <code>(0010,0030) DA 8 19820915</code>. Interpret each field (TAG, VR, <em>Value Length</em>, <em>Value Field</em>), indicating the thematic group to which the TAG belongs and the clinical meaning of the value.</p></li>
+<li><p>Explain why a composite CT Image IOD with 300 images generates 300 independent DICOM files rather than a single file. How is the Study/Series hierarchy reconstructed from those files?</p></li>
+<li><p>Distinguish the fields that physically exist in a serialised Data Element from the fields that belong exclusively to the corresponding entry in the Data Dictionary. Why is this distinction relevant for implementing a DICOM system?</p></li>
+<li><p>A Data Dictionary entry has VM <code>1-n</code> and Type <code>2</code>. What do these two values mean together for a system validating the conformance of a received DICOM file?</p></li>
+<li><p>The 128-byte preamble of a DICOM file is corrupted. Discuss the impact of this corruption on the ability of a PS3.10-conformant system to process the file.</p></li>
+</ol>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-Huang2010" class="csl-entry" role="listitem">
+Huang, H. K. (2010). <em><span>PACS</span> and imaging informatics: Basic principles and applications</em> (2nd ed.). Wiley-Blackwell. <a href="https://doi.org/10.1002/9780470823507">https://doi.org/10.1002/9780470823507</a>
+</div>
+<div id="ref-ISO12052" class="csl-entry" role="listitem">
+International Organization for Standardization. (2017). <em><span>ISO</span> 12052:2017 — health informatics — digital imaging and communication in medicine (<span>DICOM</span>) including workflow and data management</em>. <a href="https://www.iso.org/standard/68145.html" class="uri">https://www.iso.org/standard/68145.html</a>.
+</div>
+<div id="ref-DICOM_PS310" class="csl-entry" role="listitem">
+NEMA / MITA. (2025a). <em><span>DICOM PS3.10</span> 2025e — media storage and file format</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part10.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part10.html</a>.
+</div>
+<div id="ref-DICOM_PS33" class="csl-entry" role="listitem">
+NEMA / MITA. (2025b). <em><span>DICOM PS3.3</span> 2025e — information object definitions</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part03.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part03.html</a>.
+</div>
+<div id="ref-DICOM_PS35" class="csl-entry" role="listitem">
+NEMA / MITA. (2025c). <em><span>DICOM PS3.5</span> 2025e — data structures and encoding</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part05.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part05.html</a>.
+</div>
+<div id="ref-DICOM_PS36" class="csl-entry" role="listitem">
+NEMA / MITA. (2025d). <em><span>DICOM PS3.6</span> 2025e — data dictionary</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part06.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part06.html</a>.
+</div>
+<div id="ref-NEMA_DICOM2025" class="csl-entry" role="listitem">
+NEMA / MITA. (2025e). <em><span>DICOM</span> standard <span>PS3</span> 2025e</em>. <a href="https://www.dicomstandard.org/current" class="uri">https://www.dicomstandard.org/current</a>.
+</div>
+<div id="ref-Pianykh2012" class="csl-entry" role="listitem">
+Pianykh, O. S. (2012). <em>Digital imaging and communications in medicine (<span>DICOM</span>): A practical introduction and survival guide</em> (2nd ed.). Springer. <a href="https://doi.org/10.1007/978-3-642-10850-1">https://doi.org/10.1007/978-3-642-10850-1</a>
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  var path = window.location.pathname;
+  var isEn = path.indexOf('/en/') !== -1;
+
+  var target, label, title;
+  if (isEn) {
+    target = path.replace('/en/', '/');
+    label  = '🇵🇹 PT';
+    title  = 'Mudar para Português';
+  } else {
+    var m = path.match(/^(\/[^/]*)(\/.*)$/);
+    target = m ? m[1] + '/en' + m[2] : '/en/';
+    label  = '🇬🇧 EN';
+    title  = 'Switch to English';
+  }
+
+  var btn = document.createElement('a');
+  btn.href  = target;
+  btn.title = title;
+  btn.textContent = label;
+  btn.style.cssText =
+    'position:fixed;top:68px;right:16px;z-index:9999;' +
+    'background:#0d7c8c;color:#fff;border-radius:6px;' +
+    'padding:5px 11px;font-size:13px;font-weight:600;' +
+    'text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.2);' +
+    'transition:background .2s;';
+  btn.onmouseover = function () { this.style.background = '#0a3d4a'; };
+  btn.onmouseout  = function () { this.style.background = '#0d7c8c'; };
+  document.body.appendChild(btn);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/cap03.html" class="pagination-link" aria-label="Terminologies and Semantic Interoperability">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/cap05.html" class="pagination-link" aria-label="DICOM Services and PACS Architecture">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "DICOM as a Data Model"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> en-GB</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## The DICOM Standard {#sec-dicom-norma}</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">### The problem before DICOM</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>Until the early 1980s, digital medical imaging was produced by equipment</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>whose storage format was defined exclusively by each manufacturer. A</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>General Electric computed tomography scanner could not export images to</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>a Siemens workstation; a Philips magnetic resonance system stored its</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>files in a format incompatible with any other system. This fragmentation</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>created an absolute dependency on the vendor — the so-called</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>*vendor lock-in* — and made it impossible to share images between</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>institutions, even when such sharing would have been clinically relevant</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@Pianykh2012</span><span class="co">]</span>.</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>The practical consequences were significant: radiological films</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>circulated physically in cardboard envelopes, with risk of loss and</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>deterioration; comparison with previous examinations depended on the</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>availability of the physical archive; and integration with hospital</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>information systems was non-existent. A paradox thus arose: acquisition</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>equipment was technologically advanced, yet the information it produced</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>remained in a proprietary, isolated format <span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>.</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Definition, scope, and governance</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>The DICOM standard (*Digital Imaging and Communications in Medicine*)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>is the international standard for digital medical imaging.</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>Published as ISO 12052:2017 and managed by MITA (*Medical</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>Imaging &amp; Technology Alliance*), a division of NEMA (*National Electrical</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>Manufacturers Association*), the standard is continuously updated —</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>there are no fixed major versions, but dated editions; the current</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>edition is designated PS3 2025e <span class="co">[</span><span class="ot">@NEMA_DICOM2025</span><span class="co">]</span> (as of April 2026).</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>The standard is organised into 22 active parts, each covering a specific</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>domain: from introduction and conformance definition (PS3.1–PS3.2) to</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>data structure (PS3.5–PS3.6), message services (PS3.7), network protocol</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>(PS3.8), file format (PS3.10), and security profiles (PS3.15). More than</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>thirty working groups contribute to its ongoing maintenance and evolution.</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>In terms of scope, the standard covers all relevant clinical imaging</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>modalities: computed tomography (CT), magnetic resonance (MR),</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>ultrasonography (US), digital radiography (DX), nuclear medicine (NM),</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>radiotherapy, ophthalmology, and others. The standard's coverage is</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>therefore transversal to all digital medical imaging</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@NEMA_DICOM2025; @ISO12052</span><span class="co">]</span>.</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="fu">### Functional capabilities and ecosystem</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>The DICOM standard covers the complete lifecycle of medical imaging: from</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>**producing** — creating images in a standardised format on any equipment;</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>**storing** — preserving images with all associated metadata;</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>**transmitting** — sending between devices and institutions;</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>**querying** — finding studies by patient, date, or modality;</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>**displaying** — presenting images on diagnostic workstations with</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>appropriate parameters; to **printing** — sending to film or paper</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>printers <span class="co">[</span><span class="ot">@NEMA_DICOM2025</span><span class="co">]</span>.</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>From an ecosystem perspective, the standard benefits all stakeholders:</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>**clinicians** gain rapid access to images and reports, including via</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>remote diagnosis; **patients** benefit from faster care and data that</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>can be transferred between institutions; **hospitals** can purchase</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>equipment from different manufacturers with guaranteed compatibility;</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>and the **industry** has access to a broad, competitive market, provided</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>its products comply with the standard <span class="co">[</span><span class="ot">@Pianykh2012</span><span class="co">]</span>.</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="in">  Diagram: Without DICOM (proprietary formats, isolated islands)</span></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="in">           vs With DICOM (central node, universal interoperability).</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="in">  Teal palette: #0d7c8c main, #1ab3a6 accent, #0a3d4a dark.</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="in">  Width: 700px, height: 220px.</span></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="overflow-x:auto; margin: 1.5rem 0;"&gt;</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg"</span></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="in">     style="width:100%;max-width:700px;font-family:sans-serif;"&gt;</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Background --&gt;</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect width="700" height="220" rx="12" fill="#f8fbfc"/&gt;</span></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- WITHOUT DICOM column --&gt;</span></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="170" y="28" text-anchor="middle" font-size="13"</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="in">        font-weight="bold" fill="#b91c1c"&gt;Without DICOM&lt;/text&gt;</span></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Manufacturer icons — islands --&gt;</span></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30"  y="45" width="90" height="36" rx="6" fill="#fca5a5"/&gt;</span></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="75"  y="68" text-anchor="middle" font-size="11" fill="#7f1d1d"&gt;GE (CT)&lt;/text&gt;</span></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="140" y="45" width="90" height="36" rx="6" fill="#fca5a5"/&gt;</span></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="185" y="68" text-anchor="middle" font-size="11" fill="#7f1d1d"&gt;Siemens (MR)&lt;/text&gt;</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30"  y="105" width="90" height="36" rx="6" fill="#fca5a5"/&gt;</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="75"  y="128" text-anchor="middle" font-size="11" fill="#7f1d1d"&gt;Philips (US)&lt;/text&gt;</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="140" y="105" width="90" height="36" rx="6" fill="#fca5a5"/&gt;</span></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="185" y="128" text-anchor="middle" font-size="11" fill="#7f1d1d"&gt;Canon (DX)&lt;/text&gt;</span></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- X connectors --&gt;</span></span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="120" y1="63" x2="140" y2="63" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"/&gt;</span></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="120" y1="123" x2="140" y2="123" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"/&gt;</span></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="75" y1="81" x2="75" y2="105" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"/&gt;</span></span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="185" y1="81" x2="185" y2="105" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4"/&gt;</span></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="152" y="95" text-anchor="middle" font-size="18" fill="#b91c1c"&gt;✗&lt;/text&gt;</span></span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Separator --&gt;</span></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="350" y1="20" x2="350" y2="200" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6"/&gt;</span></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- WITH DICOM column --&gt;</span></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="530" y="28" text-anchor="middle" font-size="13"</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a><span class="in">        font-weight="bold" fill="#0d7c8c"&gt;With DICOM&lt;/text&gt;</span></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Central DICOM node --&gt;</span></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;ellipse cx="530" cy="110" rx="52" ry="30" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="530" y="115" text-anchor="middle" font-size="13"</span></span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a><span class="in">        font-weight="bold" fill="#fff"&gt;DICOM&lt;/text&gt;</span></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Satellites --&gt;</span></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="415" y="45" width="70" height="28" rx="5" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="450" y="64" text-anchor="middle" font-size="10" fill="#fff"&gt;GE (CT)&lt;/text&gt;</span></span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="415" y="140" width="70" height="28" rx="5" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="450" y="159" text-anchor="middle" font-size="10" fill="#fff"&gt;Philips (US)&lt;/text&gt;</span></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="600" y="45" width="70" height="28" rx="5" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="635" y="64" text-anchor="middle" font-size="10" fill="#fff"&gt;Siemens (MR)&lt;/text&gt;</span></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="600" y="140" width="70" height="28" rx="5" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="635" y="159" text-anchor="middle" font-size="10" fill="#fff"&gt;Canon (DX)&lt;/text&gt;</span></span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Connection lines --&gt;</span></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="485" y1="94" x2="483" y2="73" stroke="#0a3d4a" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="485" y1="126" x2="483" y2="144" stroke="#0a3d4a" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="575" y1="94" x2="600" y2="73" stroke="#0a3d4a" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="575" y1="126" x2="600" y2="144" stroke="#0a3d4a" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Caption --&gt;</span></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="350" y="208" text-anchor="middle" font-size="14" fill="#64748b"&gt;</span></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="in">    Figure 4.1 — Proprietary fragmentation / vendor lock-in (left) vs. DICOM interoperability (right)</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/text&gt;</span></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/svg&gt;</span></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a><span class="fu">## The DICOM Data Model {#sec-dicom-modelo}</span></span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### From the real world to the DICOM world</span></span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>The conceptual starting point of the DICOM standard is the mapping</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>between entities in the real world (in a clinical context) and their</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>formal, standardised representation in computer systems. In the real</span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>world, a patient has a name, identifier, date of birth, sex, and weight;</span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>in the standard, each of these attributes is encoded through a</span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>standardised numeric code (TAG), a well-defined data type, and a value</span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>that follows precise formatting rules <span class="co">[</span><span class="ot">@DICOM_PS36</span><span class="co">]</span>.</span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>This mapping is ensured by a **dictionary** and guarantees that,</span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a>regardless of the equipment manufacturer, storage system, or</span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>visualisation workstation, the same attribute is always represented in</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a>the same way. The concept "patient name" is always encoded by the same</span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>dictionary entry, in the same format; "date of birth" always follows the</span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="in">`YYYYMMDD`</span> notation; "sex" accepts only the enumerated values <span class="in">`M`</span>, <span class="in">`F`</span>,</span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>or <span class="in">`O`</span>. Uniformity is not a recommendation — it is an obligation imposed</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a>by the standard.</span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>| Clinical attribute      | DICOM TAG    | Example value   |</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>|-------------------------|--------------|-----------------|</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>| Patient's name          | (0010,0010)  | <span class="in">`Andrade^Maria`</span> |</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>| Identifier              | (0010,0020)  | <span class="in">`1234567`</span>       |</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>| Date of birth           | (0010,0030)  | <span class="in">`19650412`</span>      |</span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>| Weight (kg)             | (0010,1030)  | <span class="in">`57.3`</span>          |</span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>| Sex                     | (0010,0040)  | <span class="in">`F`</span>             |</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>: Example mapping from the real world to the DICOM world <span class="co">[</span><span class="ot">@DICOM_PS36</span><span class="co">]</span>. {#tbl-mapeamento}</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data Elements, TAGs, and the Dictionary (PS3.6)</span></span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>The fundamental unit of information in the DICOM standard is the **Data</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>Element**. In the file — the so-called *wire format* (PS3.5) — each</span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>Data Element is encoded with exactly four fields: the TAG, the VR</span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>(*Value Representation*), the *Value Length*, and the *Value Field*</span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS35</span><span class="co">]</span>. These four fields are everything that exists in the</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>byte-stream transmitted or stored; there are no other fields in the file.</span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>The **TAG** is a pair of 16-bit hexadecimal integers written in the form</span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a><span class="in">`(gggg,eeee)`</span>, where <span class="in">`gggg`</span> is the group number and <span class="in">`eeee`</span> the element</span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a>number. The group number thematically groups attributes: group <span class="in">`0010`</span></span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>contains all patient attributes, group <span class="in">`0008`</span> the modality identification</span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>attributes, group <span class="in">`0020`</span> the study attributes, group <span class="in">`0028`</span> the image</span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>parameters, and group <span class="in">`7FE0`</span> contains the pixel data itself</span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS36</span><span class="co">]</span>.</span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>The **Data Dictionary**, defined in part PS3.6 of the standard,</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a>constitutes the official registry of all normalised Data Elements. Each</span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a>dictionary entry is a six-field tuple — but note: this is a different</span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a>level from the Data Element in the file. Of the six fields, only three</span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a>(TAG, Name, and VR) are encoded in the *wire format* (PS3.5); the</span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a>remaining three (VM, Type, and Description) belong exclusively to the</span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a>dictionary model — they define the semantic contract of the attribute</span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a>but do not appear as fields in the file <span class="co">[</span><span class="ot">@DICOM_PS35; @DICOM_PS36</span><span class="co">]</span>.</span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a>The following figure illustrates this distinction:</span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a><span class="in">  Diagram: two levels of the DICOM Data Element.</span></span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a><span class="in">  Upper level (file): 4 fields encoded in the wire format.</span></span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a><span class="in">  Lower level (dictionary): 6 fields of the PS3.6 entry.</span></span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a><span class="in">  Arrows indicating which of the 6 dictionary fields correspond</span></span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a><span class="in">  to the file fields (TAG, VR) and which are model-only</span></span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a><span class="in">  (VM, Type, Description). Name has no direct field in the wire format.</span></span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a><span class="in">  Teal palette.</span></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="overflow-x:auto; margin:1.5rem 0;"&gt;</span></span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg"</span></span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a><span class="in">     style="width:100%;max-width:700px;font-family:sans-serif;"&gt;</span></span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect width="700" height="260" rx="10" fill="#f8fbfc"/&gt;</span></span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- LABEL Data Element level --&gt;</span></span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="14" y="28" font-size="10" font-weight="bold" fill="#0a3d4a"&gt;Data Element — serialised fields (PS3.5, §7.1)&lt;/text&gt;</span></span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- 4 wire format blocks --&gt;</span></span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="14"  y="34" width="110" height="44" rx="6" fill="#0a3d4a"/&gt;</span></span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="69"  y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff"&gt;TAG&lt;/text&gt;</span></span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="69"  y="70" text-anchor="middle" font-size="9"  fill="#7dd3d0"&gt;on wire&lt;/text&gt;</span></span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="136" y="34" width="110" height="44" rx="6" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="191" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff"&gt;VR&lt;/text&gt;</span></span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="191" y="70" text-anchor="middle" font-size="9"  fill="#b2ebf2"&gt;on wire&lt;/text&gt;</span></span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="258" y="34" width="140" height="44" rx="6" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="328" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff"&gt;Value Length&lt;/text&gt;</span></span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="328" y="70" text-anchor="middle" font-size="9"  fill="#e0f7f5"&gt;on wire&lt;/text&gt;</span></span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="410" y="34" width="270" height="44" rx="6" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="545" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="#0a3d4a"&gt;Value Field&lt;/text&gt;</span></span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="545" y="70" text-anchor="middle" font-size="9"  fill="#0d7c8c"&gt;on wire&lt;/text&gt;</span></span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Separator --&gt;</span></span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="14" y1="106" x2="686" y2="106" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5"/&gt;</span></span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- LABEL dictionary level --&gt;</span></span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="14" y="122" font-size="10" font-weight="bold" fill="#6b7280"&gt;Data Dictionary entry (PS3.6)&lt;/text&gt;</span></span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- 6 dictionary blocks --&gt;</span></span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- TAG — corresponds to file --&gt;</span></span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="14"  y="130" width="95" height="44" rx="6" fill="#0a3d4a"/&gt;</span></span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="61"  y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff"&gt;TAG&lt;/text&gt;</span></span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="61"  y="165" text-anchor="middle" font-size="8"  fill="#7dd3d0"&gt;(group, elem.)&lt;/text&gt;</span></span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Name — dictionary only --&gt;</span></span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="120" y="130" width="95" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="167" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151"&gt;Name&lt;/text&gt;</span></span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="167" y="165" text-anchor="middle" font-size="8"  fill="#6b7280"&gt;dictionary only&lt;/text&gt;</span></span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- VR — corresponds to file --&gt;</span></span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="226" y="130" width="95" height="44" rx="6" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="273" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff"&gt;VR&lt;/text&gt;</span></span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="273" y="165" text-anchor="middle" font-size="8"  fill="#b2ebf2"&gt;data type&lt;/text&gt;</span></span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- VM — dictionary only --&gt;</span></span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="332" y="130" width="95" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="379" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151"&gt;VM&lt;/text&gt;</span></span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="379" y="165" text-anchor="middle" font-size="8"  fill="#6b7280"&gt;dictionary only&lt;/text&gt;</span></span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Type — dictionary only --&gt;</span></span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="438" y="130" width="95" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="485" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151"&gt;Type&lt;/text&gt;</span></span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="485" y="165" text-anchor="middle" font-size="8"  fill="#6b7280"&gt;dictionary only&lt;/text&gt;</span></span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Description — dictionary only --&gt;</span></span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="544" y="130" width="140" height="44" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="614" y="149" text-anchor="middle" font-size="11" font-weight="bold" fill="#374151"&gt;Description&lt;/text&gt;</span></span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="614" y="165" text-anchor="middle" font-size="8"  fill="#6b7280"&gt;dictionary only&lt;/text&gt;</span></span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Correspondence arrows: TAG (file) ↔ TAG (dictionary) --&gt;</span></span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="69" y1="78" x2="61" y2="130" stroke="#0a3d4a" stroke-width="1.5" stroke-dasharray="4"/&gt;</span></span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Correspondence arrows: VR (file) ↔ VR (dictionary) --&gt;</span></span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="191" y1="78" x2="273" y2="130" stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="4"/&gt;</span></span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Legend --&gt;</span></span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="14"  y="196" width="14" height="10" rx="2" fill="#0a3d4a"/&gt;</span></span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="32"  y="206" font-size="9" fill="#374151"&gt;Field serialised in the Data Element (wire format)&lt;/text&gt;</span></span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="220" y="196" width="14" height="10" rx="2" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/&gt;</span></span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="238" y="206" font-size="9" fill="#374151"&gt;Field in dictionary only (semantic contract, not serialised)&lt;/text&gt;</span></span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="350" y="250" text-anchor="middle" font-size="14" fill="#64748b"&gt;</span></span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a><span class="in">    Figure 4.3 — Data Element in the file (PS3.5) vs. Data Dictionary entry (PS3.6)</span></span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/text&gt;</span></span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/svg&gt;</span></span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a>The **Type** field indicates the requirement level: <span class="in">`1`</span> = mandatory and</span>
+<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a>non-empty; <span class="in">`1C`</span> = conditional; <span class="in">`2`</span> = mandatory but may be empty; <span class="in">`3`</span> =</span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a>optional. This distinction is relevant for validating the conformance of</span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a>DICOM systems.</span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a>The **VM** (*Value Multiplicity*) field indicates how many values are</span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a>permitted in the *Value Field* of a given attribute. VM <span class="in">`1`</span> means a</span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a>single value; VM <span class="in">`1-n`</span> means one or more values; VM <span class="in">`2-2n`</span> means an</span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a>even number of values. For example, the attribute</span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a><span class="in">`(0008,0061) Modalities in Study`</span> has VM <span class="in">`1-n`</span> — it may contain a</span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a>single modality (<span class="in">`CT`</span>) or several (<span class="in">`CT`</span>, <span class="in">`MR`</span>, <span class="in">`US`</span>), depending on the</span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a>number of series of different types present in the study. Note that VM</span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a>is a restriction declared in the dictionary; the *Value Field* in the</span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a>file does not explicitly carry the number of values — the receiver infers</span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a>it from the length (*Value Length*) and the type (VR)</span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS35; @DICOM_PS36</span><span class="co">]</span>.</span>
+<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a><span class="fu">### Value Representations (VR)</span></span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a>*Value Representations* (VR) define the data type of each Data Element.</span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a>The standard specifies 27 VR types, constituting the DICOM equivalent</span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a>of data types in a programming language — <span class="in">`int`</span>, <span class="in">`string`</span>, <span class="in">`date`</span>, among</span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a>others <span class="co">[</span><span class="ot">@DICOM_PS35</span><span class="co">]</span>.</span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>Each VR is identified by a two-character ASCII code. The most relevant</span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a>VRs in clinical and technical practice are as follows:</span>
+<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a>| VR   | Name              | Description                                     | Example              |</span>
+<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a>|------|-------------------|-------------------------------------------------|----------------------|</span>
+<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a>| <span class="in">`PN`</span> | Person Name       | Name in <span class="in">`Family^Given^Middle`</span> format            | <span class="in">`Andrade^Maria`</span>      |</span>
+<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a>| <span class="in">`DA`</span> | Date              | Date in <span class="in">`YYYYMMDD`</span> format                       | <span class="in">`19650412`</span>           |</span>
+<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a>| <span class="in">`DS`</span> | Decimal String    | Decimal number represented as text              | <span class="in">`57.3`</span>               |</span>
+<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a>| <span class="in">`CS`</span> | Code String       | Controlled-domain code                          | <span class="in">`CT`</span>, <span class="in">`MR`</span>, <span class="in">`US`</span>     |</span>
+<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a>| <span class="in">`UI`</span> | Unique Identifier | Globally unique UID (dot-separated syntax)      | <span class="in">`1.2.840.10008...`</span>   |</span>
+<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a>| <span class="in">`US`</span> | Unsigned Short    | 16-bit unsigned integer                         | <span class="in">`512`</span>                |</span>
+<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a>| <span class="in">`OW`</span> | Other Word        | Binary data (e.g. pixels)                       | *(binary data)*      |</span>
+<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a>| <span class="in">`LO`</span> | Long String       | Text up to 64 characters                        | <span class="in">`Hospital UTAD`</span>      |</span>
+<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a>: Main Value Representations of the DICOM standard <span class="co">[</span><span class="ot">@DICOM_PS35</span><span class="co">]</span>. {#tbl-vr}</span>
+<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a>Note that the VR <span class="in">`OW`</span> (*Other Word*) is used for the field</span>
+<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a><span class="in">`(7FE0,0010) Pixel Data`</span>, which contains the binary image data — which</span>
+<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a>may be in raw or compressed format (JPEG, JPEG 2000, RLE). The choice</span>
+<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a>of compression format is negotiated between devices during the</span>
+<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a>establishment of the DICOM association.</span>
+<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a><span class="fu">### Integrated view: TAG + VR + VM</span></span>
+<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a>The three concepts — TAG, VR, and VM — articulate in a precise</span>
+<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a>relationship: the TAG identifies **what**, the VR defines **how** the</span>
+<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a>value is encoded, and the VM indicates **how many** values are permitted</span>
+<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a>in the *Value Field*. This triple contract is declared in the Data</span>
+<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a>Dictionary for each normalised attribute <span class="co">[</span><span class="ot">@DICOM_PS36</span><span class="co">]</span>.</span>
+<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a>The following table illustrates the integrated view of a set of</span>
+<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a>representative Data Elements:</span>
+<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a>| TAG          | Name                    | VR   | VM  | Notes                              |</span>
+<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a>|--------------|-------------------------|------|-----|------------------------------------|</span>
+<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a>| <span class="in">`(0008,0060)`</span>| Modality                | <span class="in">`CS`</span> | 1   | Values: <span class="in">`CT`</span>, <span class="in">`MR`</span>, <span class="in">`US`</span>, <span class="in">`DX`</span>…   |</span>
+<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a>| <span class="in">`(0010,0010)`</span>| Patient's Name          | <span class="in">`PN`</span> | 1   | Format: <span class="in">`Family^Given`</span>             |</span>
+<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a>| <span class="in">`(0010,0030)`</span>| Patient's Birth Date    | <span class="in">`DA`</span> | 1   | Format: <span class="in">`YYYYMMDD`</span>                 |</span>
+<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a>| <span class="in">`(0010,1030)`</span>| Patient's Weight        | <span class="in">`DS`</span> | 1   | Weight in kg as decimal string     |</span>
+<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a>| <span class="in">`(0020,000D)`</span>| Study Instance UID      | <span class="in">`UI`</span> | 1   | Globally unique study UID          |</span>
+<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a>| <span class="in">`(0028,0010)`</span>| Rows                    | <span class="in">`US`</span> | 1   | Number of rows; 16-bit integer     |</span>
+<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a>| <span class="in">`(7FE0,0010)`</span>| Pixel Data              | <span class="in">`OW`</span> | 1   | Binary image data                  |</span>
+<span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a>: Integrated view of selected Data Elements <span class="co">[</span><span class="ot">@DICOM_PS35;@DICOM_PS36</span><span class="co">]</span>. {#tbl-de-integrado}</span>
+<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a>A complete Data Element with a real value looks as follows:</span>
+<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a><span class="in">TAG         VR    Value Length   Value Field</span></span>
+<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a><span class="in">(0010,0010) PN    16             COUTO^FERNANDO</span></span>
+<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a>In this example, the TAG <span class="in">`(0010,0010)`</span> identifies the attribute "patient</span>
+<span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a>name"; the VR <span class="in">`PN`</span> specifies that the value follows the *Person Name*</span>
+<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a>format; the *Value Length* indicates that the value occupies 16 bytes;</span>
+<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a>and the *Value Field* contains the name encoded in the <span class="in">`Family^Given`</span></span>
+<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a>convention <span class="co">[</span><span class="ot">@DICOM_PS35</span><span class="co">]</span>.</span>
+<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a><span class="fu">## Entities, IODs, and Modules {#sec-dicom-iod}</span></span>
+<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Patient → Study → Series → Image hierarchy</span></span>
+<span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a>The DICOM information model organises data in a four-level hierarchy</span>
+<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a>that reflects the real clinical workflow. Each level corresponds to an</span>
+<span id="cb3-369"><a href="#cb3-369" aria-hidden="true" tabindex="-1"></a>**Information Entity** (IE) and contains one or more elements of the</span>
+<span id="cb3-370"><a href="#cb3-370" aria-hidden="true" tabindex="-1"></a>immediately lower level <span class="co">[</span><span class="ot">@DICOM_PS33</span><span class="co">]</span>.</span>
+<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a>**Patient** — represents the person. Stores demographic data: name,</span>
+<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a>identifier, date of birth, sex. A patient may have multiple studies</span>
+<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a>over time.</span>
+<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-376"><a href="#cb3-376" aria-hidden="true" tabindex="-1"></a>**Study** — corresponds to a clinical imaging episode: a date, a</span>
+<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a>description, a referring physician, and a globally unique study UID.</span>
+<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a>Each study contains one or more series.</span>
+<span id="cb3-379"><a href="#cb3-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-380"><a href="#cb3-380" aria-hidden="true" tabindex="-1"></a>**Series** — corresponds to a specific acquisition within the study.</span>
+<span id="cb3-381"><a href="#cb3-381" aria-hidden="true" tabindex="-1"></a>It identifies the modality (<span class="in">`CT`</span>, <span class="in">`MR`</span>…), the series number, and the</span>
+<span id="cb3-382"><a href="#cb3-382" aria-hidden="true" tabindex="-1"></a>patient's position. A brain CT study may have, for example, five series:</span>
+<span id="cb3-383"><a href="#cb3-383" aria-hidden="true" tabindex="-1"></a>non-contrast, contrast-enhanced, bone reconstruction, 3D reconstruction,</span>
+<span id="cb3-384"><a href="#cb3-384" aria-hidden="true" tabindex="-1"></a>and localiser image (*scout*).</span>
+<span id="cb3-385"><a href="#cb3-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-386"><a href="#cb3-386" aria-hidden="true" tabindex="-1"></a>**Image** — is the atomic unit of information: an individual image, with</span>
+<span id="cb3-387"><a href="#cb3-387" aria-hidden="true" tabindex="-1"></a>its pixel dimensions, bit depth, compression parameters, and above all,</span>
+<span id="cb3-388"><a href="#cb3-388" aria-hidden="true" tabindex="-1"></a>the *Pixel Data* itself. Each image is identified by a globally unique,</span>
+<span id="cb3-389"><a href="#cb3-389" aria-hidden="true" tabindex="-1"></a>non-repeating UID generated by the acquisition equipment at capture time.</span>
+<span id="cb3-390"><a href="#cb3-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-391"><a href="#cb3-391" aria-hidden="true" tabindex="-1"></a>The practical consequence of this hierarchy is direct: a single</span>
+<span id="cb3-392"><a href="#cb3-392" aria-hidden="true" tabindex="-1"></a>multi-series brain CT can generate approximately 1,500 distinct DICOM</span>
+<span id="cb3-393"><a href="#cb3-393" aria-hidden="true" tabindex="-1"></a>files — each containing all the metadata from the four levels (Patient,</span>
+<span id="cb3-394"><a href="#cb3-394" aria-hidden="true" tabindex="-1"></a>Study, Series, Image) plus the pixels of that specific image <span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>.</span>
+<span id="cb3-395"><a href="#cb3-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-396"><a href="#cb3-396" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb3-397"><a href="#cb3-397" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb3-398"><a href="#cb3-398" aria-hidden="true" tabindex="-1"></a><span class="in">  Diagram: Patient → Study → Series → Image hierarchy.</span></span>
+<span id="cb3-399"><a href="#cb3-399" aria-hidden="true" tabindex="-1"></a><span class="in">  Four cascading boxes, indented, with containment arrows.</span></span>
+<span id="cb3-400"><a href="#cb3-400" aria-hidden="true" tabindex="-1"></a><span class="in">  Teal palette.</span></span>
+<span id="cb3-401"><a href="#cb3-401" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb3-402"><a href="#cb3-402" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="overflow-x:auto; margin:1.5rem 0;"&gt;</span></span>
+<span id="cb3-403"><a href="#cb3-403" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg"</span></span>
+<span id="cb3-404"><a href="#cb3-404" aria-hidden="true" tabindex="-1"></a><span class="in">     style="width:100%;max-width:640px;font-family:sans-serif;"&gt;</span></span>
+<span id="cb3-405"><a href="#cb3-405" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect width="640" height="200" rx="10" fill="#f8fbfc"/&gt;</span></span>
+<span id="cb3-406"><a href="#cb3-406" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Patient --&gt;</span></span>
+<span id="cb3-407"><a href="#cb3-407" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="20"  y="20" width="580" height="38" rx="7" fill="#0a3d4a"/&gt;</span></span>
+<span id="cb3-408"><a href="#cb3-408" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="40"  y="44" font-size="13" font-weight="bold" fill="#fff"&gt;Patient&lt;/text&gt;</span></span>
+<span id="cb3-409"><a href="#cb3-409" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="160" y="44" font-size="11" fill="#7dd3d0"&gt;name · ID · date of birth · sex&lt;/text&gt;</span></span>
+<span id="cb3-410"><a href="#cb3-410" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Study --&gt;</span></span>
+<span id="cb3-411"><a href="#cb3-411" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="50"  y="68" width="520" height="34" rx="7" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb3-412"><a href="#cb3-412" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="70"  y="90" font-size="12" font-weight="bold" fill="#fff"&gt;Study&lt;/text&gt;</span></span>
+<span id="cb3-413"><a href="#cb3-413" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="160" y="90" font-size="11" fill="#b2ebf2"&gt;date · description · referring physician · Study UID&lt;/text&gt;</span></span>
+<span id="cb3-414"><a href="#cb3-414" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Series --&gt;</span></span>
+<span id="cb3-415"><a href="#cb3-415" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="80"  y="112" width="460" height="34" rx="7" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb3-416"><a href="#cb3-416" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="100" y="134" font-size="12" font-weight="bold" fill="#fff"&gt;Series&lt;/text&gt;</span></span>
+<span id="cb3-417"><a href="#cb3-417" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="185" y="134" font-size="11" fill="#e0f7f5"&gt;modality · series no. · patient position&lt;/text&gt;</span></span>
+<span id="cb3-418"><a href="#cb3-418" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Image --&gt;</span></span>
+<span id="cb3-419"><a href="#cb3-419" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="110" y="156" width="400" height="30" rx="7" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/&gt;</span></span>
+<span id="cb3-420"><a href="#cb3-420" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="130" y="176" font-size="12" font-weight="bold" fill="#0a3d4a"&gt;Image&lt;/text&gt;</span></span>
+<span id="cb3-421"><a href="#cb3-421" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="210" y="176" font-size="11" fill="#0d7c8c"&gt;pixels · dimensions · bits · unique UID&lt;/text&gt;</span></span>
+<span id="cb3-422"><a href="#cb3-422" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Containment arrows --&gt;</span></span>
+<span id="cb3-423"><a href="#cb3-423" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="38" y1="58" x2="38" y2="68" stroke="#7dd3d0" stroke-width="1.5" marker-end="url(#arr)"/&gt;</span></span>
+<span id="cb3-424"><a href="#cb3-424" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="68" y1="102" x2="68" y2="112" stroke="#b2ebf2" stroke-width="1.5" marker-end="url(#arr)"/&gt;</span></span>
+<span id="cb3-425"><a href="#cb3-425" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="98" y1="146" x2="98" y2="156" stroke="#1ab3a6" stroke-width="1.5" marker-end="url(#arr)"/&gt;</span></span>
+<span id="cb3-426"><a href="#cb3-426" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;defs&gt;</span></span>
+<span id="cb3-427"><a href="#cb3-427" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"&gt;</span></span>
+<span id="cb3-428"><a href="#cb3-428" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/&gt;</span></span>
+<span id="cb3-429"><a href="#cb3-429" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/marker&gt;</span></span>
+<span id="cb3-430"><a href="#cb3-430" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/defs&gt;</span></span>
+<span id="cb3-431"><a href="#cb3-431" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Caption --&gt;</span></span>
+<span id="cb3-432"><a href="#cb3-432" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="320" y="197" text-anchor="middle" font-size="14" fill="#64748b"&gt;</span></span>
+<span id="cb3-433"><a href="#cb3-433" aria-hidden="true" tabindex="-1"></a><span class="in">    Figure 4.3 — DICOM information entity hierarchy (PS3.3, §A.1)</span></span>
+<span id="cb3-434"><a href="#cb3-434" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/text&gt;</span></span>
+<span id="cb3-435"><a href="#cb3-435" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/svg&gt;</span></span>
+<span id="cb3-436"><a href="#cb3-436" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb3-437"><a href="#cb3-437" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-438"><a href="#cb3-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-439"><a href="#cb3-439" aria-hidden="true" tabindex="-1"></a><span class="fu">### Information Object Definitions (IOD)</span></span>
+<span id="cb3-440"><a href="#cb3-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-441"><a href="#cb3-441" aria-hidden="true" tabindex="-1"></a>An **IOD** (*Information Object Definition*) is the formal specification</span>
+<span id="cb3-442"><a href="#cb3-442" aria-hidden="true" tabindex="-1"></a>of the set of attributes that describes a particular type of DICOM</span>
+<span id="cb3-443"><a href="#cb3-443" aria-hidden="true" tabindex="-1"></a>object. It is not a file — it is a normative definition: it states which</span>
+<span id="cb3-444"><a href="#cb3-444" aria-hidden="true" tabindex="-1"></a>attributes are mandatory, conditional, and optional for a given type of</span>
+<span id="cb3-445"><a href="#cb3-445" aria-hidden="true" tabindex="-1"></a>medical image or document <span class="co">[</span><span class="ot">@DICOM_PS33</span><span class="co">]</span>.</span>
+<span id="cb3-446"><a href="#cb3-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-447"><a href="#cb3-447" aria-hidden="true" tabindex="-1"></a>The standard defines a composite IOD (*Composite IOD*) for each relevant</span>
+<span id="cb3-448"><a href="#cb3-448" aria-hidden="true" tabindex="-1"></a>modality: CT Image IOD, MR Image IOD, CR Image IOD, US Image IOD, and</span>
+<span id="cb3-449"><a href="#cb3-449" aria-hidden="true" tabindex="-1"></a>others. A fundamental point that deserves explicit attention: **a</span>
+<span id="cb3-450"><a href="#cb3-450" aria-hidden="true" tabindex="-1"></a>composite IOD always describes a single image** — not a study or a</span>
+<span id="cb3-451"><a href="#cb3-451" aria-hidden="true" tabindex="-1"></a>series. The IOD is instantiated once per image; a CT with 300 slices</span>
+<span id="cb3-452"><a href="#cb3-452" aria-hidden="true" tabindex="-1"></a>generates 300 instances of the CT Image IOD, each in an independent</span>
+<span id="cb3-453"><a href="#cb3-453" aria-hidden="true" tabindex="-1"></a>DICOM file.</span>
+<span id="cb3-454"><a href="#cb3-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-455"><a href="#cb3-455" aria-hidden="true" tabindex="-1"></a>Each instance carries with it the attributes of *all* hierarchical</span>
+<span id="cb3-456"><a href="#cb3-456" aria-hidden="true" tabindex="-1"></a>levels: patient, study, series, and image data. The logical grouping</span>
+<span id="cb3-457"><a href="#cb3-457" aria-hidden="true" tabindex="-1"></a>into series and studies is not performed by physical references between</span>
+<span id="cb3-458"><a href="#cb3-458" aria-hidden="true" tabindex="-1"></a>files — it is inferred from shared UIDs: all images in the same series</span>
+<span id="cb3-459"><a href="#cb3-459" aria-hidden="true" tabindex="-1"></a>share the same <span class="in">`Series Instance UID`</span>; all images in the same study share</span>
+<span id="cb3-460"><a href="#cb3-460" aria-hidden="true" tabindex="-1"></a>the same <span class="in">`Study Instance UID`</span>. The hierarchy exists in the metadata of</span>
+<span id="cb3-461"><a href="#cb3-461" aria-hidden="true" tabindex="-1"></a>each individual file; any system reading them can reconstruct it without</span>
+<span id="cb3-462"><a href="#cb3-462" aria-hidden="true" tabindex="-1"></a>requiring external structures <span class="co">[</span><span class="ot">@DICOM_PS33</span><span class="co">]</span>.</span>
+<span id="cb3-463"><a href="#cb3-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-464"><a href="#cb3-464" aria-hidden="true" tabindex="-1"></a>Each composite IOD is derived from a general entity model (*DICOM</span>
+<span id="cb3-465"><a href="#cb3-465" aria-hidden="true" tabindex="-1"></a>Composite Instance IOD Information Model*) that formalises the</span>
+<span id="cb3-466"><a href="#cb3-466" aria-hidden="true" tabindex="-1"></a>relationships between Patient, Study, Equipment, Frame of Reference,</span>
+<span id="cb3-467"><a href="#cb3-467" aria-hidden="true" tabindex="-1"></a>Series, and the various types of possible instances (Image, SR Document,</span>
+<span id="cb3-468"><a href="#cb3-468" aria-hidden="true" tabindex="-1"></a>Waveform, Surface, etc.) <span class="co">[</span><span class="ot">@DICOM_PS33</span><span class="co">]</span>.</span>
+<span id="cb3-469"><a href="#cb3-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-470"><a href="#cb3-470" aria-hidden="true" tabindex="-1"></a>For example, the **CR Image IOD** (*Computed Radiography*) includes,</span>
+<span id="cb3-471"><a href="#cb3-471" aria-hidden="true" tabindex="-1"></a>in terms of information entities (IE): Patient, Study, Series, Equipment,</span>
+<span id="cb3-472"><a href="#cb3-472" aria-hidden="true" tabindex="-1"></a>and Image — all present in each individual file. Each IE is specified by</span>
+<span id="cb3-473"><a href="#cb3-473" aria-hidden="true" tabindex="-1"></a>the modules that belong to it, with their respective usage level.</span>
+<span id="cb3-474"><a href="#cb3-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-475"><a href="#cb3-475" aria-hidden="true" tabindex="-1"></a><span class="fu">### Information modules and usage types (M/C/U)</span></span>
+<span id="cb3-476"><a href="#cb3-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-477"><a href="#cb3-477" aria-hidden="true" tabindex="-1"></a>Each IE of an IOD is composed of **modules** — thematic groupings of</span>
+<span id="cb3-478"><a href="#cb3-478" aria-hidden="true" tabindex="-1"></a>related Data Elements. A module always has an associated usage level</span>
+<span id="cb3-479"><a href="#cb3-479" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS33</span><span class="co">]</span>:</span>
+<span id="cb3-480"><a href="#cb3-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-481"><a href="#cb3-481" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**M** (*Mandatory*) — mandatory; must be present and populated.</span>
+<span id="cb3-482"><a href="#cb3-482" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**C** (*Conditional*) — conditional; mandatory only when a specific</span>
+<span id="cb3-483"><a href="#cb3-483" aria-hidden="true" tabindex="-1"></a>  condition is met (e.g., the *Contrast/Bolus* module is <span class="in">`C`</span> —</span>
+<span id="cb3-484"><a href="#cb3-484" aria-hidden="true" tabindex="-1"></a>  mandatory if contrast medium was used).</span>
+<span id="cb3-485"><a href="#cb3-485" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**U** (*User Optional*) — optional; may be included or omitted by</span>
+<span id="cb3-486"><a href="#cb3-486" aria-hidden="true" tabindex="-1"></a>  the manufacturer.</span>
+<span id="cb3-487"><a href="#cb3-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-488"><a href="#cb3-488" aria-hidden="true" tabindex="-1"></a>The **Patient Module** (reference C.7.1.1), mandatory (<span class="in">`M`</span>) in all</span>
+<span id="cb3-489"><a href="#cb3-489" aria-hidden="true" tabindex="-1"></a>composite IODs, groups the patient identification attributes:</span>
+<span id="cb3-490"><a href="#cb3-490" aria-hidden="true" tabindex="-1"></a><span class="in">`(0010,0010) Patient's Name`</span> (Type 2), <span class="in">`(0010,0020) Patient ID`</span></span>
+<span id="cb3-491"><a href="#cb3-491" aria-hidden="true" tabindex="-1"></a>(Type 2), <span class="in">`(0010,0030) Patient's Birth Date`</span> (Type 3), and</span>
+<span id="cb3-492"><a href="#cb3-492" aria-hidden="true" tabindex="-1"></a><span class="in">`(0010,0040) Patient's Sex`</span> (Type 2), among others. Note that Type 2</span>
+<span id="cb3-493"><a href="#cb3-493" aria-hidden="true" tabindex="-1"></a>means the attribute must be present but may have an empty value —</span>
+<span id="cb3-494"><a href="#cb3-494" aria-hidden="true" tabindex="-1"></a>something clinically relevant in emergency contexts <span class="co">[</span><span class="ot">@DICOM_PS33</span><span class="co">]</span>.</span>
+<span id="cb3-495"><a href="#cb3-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-496"><a href="#cb3-496" aria-hidden="true" tabindex="-1"></a><span class="fu">### The DICOM file: storage format</span></span>
+<span id="cb3-497"><a href="#cb3-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-498"><a href="#cb3-498" aria-hidden="true" tabindex="-1"></a>The composite IOD defines *which* attributes describe an image; part</span>
+<span id="cb3-499"><a href="#cb3-499" aria-hidden="true" tabindex="-1"></a>PS3.10 of the standard defines *how* those attributes are physically</span>
+<span id="cb3-500"><a href="#cb3-500" aria-hidden="true" tabindex="-1"></a>stored in a file. These are two distinct planes: the model and the</span>
+<span id="cb3-501"><a href="#cb3-501" aria-hidden="true" tabindex="-1"></a>packaging.</span>
+<span id="cb3-502"><a href="#cb3-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-503"><a href="#cb3-503" aria-hidden="true" tabindex="-1"></a>A DICOM file begins with a **preamble** of 128 bytes (reserved, usually</span>
+<span id="cb3-504"><a href="#cb3-504" aria-hidden="true" tabindex="-1"></a>null) followed by the ASCII prefix <span class="in">`DICM`</span>. Next comes the **File Meta</span>
+<span id="cb3-505"><a href="#cb3-505" aria-hidden="true" tabindex="-1"></a>Information** — a set of group <span class="in">`0002`</span> Data Elements describing the file</span>
+<span id="cb3-506"><a href="#cb3-506" aria-hidden="true" tabindex="-1"></a>itself: the format version, the stored SOP Class, the instance UID, and</span>
+<span id="cb3-507"><a href="#cb3-507" aria-hidden="true" tabindex="-1"></a>the negotiated Transfer Syntax (which determines the compression format</span>
+<span id="cb3-508"><a href="#cb3-508" aria-hidden="true" tabindex="-1"></a>of the Pixel Data). After this header follows the sequence of IOD Data</span>
+<span id="cb3-509"><a href="#cb3-509" aria-hidden="true" tabindex="-1"></a>Elements, ordered by ascending TAG <span class="co">[</span><span class="ot">@DICOM_PS310</span><span class="co">]</span>.</span>
+<span id="cb3-510"><a href="#cb3-510" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-511"><a href="#cb3-511" aria-hidden="true" tabindex="-1"></a>The Transfer Syntax is an important detail: it tells the receiver</span>
+<span id="cb3-512"><a href="#cb3-512" aria-hidden="true" tabindex="-1"></a>whether the Pixel Data is in raw format (uncompressed), JPEG Baseline,</span>
+<span id="cb3-513"><a href="#cb3-513" aria-hidden="true" tabindex="-1"></a>JPEG 2000, or RLE. This information is in the file header — not in the</span>
+<span id="cb3-514"><a href="#cb3-514" aria-hidden="true" tabindex="-1"></a>Pixel Data itself — which allows the receiver to select the correct</span>
+<span id="cb3-515"><a href="#cb3-515" aria-hidden="true" tabindex="-1"></a>decoder before reading the pixels.</span>
+<span id="cb3-516"><a href="#cb3-516" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-517"><a href="#cb3-517" aria-hidden="true" tabindex="-1"></a>A representative excerpt from a CT DICOM file, as displayed in a</span>
+<span id="cb3-518"><a href="#cb3-518" aria-hidden="true" tabindex="-1"></a>metadata viewer such as <span class="in">`dcmdump`</span> (DCMTK), illustrates the sequence of</span>
+<span id="cb3-519"><a href="#cb3-519" aria-hidden="true" tabindex="-1"></a>Data Elements ordered by TAG:</span>
+<span id="cb3-520"><a href="#cb3-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-521"><a href="#cb3-521" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-522"><a href="#cb3-522" aria-hidden="true" tabindex="-1"></a><span class="in">(0008,0060) CS  Modality              [CT]</span></span>
+<span id="cb3-523"><a href="#cb3-523" aria-hidden="true" tabindex="-1"></a><span class="in">(0008,1030) LO  Study Description     [BRAIN CT]</span></span>
+<span id="cb3-524"><a href="#cb3-524" aria-hidden="true" tabindex="-1"></a><span class="in">(0010,0010) PN  Patient's Name        [COUTO^FERNANDO]</span></span>
+<span id="cb3-525"><a href="#cb3-525" aria-hidden="true" tabindex="-1"></a><span class="in">(0010,0020) LO  Patient ID            [987654]</span></span>
+<span id="cb3-526"><a href="#cb3-526" aria-hidden="true" tabindex="-1"></a><span class="in">(0010,0030) DA  Patient's Birth Date  [19650412]</span></span>
+<span id="cb3-527"><a href="#cb3-527" aria-hidden="true" tabindex="-1"></a><span class="in">(0028,0010) US  Rows                  [512]</span></span>
+<span id="cb3-528"><a href="#cb3-528" aria-hidden="true" tabindex="-1"></a><span class="in">(0028,0011) US  Columns               [512]</span></span>
+<span id="cb3-529"><a href="#cb3-529" aria-hidden="true" tabindex="-1"></a><span class="in">(7FE0,0010) OW  Pixel Data            [binary — 524288 bytes]</span></span>
+<span id="cb3-530"><a href="#cb3-530" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-531"><a href="#cb3-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-532"><a href="#cb3-532" aria-hidden="true" tabindex="-1"></a>Note that all metadata from the four hierarchical levels (Patient,</span>
+<span id="cb3-533"><a href="#cb3-533" aria-hidden="true" tabindex="-1"></a>Study, Series, Image) are present in each individual DICOM file. This</span>
+<span id="cb3-534"><a href="#cb3-534" aria-hidden="true" tabindex="-1"></a>intentional redundancy ensures that any file is self-sufficient and can</span>
+<span id="cb3-535"><a href="#cb3-535" aria-hidden="true" tabindex="-1"></a>be interpreted without depending on an external database</span>
+<span id="cb3-536"><a href="#cb3-536" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS310; @Pianykh2012</span><span class="co">]</span>.</span>
+<span id="cb3-537"><a href="#cb3-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-538"><a href="#cb3-538" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary and Exercises {#sec-dicom-modelo-sintese}</span></span>
+<span id="cb3-539"><a href="#cb3-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-540"><a href="#cb3-540" aria-hidden="true" tabindex="-1"></a><span class="fu">### Consolidation exercises {.unnumbered}</span></span>
+<span id="cb3-541"><a href="#cb3-541" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-542"><a href="#cb3-542" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>A CT DICOM file contains the Data Element</span>
+<span id="cb3-543"><a href="#cb3-543" aria-hidden="true" tabindex="-1"></a>   <span class="in">`(0010,0030) DA 8 19820915`</span>. Interpret each field (TAG, VR,</span>
+<span id="cb3-544"><a href="#cb3-544" aria-hidden="true" tabindex="-1"></a>   *Value Length*, *Value Field*), indicating the thematic group to</span>
+<span id="cb3-545"><a href="#cb3-545" aria-hidden="true" tabindex="-1"></a>   which the TAG belongs and the clinical meaning of the value.</span>
+<span id="cb3-546"><a href="#cb3-546" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-547"><a href="#cb3-547" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Explain why a composite CT Image IOD with 300 images generates 300</span>
+<span id="cb3-548"><a href="#cb3-548" aria-hidden="true" tabindex="-1"></a>   independent DICOM files rather than a single file. How is the</span>
+<span id="cb3-549"><a href="#cb3-549" aria-hidden="true" tabindex="-1"></a>   Study/Series hierarchy reconstructed from those files?</span>
+<span id="cb3-550"><a href="#cb3-550" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-551"><a href="#cb3-551" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Distinguish the fields that physically exist in a serialised Data</span>
+<span id="cb3-552"><a href="#cb3-552" aria-hidden="true" tabindex="-1"></a>   Element from the fields that belong exclusively to the corresponding</span>
+<span id="cb3-553"><a href="#cb3-553" aria-hidden="true" tabindex="-1"></a>   entry in the Data Dictionary. Why is this distinction relevant for</span>
+<span id="cb3-554"><a href="#cb3-554" aria-hidden="true" tabindex="-1"></a>   implementing a DICOM system?</span>
+<span id="cb3-555"><a href="#cb3-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-556"><a href="#cb3-556" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>A Data Dictionary entry has VM <span class="in">`1-n`</span> and Type <span class="in">`2`</span>. What do these</span>
+<span id="cb3-557"><a href="#cb3-557" aria-hidden="true" tabindex="-1"></a>   two values mean together for a system validating the conformance</span>
+<span id="cb3-558"><a href="#cb3-558" aria-hidden="true" tabindex="-1"></a>   of a received DICOM file?</span>
+<span id="cb3-559"><a href="#cb3-559" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-560"><a href="#cb3-560" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>The 128-byte preamble of a DICOM file is corrupted. Discuss the</span>
+<span id="cb3-561"><a href="#cb3-561" aria-hidden="true" tabindex="-1"></a>   impact of this corruption on the ability of a PS3.10-conformant</span>
+<span id="cb3-562"><a href="#cb3-562" aria-hidden="true" tabindex="-1"></a>   system to process the file.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Medical Informatics — Master’s in Biomedical Engineering · UTAD</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

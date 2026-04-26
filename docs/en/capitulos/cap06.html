@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; HL7 v2 — Message Model and Limitations – Medical Informatics</title>
+<title>6&nbsp; HL7 v2 — Message Model and Limitations – Medical Informatics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,7 +85,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../references.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../capitulos/cap05.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -139,7 +139,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap06.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap06.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -175,8 +175,38 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations of Medical Informatics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hospital Information Systems and Electronic Health Records</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -195,44 +225,44 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-hl7v2-model" id="toc-sec-hl7v2-model" class="nav-link active" data-scroll-target="#sec-hl7v2-model"><span class="header-section-number">1.1</span> HL7 v2 and the Message Model</a>
+  <li><a href="#sec-hl7v2-model" id="toc-sec-hl7v2-model" class="nav-link active" data-scroll-target="#sec-hl7v2-model"><span class="header-section-number">6.1</span> HL7 v2 and the Message Model</a>
   <ul class="collapse">
-  <li><a href="#the-problem-hl7-v2-solved" id="toc-the-problem-hl7-v2-solved" class="nav-link" data-scroll-target="#the-problem-hl7-v2-solved"><span class="header-section-number">1.1.1</span> The problem HL7 v2 solved</a></li>
-  <li><a href="#a-standard-with-35-years-of-longevity" id="toc-a-standard-with-35-years-of-longevity" class="nav-link" data-scroll-target="#a-standard-with-35-years-of-longevity"><span class="header-section-number">1.1.2</span> A standard with 35 years of longevity</a></li>
-  <li><a href="#the-trigger-event-model" id="toc-the-trigger-event-model" class="nav-link" data-scroll-target="#the-trigger-event-model"><span class="header-section-number">1.1.3</span> The trigger-event model</a></li>
-  <li><a href="#message-types-and-trigger-codes" id="toc-message-types-and-trigger-codes" class="nav-link" data-scroll-target="#message-types-and-trigger-codes"><span class="header-section-number">1.1.4</span> Message types and trigger codes</a></li>
+  <li><a href="#the-problem-hl7-v2-solved" id="toc-the-problem-hl7-v2-solved" class="nav-link" data-scroll-target="#the-problem-hl7-v2-solved"><span class="header-section-number">6.1.1</span> The problem HL7 v2 solved</a></li>
+  <li><a href="#a-standard-with-35-years-of-longevity" id="toc-a-standard-with-35-years-of-longevity" class="nav-link" data-scroll-target="#a-standard-with-35-years-of-longevity"><span class="header-section-number">6.1.2</span> A standard with 35 years of longevity</a></li>
+  <li><a href="#the-trigger-event-model" id="toc-the-trigger-event-model" class="nav-link" data-scroll-target="#the-trigger-event-model"><span class="header-section-number">6.1.3</span> The trigger-event model</a></li>
+  <li><a href="#message-types-and-trigger-codes" id="toc-message-types-and-trigger-codes" class="nav-link" data-scroll-target="#message-types-and-trigger-codes"><span class="header-section-number">6.1.4</span> Message types and trigger codes</a></li>
   </ul></li>
-  <li><a href="#sec-hl7v2-structure" id="toc-sec-hl7v2-structure" class="nav-link" data-scroll-target="#sec-hl7v2-structure"><span class="header-section-number">1.2</span> Structure of an HL7 v2 Message</a>
+  <li><a href="#sec-hl7v2-structure" id="toc-sec-hl7v2-structure" class="nav-link" data-scroll-target="#sec-hl7v2-structure"><span class="header-section-number">6.2</span> Structure of an HL7 v2 Message</a>
   <ul class="collapse">
-  <li><a href="#five-level-hierarchy" id="toc-five-level-hierarchy" class="nav-link" data-scroll-target="#five-level-hierarchy"><span class="header-section-number">1.2.1</span> Five-level hierarchy</a></li>
-  <li><a href="#the-delimiters" id="toc-the-delimiters" class="nav-link" data-scroll-target="#the-delimiters"><span class="header-section-number">1.2.2</span> The delimiters</a></li>
-  <li><a href="#segments-the-logical-unit" id="toc-segments-the-logical-unit" class="nav-link" data-scroll-target="#segments-the-logical-unit"><span class="header-section-number">1.2.3</span> Segments: the logical unit</a></li>
-  <li><a href="#fields-positional-and-fill-states" id="toc-fields-positional-and-fill-states" class="nav-link" data-scroll-target="#fields-positional-and-fill-states"><span class="header-section-number">1.2.4</span> Fields: positional and fill states</a></li>
+  <li><a href="#five-level-hierarchy" id="toc-five-level-hierarchy" class="nav-link" data-scroll-target="#five-level-hierarchy"><span class="header-section-number">6.2.1</span> Five-level hierarchy</a></li>
+  <li><a href="#the-delimiters" id="toc-the-delimiters" class="nav-link" data-scroll-target="#the-delimiters"><span class="header-section-number">6.2.2</span> The delimiters</a></li>
+  <li><a href="#segments-the-logical-unit" id="toc-segments-the-logical-unit" class="nav-link" data-scroll-target="#segments-the-logical-unit"><span class="header-section-number">6.2.3</span> Segments: the logical unit</a></li>
+  <li><a href="#fields-positional-and-fill-states" id="toc-fields-positional-and-fill-states" class="nav-link" data-scroll-target="#fields-positional-and-fill-states"><span class="header-section-number">6.2.4</span> Fields: positional and fill states</a></li>
   </ul></li>
-  <li><a href="#sec-hl7v2-segments" id="toc-sec-hl7v2-segments" class="nav-link" data-scroll-target="#sec-hl7v2-segments"><span class="header-section-number">1.3</span> Essential Segments</a>
+  <li><a href="#sec-hl7v2-segments" id="toc-sec-hl7v2-segments" class="nav-link" data-scroll-target="#sec-hl7v2-segments"><span class="header-section-number">6.3</span> Essential Segments</a>
   <ul class="collapse">
-  <li><a href="#msh-message-header" id="toc-msh-message-header" class="nav-link" data-scroll-target="#msh-message-header"><span class="header-section-number">1.3.1</span> MSH — Message header</a></li>
-  <li><a href="#evn-event-type" id="toc-evn-event-type" class="nav-link" data-scroll-target="#evn-event-type"><span class="header-section-number">1.3.2</span> EVN — Event type</a></li>
-  <li><a href="#pid-patient-identification" id="toc-pid-patient-identification" class="nav-link" data-scroll-target="#pid-patient-identification"><span class="header-section-number">1.3.3</span> PID — Patient identification</a></li>
-  <li><a href="#pv1-patient-visit" id="toc-pv1-patient-visit" class="nav-link" data-scroll-target="#pv1-patient-visit"><span class="header-section-number">1.3.4</span> PV1 — Patient visit</a></li>
+  <li><a href="#msh-message-header" id="toc-msh-message-header" class="nav-link" data-scroll-target="#msh-message-header"><span class="header-section-number">6.3.1</span> MSH — Message header</a></li>
+  <li><a href="#evn-event-type" id="toc-evn-event-type" class="nav-link" data-scroll-target="#evn-event-type"><span class="header-section-number">6.3.2</span> EVN — Event type</a></li>
+  <li><a href="#pid-patient-identification" id="toc-pid-patient-identification" class="nav-link" data-scroll-target="#pid-patient-identification"><span class="header-section-number">6.3.3</span> PID — Patient identification</a></li>
+  <li><a href="#pv1-patient-visit" id="toc-pv1-patient-visit" class="nav-link" data-scroll-target="#pv1-patient-visit"><span class="header-section-number">6.3.4</span> PV1 — Patient visit</a></li>
   </ul></li>
-  <li><a href="#sec-hl7v2-ack" id="toc-sec-hl7v2-ack" class="nav-link" data-scroll-target="#sec-hl7v2-ack"><span class="header-section-number">1.4</span> Message Confirmation: the ACK</a></li>
-  <li><a href="#sec-hl7v2-adt" id="toc-sec-hl7v2-adt" class="nav-link" data-scroll-target="#sec-hl7v2-adt"><span class="header-section-number">1.5</span> ADT Messages: the Patient’s Administrative Journey</a>
+  <li><a href="#sec-hl7v2-ack" id="toc-sec-hl7v2-ack" class="nav-link" data-scroll-target="#sec-hl7v2-ack"><span class="header-section-number">6.4</span> Message Confirmation: the ACK</a></li>
+  <li><a href="#sec-hl7v2-adt" id="toc-sec-hl7v2-adt" class="nav-link" data-scroll-target="#sec-hl7v2-adt"><span class="header-section-number">6.5</span> ADT Messages: the Patient’s Administrative Journey</a>
   <ul class="collapse">
-  <li><a href="#adta01-admission" id="toc-adta01-admission" class="nav-link" data-scroll-target="#adta01-admission"><span class="header-section-number">1.5.1</span> ADT^A01 — Admission</a></li>
-  <li><a href="#adta02-transfer" id="toc-adta02-transfer" class="nav-link" data-scroll-target="#adta02-transfer"><span class="header-section-number">1.5.2</span> ADT^A02 — Transfer</a></li>
-  <li><a href="#adta03-discharge" id="toc-adta03-discharge" class="nav-link" data-scroll-target="#adta03-discharge"><span class="header-section-number">1.5.3</span> ADT^A03 — Discharge</a></li>
+  <li><a href="#adta01-admission" id="toc-adta01-admission" class="nav-link" data-scroll-target="#adta01-admission"><span class="header-section-number">6.5.1</span> ADT^A01 — Admission</a></li>
+  <li><a href="#adta02-transfer" id="toc-adta02-transfer" class="nav-link" data-scroll-target="#adta02-transfer"><span class="header-section-number">6.5.2</span> ADT^A02 — Transfer</a></li>
+  <li><a href="#adta03-discharge" id="toc-adta03-discharge" class="nav-link" data-scroll-target="#adta03-discharge"><span class="header-section-number">6.5.3</span> ADT^A03 — Discharge</a></li>
   </ul></li>
-  <li><a href="#sec-hl7v2-limitations" id="toc-sec-hl7v2-limitations" class="nav-link" data-scroll-target="#sec-hl7v2-limitations"><span class="header-section-number">1.6</span> HL7 v2 Limitations</a>
+  <li><a href="#sec-hl7v2-limitations" id="toc-sec-hl7v2-limitations" class="nav-link" data-scroll-target="#sec-hl7v2-limitations"><span class="header-section-number">6.6</span> HL7 v2 Limitations</a>
   <ul class="collapse">
-  <li><a href="#structural-fragility-no-formal-schema" id="toc-structural-fragility-no-formal-schema" class="nav-link" data-scroll-target="#structural-fragility-no-formal-schema"><span class="header-section-number">1.6.1</span> Structural fragility: no formal schema</a></li>
-  <li><a href="#weak-semantics-local-value-tables" id="toc-weak-semantics-local-value-tables" class="nav-link" data-scroll-target="#weak-semantics-local-value-tables"><span class="header-section-number">1.6.2</span> Weak semantics: local value tables</a></li>
-  <li><a href="#z-segments-private-extensions" id="toc-z-segments-private-extensions" class="nav-link" data-scroll-target="#z-segments-private-extensions"><span class="header-section-number">1.6.3</span> Z-segments: private extensions</a></li>
-  <li><a href="#parsing-hidden-complexity" id="toc-parsing-hidden-complexity" class="nav-link" data-scroll-target="#parsing-hidden-complexity"><span class="header-section-number">1.6.4</span> Parsing: hidden complexity</a></li>
-  <li><a href="#the-integration-engine-the-required-piece" id="toc-the-integration-engine-the-required-piece" class="nav-link" data-scroll-target="#the-integration-engine-the-required-piece"><span class="header-section-number">1.6.5</span> The integration engine: the required piece</a></li>
-  <li><a href="#balance-what-hl7-v2-solved-and-where-it-fell-short" id="toc-balance-what-hl7-v2-solved-and-where-it-fell-short" class="nav-link" data-scroll-target="#balance-what-hl7-v2-solved-and-where-it-fell-short"><span class="header-section-number">1.6.6</span> Balance: what HL7 v2 solved and where it fell short</a></li>
+  <li><a href="#structural-fragility-no-formal-schema" id="toc-structural-fragility-no-formal-schema" class="nav-link" data-scroll-target="#structural-fragility-no-formal-schema"><span class="header-section-number">6.6.1</span> Structural fragility: no formal schema</a></li>
+  <li><a href="#weak-semantics-local-value-tables" id="toc-weak-semantics-local-value-tables" class="nav-link" data-scroll-target="#weak-semantics-local-value-tables"><span class="header-section-number">6.6.2</span> Weak semantics: local value tables</a></li>
+  <li><a href="#z-segments-private-extensions" id="toc-z-segments-private-extensions" class="nav-link" data-scroll-target="#z-segments-private-extensions"><span class="header-section-number">6.6.3</span> Z-segments: private extensions</a></li>
+  <li><a href="#parsing-hidden-complexity" id="toc-parsing-hidden-complexity" class="nav-link" data-scroll-target="#parsing-hidden-complexity"><span class="header-section-number">6.6.4</span> Parsing: hidden complexity</a></li>
+  <li><a href="#the-integration-engine-the-required-piece" id="toc-the-integration-engine-the-required-piece" class="nav-link" data-scroll-target="#the-integration-engine-the-required-piece"><span class="header-section-number">6.6.5</span> The integration engine: the required piece</a></li>
+  <li><a href="#balance-what-hl7-v2-solved-and-where-it-fell-short" id="toc-balance-what-hl7-v2-solved-and-where-it-fell-short" class="nav-link" data-scroll-target="#balance-what-hl7-v2-solved-and-where-it-fell-short"><span class="header-section-number">6.6.6</span> Balance: what HL7 v2 solved and where it fell short</a></li>
   </ul></li>
-  <li><a href="#sec-hl7v2-summary" id="toc-sec-hl7v2-summary" class="nav-link" data-scroll-target="#sec-hl7v2-summary"><span class="header-section-number">1.7</span> Summary and Exercises</a>
+  <li><a href="#sec-hl7v2-summary" id="toc-sec-hl7v2-summary" class="nav-link" data-scroll-target="#sec-hl7v2-summary"><span class="header-section-number">6.7</span> Summary and Exercises</a>
   <ul class="collapse">
   <li><a href="#consolidation-exercises" id="toc-consolidation-exercises" class="nav-link" data-scroll-target="#consolidation-exercises">Consolidation exercises</a></li>
   </ul></li>
@@ -244,7 +274,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -261,21 +291,21 @@ div.csl-indent {
 </header>
 
 
-<section id="sec-hl7v2-model" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="sec-hl7v2-model"><span class="header-section-number">1.1</span> HL7 v2 and the Message Model</h2>
-<section id="the-problem-hl7-v2-solved" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="the-problem-hl7-v2-solved"><span class="header-section-number">1.1.1</span> The problem HL7 v2 solved</h3>
+<section id="sec-hl7v2-model" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-hl7v2-model"><span class="header-section-number">6.1</span> HL7 v2 and the Message Model</h2>
+<section id="the-problem-hl7-v2-solved" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="the-problem-hl7-v2-solved"><span class="header-section-number">6.1.1</span> The problem HL7 v2 solved</h3>
 <p>Before HL7, each hospital information system operated as an isolated silo. Exchanging clinical data between systems — for example, between the admissions system and the laboratory — required manual intervention or proprietary point-to-point solutions. <strong>HL7 v2</strong> was designed to solve this problem: an application-layer protocol (OSI layer 7) for the automatic exchange of clinical messages between heterogeneous systems <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <p>HL7 v2 achieves a degree of <strong>semantic interoperability</strong>: data flows automatically between different systems with shared meaning. The unit of exchange is a <em>message</em>, sent when a clinical event occurs. The format is structured text, human-readable: segments separated by special characters (<em>pipes</em> and <em>carets</em>). The standard is open, maintained by the HL7 International consortium since 1987 <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <p>The adoption was remarkable: more than 35 billion HL7 v2 messages are estimated to be processed every year worldwide, and the protocol is present in 95% of hospitals <span class="citation" data-cites="Bhagat2019">(<a href="../references.html#ref-Bhagat2019" role="doc-biblioref">Bhagat, 2019</a>)</span>. Version 3 (2005) and FHIR (2011) coexist with v2 — they have not replaced it.</p>
 </section>
-<section id="a-standard-with-35-years-of-longevity" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="a-standard-with-35-years-of-longevity"><span class="header-section-number">1.1.2</span> A standard with 35 years of longevity</h3>
-<p>HL7 v2 is deeply embedded in existing hospital systems (HIS, LIS, RIS, PACS). Replacing it would require migrating decades of active interfaces. <a href="#tbl-hl7-versions" class="quarto-xref">Table&nbsp;<span>1.1</span></a> summarises the main versions.</p>
+<section id="a-standard-with-35-years-of-longevity" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="a-standard-with-35-years-of-longevity"><span class="header-section-number">6.1.2</span> A standard with 35 years of longevity</h3>
+<p>HL7 v2 is deeply embedded in existing hospital systems (HIS, LIS, RIS, PACS). Replacing it would require migrating decades of active interfaces. <a href="#tbl-hl7-versions" class="quarto-xref">Table&nbsp;<span>6.1</span></a> summarises the main versions.</p>
 <div id="tbl-hl7-versions" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-hl7-versions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.1: Main versions of HL7 v2 <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
+Table&nbsp;6.1: Main versions of HL7 v2 <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-hl7-versions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -324,8 +354,8 @@ Table&nbsp;1.1: Main versions of HL7 v2 <span class="citation" data-cites="HL7_v
 </div>
 <p>The longevity is not accidental: HL7 v2 aligns with real clinical workflows, is human-readable text, and benefits from a mature ecosystem of tools and consultants. Any clinical integration project in a hospital setting directly involves HL7 v2 messages in production <span class="citation" data-cites="BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.</p>
 </section>
-<section id="the-trigger-event-model" class="level3" data-number="1.1.3">
-<h3 data-number="1.1.3" class="anchored" data-anchor-id="the-trigger-event-model"><span class="header-section-number">1.1.3</span> The trigger-event model</h3>
+<section id="the-trigger-event-model" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="the-trigger-event-model"><span class="header-section-number">6.1.3</span> The trigger-event model</h3>
 <p>In HL7 v2, messages are not sent continuously — they are created when something happens in the real world. A <strong>trigger event</strong> is a clinical occurrence that causes an HL7 message to be generated. Without an event there is no message: the system always waits for something to happen before communicating. The content of the message depends on the event that triggered it <span class="citation" data-cites="Bhagat2019">(<a href="../references.html#ref-Bhagat2019" role="doc-biblioref">Bhagat, 2019</a>)</span>.</p>
 <!--
   Diagram: trigger-event model.
@@ -388,13 +418,13 @@ Table&nbsp;1.1: Main versions of HL7 v2 <span class="citation" data-cites="HL7_v
 </svg>
 </div>
 </section>
-<section id="message-types-and-trigger-codes" class="level3" data-number="1.1.4">
-<h3 data-number="1.1.4" class="anchored" data-anchor-id="message-types-and-trigger-codes"><span class="header-section-number">1.1.4</span> Message types and trigger codes</h3>
-<p>Each HL7 message is identified by two codes joined by a caret (<code>^</code>): the message type and the trigger event. The type is a three-letter uppercase acronym (e.g.&nbsp;<code>ADT</code>); the trigger is a letter followed by two digits (e.g.&nbsp;<code>A01</code>). <a href="#tbl-msg-types" class="quarto-xref">Table&nbsp;<span>1.2</span></a> lists the most relevant types in a hospital context.</p>
+<section id="message-types-and-trigger-codes" class="level3" data-number="6.1.4">
+<h3 data-number="6.1.4" class="anchored" data-anchor-id="message-types-and-trigger-codes"><span class="header-section-number">6.1.4</span> Message types and trigger codes</h3>
+<p>Each HL7 message is identified by two codes joined by a caret (<code>^</code>): the message type and the trigger event. The type is a three-letter uppercase acronym (e.g.&nbsp;<code>ADT</code>); the trigger is a letter followed by two digits (e.g.&nbsp;<code>A01</code>). <a href="#tbl-msg-types" class="quarto-xref">Table&nbsp;<span>6.2</span></a> lists the most relevant types in a hospital context.</p>
 <div id="tbl-msg-types" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-msg-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.2: Message types and main triggers in HL7 v2 <span class="citation" data-cites="HL7_v28 Bhagat2019">(<a href="../references.html#ref-Bhagat2019" role="doc-biblioref">Bhagat, 2019</a>; <a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
+Table&nbsp;6.2: Message types and main triggers in HL7 v2 <span class="citation" data-cites="HL7_v28 Bhagat2019">(<a href="../references.html#ref-Bhagat2019" role="doc-biblioref">Bhagat, 2019</a>; <a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-msg-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -469,10 +499,10 @@ Table&nbsp;1.2: Message types and main triggers in HL7 v2 <span class="citation"
 <p><code>ADT^A01</code> means: <em>Patient Administration</em> (type) + <em>Admit</em> (trigger). The two codes together uniquely identify the message in any conformant implementation.</p>
 </section>
 </section>
-<section id="sec-hl7v2-structure" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="sec-hl7v2-structure"><span class="header-section-number">1.2</span> Structure of an HL7 v2 Message</h2>
-<section id="five-level-hierarchy" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="five-level-hierarchy"><span class="header-section-number">1.2.1</span> Five-level hierarchy</h3>
+<section id="sec-hl7v2-structure" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="sec-hl7v2-structure"><span class="header-section-number">6.2</span> Structure of an HL7 v2 Message</h2>
+<section id="five-level-hierarchy" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="five-level-hierarchy"><span class="header-section-number">6.2.1</span> Five-level hierarchy</h3>
 <p>An HL7 v2 message is composed of five levels of granularity — from the broadest to the most specific <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>:</p>
 <ol type="1">
 <li><strong>Message</strong> — the complete unit of exchange (e.g.&nbsp;<code>ADT^A01</code>)</li>
@@ -529,13 +559,13 @@ Table&nbsp;1.2: Message types and main triggers in HL7 v2 <span class="citation"
 </svg>
 </div>
 </section>
-<section id="the-delimiters" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="the-delimiters"><span class="header-section-number">1.2.2</span> The delimiters</h3>
+<section id="the-delimiters" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="the-delimiters"><span class="header-section-number">6.2.2</span> The delimiters</h3>
 <p>Five special characters define the grammar of HL7 v2. They are declared in fields <code>MSH-1</code> and <code>MSH-2</code> of every message, meaning a parser can verify their presence before processing any other field <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <div id="tbl-delimiters" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-delimiters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.3: HL7 v2 delimiters — declared in MSH-1 and MSH-2 <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
+Table&nbsp;6.3: HL7 v2 delimiters — declared in MSH-1 and MSH-2 <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-delimiters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -591,13 +621,13 @@ Table&nbsp;1.3: HL7 v2 delimiters — declared in MSH-1 and MSH-2 <span class="c
 </div>
 <p><code>MSH-1</code> always contains the pipe — it is the field separator itself. <code>MSH-2</code> contains the other four in order <code>^~\&amp;</code>. These two fields are the first in any message and allow the receiver to determine the delimiters before beginning to parse.</p>
 </section>
-<section id="segments-the-logical-unit" class="level3" data-number="1.2.3">
-<h3 data-number="1.2.3" class="anchored" data-anchor-id="segments-the-logical-unit"><span class="header-section-number">1.2.3</span> Segments: the logical unit</h3>
-<p>A <strong>segment</strong> is a logical grouping of related fields. It begins with a three-letter uppercase identifier followed by a pipe. The position determines the meaning of the field — <code>PID-5</code> is always the patient name, regardless of the implementation. <a href="#tbl-segments" class="quarto-xref">Table&nbsp;<span>1.4</span></a> describes the essential segments in an ADT context.</p>
+<section id="segments-the-logical-unit" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="segments-the-logical-unit"><span class="header-section-number">6.2.3</span> Segments: the logical unit</h3>
+<p>A <strong>segment</strong> is a logical grouping of related fields. It begins with a three-letter uppercase identifier followed by a pipe. The position determines the meaning of the field — <code>PID-5</code> is always the patient name, regardless of the implementation. <a href="#tbl-segments" class="quarto-xref">Table&nbsp;<span>6.4</span></a> describes the essential segments in an ADT context.</p>
 <div id="tbl-segments" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-segments-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.4: Essential segments in ADT messages <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
+Table&nbsp;6.4: Essential segments in ADT messages <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-segments-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -665,8 +695,8 @@ Table&nbsp;1.4: Essential segments in ADT messages <span class="citation" data-c
 </div>
 <p>The presence notation follows a normalised convention: no brackets means mandatory; <code>[ ]</code> means optional; <code>{ }</code> means repeatable; <code>[{ }]</code> means optional and repeatable.</p>
 </section>
-<section id="fields-positional-and-fill-states" class="level3" data-number="1.2.4">
-<h3 data-number="1.2.4" class="anchored" data-anchor-id="fields-positional-and-fill-states"><span class="header-section-number">1.2.4</span> Fields: positional and fill states</h3>
+<section id="fields-positional-and-fill-states" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="fields-positional-and-fill-states"><span class="header-section-number">6.2.4</span> Fields: positional and fill states</h3>
 <p>Within a segment, fields are <strong>positional</strong>: the position number defines the meaning. A parser counts the pipes to know which field it is in. Trailing empty fields may be omitted — the parser infers their absence.</p>
 <p>A field can be in three distinct states with different semantics <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>:</p>
 <ul>
@@ -677,16 +707,16 @@ Table&nbsp;1.4: Essential segments in ADT messages <span class="citation" data-c
 <p>The distinction between <em>Not Populated</em> and <em>Null</em> is critical: confusing the two can cause silent data corruption in the receiving system. <em>Not Populated</em> means “I don’t have the value”; <em>Null</em> means “delete the value you have”.</p>
 </section>
 </section>
-<section id="sec-hl7v2-segments" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="sec-hl7v2-segments"><span class="header-section-number">1.3</span> Essential Segments</h2>
-<section id="msh-message-header" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="msh-message-header"><span class="header-section-number">1.3.1</span> MSH — Message header</h3>
-<p>The MSH is always the first segment and defines the full context of the message. <a href="#tbl-msh" class="quarto-xref">Table&nbsp;<span>1.5</span></a> describes the most relevant fields, using the example from the lectures:</p>
+<section id="sec-hl7v2-segments" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="sec-hl7v2-segments"><span class="header-section-number">6.3</span> Essential Segments</h2>
+<section id="msh-message-header" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="msh-message-header"><span class="header-section-number">6.3.1</span> MSH — Message header</h3>
+<p>The MSH is always the first segment and defines the full context of the message. <a href="#tbl-msh" class="quarto-xref">Table&nbsp;<span>6.5</span></a> describes the most relevant fields, using the example from the lectures:</p>
 <pre><code>MSH|^~\&amp;|ADT1|ULSTMAD|SCLINICO|ULSTMAD|200707181123||ADT^A01^ADT_A01|MSG00001|P|2.8</code></pre>
 <div id="tbl-msh" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-msh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.5: Main fields of the MSH segment <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
+Table&nbsp;6.5: Main fields of the MSH segment <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-msh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -778,15 +808,15 @@ Table&nbsp;1.5: Main fields of the MSH segment <span class="citation" data-cites
 </div>
 <p><code>MSH-10</code> (<em>Message Control ID</em>) is the field the receiver returns in the ACK message to confirm which message was received — it is the correlation mechanism between request and response.</p>
 </section>
-<section id="evn-event-type" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="evn-event-type"><span class="header-section-number">1.3.2</span> EVN — Event type</h3>
+<section id="evn-event-type" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="evn-event-type"><span class="header-section-number">6.3.2</span> EVN — Event type</h3>
 <p>The EVN segment records the event type and the relevant timestamps. It appears immediately after the MSH:</p>
 <pre><code>EVN|A01|200707181123||</code></pre>
 <p>The most relevant fields are: <code>EVN-1</code> (trigger code, e.g.&nbsp;<code>A01</code>), <code>EVN-2</code> (moment the event was recorded in the system) and <code>EVN-5</code> (identifier of the operator who recorded the event). <code>EVN-3</code> (planned date) and <code>EVN-4</code> (event reason) are optional and frequently empty.</p>
 <p>In a transfer message (<code>ADT^A02</code>), the difference between <code>EVN-2</code> (recording timestamp) and <code>EVN-6</code> (actual event time) documents the interval between the clinical occurrence and its administrative registration.</p>
 </section>
-<section id="pid-patient-identification" class="level3" data-number="1.3.3">
-<h3 data-number="1.3.3" class="anchored" data-anchor-id="pid-patient-identification"><span class="header-section-number">1.3.3</span> PID — Patient identification</h3>
+<section id="pid-patient-identification" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="pid-patient-identification"><span class="header-section-number">6.3.3</span> PID — Patient identification</h3>
 <p>The PID segment uniquely identifies the patient. Dissecting the example from the lectures illustrates field positional semantics <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>:</p>
 <pre><code>PID|1||PATID1234^^^ULSTMAD^MR~123456789^^^PORTUGAL^SS||BAPTISTA^JOAO^A^JUNIOR
 ||19610615|M|||45^RUADOCARMO^^VILAREAL^VILAREAL^5000-678|||92212345
@@ -794,7 +824,7 @@ Table&nbsp;1.5: Main fields of the MSH segment <span class="citation" data-cites
 <div id="tbl-pid" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.6: Main fields of the PID segment, João Baptista example <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
+Table&nbsp;6.6: Main fields of the PID segment, João Baptista example <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-pid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -848,15 +878,15 @@ Table&nbsp;1.6: Main fields of the PID segment, João Baptista example <span cla
 </div>
 <p>Field <code>PID-3</code> illustrates repetition with <code>~</code>: two groups separated by tilde correspond to two distinct identifiers for the same patient — the hospital’s internal ID and the Social Security number. Within each group, <code>^</code> separates the identifier components: value, check digit, verification code, assigning authority, type and authority name.</p>
 </section>
-<section id="pv1-patient-visit" class="level3" data-number="1.3.4">
-<h3 data-number="1.3.4" class="anchored" data-anchor-id="pv1-patient-visit"><span class="header-section-number">1.3.4</span> PV1 — Patient visit</h3>
+<section id="pv1-patient-visit" class="level3" data-number="6.3.4">
+<h3 data-number="6.3.4" class="anchored" data-anchor-id="pv1-patient-visit"><span class="header-section-number">6.3.4</span> PV1 — Patient visit</h3>
 <p>The PV1 segment describes the current visit: physical location, attending physician and clinical service. Field <code>PV1-3</code> uses a three-component structure identifying the location: <code>ward^room^bed</code>.</p>
 <pre><code>PV1|1|I|CIR-10^64^01||||124340^SILVA^ANTONIO|||SUR||||ADM</code></pre>
 <p><code>PV1-2</code> indicates the visit type (<code>I</code> = inpatient; <code>O</code> = outpatient; <code>E</code> = emergency). <code>PV1-7</code> identifies the attending physician as <code>code^family name^given name</code>. <code>PV1-10</code> indicates the clinical service (<code>SUR</code> = surgery, <code>ICU</code> = intensive care unit). In a discharge message, <code>PV1-44</code> and <code>PV1-45</code> record the admission date and discharge date respectively, allowing any receiving system to calculate the length of stay.</p>
 </section>
 </section>
-<section id="sec-hl7v2-ack" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="sec-hl7v2-ack"><span class="header-section-number">1.4</span> Message Confirmation: the ACK</h2>
+<section id="sec-hl7v2-ack" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="sec-hl7v2-ack"><span class="header-section-number">6.4</span> Message Confirmation: the ACK</h2>
 <p>After receiving a message, the destination system sends an <strong>ACK</strong> message to confirm receipt or to reject with error detail. The ACK always includes an <code>MSA</code> segment whose field <code>MSA-2</code> repeats the <code>MSH-10</code> of the original message, ensuring correlation between request and response <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <p>The response codes in field <code>MSA-1</code> are:</p>
 <ul>
@@ -912,12 +942,12 @@ Table&nbsp;1.6: Main fields of the PID segment, João Baptista example <span cla
 </div>
 <p>In a negative ACK (<code>AE</code>), the <code>ERR</code> segment provides error detail: field <code>ERR-2</code> identifies the segment and field position with the error (<code>PID^5</code> = field 5 of PID, patient name); <code>ERR-3</code> contains the error code; <code>ERR-4</code> indicates severity (<code>E</code> = error, <code>W</code> = warning). This mechanism allows the sender to diagnose exactly what failed.</p>
 </section>
-<section id="sec-hl7v2-adt" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="sec-hl7v2-adt"><span class="header-section-number">1.5</span> ADT Messages: the Patient’s Administrative Journey</h2>
+<section id="sec-hl7v2-adt" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="sec-hl7v2-adt"><span class="header-section-number">6.5</span> ADT Messages: the Patient’s Administrative Journey</h2>
 <p><strong>ADT</strong> (<em>Admission, Discharge, Transfer</em>) messages track each administrative state change of the patient. Whenever a patient is admitted, changes service, or is discharged, an ADT message is generated and distributed to all subscribed systems. They are the most frequent messages in any hospital <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <p>To illustrate the three central events, the lectures use a complete clinical case: João A. Baptista Júnior, admitted to ULSTMAD on 18 July 2007 for surgery, transferred to ICU early the following morning, and discharged on 25 July.</p>
-<section id="adta01-admission" class="level3" data-number="1.5.1">
-<h3 data-number="1.5.1" class="anchored" data-anchor-id="adta01-admission"><span class="header-section-number">1.5.1</span> ADT^A01 — Admission</h3>
+<section id="adta01-admission" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="adta01-admission"><span class="header-section-number">6.5.1</span> ADT^A01 — Admission</h3>
 <p>The <code>A01</code> event signals that a patient has been admitted and assigned a bed. It is the start of the hospital process: the HIS generates the <code>ADT^A01</code> and distributes it to all subscribed systems <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <p>In the case study, on 18 July 2007 at 11:23, João Baptista is admitted to the surgery service (SUR), Ward CIR-10, Room 64, Bed 01, with Dr.&nbsp;António Silva (#124340) as attending physician. The complete message is:</p>
 <pre><code>MSH|^~\&amp;|ADT1|ULSTMAD|SCLINICO|ULSTMAD|200707181123||ADT^A01^ADT_A01|MSG00001|P|2.8
@@ -929,8 +959,8 @@ NK1|1|PEREIRA^NILZA^F|SPO^SPOUSE||||NK^NEXT OF KIN
 PV1|1|I|CIR-10^64^01||||124340^SILVA^ANTONIO|||SUR||||ADM</code></pre>
 <p>The message has five segments: MSH (envelope), EVN (event timestamp), PID (patient identification, three lines), NK1 (spouse Nilza F. Pereira) and PV1 (location and physician). <code>PV1-3</code> uses the structure <code>CIR-10^64^01</code> — ward ^ room ^ bed.</p>
 </section>
-<section id="adta02-transfer" class="level3" data-number="1.5.2">
-<h3 data-number="1.5.2" class="anchored" data-anchor-id="adta02-transfer"><span class="header-section-number">1.5.2</span> ADT^A02 — Transfer</h3>
+<section id="adta02-transfer" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="adta02-transfer"><span class="header-section-number">6.5.2</span> ADT^A02 — Transfer</h3>
 <p>The <code>A02</code> event is generated when an admitted patient changes location within the hospital. The PID remains unchanged; the PV1 is updated with the new location, new responsible physician and new service <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <p>In the early hours of 19 July, João Baptista’s condition worsens due to a post-operative complication. He is transferred to the ICU at 02:30; the event is recorded at 02:45:</p>
 <pre><code>MSH|^~\&amp;|ADT1|ULSTMAD|SCLINICO|ULSTMAD|200707190245||ADT^A02^ADT_A02|000002|P|2.8||||
@@ -942,8 +972,8 @@ PV1||I|UCI^01^02^ULSTMAD|||CIR-10^64^01|124340^SILVA^ANTONIO|856321^FERREIRA^CAR
 |||||||856321^FERREIRA^CARLOS|S|||||||||||||||||||ULSTMAD|||||200707181123|</code></pre>
 <p><code>EVN-2</code> (<code>200707190245</code>) records when the event was entered into the system; <code>EVN-6</code> (<code>200707190230</code>) records the actual transfer time. The 15-minute gap documents the administrative delay. In PV1: <code>PV1-3</code> = new location (<code>UCI^01^02</code>), <code>PV1-6</code> = previous location (<code>CIR-10^64^01</code>), <code>PV1-8</code> = Dr.&nbsp;Ferreira (new responsible), <code>PV1-10</code> = ICU service.</p>
 </section>
-<section id="adta03-discharge" class="level3" data-number="1.5.3">
-<h3 data-number="1.5.3" class="anchored" data-anchor-id="adta03-discharge"><span class="header-section-number">1.5.3</span> ADT^A03 — Discharge</h3>
+<section id="adta03-discharge" class="level3" data-number="6.5.3">
+<h3 data-number="6.5.3" class="anchored" data-anchor-id="adta03-discharge"><span class="header-section-number">6.5.3</span> ADT^A03 — Discharge</h3>
 <p>The <code>A03</code> event records the end of the hospital stay. Field <code>PV1-36</code> indicates the discharge destination; fields <code>PV1-44</code> and <code>PV1-45</code> record the admission date and discharge date respectively <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <p>On 25 July 2007 at 10:00, João Baptista is discharged home with home health care (HH):</p>
 <pre><code>MSH|^~\&amp;|ADT1|ULSTMAD|SCLINICO|ULSTMAD|200707251000||ADT^A03^ADT_A03|000003|P|2.8||||
@@ -1000,24 +1030,24 @@ PV1||I|CIR-10^64^01||||124340^SILVA^ANTONIO|||SUR|||||||124340^SILVA^ANTONIO|S|1
 <p>Figure 6.3 — ADT sequence for the João Baptista case: admission (A01), transfer (A02) and discharge (A03).</p>
 </section>
 </section>
-<section id="sec-hl7v2-limitations" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="sec-hl7v2-limitations"><span class="header-section-number">1.6</span> HL7 v2 Limitations</h2>
-<section id="structural-fragility-no-formal-schema" class="level3" data-number="1.6.1">
-<h3 data-number="1.6.1" class="anchored" data-anchor-id="structural-fragility-no-formal-schema"><span class="header-section-number">1.6.1</span> Structural fragility: no formal schema</h3>
+<section id="sec-hl7v2-limitations" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="sec-hl7v2-limitations"><span class="header-section-number">6.6</span> HL7 v2 Limitations</h2>
+<section id="structural-fragility-no-formal-schema" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="structural-fragility-no-formal-schema"><span class="header-section-number">6.6.1</span> Structural fragility: no formal schema</h3>
 <p>HL7 v2 has no formal schema. Any string is accepted in any field — the standard does not define automatic format validation. Field <code>PID-7</code> (date of birth) should contain <code>YYYYMMDD</code>, but the receiver must accept whatever arrives. Format errors pass silently until they surface in a wrong clinical report <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <pre><code>PID|1||PAT001||SILVA^ANA||19850312|F|...    ← YYYYMMDD — correct
 PID|1||PAT001||SILVA^ANA||1985-03-12|F|...  ← accepted, but different format
 PID|1||PAT001||SILVA^ANA||12/03/1985|F|...  ← accepted, yet another dialect</code></pre>
 <p>A database with a <code>DATE</code> column automatically rejects <code>15/06/1961</code>. In HL7 v2, no such mechanism exists. Each sending system has its own dialect for dates, genders and codes; the integration engine accumulates normalisation rules per system. As the hospital network grows, this normalisation work becomes a permanent ongoing cost.</p>
 </section>
-<section id="weak-semantics-local-value-tables" class="level3" data-number="1.6.2">
-<h3 data-number="1.6.2" class="anchored" data-anchor-id="weak-semantics-local-value-tables"><span class="header-section-number">1.6.2</span> Weak semantics: local value tables</h3>
+<section id="weak-semantics-local-value-tables" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="weak-semantics-local-value-tables"><span class="header-section-number">6.6.2</span> Weak semantics: local value tables</h3>
 <p>HL7 v2 defines fields by name and position, but does not define the vocabulary of their values. The specification provides <strong>user-defined tables</strong>: each hospital chooses its own codes. What should be a shared vocabulary becomes a private dialect of each institution <span class="citation" data-cites="BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.</p>
 <p>The most common example is <code>PV1-4</code> (admission type):</p>
 <div id="tbl-semantics" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-semantics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.7: Weak semantics: the same field, incompatible values across hospitals <span class="citation" data-cites="BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.
+Table&nbsp;6.7: Weak semantics: the same field, incompatible values across hospitals <span class="citation" data-cites="BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-semantics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1051,16 +1081,16 @@ Table&nbsp;1.7: Weak semantics: the same field, incompatible values across hospi
 </div>
 <p>All three hospitals are conformant with the specification — and are incompatible with each other. The same problem exists in <code>PID-8</code> (gender), clinical service, diagnosis type and marital status: every field with a <em>user-defined table</em> is a potential point of incompatibility. Two “HL7 v2 conformant” systems may have completely different semantics and require bilateral mapping before any data exchange.</p>
 </section>
-<section id="z-segments-private-extensions" class="level3" data-number="1.6.3">
-<h3 data-number="1.6.3" class="anchored" data-anchor-id="z-segments-private-extensions"><span class="header-section-number">1.6.3</span> Z-segments: private extensions</h3>
+<section id="z-segments-private-extensions" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="z-segments-private-extensions"><span class="header-section-number">6.6.3</span> Z-segments: private extensions</h3>
 <p>Any segment whose identifier begins with <code>Z</code> is reserved for local use. The specification prohibits Z-segments in the normalised standard — they are intentionally private and opaque. Each hospital creates its own extra fields (e.g.&nbsp;<code>ZPI</code> for insurance information, <code>ZIN</code> for health subsystem data) without publishing them <span class="citation" data-cites="HL7_v28">(<a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.</p>
 <p>The problem becomes apparent when integrating two hospitals:</p>
 <pre><code>Hospital A:  ZIN|ADSE|GROUP001|PLANO_B
 Hospital B:  ZSG|ADSE|PLANO_B|GROUP001</code></pre>
 <p>The same content, different identifiers, different field order — mutually incompatible. An external parser does not know what <code>ZIN</code> or <code>ZSG</code> mean; it must be configured case by case, by bilateral agreement. Z-segments are the most visible example of a broader problem: the standard is open enough to generate incompatibilities even between conformant implementations.</p>
 </section>
-<section id="parsing-hidden-complexity" class="level3" data-number="1.6.4">
-<h3 data-number="1.6.4" class="anchored" data-anchor-id="parsing-hidden-complexity"><span class="header-section-number">1.6.4</span> Parsing: hidden complexity</h3>
+<section id="parsing-hidden-complexity" class="level3" data-number="6.6.4">
+<h3 data-number="6.6.4" class="anchored" data-anchor-id="parsing-hidden-complexity"><span class="header-section-number">6.6.4</span> Parsing: hidden complexity</h3>
 <p>Processing an HL7 v2 message is more demanding than simply splitting strings on the pipe character. Three main sources of complexity can be identified <span class="citation" data-cites="Bhagat2019">(<a href="../references.html#ref-Bhagat2019" role="doc-biblioref">Bhagat, 2019</a>)</span>:</p>
 <ul>
 <li><strong>Repeatable fields with <code>~</code></strong> — a field may have multiple values separated by tilde; <code>PID-3</code> can contain several identifiers for the same patient; the parser must handle lists, not single values.</li>
@@ -1069,8 +1099,8 @@ Hospital B:  ZSG|ADSE|PLANO_B|GROUP001</code></pre>
 </ul>
 <p>There is no universal parser for HL7 v2: every environment requires system-specific and version-specific rules.</p>
 </section>
-<section id="the-integration-engine-the-required-piece" class="level3" data-number="1.6.5">
-<h3 data-number="1.6.5" class="anchored" data-anchor-id="the-integration-engine-the-required-piece"><span class="header-section-number">1.6.5</span> The integration engine: the required piece</h3>
+<section id="the-integration-engine-the-required-piece" class="level3" data-number="6.6.5">
+<h3 data-number="6.6.5" class="anchored" data-anchor-id="the-integration-engine-the-required-piece"><span class="header-section-number">6.6.5</span> The integration engine: the required piece</h3>
 <p>The limitations described above converge on one point: any real HL7 v2 environment requires an <strong>integration middleware</strong> — commonly called an <em>integration engine</em>. Products such as Mirth Connect, Rhapsody or InterSystems Ensemble receive messages from multiple systems, normalise formats, map local tables, translate Z-segments and route to the correct destinations <span class="citation" data-cites="BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.</p>
 <!--
   Diagram: integration engine — N sending systems → engine → N receiving systems.
@@ -1125,13 +1155,13 @@ Hospital B:  ZSG|ADSE|PLANO_B|GROUP001</code></pre>
 </div>
 <p>The integration engine is not optional: it is the piece that makes HL7 v2 work in heterogeneous environments. The cost the standard does not show is the maintenance cost of this middleware: each new system joining the network requires analysis, mapping and testing. As N systems grow, the number of interfaces — and the cost of maintaining them — grows with it. This is the structural limit of the bilateral model that HL7 v2 imposes.</p>
 </section>
-<section id="balance-what-hl7-v2-solved-and-where-it-fell-short" class="level3" data-number="1.6.6">
-<h3 data-number="1.6.6" class="anchored" data-anchor-id="balance-what-hl7-v2-solved-and-where-it-fell-short"><span class="header-section-number">1.6.6</span> Balance: what HL7 v2 solved and where it fell short</h3>
+<section id="balance-what-hl7-v2-solved-and-where-it-fell-short" class="level3" data-number="6.6.6">
+<h3 data-number="6.6.6" class="anchored" data-anchor-id="balance-what-hl7-v2-solved-and-where-it-fell-short"><span class="header-section-number">6.6.6</span> Balance: what HL7 v2 solved and where it fell short</h3>
 <p>HL7 v2 solved a real problem: it eliminated the manual exchange of data between hospital systems, created a trigger-event model aligned with clinical workflows, and survived 35 years of technological change. Its limits only became apparent as scale grew.</p>
 <div id="tbl-balance" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-balance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.8: Balance of HL7 v2 <span class="citation" data-cites="HL7_v28 BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>; <a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
+Table&nbsp;6.8: Balance of HL7 v2 <span class="citation" data-cites="HL7_v28 BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>; <a href="../references.html#ref-HL7_v28" role="doc-biblioref">HL7 International, 2014</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-balance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1185,8 +1215,8 @@ Table&nbsp;1.8: Balance of HL7 v2 <span class="citation" data-cites="HL7_v28 Ben
 </div>
 </section>
 </section>
-<section id="sec-hl7v2-summary" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="sec-hl7v2-summary"><span class="header-section-number">1.7</span> Summary and Exercises</h2>
+<section id="sec-hl7v2-summary" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="sec-hl7v2-summary"><span class="header-section-number">6.7</span> Summary and Exercises</h2>
 <section id="consolidation-exercises" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="consolidation-exercises">Consolidation exercises</h3>
 <ol type="1">
@@ -1215,6 +1245,38 @@ HL7 International. (2014). <em><span>HL7</span> messaging standard version 2.8</
 </section>
 
 </main> <!-- /main -->
+<script>
+(function () {
+  var path = window.location.pathname;
+  var isEn = path.indexOf('/en/') !== -1;
+
+  var target, label, title;
+  if (isEn) {
+    target = path.replace('/en/', '/');
+    label  = '🇵🇹 PT';
+    title  = 'Mudar para Português';
+  } else {
+    var m = path.match(/^(\/[^/]*)(\/.*)$/);
+    target = m ? m[1] + '/en' + m[2] : '/en/';
+    label  = '🇬🇧 EN';
+    title  = 'Switch to English';
+  }
+
+  var btn = document.createElement('a');
+  btn.href  = target;
+  btn.title = title;
+  btn.textContent = label;
+  btn.style.cssText =
+    'position:fixed;top:68px;right:16px;z-index:9999;' +
+    'background:#0d7c8c;color:#fff;border-radius:6px;' +
+    'padding:5px 11px;font-size:13px;font-weight:600;' +
+    'text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.2);' +
+    'transition:background .2s;';
+  btn.onmouseover = function () { this.style.background = '#0a3d4a'; };
+  btn.onmouseout  = function () { this.style.background = '#0d7c8c'; };
+  document.body.appendChild(btn);
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1829,8 +1891,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link" aria-label="Preface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="../capitulos/cap05.html" class="pagination-link" aria-label="DICOM Services and PACS Architecture">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -727,6 +727,38 @@ SPMS – Serviços Partilhados do Ministério da Saúde. (2019). <em><span>SONHO
 </section>
 
 </main> <!-- /main -->
+<script>
+(function () {
+  var path = window.location.pathname;
+  var isEn = path.indexOf('/en/') !== -1;
+
+  var target, label, title;
+  if (isEn) {
+    target = path.replace('/en/', '/');
+    label  = '🇵🇹 PT';
+    title  = 'Mudar para Português';
+  } else {
+    var m = path.match(/^(\/[^/]*)(\/.*)$/);
+    target = m ? m[1] + '/en' + m[2] : '/en/';
+    label  = '🇬🇧 EN';
+    title  = 'Switch to English';
+  }
+
+  var btn = document.createElement('a');
+  btn.href  = target;
+  btn.title = title;
+  btn.textContent = label;
+  btn.style.cssText =
+    'position:fixed;top:68px;right:16px;z-index:9999;' +
+    'background:#0d7c8c;color:#fff;border-radius:6px;' +
+    'padding:5px 11px;font-size:13px;font-weight:600;' +
+    'text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.2);' +
+    'transition:background .2s;';
+  btn.onmouseover = function () { this.style.background = '#0a3d4a'; };
+  btn.onmouseout  = function () { this.style.background = '#0d7c8c'; };
+  document.body.appendChild(btn);
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

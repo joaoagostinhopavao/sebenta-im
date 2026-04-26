@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; DICOM Services and PACS Architecture – Medical Informatics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/cap06.html" rel="next">
+<link href="../capitulos/cap04.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a023c9ade86a60361e96e3e3f11bc54.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-61bc4ac84974e0785b3107ee93e74bfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bc9f1d3aef906c45e091843ae87821a0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../../assets/css/custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Medical Informatics</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations of Medical Informatics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hospital Information Systems and Electronic Health Records</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-dicom-dimse" id="toc-sec-dicom-dimse" class="nav-link active" data-scroll-target="#sec-dicom-dimse"><span class="header-section-number">5.1</span> DICOM Services — DIMSE: images in action</a>
+  <ul class="collapse">
+  <li><a href="#application-entities-scu-and-scp" id="toc-application-entities-scu-and-scp" class="nav-link" data-scroll-target="#application-entities-scu-and-scp"><span class="header-section-number">5.1.1</span> Application Entities, SCU, and SCP</a></li>
+  <li><a href="#structure-of-a-dimse-message" id="toc-structure-of-a-dimse-message" class="nav-link" data-scroll-target="#structure-of-a-dimse-message"><span class="header-section-number">5.1.2</span> Structure of a DIMSE message</a></li>
+  <li><a href="#the-four-main-services-c-echo-c-store-c-find-c-move" id="toc-the-four-main-services-c-echo-c-store-c-find-c-move" class="nav-link" data-scroll-target="#the-four-main-services-c-echo-c-store-c-find-c-move"><span class="header-section-number">5.1.3</span> The four main services: C-ECHO, C-STORE, C-FIND, C-MOVE</a></li>
+  <li><a href="#sop-class-the-serviceobject-contract" id="toc-sop-class-the-serviceobject-contract" class="nav-link" data-scroll-target="#sop-class-the-serviceobject-contract"><span class="header-section-number">5.1.4</span> SOP Class: the service–object contract</a></li>
+  </ul></li>
+  <li><a href="#sec-pacs" id="toc-sec-pacs" class="nav-link" data-scroll-target="#sec-pacs"><span class="header-section-number">5.2</span> PACS Systems</a>
+  <ul class="collapse">
+  <li><a href="#from-analogue-radiology-to-pacs" id="toc-from-analogue-radiology-to-pacs" class="nav-link" data-scroll-target="#from-analogue-radiology-to-pacs"><span class="header-section-number">5.2.1</span> From analogue radiology to PACS</a></li>
+  <li><a href="#general-architecture-and-workflow" id="toc-general-architecture-and-workflow" class="nav-link" data-scroll-target="#general-architecture-and-workflow"><span class="header-section-number">5.2.2</span> General architecture and workflow</a></li>
+  <li><a href="#architecture-types-stand-alone-client-server-and-web" id="toc-architecture-types-stand-alone-client-server-and-web" class="nav-link" data-scroll-target="#architecture-types-stand-alone-client-server-and-web"><span class="header-section-number">5.2.3</span> Architecture types: stand-alone, client-server, and web</a></li>
+  <li><a href="#pacs-integration-with-his-and-ris" id="toc-pacs-integration-with-his-and-ris" class="nav-link" data-scroll-target="#pacs-integration-with-his-and-ris"><span class="header-section-number">5.2.4</span> PACS integration with HIS and RIS</a></li>
+  </ul></li>
+  <li><a href="#sec-dicom-seguranca" id="toc-sec-dicom-seguranca" class="nav-link" data-scroll-target="#sec-dicom-seguranca"><span class="header-section-number">5.3</span> Security in DICOM and PACS</a>
+  <ul class="collapse">
+  <li><a href="#normative-mechanisms-cms-tls-and-https" id="toc-normative-mechanisms-cms-tls-and-https" class="nav-link" data-scroll-target="#normative-mechanisms-cms-tls-and-https"><span class="header-section-number">5.3.1</span> Normative mechanisms: CMS, TLS, and HTTPS</a></li>
+  <li><a href="#implementation-responsibility" id="toc-implementation-responsibility" class="nav-link" data-scroll-target="#implementation-responsibility"><span class="header-section-number">5.3.2</span> Implementation responsibility</a></li>
+  </ul></li>
+  <li><a href="#sec-pacs-sintese" id="toc-sec-pacs-sintese" class="nav-link" data-scroll-target="#sec-pacs-sintese"><span class="header-section-number">5.4</span> Summary and Exercises</a>
+  <ul class="collapse">
+  <li><a href="#consolidation-exercises" id="toc-consolidation-exercises" class="nav-link" data-scroll-target="#consolidation-exercises">Consolidation exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-dicom-dimse" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-dicom-dimse"><span class="header-section-number">5.1</span> DICOM Services — DIMSE: images in action</h2>
+<section id="application-entities-scu-and-scp" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="application-entities-scu-and-scp"><span class="header-section-number">5.1.1</span> Application Entities, SCU, and SCP</h3>
+<p>Beyond the data model covered in the previous chapter, DICOM also defines how information is manipulated, through the definitions contained in <strong>DIMSE</strong> (<em>DICOM Message Service Element</em>).</p>
+<p><strong>DIMSE</strong> is the services layer of the standard, specified in part PS3.7 <span class="citation" data-cites="DICOM_PS37">(<a href="../references.html#ref-DICOM_PS37" role="doc-biblioref">NEMA / MITA, 2025d</a>)</span>.</p>
+<p>The first concept to consider in any communications system concerns the <strong>entities</strong> responsible for communication, i.e., <strong>sender</strong> and <strong>receiver</strong>. In a DICOM system, all communication occurs between <strong>Application Entities</strong> (AE). An AE is any device or application that implements the DICOM standard: a CT scanner, a PACS archive server, a visualisation workstation, or a printer. Each AE is uniquely identified by an <strong>AE Title</strong> — an alphanumeric string configured by the system administrator.</p>
+<p>In each interaction, an AE assumes one of two roles:</p>
+<ul>
+<li><strong>SCU</strong> (<em>Service Class User</em>) — the entity that requests the service, sending the request (<code>-Rq</code>). This entity may also be informally identified as the <em>client</em>.</li>
+<li><strong>SCP</strong> (<em>Service Class Provider</em>) — the entity that provides the service, responding to the request (<code>-Rsp</code>). This entity may equally be informally identified as the <em>server</em>.</li>
+</ul>
+<p>SCU and SCP roles are not fixed: the same AE may be SCU in one interaction (when sending images to the archive) and SCP in another (when receiving a query request from a workstation). This flexibility is fundamental to the operation of distributed systems with multiple devices <span class="citation" data-cites="DICOM_PS37">(<a href="../references.html#ref-DICOM_PS37" role="doc-biblioref">NEMA / MITA, 2025d</a>)</span>.</p>
+<p>DIMSE services follow a standardised naming convention: the prefix <code>C-</code> indicates that the service operates on composite data (<em>Composite</em>); the prefix <code>N-</code> indicates normalised data (<em>Normalized</em>). The suffix <code>-Rq</code> identifies the request and <code>-Rsp</code> the response.</p>
+</section>
+<section id="structure-of-a-dimse-message" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="structure-of-a-dimse-message"><span class="header-section-number">5.1.2</span> Structure of a DIMSE message</h3>
+<p>Each DIMSE message is composed of two elements: a <strong>DICOM Command Object</strong> and, optionally, a <strong>DICOM Data Object</strong>. The Command Object is encoded as a set of group <code>0000</code> Data Elements — following exactly the same TAG + VR + Value structure as the other Data Elements, but defined in part PS3.7 (not in the Data Dictionary PS3.6). The most relevant command fields are <code>(0000,0100)</code> (<em>Command Field</em>, which identifies the service type), <code>(0000,0110)</code> (<em>Message ID</em>), and <code>(0000,0800)</code> (<em>Data Set Type</em>, which indicates whether an IOD is attached) <span class="citation" data-cites="DICOM_PS37">(<a href="../references.html#ref-DICOM_PS37" role="doc-biblioref">NEMA / MITA, 2025d</a>)</span>.</p>
+<p>The <em>Data Set Type</em> field has the value <code>0101h</code> when no IOD is attached (as in C-ECHO) and another value when the IOD is present (as in C-STORE). This distinction allows the receiver to know, before processing the message body, whether or not to expect additional data. The complete structure of a DIMSE message is illustrated in Figure 5.1.</p>
+<!--
+  Diagram: structure of a DIMSE message.
+  Left block: DICOM Command Object (group 0000) with fields.
+  Right block: DICOM Data Object (IOD), optional.
+  Arrow indicating that Data Set Type controls the presence of the right block.
+  Note: if Data Set Type = 0101h, right block is absent.
+  Teal palette.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 700 290" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="290" rx="10" fill="#f8fbfc"></rect>
+
+  <!-- General title -->
+  <text x="350" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0a3d4a">DIMSE Message</text>
+
+  <!-- LEFT BLOCK: Command Object -->
+  <rect x="20" y="32" width="290" height="220" rx="8" fill="#0a3d4a" opacity="0.06" stroke="#0a3d4a" stroke-width="1.5"></rect>
+  <rect x="20" y="32" width="290" height="28" rx="8" fill="#0a3d4a"></rect>
+  <text x="165" y="51" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">DICOM Command Object (group 0000)</text>
+
+  <!-- Command Object table rows -->
+  <!-- Header -->
+  <rect x="30" y="68" width="175" height="22" rx="3" fill="#0d7c8c"></rect>
+  <rect x="210" y="68" width="90" height="22" rx="3" fill="#0d7c8c"></rect>
+  <text x="38" y="83" font-size="10" font-weight="bold" fill="#fff">Element (TAG)</text>
+  <text x="218" y="83" font-size="10" font-weight="bold" fill="#fff">Value</text>
+
+  <!-- Row 1: Type -->
+  <rect x="30" y="92" width="175" height="20" rx="2" fill="#e2f4f3"></rect>
+  <rect x="210" y="92" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"></rect>
+  <text x="38" y="106" font-size="9" fill="#0a3d4a">(0000,0100)  Command Field</text>
+  <text x="218" y="106" font-size="10" fill="#374151">Store</text>
+
+  <!-- Row 2: Message ID -->
+  <rect x="30" y="114" width="175" height="20" rx="2" fill="#e2f4f3"></rect>
+  <rect x="210" y="114" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"></rect>
+  <text x="38" y="128" font-size="9" fill="#0a3d4a">(0000,0110)  Message ID</text>
+  <text x="218" y="128" font-size="10" fill="#374151">24</text>
+
+  <!-- Row 3: Priority -->
+  <rect x="30" y="136" width="175" height="20" rx="2" fill="#e2f4f3"></rect>
+  <rect x="210" y="136" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"></rect>
+  <text x="38" y="150" font-size="9" fill="#0a3d4a">(0000,0700)  Priority</text>
+  <text x="218" y="150" font-size="10" fill="#374151">Medium</text>
+
+  <!-- Row 4: SOP -->
+  <rect x="30" y="158" width="175" height="20" rx="2" fill="#e2f4f3"></rect>
+  <rect x="210" y="158" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"></rect>
+  <text x="38" y="172" font-size="9" fill="#0a3d4a">(0000,0002)  Aff. SOP Class UID</text>
+  <text x="218" y="172" font-size="10" fill="#374151">1.2.840…</text>
+
+  <!-- Row 5: Data Set Type — highlighted -->
+  <rect x="30" y="180" width="175" height="22" rx="2" fill="#1ab3a6"></rect>
+  <rect x="210" y="180" width="90" height="22" rx="2" fill="#1ab3a6" opacity="0.3" stroke="#1ab3a6" stroke-width="1"></rect>
+  <text x="38" y="195" font-size="9" font-weight="bold" fill="#fff">(0000,0800)  Data Set Type</text>
+  <text x="218" y="195" font-size="9" font-weight="bold" fill="#0a3d4a">≠ 0101h</text>
+
+  <!-- Note 0101h -->
+  <rect x="30" y="210" width="270" height="30" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"></rect>
+  <text x="165" y="224" text-anchor="middle" font-size="9" fill="#92400e">
+    If Data Set Type = 0101h → no IOD attached
+  </text>
+  <text x="165" y="235" text-anchor="middle" font-size="9" fill="#92400e">
+    (e.g. C-ECHO carries no IOD)
+  </text>
+
+  <!-- RIGHT BLOCK: Data Object -->
+  <rect x="390" y="32" width="290" height="220" rx="8" fill="#1ab3a6" opacity="0.06" stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="6"></rect>
+  <rect x="390" y="32" width="290" height="28" rx="8" fill="#1ab3a6"></rect>
+  <text x="535" y="51" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">DICOM Data Object (IOD) — optional</text>
+
+  <!-- Data Object header -->
+  <rect x="400" y="68" width="120" height="22" rx="3" fill="#0d7c8c"></rect>
+  <rect x="525" y="68" width="145" height="22" rx="3" fill="#0d7c8c"></rect>
+  <text x="460" y="83" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Attribute</text>
+  <text x="598" y="83" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Value</text>
+
+  <!-- Data Object rows -->
+  <rect x="400" y="92" width="120" height="20" rx="2" fill="#e2f4f3"></rect>
+  <rect x="525" y="92" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"></rect>
+  <text x="460" y="106" text-anchor="middle" font-size="10" fill="#0a3d4a">Patient Name</text>
+  <text x="598" y="106" text-anchor="middle" font-size="10" fill="#374151">Couto^Fernando</text>
+
+  <rect x="400" y="114" width="120" height="20" rx="2" fill="#e2f4f3"></rect>
+  <rect x="525" y="114" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"></rect>
+  <text x="460" y="128" text-anchor="middle" font-size="10" fill="#0a3d4a">Patient ID</text>
+  <text x="598" y="128" text-anchor="middle" font-size="10" fill="#374151">987654</text>
+
+  <rect x="400" y="136" width="120" height="20" rx="2" fill="#e2f4f3"></rect>
+  <rect x="525" y="136" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"></rect>
+  <text x="460" y="150" text-anchor="middle" font-size="10" fill="#0a3d4a">Modality</text>
+  <text x="598" y="150" text-anchor="middle" font-size="10" fill="#374151">CT</text>
+
+  <rect x="400" y="158" width="120" height="20" rx="2" fill="#e2f4f3"></rect>
+  <rect x="525" y="158" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"></rect>
+  <text x="460" y="172" text-anchor="middle" font-size="10" fill="#0a3d4a">Rows</text>
+  <text x="598" y="172" text-anchor="middle" font-size="10" fill="#374151">512</text>
+
+  <rect x="400" y="180" width="120" height="20" rx="2" fill="#e2f4f3"></rect>
+  <rect x="525" y="180" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"></rect>
+  <text x="460" y="194" text-anchor="middle" font-size="10" fill="#0a3d4a">Pixel Data</text>
+  <text x="598" y="194" text-anchor="middle" font-size="10" fill="#374151">[binary data]</text>
+
+  <!-- Arrow between blocks -->
+  <line x1="312" y1="191" x2="388" y2="191" stroke="#1ab3a6" stroke-width="2" marker-end="url(#ma)"></line>
+  <text x="350" y="185" text-anchor="middle" font-size="8" fill="#1ab3a6">if ≠ 0101h</text>
+  <defs>
+    <marker id="ma" markerwidth="6" markerheight="6" refx="5" refy="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"></path>
+    </marker>
+  </defs>
+
+  <!-- Caption -->
+  <text x="350" y="278" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 5.1 — Structure of a DIMSE message: Command Object + optional Data Object (PS3.7)
+  </text>
+</svg>
+</div>
+</section>
+<section id="the-four-main-services-c-echo-c-store-c-find-c-move" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="the-four-main-services-c-echo-c-store-c-find-c-move"><span class="header-section-number">5.1.3</span> The four main services: C-ECHO, C-STORE, C-FIND, C-MOVE</h3>
+<p><strong>C-ECHO</strong> — verifies the existence of a functional DICOM connection between two AEs. It goes beyond a simple TCP/IP <code>ping</code>: it confirms that the DICOM application layer is operational. It carries no IOD. It is routinely used to monitor the availability of system components <span class="citation" data-cites="DICOM_PS37">(<a href="../references.html#ref-DICOM_PS37" role="doc-biblioref">NEMA / MITA, 2025d</a>)</span>.</p>
+<p><strong>C-STORE</strong> — sends a complete DICOM instance from one AE to another. It is the most widely used service in the clinical workflow: it occurs immediately after each acquisition, when the equipment sends images to the archive server. The equipment acts as SCU and the server as SCP.</p>
+<p><strong>C-FIND</strong> — queries studies, series, or images on a remote AE based on criteria such as patient identifier, date, modality, or study description. The SCU specifies the criteria; the SCP returns a list of matching results. Note that C-FIND does not transfer images — only metadata <span class="citation" data-cites="DICOM_PS37">(<a href="../references.html#ref-DICOM_PS37" role="doc-biblioref">NEMA / MITA, 2025d</a>)</span>.</p>
+<p><strong>C-MOVE</strong> — requests the SCP to transfer images to a third AE. The SCU specifies the destination by AE Title; the SCP uses C-STORE to send the images to that destination. This indirect mechanism is typical of visualisation workstations, which ask the server to send images directly to themselves. Figure 5.2 illustrates the request–response model of the three main services.</p>
+<!--
+  Diagram: the four DIMSE services with SCU → SCP.
+  Horizontal lines with arrows; request-response model.
+  Teal palette.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 660 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:660px;font-family:sans-serif;">
+  <rect width="660" height="240" rx="10" fill="#f8fbfc"></rect>
+  <rect x="20" y="15" width="120" height="28" rx="5" fill="#0a3d4a"></rect>
+  <text x="80" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">SCU</text>
+  <rect x="520" y="15" width="120" height="28" rx="5" fill="#0a3d4a"></rect>
+  <text x="580" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">SCP</text>
+  <text x="20" y="72" font-size="11" font-weight="bold" fill="#0d7c8c">C-ECHO</text>
+  <line x1="80" y1="78" x2="520" y2="78" stroke="#0d7c8c" stroke-width="2" marker-end="url(#a1)"></line>
+  <line x1="520" y1="88" x2="80" y2="88" stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#a2)"></line>
+  <text x="300" y="74" text-anchor="middle" font-size="10" fill="#0d7c8c">C-Echo-Rq (no IOD)</text>
+  <text x="300" y="100" text-anchor="middle" font-size="10" fill="#64748b">C-Echo-Rsp</text>
+  <text x="20" y="128" font-size="11" font-weight="bold" fill="#1ab3a6">C-STORE</text>
+  <line x1="80" y1="134" x2="520" y2="134" stroke="#1ab3a6" stroke-width="2" marker-end="url(#a1)"></line>
+  <line x1="520" y1="144" x2="80" y2="144" stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#a2)"></line>
+  <text x="300" y="130" text-anchor="middle" font-size="10" fill="#1ab3a6">C-Store-Rq + CT Image IOD</text>
+  <text x="300" y="156" text-anchor="middle" font-size="10" fill="#64748b">C-Store-Rsp (Success/Failure)</text>
+  <text x="20" y="184" font-size="11" font-weight="bold" fill="#0d7c8c">C-FIND</text>
+  <line x1="80" y1="190" x2="520" y2="190" stroke="#0d7c8c" stroke-width="2" marker-end="url(#a1)"></line>
+  <line x1="520" y1="200" x2="80" y2="200" stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#a2)"></line>
+  <text x="300" y="186" text-anchor="middle" font-size="10" fill="#0d7c8c">C-Find-Rq (search criteria)</text>
+  <text x="300" y="212" text-anchor="middle" font-size="10" fill="#64748b">C-Find-Rsp (list of results)</text>
+  <text x="330" y="232" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 5.2 — Main DIMSE services: request–response model (PS3.7)
+  </text>
+  <defs>
+    <marker id="a1" markerwidth="6" markerheight="6" refx="5" refy="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"></path></marker>
+    <marker id="a2" markerwidth="6" markerheight="6" refx="5" refy="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"></path></marker>
+  </defs>
+</svg>
+</div>
+</section>
+<section id="sop-class-the-serviceobject-contract" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="sop-class-the-serviceobject-contract"><span class="header-section-number">5.1.4</span> SOP Class: the service–object contract</h3>
+<p>A <strong>SOP Class</strong> (<em>Service-Object Pair Class</em>) is the formal combination of a group of DIMSE services with an IOD. It defines, normatively, what can be done with a particular type of information object. Each SOP Class is identified by a globally unique UID, registered in part PS3.6 <span class="citation" data-cites="DICOM_PS34 DICOM_PS36">(<a href="../references.html#ref-DICOM_PS34" role="doc-biblioref">NEMA / MITA, 2025b</a>, <a href="../references.html#ref-DICOM_PS36" role="doc-biblioref">2025c</a>)</span>.</p>
+<p>The paradigmatic example is the <strong>CT Image Storage SOP Class</strong>: it combines the C-STORE service with the CT Image IOD, identified by the UID <code>1.2.840.10008.5.1.4.1.1.2</code>. When a CT scanner sends images to an archive server, both devices negotiate during the connection establishment (<em>Association Negotiation</em>) whether they support this SOP Class — the transfer only occurs if both support it <span class="citation" data-cites="DICOM_PS34">(<a href="../references.html#ref-DICOM_PS34" role="doc-biblioref">NEMA / MITA, 2025b</a>)</span>.</p>
+<p>Note that an IOD is not necessarily an image with pixels: the <em>Modality Worklist</em> IOD contains the list of pending examinations for a modality, without any pixel data; and the <em>Verification</em> SOP Class (C-ECHO) has no associated IOD at all. <a href="#tbl-sop" class="quarto-xref">Table&nbsp;<span>5.1</span></a> presents representative examples of normalised SOP Classes:</p>
+<div id="tbl-sop" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.1: Examples of normalised SOP Classes <span class="citation" data-cites="DICOM_PS34 DICOM_PS36">(<a href="../references.html#ref-DICOM_PS34" role="doc-biblioref">NEMA / MITA, 2025b</a>, <a href="../references.html#ref-DICOM_PS36" role="doc-biblioref">2025c</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-sop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>SOP Class</th>
+<th>IOD</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CT Image Storage <code>1.2.840.10008.5.1.4.1.1.2</code></td>
+<td>CT Image IOD</td>
+<td>C-STORE</td>
+</tr>
+<tr class="even">
+<td>MR Image Storage <code>1.2.840.10008.5.1.4.1.1.4</code></td>
+<td>MR Image IOD</td>
+<td>C-STORE</td>
+</tr>
+<tr class="odd">
+<td>Study Root Q/R — FIND <code>1.2.840.10008.5.1.4.1.2.2.1</code></td>
+<td>Study Root IOD</td>
+<td>C-FIND</td>
+</tr>
+<tr class="even">
+<td>Study Root Q/R — MOVE <code>1.2.840.10008.5.1.4.1.2.2.2</code></td>
+<td>Study Root IOD</td>
+<td>C-MOVE</td>
+</tr>
+<tr class="odd">
+<td>Modality Worklist <code>1.2.840.10008.5.1.4.31</code></td>
+<td>Modality Worklist IOD</td>
+<td>C-FIND</td>
+</tr>
+<tr class="even">
+<td>Verification <code>1.2.840.10008.1.1</code></td>
+<td><em>(no IOD)</em></td>
+<td>C-ECHO</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>It can thus be seen that DIMSE, IOD, and SOP Class have distinct but complementary roles: DIMSE defines the message format; the IOD defines the data structure; and the SOP Class declares the valid contract between both, identified by a negotiable UID.</p>
+</section>
+</section>
+<section id="sec-pacs" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-pacs"><span class="header-section-number">5.2</span> PACS Systems</h2>
+<section id="from-analogue-radiology-to-pacs" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="from-analogue-radiology-to-pacs"><span class="header-section-number">5.2.1</span> From analogue radiology to PACS</h3>
+<p>A <strong>PACS</strong> (<em>Picture Archiving and Communication System</em>) is the computer system that manages the complete lifecycle of medical images in a hospital institution: from acquisition at the modalities through to archiving, distribution, and visualisation for diagnostic and reporting purposes <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>.</p>
+<p>The radiology workflow before PACS was entirely manual: patient registration with the printing of a paper request; examination performance and development of analogue film; manual search of the physical archive to locate previous examinations; transport of dossiers to the radiologist; dictation of the report; transcription; review and signing; and insertion of the final report into the RIS <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>.</p>
+<p>With PACS, this workflow is fully digitised: images arrive directly from the equipment to the archive via DICOM C-STORE, previous examinations are automatically pre-loaded onto diagnostic workstations, the radiologist works in an integrated digital environment, and the signed report is distributed electronically. The time between acquisition and diagnostic availability drops from hours to seconds.</p>
+<p>Documented benefits include the elimination of analogue film costs (estimated at between 6 and 8% of the radiology budget in pre-PACS hospitals), the reduction of repeated examinations due to inability to access previous studies, and support for remote diagnosis (<em>teleradiology</em>) <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>.</p>
+</section>
+<section id="general-architecture-and-workflow" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="general-architecture-and-workflow"><span class="header-section-number">5.2.2</span> General architecture and workflow</h3>
+<p>In a generic PACS, the <strong>RIS</strong> (<em>Radiology Information System</em>) coordinates the administrative and clinical flow, whilst the DICOM protocol transports images between the technical components. The integrated workflow comprises:</p>
+<ol type="1">
+<li>The patient registers in the RIS, which assigns a unique identifier.</li>
+<li>The RIS sends HL7 messages with examination data to the <strong>PACS Broker</strong>.</li>
+<li>The PACS Broker notifies the archive server of the appointment.</li>
+<li>Relevant previous examinations are pre-loaded onto diagnostic workstations (<em>prefetch</em>).</li>
+<li>The examination room queries the DICOM <strong>Modality Worklist</strong> (C-FIND on the <em>Modality Worklist IOD</em>) to obtain the pending examination data.</li>
+<li>The technician performs the examination; the equipment sends the images (C-STORE) to the quality control workstation (QC WS).</li>
+<li>The QC WS forwards the examination to the radiologist’s diagnostic workstation.</li>
+<li>The examination is archived in the PACS server (database updated).</li>
+<li>The server distributes the examination to clinical department workstations.</li>
+<li>The radiologist dictates and signs the report; the database is marked as complete.</li>
+<li>The report is transcribed and distributed electronically <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>.</li>
+</ol>
+</section>
+<section id="architecture-types-stand-alone-client-server-and-web" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="architecture-types-stand-alone-client-server-and-web"><span class="header-section-number">5.2.3</span> Architecture types: stand-alone, client-server, and web</h3>
+<p>Three fundamental PACS architectures can be identified, with different trade-offs between resilience, flexibility, and network dependency <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>:</p>
+<p><strong>Stand-alone (thick client)</strong> — images are automatically distributed by the server to diagnostic workstations, which maintain local storage. The workstation can continue operating even if the server becomes unavailable. The disadvantage is that each workstation has its own <em>worklist</em>, creating a risk of duplicate reading of the same examination. The <em>query/retrieve</em> function (C-FIND + C-MOVE) allows non-pre-loaded images to be retrieved from the archive.</p>
+<p><strong>Client-server (thin client)</strong> — workstations have no local storage; they access the central <em>worklist</em> directly and load images from server memory. The <em>worklist</em> is single and shared, eliminating duplicate readings. The structural disadvantage is that the server constitutes a single point of failure (SPOF): any interruption prevents access to images.</p>
+<p><strong>Web-based</strong> — images are served via HTTPS through the <strong>DICOMweb</strong> interface (PS3.18), which exposes DICOM services as a REST API. Any device with a compatible browser can access the archive without installing specialised software. This model shares the network vulnerabilities of the client-server approach, but adds platform independence and natural support for teleradiology <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>. Figure 5.3 compares the stand-alone and client-server architectures.</p>
+<!--
+  Comparative diagram: Stand-alone vs Client-server.
+  Two panels side by side.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 680 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="230" rx="10" fill="#f8fbfc"></rect>
+  <text x="170" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0a3d4a">Stand-alone (thick client)</text>
+  <text x="510" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0d7c8c">Client-server (thin client)</text>
+  <line x1="340" y1="10" x2="340" y2="220" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5"></line>
+  <rect x="130" y="35" width="80" height="36" rx="6" fill="#0a3d4a"></rect>
+  <text x="170" y="58" text-anchor="middle" font-size="11" fill="#fff">PACS Server</text>
+  <rect x="30" y="110" width="80" height="30" rx="5" fill="#1ab3a6"></rect>
+  <text x="70" y="130" text-anchor="middle" font-size="10" fill="#fff">WS + Storage</text>
+  <rect x="130" y="110" width="80" height="30" rx="5" fill="#1ab3a6"></rect>
+  <text x="170" y="130" text-anchor="middle" font-size="10" fill="#fff">WS + Storage</text>
+  <rect x="230" y="110" width="80" height="30" rx="5" fill="#1ab3a6"></rect>
+  <text x="270" y="130" text-anchor="middle" font-size="10" fill="#fff">WS + Storage</text>
+  <line x1="170" y1="71" x2="70" y2="110" stroke="#0d7c8c" stroke-width="1.5"></line>
+  <line x1="170" y1="71" x2="170" y2="110" stroke="#0d7c8c" stroke-width="1.5"></line>
+  <line x1="170" y1="71" x2="270" y2="110" stroke="#0d7c8c" stroke-width="1.5"></line>
+  <text x="170" y="165" text-anchor="middle" font-size="10" fill="#16a34a">✓ Resilient to failure</text>
+  <text x="170" y="178" text-anchor="middle" font-size="10" fill="#dc2626">✗ Worklist per WS</text>
+  <rect x="470" y="35" width="80" height="36" rx="6" fill="#0d7c8c"></rect>
+  <text x="510" y="58" text-anchor="middle" font-size="11" fill="#fff">PACS Server</text>
+  <rect x="370" y="110" width="80" height="30" rx="5" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"></rect>
+  <text x="410" y="130" text-anchor="middle" font-size="10" fill="#0a3d4a">WS (no cache)</text>
+  <rect x="470" y="110" width="80" height="30" rx="5" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"></rect>
+  <text x="510" y="130" text-anchor="middle" font-size="10" fill="#0a3d4a">WS (no cache)</text>
+  <rect x="570" y="110" width="80" height="30" rx="5" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"></rect>
+  <text x="610" y="130" text-anchor="middle" font-size="10" fill="#0a3d4a">WS (no cache)</text>
+  <line x1="510" y1="71" x2="410" y2="110" stroke="#1ab3a6" stroke-width="1.5"></line>
+  <line x1="510" y1="71" x2="510" y2="110" stroke="#1ab3a6" stroke-width="1.5"></line>
+  <line x1="510" y1="71" x2="610" y2="110" stroke="#1ab3a6" stroke-width="1.5"></line>
+  <text x="510" y="165" text-anchor="middle" font-size="10" fill="#16a34a">✓ Single worklist</text>
+  <text x="510" y="178" text-anchor="middle" font-size="10" fill="#dc2626">✗ Server SPOF</text>
+  <text x="340" y="215" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 5.3 — Architectural comparison: stand-alone vs. client-server (Huang, 2010)
+  </text>
+</svg>
+</div>
+</section>
+<section id="pacs-integration-with-his-and-ris" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="pacs-integration-with-his-and-ris"><span class="header-section-number">5.2.4</span> PACS integration with HIS and RIS</h3>
+<p>PACS integrates bidirectionally with the <strong>HIS</strong> (<em>Hospital Information System</em>) and the <strong>RIS</strong> (<em>Radiology Information System</em>) through HL7 messages — a clinical interoperability standard addressed in a later chapter. <a href="#tbl-integracao" class="quarto-xref">Table&nbsp;<span>5.2</span></a> summarises the most relevant flows:</p>
+<div id="tbl-integracao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-integracao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.2: PACS–HIS–RIS integration flows <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-integracao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 44%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>From</th>
+<th>To</th>
+<th>Message / Service</th>
+<th>Protocol</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HIS</td>
+<td>RIS</td>
+<td>Patient admission (ADT A01)</td>
+<td>HL7 v2</td>
+</tr>
+<tr class="even">
+<td>RIS</td>
+<td>PACS Broker</td>
+<td>Examination booking (ORM O01)</td>
+<td>HL7 v2</td>
+</tr>
+<tr class="odd">
+<td>RIS</td>
+<td>Modality</td>
+<td>Examination worklist (MWL)</td>
+<td>DICOM</td>
+</tr>
+<tr class="even">
+<td>Modality</td>
+<td>PACS</td>
+<td>Acquired images</td>
+<td>DICOM C-STORE</td>
+</tr>
+<tr class="odd">
+<td>PACS</td>
+<td>RIS</td>
+<td>Examination confirmation (ORU R01)</td>
+<td>HL7 v2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The <strong>Modality Worklist</strong> (MWL) mechanism deserves particular attention: it is through this mechanism that the acquisition equipment receives, via C-FIND, the list of pending examinations. Without MWL, the technician would manually enter the patient data into the equipment — with risk of transcription errors. With MWL, data flows automatically from the RIS to the equipment, ensuring that all generated DICOM files already contain the correct metadata from the very first moment <span class="citation" data-cites="Huang2010">(<a href="../references.html#ref-Huang2010" role="doc-biblioref">Huang, 2010</a>)</span>.</p>
+</section>
+</section>
+<section id="sec-dicom-seguranca" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-dicom-seguranca"><span class="header-section-number">5.3</span> Security in DICOM and PACS</h2>
+<section id="normative-mechanisms-cms-tls-and-https" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="normative-mechanisms-cms-tls-and-https"><span class="header-section-number">5.3.1</span> Normative mechanisms: CMS, TLS, and HTTPS</h3>
+<p>The DICOM standard has defined security mechanisms since 1999, driven by HIPAA (<em>Health Insurance Portability and Accountability Act</em>). Specified in part PS3.15, they are organised in three layers <span class="citation" data-cites="DICOM_PS315">(<a href="../references.html#ref-DICOM_PS315" role="doc-biblioref">NEMA / MITA, 2025a</a>)</span>:</p>
+<p><strong>CMS — <em>Cryptographic Message Syntax</em></strong> — operates at the DICOM object level. It allows encryption of sensitive parts, notably patient data or the <em>Pixel Data</em>. The protection is <strong>permanent</strong>: it persists in the file regardless of the transport medium or destination system.</p>
+<p><strong>TLS — <em>Transport Layer Security</em></strong> — operates at the TCP/IP connection level during transfer via DIMSE. It creates an encrypted channel between two AEs during the session. Protection exists <strong>only in transit</strong>: the object at the destination is unprotected after reception, unless CMS is also applied.</p>
+<p><strong>HTTPS — Web Services</strong> — when objects are served via <strong>DICOMweb</strong> (PS3.18, REST API over HTTP), the standard mandates the use of HTTPS for the transport layer. Like TLS, protection is restricted to the communication channel <span class="citation" data-cites="DICOM_PS315">(<a href="../references.html#ref-DICOM_PS315" role="doc-biblioref">NEMA / MITA, 2025a</a>)</span>.</p>
+<p>The three mechanisms are not mutually exclusive: a robust implementation combines CMS on objects with TLS on DIMSE connections and HTTPS on web interfaces, covering data at rest and in transit. Figure 5.4 illustrates the three layers and the scope of protection of each.</p>
+<!--
+  Diagram: three DICOM security layers.
+  Each block: coloured rectangle on top + descriptive labels below.
+  CMS (object) | TLS (network) | HTTPS (web).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:660px;font-family:sans-serif;">
+  <rect width="660" height="200" rx="10" fill="#f8fbfc"></rect>
+
+  <!-- CMS -->
+  <rect x="20" y="20" width="190" height="130" rx="8" fill="none" stroke="#0a3d4a" stroke-width="2.5" stroke-dasharray="6"></rect>
+  <rect x="45" y="32" width="140" height="44" rx="6" fill="#0a3d4a"></rect>
+  <text x="115" y="59" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">CMS</text>
+  <text x="115" y="95" text-anchor="middle" font-size="11" fill="#0a3d4a">DICOM Object</text>
+  <text x="115" y="111" text-anchor="middle" font-size="10" fill="#64748b">(data at rest)</text>
+  <text x="115" y="130" text-anchor="middle" font-size="11" fill="#16a34a">✓ Permanent</text>
+
+  <!-- TLS -->
+  <rect x="235" y="20" width="190" height="130" rx="8" fill="none" stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="6"></rect>
+  <rect x="260" y="32" width="140" height="44" rx="6" fill="#0d7c8c"></rect>
+  <text x="330" y="59" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">TLS</text>
+  <text x="330" y="95" text-anchor="middle" font-size="11" fill="#0d7c8c">DIMSE Connection</text>
+  <text x="330" y="111" text-anchor="middle" font-size="10" fill="#64748b">(data in transit)</text>
+  <text x="330" y="130" text-anchor="middle" font-size="11" fill="#dc2626">✗ In transit only</text>
+
+  <!-- HTTPS -->
+  <rect x="450" y="20" width="190" height="130" rx="8" fill="none" stroke="#1ab3a6" stroke-width="2.5" stroke-dasharray="6"></rect>
+  <rect x="475" y="32" width="140" height="44" rx="6" fill="#1ab3a6"></rect>
+  <text x="545" y="59" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">HTTPS</text>
+  <text x="545" y="95" text-anchor="middle" font-size="11" fill="#1ab3a6">DICOMweb</text>
+  <text x="545" y="111" text-anchor="middle" font-size="10" fill="#64748b">(REST / web)</text>
+  <text x="545" y="130" text-anchor="middle" font-size="11" fill="#dc2626">✗ In transit only</text>
+
+  <!-- Caption -->
+  <text x="330" y="182" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 5.4 — DICOM security layers: CMS (object), TLS (network), HTTPS (web) — PS3.15
+  </text>
+</svg>
+</div>
+</section>
+<section id="implementation-responsibility" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="implementation-responsibility"><span class="header-section-number">5.3.2</span> Implementation responsibility</h3>
+<p>A critical aspect of the DICOM standard: <strong>it defines the available mechanisms but does not impose them</strong>. The decision to apply security rests with the hospital institution and the system vendor <span class="citation" data-cites="DICOM_PS315">(<a href="../references.html#ref-DICOM_PS315" role="doc-biblioref">NEMA / MITA, 2025a</a>)</span>.</p>
+<p>In practice, many installations operate without active TLS on internal DIMSE connections — acceptable in a segmented, controlled network, but problematic with connections to external networks or in the face of unauthorised internal access risk. The minimum alternative is access exclusively via VPN; however, this approach does not protect objects at the destination.</p>
+<p>In the context of the <strong>GDPR</strong> and obligations for health data (special category, Article 9), the absence of encryption on DICOM files containing identifying patient data constitutes a legal and organisational risk that institutions must actively assess and mitigate.</p>
+</section>
+</section>
+<section id="sec-pacs-sintese" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-pacs-sintese"><span class="header-section-number">5.4</span> Summary and Exercises</h2>
+<section id="consolidation-exercises" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="consolidation-exercises">Consolidation exercises</h3>
+<ol type="1">
+<li><p>A magnetic resonance scanner acquires a series of images and intends to send them to the archive server. Identify: (a) the DIMSE service used; (b) the SOP Class involved; (c) the SCU and SCP roles of each device.</p></li>
+<li><p>Distinguish <em>Modality Worklist</em> from <em>Query/Retrieve</em>. At what point in the PACS clinical workflow is each used, and which DIMSE service implements each function?</p></li>
+<li><p>Explain why the client-server model introduces a SPOF in the PACS and propose an architectural measure to mitigate this risk without abandoning the client-server model.</p></li>
+<li><p>A hospital decides not to activate TLS on internal DIMSE connections, arguing that the hospital network is segmented. Evaluate this decision in light of the GDPR, considering that the DICOM files contain identifying health data (special category of data, Article 9).</p></li>
+<li><p>The <em>Data Set Type</em> field of a DIMSE message has the value <code>0101h</code>. What does this value indicate to the receiver, and which DICOM service typically generates messages with this value?</p></li>
+</ol>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-Huang2010" class="csl-entry" role="listitem">
+Huang, H. K. (2010). <em><span>PACS</span> and imaging informatics: Basic principles and applications</em> (2nd ed.). Wiley-Blackwell. <a href="https://doi.org/10.1002/9780470823507">https://doi.org/10.1002/9780470823507</a>
+</div>
+<div id="ref-DICOM_PS315" class="csl-entry" role="listitem">
+NEMA / MITA. (2025a). <em><span>DICOM PS3.15</span> 2025e — security and system management profiles</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part15.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part15.html</a>.
+</div>
+<div id="ref-DICOM_PS34" class="csl-entry" role="listitem">
+NEMA / MITA. (2025b). <em><span>DICOM PS3.4</span> 2025e — service class specifications</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part04.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part04.html</a>.
+</div>
+<div id="ref-DICOM_PS36" class="csl-entry" role="listitem">
+NEMA / MITA. (2025c). <em><span>DICOM PS3.6</span> 2025e — data dictionary</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part06.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part06.html</a>.
+</div>
+<div id="ref-DICOM_PS37" class="csl-entry" role="listitem">
+NEMA / MITA. (2025d). <em><span>DICOM PS3.7</span> 2025e — message exchange</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part07.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part07.html</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  var path = window.location.pathname;
+  var isEn = path.indexOf('/en/') !== -1;
+
+  var target, label, title;
+  if (isEn) {
+    target = path.replace('/en/', '/');
+    label  = '🇵🇹 PT';
+    title  = 'Mudar para Português';
+  } else {
+    var m = path.match(/^(\/[^/]*)(\/.*)$/);
+    target = m ? m[1] + '/en' + m[2] : '/en/';
+    label  = '🇬🇧 EN';
+    title  = 'Switch to English';
+  }
+
+  var btn = document.createElement('a');
+  btn.href  = target;
+  btn.title = title;
+  btn.textContent = label;
+  btn.style.cssText =
+    'position:fixed;top:68px;right:16px;z-index:9999;' +
+    'background:#0d7c8c;color:#fff;border-radius:6px;' +
+    'padding:5px 11px;font-size:13px;font-weight:600;' +
+    'text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.2);' +
+    'transition:background .2s;';
+  btn.onmouseover = function () { this.style.background = '#0a3d4a'; };
+  btn.onmouseout  = function () { this.style.background = '#0d7c8c'; };
+  document.body.appendChild(btn);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/cap04.html" class="pagination-link" aria-label="DICOM as a Data Model">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/cap06.html" class="pagination-link" aria-label="HL7 v2 — Message Model and Limitations">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "DICOM Services and PACS Architecture"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> en-GB</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## DICOM Services — DIMSE: images in action  {#sec-dicom-dimse}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">### Application Entities, SCU, and SCP</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Beyond the data model covered in the previous chapter, DICOM also defines</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>how information is manipulated, through the definitions contained in</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>**DIMSE** (*DICOM Message Service Element*).</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>**DIMSE** is the services layer of the standard, specified in part PS3.7</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS37</span><span class="co">]</span>.</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>The first concept to consider in any communications system concerns the</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>**entities** responsible for communication, i.e., **sender** and</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>**receiver**. In a DICOM system, all communication occurs between</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>**Application Entities** (AE). An AE is any device or application</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>that implements the DICOM standard: a CT scanner, a PACS archive server,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>a visualisation workstation, or a printer. Each AE is uniquely identified</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>by an **AE Title** — an alphanumeric string configured by the system</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>administrator.</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>In each interaction, an AE assumes one of two roles:</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**SCU** (*Service Class User*) — the entity that requests the service,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  sending the request (<span class="in">`-Rq`</span>). This entity may also be informally</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  identified as the *client*.</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**SCP** (*Service Class Provider*) — the entity that provides the</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  service, responding to the request (<span class="in">`-Rsp`</span>). This entity may equally</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  be informally identified as the *server*.</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>SCU and SCP roles are not fixed: the same AE may be SCU in one</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>interaction (when sending images to the archive) and SCP in another</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>(when receiving a query request from a workstation). This flexibility</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>is fundamental to the operation of distributed systems with multiple</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>devices <span class="co">[</span><span class="ot">@DICOM_PS37</span><span class="co">]</span>.</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>DIMSE services follow a standardised naming convention: the prefix <span class="in">`C-`</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>indicates that the service operates on composite data (*Composite*); the</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>prefix <span class="in">`N-`</span> indicates normalised data (*Normalized*). The suffix <span class="in">`-Rq`</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>identifies the request and <span class="in">`-Rsp`</span> the response.</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="fu">### Structure of a DIMSE message</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>Each DIMSE message is composed of two elements: a **DICOM Command</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>Object** and, optionally, a **DICOM Data Object**. The Command Object</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>is encoded as a set of group <span class="in">`0000`</span> Data Elements — following exactly</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>the same TAG + VR + Value structure as the other Data Elements, but</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>defined in part PS3.7 (not in the Data Dictionary PS3.6). The most</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>relevant command fields are <span class="in">`(0000,0100)`</span> (*Command Field*, which</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>identifies the service type), <span class="in">`(0000,0110)`</span> (*Message ID*), and</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="in">`(0000,0800)`</span> (*Data Set Type*, which indicates whether an IOD is</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>attached) <span class="co">[</span><span class="ot">@DICOM_PS37</span><span class="co">]</span>.</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>The *Data Set Type* field has the value <span class="in">`0101h`</span> when no IOD is attached</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>(as in C-ECHO) and another value when the IOD is present (as in</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>C-STORE). This distinction allows the receiver to know, before</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>processing the message body, whether or not to expect additional data.</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>The complete structure of a DIMSE message is illustrated in Figure 5.1.</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="in">  Diagram: structure of a DIMSE message.</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="in">  Left block: DICOM Command Object (group 0000) with fields.</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="in">  Right block: DICOM Data Object (IOD), optional.</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="in">  Arrow indicating that Data Set Type controls the presence of the right block.</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="in">  Note: if Data Set Type = 0101h, right block is absent.</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="in">  Teal palette.</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="overflow-x:auto; margin:1.5rem 0;"&gt;</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg"</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="in">     style="width:100%;max-width:700px;font-family:sans-serif;"&gt;</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect width="700" height="290" rx="10" fill="#f8fbfc"/&gt;</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- General title --&gt;</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="350" y="22" text-anchor="middle" font-size="12"</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="in">        font-weight="bold" fill="#0a3d4a"&gt;DIMSE Message&lt;/text&gt;</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- LEFT BLOCK: Command Object --&gt;</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="20" y="32" width="290" height="220" rx="8"</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="in">        fill="#0a3d4a" opacity="0.06" stroke="#0a3d4a" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="20" y="32" width="290" height="28" rx="8" fill="#0a3d4a"/&gt;</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="165" y="51" text-anchor="middle" font-size="11"</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="in">        font-weight="bold" fill="#fff"&gt;DICOM Command Object (group 0000)&lt;/text&gt;</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Command Object table rows --&gt;</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Header --&gt;</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30" y="68" width="175" height="22" rx="3" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="210" y="68" width="90" height="22" rx="3" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="38"  y="83" font-size="10" font-weight="bold" fill="#fff"&gt;Element (TAG)&lt;/text&gt;</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="218" y="83" font-size="10" font-weight="bold" fill="#fff"&gt;Value&lt;/text&gt;</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Row 1: Type --&gt;</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30" y="92" width="175" height="20" rx="2" fill="#e2f4f3"/&gt;</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="210" y="92" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/&gt;</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="38"  y="106" font-size="9" fill="#0a3d4a"&gt;(0000,0100)  Command Field&lt;/text&gt;</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="218" y="106" font-size="10" fill="#374151"&gt;Store&lt;/text&gt;</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Row 2: Message ID --&gt;</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30" y="114" width="175" height="20" rx="2" fill="#e2f4f3"/&gt;</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="210" y="114" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/&gt;</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="38"  y="128" font-size="9" fill="#0a3d4a"&gt;(0000,0110)  Message ID&lt;/text&gt;</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="218" y="128" font-size="10" fill="#374151"&gt;24&lt;/text&gt;</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Row 3: Priority --&gt;</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30" y="136" width="175" height="20" rx="2" fill="#e2f4f3"/&gt;</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="210" y="136" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/&gt;</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="38"  y="150" font-size="9" fill="#0a3d4a"&gt;(0000,0700)  Priority&lt;/text&gt;</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="218" y="150" font-size="10" fill="#374151"&gt;Medium&lt;/text&gt;</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Row 4: SOP --&gt;</span></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30" y="158" width="175" height="20" rx="2" fill="#e2f4f3"/&gt;</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="210" y="158" width="90" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/&gt;</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="38"  y="172" font-size="9" fill="#0a3d4a"&gt;(0000,0002)  Aff. SOP Class UID&lt;/text&gt;</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="218" y="172" font-size="10" fill="#374151"&gt;1.2.840…&lt;/text&gt;</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Row 5: Data Set Type — highlighted --&gt;</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30" y="180" width="175" height="22" rx="2" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="210" y="180" width="90" height="22" rx="2" fill="#1ab3a6" opacity="0.3" stroke="#1ab3a6" stroke-width="1"/&gt;</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="38"  y="195" font-size="9" font-weight="bold" fill="#fff"&gt;(0000,0800)  Data Set Type&lt;/text&gt;</span></span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="218" y="195" font-size="9" font-weight="bold" fill="#0a3d4a"&gt;≠ 0101h&lt;/text&gt;</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Note 0101h --&gt;</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30" y="210" width="270" height="30" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/&gt;</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="165" y="224" text-anchor="middle" font-size="9" fill="#92400e"&gt;</span></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="in">    If Data Set Type = 0101h → no IOD attached</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/text&gt;</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="165" y="235" text-anchor="middle" font-size="9" fill="#92400e"&gt;</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="in">    (e.g. C-ECHO carries no IOD)</span></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/text&gt;</span></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- RIGHT BLOCK: Data Object --&gt;</span></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="390" y="32" width="290" height="220" rx="8"</span></span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="in">        fill="#1ab3a6" opacity="0.06" stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="6"/&gt;</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="390" y="32" width="290" height="28" rx="8" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="535" y="51" text-anchor="middle" font-size="11"</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="in">        font-weight="bold" fill="#fff"&gt;DICOM Data Object (IOD) — optional&lt;/text&gt;</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Data Object header --&gt;</span></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="400" y="68" width="120" height="22" rx="3" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="525" y="68" width="145" height="22" rx="3" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="460" y="83" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff"&gt;Attribute&lt;/text&gt;</span></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="598" y="83" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff"&gt;Value&lt;/text&gt;</span></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Data Object rows --&gt;</span></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="400" y="92"  width="120" height="20" rx="2" fill="#e2f4f3"/&gt;</span></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="525" y="92"  width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/&gt;</span></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="460" y="106" text-anchor="middle" font-size="10" fill="#0a3d4a"&gt;Patient Name&lt;/text&gt;</span></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="598" y="106" text-anchor="middle" font-size="10" fill="#374151"&gt;Couto^Fernando&lt;/text&gt;</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="400" y="114" width="120" height="20" rx="2" fill="#e2f4f3"/&gt;</span></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="525" y="114" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/&gt;</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="460" y="128" text-anchor="middle" font-size="10" fill="#0a3d4a"&gt;Patient ID&lt;/text&gt;</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="598" y="128" text-anchor="middle" font-size="10" fill="#374151"&gt;987654&lt;/text&gt;</span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="400" y="136" width="120" height="20" rx="2" fill="#e2f4f3"/&gt;</span></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="525" y="136" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/&gt;</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="460" y="150" text-anchor="middle" font-size="10" fill="#0a3d4a"&gt;Modality&lt;/text&gt;</span></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="598" y="150" text-anchor="middle" font-size="10" fill="#374151"&gt;CT&lt;/text&gt;</span></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="400" y="158" width="120" height="20" rx="2" fill="#e2f4f3"/&gt;</span></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="525" y="158" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/&gt;</span></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="460" y="172" text-anchor="middle" font-size="10" fill="#0a3d4a"&gt;Rows&lt;/text&gt;</span></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="598" y="172" text-anchor="middle" font-size="10" fill="#374151"&gt;512&lt;/text&gt;</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="400" y="180" width="120" height="20" rx="2" fill="#e2f4f3"/&gt;</span></span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="525" y="180" width="145" height="20" rx="2" fill="#f8fbfc" stroke="#cbd5e1" stroke-width="0.5"/&gt;</span></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="460" y="194" text-anchor="middle" font-size="10" fill="#0a3d4a"&gt;Pixel Data&lt;/text&gt;</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="598" y="194" text-anchor="middle" font-size="10" fill="#374151"&gt;[binary data]&lt;/text&gt;</span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Arrow between blocks --&gt;</span></span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="312" y1="191" x2="388" y2="191" stroke="#1ab3a6" stroke-width="2"</span></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a><span class="in">        marker-end="url(#ma)"/&gt;</span></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="350" y="185" text-anchor="middle" font-size="8" fill="#1ab3a6"&gt;if ≠ 0101h&lt;/text&gt;</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;defs&gt;</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;marker id="ma" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"&gt;</span></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/marker&gt;</span></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/defs&gt;</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Caption --&gt;</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="350" y="278" text-anchor="middle" font-size="14" fill="#64748b"&gt;</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="in">    Figure 5.1 — Structure of a DIMSE message: Command Object + optional Data Object (PS3.7)</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/text&gt;</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/svg&gt;</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="fu">### The four main services: C-ECHO, C-STORE, C-FIND, C-MOVE</span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>**C-ECHO** — verifies the existence of a functional DICOM connection</span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>between two AEs. It goes beyond a simple TCP/IP <span class="in">`ping`</span>: it confirms that</span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>the DICOM application layer is operational. It carries no IOD. It is</span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>routinely used to monitor the availability of system components</span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS37</span><span class="co">]</span>.</span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a>**C-STORE** — sends a complete DICOM instance from one AE to another.</span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>It is the most widely used service in the clinical workflow: it occurs</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a>immediately after each acquisition, when the equipment sends images to</span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>the archive server. The equipment acts as SCU and the server as SCP.</span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>**C-FIND** — queries studies, series, or images on a remote AE based on</span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a>criteria such as patient identifier, date, modality, or study description.</span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a>The SCU specifies the criteria; the SCP returns a list of matching</span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a>results. Note that C-FIND does not transfer images — only metadata</span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS37</span><span class="co">]</span>.</span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>**C-MOVE** — requests the SCP to transfer images to a third AE. The SCU</span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>specifies the destination by AE Title; the SCP uses C-STORE to send the</span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>images to that destination. This indirect mechanism is typical of</span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a>visualisation workstations, which ask the server to send images directly</span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a>to themselves. Figure 5.2 illustrates the request–response model of the</span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>three main services.</span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="in">  Diagram: the four DIMSE services with SCU → SCP.</span></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="in">  Horizontal lines with arrows; request-response model.</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="in">  Teal palette.</span></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="overflow-x:auto; margin:1.5rem 0;"&gt;</span></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;svg viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg"</span></span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="in">     style="width:100%;max-width:660px;font-family:sans-serif;"&gt;</span></span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect width="660" height="240" rx="10" fill="#f8fbfc"/&gt;</span></span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="20"  y="15" width="120" height="28" rx="5" fill="#0a3d4a"/&gt;</span></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="80"  y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff"&gt;SCU&lt;/text&gt;</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="520" y="15" width="120" height="28" rx="5" fill="#0a3d4a"/&gt;</span></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="580" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff"&gt;SCP&lt;/text&gt;</span></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="20" y="72" font-size="11" font-weight="bold" fill="#0d7c8c"&gt;C-ECHO&lt;/text&gt;</span></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="80" y1="78" x2="520" y2="78" stroke="#0d7c8c" stroke-width="2" marker-end="url(#a1)"/&gt;</span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="520" y1="88" x2="80" y2="88" stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#a2)"/&gt;</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="300" y="74" text-anchor="middle" font-size="10" fill="#0d7c8c"&gt;C-Echo-Rq (no IOD)&lt;/text&gt;</span></span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="300" y="100" text-anchor="middle" font-size="10" fill="#64748b"&gt;C-Echo-Rsp&lt;/text&gt;</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="20" y="128" font-size="11" font-weight="bold" fill="#1ab3a6"&gt;C-STORE&lt;/text&gt;</span></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="80" y1="134" x2="520" y2="134" stroke="#1ab3a6" stroke-width="2" marker-end="url(#a1)"/&gt;</span></span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="520" y1="144" x2="80" y2="144" stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#a2)"/&gt;</span></span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="300" y="130" text-anchor="middle" font-size="10" fill="#1ab3a6"&gt;C-Store-Rq + CT Image IOD&lt;/text&gt;</span></span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="300" y="156" text-anchor="middle" font-size="10" fill="#64748b"&gt;C-Store-Rsp (Success/Failure)&lt;/text&gt;</span></span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="20" y="184" font-size="11" font-weight="bold" fill="#0d7c8c"&gt;C-FIND&lt;/text&gt;</span></span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="80" y1="190" x2="520" y2="190" stroke="#0d7c8c" stroke-width="2" marker-end="url(#a1)"/&gt;</span></span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="520" y1="200" x2="80" y2="200" stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#a2)"/&gt;</span></span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="300" y="186" text-anchor="middle" font-size="10" fill="#0d7c8c"&gt;C-Find-Rq (search criteria)&lt;/text&gt;</span></span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="300" y="212" text-anchor="middle" font-size="10" fill="#64748b"&gt;C-Find-Rsp (list of results)&lt;/text&gt;</span></span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="330" y="232" text-anchor="middle" font-size="14" fill="#64748b"&gt;</span></span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a><span class="in">    Figure 5.2 — Main DIMSE services: request–response model (PS3.7)</span></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/text&gt;</span></span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;defs&gt;</span></span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;marker id="a1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"&gt;</span></span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"/&gt;&lt;/marker&gt;</span></span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;marker id="a2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"&gt;</span></span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/&gt;&lt;/marker&gt;</span></span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/defs&gt;</span></span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/svg&gt;</span></span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a><span class="fu">### SOP Class: the service–object contract</span></span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>A **SOP Class** (*Service-Object Pair Class*) is the formal combination</span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a>of a group of DIMSE services with an IOD. It defines, normatively, what</span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>can be done with a particular type of information object. Each SOP Class</span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>is identified by a globally unique UID, registered in part PS3.6</span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS34; @DICOM_PS36</span><span class="co">]</span>.</span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a>The paradigmatic example is the **CT Image Storage SOP Class**: it</span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a>combines the C-STORE service with the CT Image IOD, identified by the</span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>UID <span class="in">`1.2.840.10008.5.1.4.1.1.2`</span>. When a CT scanner sends images to an</span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a>archive server, both devices negotiate during the connection establishment</span>
+<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>(*Association Negotiation*) whether they support this SOP Class — the</span>
+<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a>transfer only occurs if both support it <span class="co">[</span><span class="ot">@DICOM_PS34</span><span class="co">]</span>.</span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>Note that an IOD is not necessarily an image with pixels: the</span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>*Modality Worklist* IOD contains the list of pending examinations for a</span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>modality, without any pixel data; and the *Verification* SOP Class</span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>(C-ECHO) has no associated IOD at all. @tbl-sop presents representative</span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>examples of normalised SOP Classes:</span>
+<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a>| SOP Class | IOD | Service |</span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a>| CT Image Storage <span class="in">`1.2.840.10008.5.1.4.1.1.2`</span> | CT Image IOD | C-STORE |</span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a>| MR Image Storage <span class="in">`1.2.840.10008.5.1.4.1.1.4`</span> | MR Image IOD | C-STORE |</span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>| Study Root Q/R — FIND <span class="in">`1.2.840.10008.5.1.4.1.2.2.1`</span> | Study Root IOD | C-FIND |</span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>| Study Root Q/R — MOVE <span class="in">`1.2.840.10008.5.1.4.1.2.2.2`</span> | Study Root IOD | C-MOVE |</span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a>| Modality Worklist <span class="in">`1.2.840.10008.5.1.4.31`</span> | Modality Worklist IOD | C-FIND |</span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a>| Verification <span class="in">`1.2.840.10008.1.1`</span> | *(no IOD)* | C-ECHO |</span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a>: Examples of normalised SOP Classes <span class="co">[</span><span class="ot">@DICOM_PS34; @DICOM_PS36</span><span class="co">]</span>. {#tbl-sop}</span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>It can thus be seen that DIMSE, IOD, and SOP Class have distinct but</span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>complementary roles: DIMSE defines the message format; the IOD defines</span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a>the data structure; and the SOP Class declares the valid contract between</span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a>both, identified by a negotiable UID.</span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a><span class="fu">## PACS Systems {#sec-pacs}</span></span>
+<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a><span class="fu">### From analogue radiology to PACS</span></span>
+<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>A **PACS** (*Picture Archiving and Communication System*) is the</span>
+<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a>computer system that manages the complete lifecycle of medical images</span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a>in a hospital institution: from acquisition at the modalities through</span>
+<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a>to archiving, distribution, and visualisation for diagnostic and</span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a>reporting purposes <span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>.</span>
+<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>The radiology workflow before PACS was entirely manual: patient</span>
+<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>registration with the printing of a paper request; examination</span>
+<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>performance and development of analogue film; manual search of the</span>
+<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a>physical archive to locate previous examinations; transport of dossiers</span>
+<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>to the radiologist; dictation of the report; transcription; review and</span>
+<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a>signing; and insertion of the final report into the RIS <span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>.</span>
+<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a>With PACS, this workflow is fully digitised: images arrive directly</span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>from the equipment to the archive via DICOM C-STORE, previous</span>
+<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a>examinations are automatically pre-loaded onto diagnostic workstations,</span>
+<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>the radiologist works in an integrated digital environment, and the</span>
+<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a>signed report is distributed electronically. The time between acquisition</span>
+<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>and diagnostic availability drops from hours to seconds.</span>
+<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a>Documented benefits include the elimination of analogue film costs</span>
+<span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a>(estimated at between 6 and 8% of the radiology budget in pre-PACS</span>
+<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a>hospitals), the reduction of repeated examinations due to inability to</span>
+<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a>access previous studies, and support for remote diagnosis</span>
+<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a>(*teleradiology*) <span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>.</span>
+<span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a><span class="fu">### General architecture and workflow</span></span>
+<span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a>In a generic PACS, the **RIS** (*Radiology Information System*)</span>
+<span id="cb1-330"><a href="#cb1-330" aria-hidden="true" tabindex="-1"></a>coordinates the administrative and clinical flow, whilst the DICOM</span>
+<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a>protocol transports images between the technical components. The</span>
+<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a>integrated workflow comprises:</span>
+<span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The patient registers in the RIS, which assigns a unique identifier.</span>
+<span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The RIS sends HL7 messages with examination data to the **PACS Broker**.</span>
+<span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The PACS Broker notifies the archive server of the appointment.</span>
+<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Relevant previous examinations are pre-loaded onto diagnostic</span>
+<span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a>   workstations (*prefetch*).</span>
+<span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>The examination room queries the DICOM **Modality Worklist** (C-FIND</span>
+<span id="cb1-340"><a href="#cb1-340" aria-hidden="true" tabindex="-1"></a>   on the *Modality Worklist IOD*) to obtain the pending examination data.</span>
+<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>The technician performs the examination; the equipment sends the images</span>
+<span id="cb1-342"><a href="#cb1-342" aria-hidden="true" tabindex="-1"></a>   (C-STORE) to the quality control workstation (QC WS).</span>
+<span id="cb1-343"><a href="#cb1-343" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>The QC WS forwards the examination to the radiologist's diagnostic</span>
+<span id="cb1-344"><a href="#cb1-344" aria-hidden="true" tabindex="-1"></a>   workstation.</span>
+<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a><span class="ss">8. </span>The examination is archived in the PACS server (database updated).</span>
+<span id="cb1-346"><a href="#cb1-346" aria-hidden="true" tabindex="-1"></a><span class="ss">9. </span>The server distributes the examination to clinical department</span>
+<span id="cb1-347"><a href="#cb1-347" aria-hidden="true" tabindex="-1"></a>   workstations.</span>
+<span id="cb1-348"><a href="#cb1-348" aria-hidden="true" tabindex="-1"></a><span class="ss">10. </span>The radiologist dictates and signs the report; the database is marked</span>
+<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a>    as complete.</span>
+<span id="cb1-350"><a href="#cb1-350" aria-hidden="true" tabindex="-1"></a><span class="ss">11. </span>The report is transcribed and distributed electronically <span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>.</span>
+<span id="cb1-351"><a href="#cb1-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-352"><a href="#cb1-352" aria-hidden="true" tabindex="-1"></a><span class="fu">### Architecture types: stand-alone, client-server, and web</span></span>
+<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-354"><a href="#cb1-354" aria-hidden="true" tabindex="-1"></a>Three fundamental PACS architectures can be identified, with different</span>
+<span id="cb1-355"><a href="#cb1-355" aria-hidden="true" tabindex="-1"></a>trade-offs between resilience, flexibility, and network dependency</span>
+<span id="cb1-356"><a href="#cb1-356" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>:</span>
+<span id="cb1-357"><a href="#cb1-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-358"><a href="#cb1-358" aria-hidden="true" tabindex="-1"></a>**Stand-alone (thick client)** — images are automatically distributed</span>
+<span id="cb1-359"><a href="#cb1-359" aria-hidden="true" tabindex="-1"></a>by the server to diagnostic workstations, which maintain local storage.</span>
+<span id="cb1-360"><a href="#cb1-360" aria-hidden="true" tabindex="-1"></a>The workstation can continue operating even if the server becomes</span>
+<span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a>unavailable. The disadvantage is that each workstation has its own</span>
+<span id="cb1-362"><a href="#cb1-362" aria-hidden="true" tabindex="-1"></a>*worklist*, creating a risk of duplicate reading of the same examination.</span>
+<span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a>The *query/retrieve* function (C-FIND + C-MOVE) allows non-pre-loaded</span>
+<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a>images to be retrieved from the archive.</span>
+<span id="cb1-365"><a href="#cb1-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a>**Client-server (thin client)** — workstations have no local storage;</span>
+<span id="cb1-367"><a href="#cb1-367" aria-hidden="true" tabindex="-1"></a>they access the central *worklist* directly and load images from server</span>
+<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a>memory. The *worklist* is single and shared, eliminating duplicate</span>
+<span id="cb1-369"><a href="#cb1-369" aria-hidden="true" tabindex="-1"></a>readings. The structural disadvantage is that the server constitutes a</span>
+<span id="cb1-370"><a href="#cb1-370" aria-hidden="true" tabindex="-1"></a>single point of failure (SPOF): any interruption prevents access to</span>
+<span id="cb1-371"><a href="#cb1-371" aria-hidden="true" tabindex="-1"></a>images.</span>
+<span id="cb1-372"><a href="#cb1-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-373"><a href="#cb1-373" aria-hidden="true" tabindex="-1"></a>**Web-based** — images are served via HTTPS through the **DICOMweb**</span>
+<span id="cb1-374"><a href="#cb1-374" aria-hidden="true" tabindex="-1"></a>interface (PS3.18), which exposes DICOM services as a REST API. Any</span>
+<span id="cb1-375"><a href="#cb1-375" aria-hidden="true" tabindex="-1"></a>device with a compatible browser can access the archive without</span>
+<span id="cb1-376"><a href="#cb1-376" aria-hidden="true" tabindex="-1"></a>installing specialised software. This model shares the network</span>
+<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a>vulnerabilities of the client-server approach, but adds platform</span>
+<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a>independence and natural support for teleradiology <span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>. Figure</span>
+<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a>5.3 compares the stand-alone and client-server architectures.</span>
+<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-382"><a href="#cb1-382" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a><span class="in">  Comparative diagram: Stand-alone vs Client-server.</span></span>
+<span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a><span class="in">  Two panels side by side.</span></span>
+<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="overflow-x:auto; margin:1.5rem 0;"&gt;</span></span>
+<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;svg viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg"</span></span>
+<span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a><span class="in">     style="width:100%;max-width:680px;font-family:sans-serif;"&gt;</span></span>
+<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect width="680" height="230" rx="10" fill="#f8fbfc"/&gt;</span></span>
+<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="170" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0a3d4a"&gt;Stand-alone (thick client)&lt;/text&gt;</span></span>
+<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="510" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0d7c8c"&gt;Client-server (thin client)&lt;/text&gt;</span></span>
+<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="340" y1="10" x2="340" y2="220" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5"/&gt;</span></span>
+<span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="130" y="35" width="80" height="36" rx="6" fill="#0a3d4a"/&gt;</span></span>
+<span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="170" y="58" text-anchor="middle" font-size="11" fill="#fff"&gt;PACS Server&lt;/text&gt;</span></span>
+<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="30"  y="110" width="80" height="30" rx="5" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="70"  y="130" text-anchor="middle" font-size="10" fill="#fff"&gt;WS + Storage&lt;/text&gt;</span></span>
+<span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="130" y="110" width="80" height="30" rx="5" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="170" y="130" text-anchor="middle" font-size="10" fill="#fff"&gt;WS + Storage&lt;/text&gt;</span></span>
+<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="230" y="110" width="80" height="30" rx="5" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="270" y="130" text-anchor="middle" font-size="10" fill="#fff"&gt;WS + Storage&lt;/text&gt;</span></span>
+<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="170" y1="71" x2="70"  y2="110" stroke="#0d7c8c" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="170" y1="71" x2="170" y2="110" stroke="#0d7c8c" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="170" y1="71" x2="270" y2="110" stroke="#0d7c8c" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="170" y="165" text-anchor="middle" font-size="10" fill="#16a34a"&gt;✓ Resilient to failure&lt;/text&gt;</span></span>
+<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="170" y="178" text-anchor="middle" font-size="10" fill="#dc2626"&gt;✗ Worklist per WS&lt;/text&gt;</span></span>
+<span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="470" y="35" width="80" height="36" rx="6" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="510" y="58" text-anchor="middle" font-size="11" fill="#fff"&gt;PACS Server&lt;/text&gt;</span></span>
+<span id="cb1-408"><a href="#cb1-408" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="370" y="110" width="80" height="30" rx="5" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="410" y="130" text-anchor="middle" font-size="10" fill="#0a3d4a"&gt;WS (no cache)&lt;/text&gt;</span></span>
+<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="470" y="110" width="80" height="30" rx="5" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="510" y="130" text-anchor="middle" font-size="10" fill="#0a3d4a"&gt;WS (no cache)&lt;/text&gt;</span></span>
+<span id="cb1-412"><a href="#cb1-412" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="570" y="110" width="80" height="30" rx="5" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="610" y="130" text-anchor="middle" font-size="10" fill="#0a3d4a"&gt;WS (no cache)&lt;/text&gt;</span></span>
+<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="510" y1="71" x2="410" y2="110" stroke="#1ab3a6" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="510" y1="71" x2="510" y2="110" stroke="#1ab3a6" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;line x1="510" y1="71" x2="610" y2="110" stroke="#1ab3a6" stroke-width="1.5"/&gt;</span></span>
+<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="510" y="165" text-anchor="middle" font-size="10" fill="#16a34a"&gt;✓ Single worklist&lt;/text&gt;</span></span>
+<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="510" y="178" text-anchor="middle" font-size="10" fill="#dc2626"&gt;✗ Server SPOF&lt;/text&gt;</span></span>
+<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="340" y="215" text-anchor="middle" font-size="14" fill="#64748b"&gt;</span></span>
+<span id="cb1-420"><a href="#cb1-420" aria-hidden="true" tabindex="-1"></a><span class="in">    Figure 5.3 — Architectural comparison: stand-alone vs. client-server (Huang, 2010)</span></span>
+<span id="cb1-421"><a href="#cb1-421" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/text&gt;</span></span>
+<span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/svg&gt;</span></span>
+<span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a><span class="fu">### PACS integration with HIS and RIS</span></span>
+<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a>PACS integrates bidirectionally with the **HIS** (*Hospital Information</span>
+<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a>System*) and the **RIS** (*Radiology Information System*) through HL7</span>
+<span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a>messages — a clinical interoperability standard addressed in a later</span>
+<span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a>chapter. @tbl-integracao summarises the most relevant flows:</span>
+<span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a>| From        | To          | Message / Service              | Protocol     |</span>
+<span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a>|-------------|-------------|--------------------------------|--------------|</span>
+<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a>| HIS         | RIS         | Patient admission (ADT A01)    | HL7 v2       |</span>
+<span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a>| RIS         | PACS Broker | Examination booking (ORM O01)  | HL7 v2       |</span>
+<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a>| RIS         | Modality    | Examination worklist (MWL)     | DICOM        |</span>
+<span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a>| Modality    | PACS        | Acquired images                | DICOM C-STORE|</span>
+<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a>| PACS        | RIS         | Examination confirmation (ORU R01) | HL7 v2   |</span>
+<span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a>: PACS–HIS–RIS integration flows <span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>. {#tbl-integracao}</span>
+<span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a>The **Modality Worklist** (MWL) mechanism deserves particular attention:</span>
+<span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a>it is through this mechanism that the acquisition equipment receives,</span>
+<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a>via C-FIND, the list of pending examinations. Without MWL, the</span>
+<span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a>technician would manually enter the patient data into the equipment —</span>
+<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a>with risk of transcription errors. With MWL, data flows automatically</span>
+<span id="cb1-448"><a href="#cb1-448" aria-hidden="true" tabindex="-1"></a>from the RIS to the equipment, ensuring that all generated DICOM files</span>
+<span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a>already contain the correct metadata from the very first moment</span>
+<span id="cb1-450"><a href="#cb1-450" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@Huang2010</span><span class="co">]</span>.</span>
+<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a><span class="fu">## Security in DICOM and PACS {#sec-dicom-seguranca}</span></span>
+<span id="cb1-453"><a href="#cb1-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-454"><a href="#cb1-454" aria-hidden="true" tabindex="-1"></a><span class="fu">### Normative mechanisms: CMS, TLS, and HTTPS</span></span>
+<span id="cb1-455"><a href="#cb1-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-456"><a href="#cb1-456" aria-hidden="true" tabindex="-1"></a>The DICOM standard has defined security mechanisms since 1999, driven</span>
+<span id="cb1-457"><a href="#cb1-457" aria-hidden="true" tabindex="-1"></a>by HIPAA (*Health Insurance Portability and Accountability Act*).</span>
+<span id="cb1-458"><a href="#cb1-458" aria-hidden="true" tabindex="-1"></a>Specified in part PS3.15, they are organised in three layers <span class="co">[</span><span class="ot">@DICOM_PS315</span><span class="co">]</span>:</span>
+<span id="cb1-459"><a href="#cb1-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-460"><a href="#cb1-460" aria-hidden="true" tabindex="-1"></a>**CMS — *Cryptographic Message Syntax*** — operates at the DICOM object</span>
+<span id="cb1-461"><a href="#cb1-461" aria-hidden="true" tabindex="-1"></a>level. It allows encryption of sensitive parts, notably patient data or</span>
+<span id="cb1-462"><a href="#cb1-462" aria-hidden="true" tabindex="-1"></a>the *Pixel Data*. The protection is **permanent**: it persists in the</span>
+<span id="cb1-463"><a href="#cb1-463" aria-hidden="true" tabindex="-1"></a>file regardless of the transport medium or destination system.</span>
+<span id="cb1-464"><a href="#cb1-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-465"><a href="#cb1-465" aria-hidden="true" tabindex="-1"></a>**TLS — *Transport Layer Security*** — operates at the TCP/IP connection</span>
+<span id="cb1-466"><a href="#cb1-466" aria-hidden="true" tabindex="-1"></a>level during transfer via DIMSE. It creates an encrypted channel between</span>
+<span id="cb1-467"><a href="#cb1-467" aria-hidden="true" tabindex="-1"></a>two AEs during the session. Protection exists **only in transit**: the</span>
+<span id="cb1-468"><a href="#cb1-468" aria-hidden="true" tabindex="-1"></a>object at the destination is unprotected after reception, unless CMS is</span>
+<span id="cb1-469"><a href="#cb1-469" aria-hidden="true" tabindex="-1"></a>also applied.</span>
+<span id="cb1-470"><a href="#cb1-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-471"><a href="#cb1-471" aria-hidden="true" tabindex="-1"></a>**HTTPS — Web Services** — when objects are served via **DICOMweb**</span>
+<span id="cb1-472"><a href="#cb1-472" aria-hidden="true" tabindex="-1"></a>(PS3.18, REST API over HTTP), the standard mandates the use of HTTPS</span>
+<span id="cb1-473"><a href="#cb1-473" aria-hidden="true" tabindex="-1"></a>for the transport layer. Like TLS, protection is restricted to the</span>
+<span id="cb1-474"><a href="#cb1-474" aria-hidden="true" tabindex="-1"></a>communication channel <span class="co">[</span><span class="ot">@DICOM_PS315</span><span class="co">]</span>.</span>
+<span id="cb1-475"><a href="#cb1-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-476"><a href="#cb1-476" aria-hidden="true" tabindex="-1"></a>The three mechanisms are not mutually exclusive: a robust implementation</span>
+<span id="cb1-477"><a href="#cb1-477" aria-hidden="true" tabindex="-1"></a>combines CMS on objects with TLS on DIMSE connections and HTTPS on web</span>
+<span id="cb1-478"><a href="#cb1-478" aria-hidden="true" tabindex="-1"></a>interfaces, covering data at rest and in transit. Figure 5.4 illustrates</span>
+<span id="cb1-479"><a href="#cb1-479" aria-hidden="true" tabindex="-1"></a>the three layers and the scope of protection of each.</span>
+<span id="cb1-480"><a href="#cb1-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-481"><a href="#cb1-481" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-482"><a href="#cb1-482" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb1-483"><a href="#cb1-483" aria-hidden="true" tabindex="-1"></a><span class="in">  Diagram: three DICOM security layers.</span></span>
+<span id="cb1-484"><a href="#cb1-484" aria-hidden="true" tabindex="-1"></a><span class="in">  Each block: coloured rectangle on top + descriptive labels below.</span></span>
+<span id="cb1-485"><a href="#cb1-485" aria-hidden="true" tabindex="-1"></a><span class="in">  CMS (object) | TLS (network) | HTTPS (web).</span></span>
+<span id="cb1-486"><a href="#cb1-486" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb1-487"><a href="#cb1-487" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="overflow-x:auto; margin:1.5rem 0;"&gt;</span></span>
+<span id="cb1-488"><a href="#cb1-488" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg"</span></span>
+<span id="cb1-489"><a href="#cb1-489" aria-hidden="true" tabindex="-1"></a><span class="in">     style="width:100%;max-width:660px;font-family:sans-serif;"&gt;</span></span>
+<span id="cb1-490"><a href="#cb1-490" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect width="660" height="200" rx="10" fill="#f8fbfc"/&gt;</span></span>
+<span id="cb1-491"><a href="#cb1-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-492"><a href="#cb1-492" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- CMS --&gt;</span></span>
+<span id="cb1-493"><a href="#cb1-493" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="20"  y="20" width="190" height="130" rx="8" fill="none"</span></span>
+<span id="cb1-494"><a href="#cb1-494" aria-hidden="true" tabindex="-1"></a><span class="in">        stroke="#0a3d4a" stroke-width="2.5" stroke-dasharray="6"/&gt;</span></span>
+<span id="cb1-495"><a href="#cb1-495" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="45"  y="32" width="140" height="44" rx="6" fill="#0a3d4a"/&gt;</span></span>
+<span id="cb1-496"><a href="#cb1-496" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="115" y="59" text-anchor="middle" font-size="14"</span></span>
+<span id="cb1-497"><a href="#cb1-497" aria-hidden="true" tabindex="-1"></a><span class="in">        font-weight="bold" fill="#fff"&gt;CMS&lt;/text&gt;</span></span>
+<span id="cb1-498"><a href="#cb1-498" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="115" y="95"  text-anchor="middle" font-size="11" fill="#0a3d4a"&gt;DICOM Object&lt;/text&gt;</span></span>
+<span id="cb1-499"><a href="#cb1-499" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="115" y="111" text-anchor="middle" font-size="10" fill="#64748b"&gt;(data at rest)&lt;/text&gt;</span></span>
+<span id="cb1-500"><a href="#cb1-500" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="115" y="130" text-anchor="middle" font-size="11" fill="#16a34a"&gt;✓ Permanent&lt;/text&gt;</span></span>
+<span id="cb1-501"><a href="#cb1-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-502"><a href="#cb1-502" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- TLS --&gt;</span></span>
+<span id="cb1-503"><a href="#cb1-503" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="235" y="20" width="190" height="130" rx="8" fill="none"</span></span>
+<span id="cb1-504"><a href="#cb1-504" aria-hidden="true" tabindex="-1"></a><span class="in">        stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="6"/&gt;</span></span>
+<span id="cb1-505"><a href="#cb1-505" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="260" y="32" width="140" height="44" rx="6" fill="#0d7c8c"/&gt;</span></span>
+<span id="cb1-506"><a href="#cb1-506" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="330" y="59" text-anchor="middle" font-size="14"</span></span>
+<span id="cb1-507"><a href="#cb1-507" aria-hidden="true" tabindex="-1"></a><span class="in">        font-weight="bold" fill="#fff"&gt;TLS&lt;/text&gt;</span></span>
+<span id="cb1-508"><a href="#cb1-508" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="330" y="95"  text-anchor="middle" font-size="11" fill="#0d7c8c"&gt;DIMSE Connection&lt;/text&gt;</span></span>
+<span id="cb1-509"><a href="#cb1-509" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="330" y="111" text-anchor="middle" font-size="10" fill="#64748b"&gt;(data in transit)&lt;/text&gt;</span></span>
+<span id="cb1-510"><a href="#cb1-510" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="330" y="130" text-anchor="middle" font-size="11" fill="#dc2626"&gt;✗ In transit only&lt;/text&gt;</span></span>
+<span id="cb1-511"><a href="#cb1-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-512"><a href="#cb1-512" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- HTTPS --&gt;</span></span>
+<span id="cb1-513"><a href="#cb1-513" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="450" y="20" width="190" height="130" rx="8" fill="none"</span></span>
+<span id="cb1-514"><a href="#cb1-514" aria-hidden="true" tabindex="-1"></a><span class="in">        stroke="#1ab3a6" stroke-width="2.5" stroke-dasharray="6"/&gt;</span></span>
+<span id="cb1-515"><a href="#cb1-515" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;rect x="475" y="32" width="140" height="44" rx="6" fill="#1ab3a6"/&gt;</span></span>
+<span id="cb1-516"><a href="#cb1-516" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="545" y="59" text-anchor="middle" font-size="14"</span></span>
+<span id="cb1-517"><a href="#cb1-517" aria-hidden="true" tabindex="-1"></a><span class="in">        font-weight="bold" fill="#fff"&gt;HTTPS&lt;/text&gt;</span></span>
+<span id="cb1-518"><a href="#cb1-518" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="545" y="95"  text-anchor="middle" font-size="11" fill="#1ab3a6"&gt;DICOMweb&lt;/text&gt;</span></span>
+<span id="cb1-519"><a href="#cb1-519" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="545" y="111" text-anchor="middle" font-size="10" fill="#64748b"&gt;(REST / web)&lt;/text&gt;</span></span>
+<span id="cb1-520"><a href="#cb1-520" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="545" y="130" text-anchor="middle" font-size="11" fill="#dc2626"&gt;✗ In transit only&lt;/text&gt;</span></span>
+<span id="cb1-521"><a href="#cb1-521" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-522"><a href="#cb1-522" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Caption --&gt;</span></span>
+<span id="cb1-523"><a href="#cb1-523" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="330" y="182" text-anchor="middle" font-size="14" fill="#64748b"&gt;</span></span>
+<span id="cb1-524"><a href="#cb1-524" aria-hidden="true" tabindex="-1"></a><span class="in">    Figure 5.4 — DICOM security layers: CMS (object), TLS (network), HTTPS (web) — PS3.15</span></span>
+<span id="cb1-525"><a href="#cb1-525" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/text&gt;</span></span>
+<span id="cb1-526"><a href="#cb1-526" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/svg&gt;</span></span>
+<span id="cb1-527"><a href="#cb1-527" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-528"><a href="#cb1-528" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-529"><a href="#cb1-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-530"><a href="#cb1-530" aria-hidden="true" tabindex="-1"></a><span class="fu">### Implementation responsibility</span></span>
+<span id="cb1-531"><a href="#cb1-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-532"><a href="#cb1-532" aria-hidden="true" tabindex="-1"></a>A critical aspect of the DICOM standard: **it defines the available</span>
+<span id="cb1-533"><a href="#cb1-533" aria-hidden="true" tabindex="-1"></a>mechanisms but does not impose them**. The decision to apply security</span>
+<span id="cb1-534"><a href="#cb1-534" aria-hidden="true" tabindex="-1"></a>rests with the hospital institution and the system vendor</span>
+<span id="cb1-535"><a href="#cb1-535" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@DICOM_PS315</span><span class="co">]</span>.</span>
+<span id="cb1-536"><a href="#cb1-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-537"><a href="#cb1-537" aria-hidden="true" tabindex="-1"></a>In practice, many installations operate without active TLS on internal</span>
+<span id="cb1-538"><a href="#cb1-538" aria-hidden="true" tabindex="-1"></a>DIMSE connections — acceptable in a segmented, controlled network, but</span>
+<span id="cb1-539"><a href="#cb1-539" aria-hidden="true" tabindex="-1"></a>problematic with connections to external networks or in the face of</span>
+<span id="cb1-540"><a href="#cb1-540" aria-hidden="true" tabindex="-1"></a>unauthorised internal access risk. The minimum alternative is access</span>
+<span id="cb1-541"><a href="#cb1-541" aria-hidden="true" tabindex="-1"></a>exclusively via VPN; however, this approach does not protect objects</span>
+<span id="cb1-542"><a href="#cb1-542" aria-hidden="true" tabindex="-1"></a>at the destination.</span>
+<span id="cb1-543"><a href="#cb1-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-544"><a href="#cb1-544" aria-hidden="true" tabindex="-1"></a>In the context of the **GDPR** and obligations for health data (special</span>
+<span id="cb1-545"><a href="#cb1-545" aria-hidden="true" tabindex="-1"></a>category, Article 9), the absence of encryption on DICOM files</span>
+<span id="cb1-546"><a href="#cb1-546" aria-hidden="true" tabindex="-1"></a>containing identifying patient data constitutes a legal and</span>
+<span id="cb1-547"><a href="#cb1-547" aria-hidden="true" tabindex="-1"></a>organisational risk that institutions must actively assess and mitigate.</span>
+<span id="cb1-548"><a href="#cb1-548" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-549"><a href="#cb1-549" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary and Exercises {#sec-pacs-sintese}</span></span>
+<span id="cb1-550"><a href="#cb1-550" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-551"><a href="#cb1-551" aria-hidden="true" tabindex="-1"></a><span class="fu">### Consolidation exercises {.unnumbered}</span></span>
+<span id="cb1-552"><a href="#cb1-552" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-553"><a href="#cb1-553" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>A magnetic resonance scanner acquires a series of images and intends</span>
+<span id="cb1-554"><a href="#cb1-554" aria-hidden="true" tabindex="-1"></a>   to send them to the archive server. Identify: (a) the DIMSE service</span>
+<span id="cb1-555"><a href="#cb1-555" aria-hidden="true" tabindex="-1"></a>   used; (b) the SOP Class involved; (c) the SCU and SCP roles of each</span>
+<span id="cb1-556"><a href="#cb1-556" aria-hidden="true" tabindex="-1"></a>   device.</span>
+<span id="cb1-557"><a href="#cb1-557" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-558"><a href="#cb1-558" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Distinguish *Modality Worklist* from *Query/Retrieve*. At what point</span>
+<span id="cb1-559"><a href="#cb1-559" aria-hidden="true" tabindex="-1"></a>   in the PACS clinical workflow is each used, and which DIMSE service</span>
+<span id="cb1-560"><a href="#cb1-560" aria-hidden="true" tabindex="-1"></a>   implements each function?</span>
+<span id="cb1-561"><a href="#cb1-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-562"><a href="#cb1-562" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Explain why the client-server model introduces a SPOF in the PACS</span>
+<span id="cb1-563"><a href="#cb1-563" aria-hidden="true" tabindex="-1"></a>   and propose an architectural measure to mitigate this risk without</span>
+<span id="cb1-564"><a href="#cb1-564" aria-hidden="true" tabindex="-1"></a>   abandoning the client-server model.</span>
+<span id="cb1-565"><a href="#cb1-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-566"><a href="#cb1-566" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>A hospital decides not to activate TLS on internal DIMSE connections,</span>
+<span id="cb1-567"><a href="#cb1-567" aria-hidden="true" tabindex="-1"></a>   arguing that the hospital network is segmented. Evaluate this decision</span>
+<span id="cb1-568"><a href="#cb1-568" aria-hidden="true" tabindex="-1"></a>   in light of the GDPR, considering that the DICOM files contain</span>
+<span id="cb1-569"><a href="#cb1-569" aria-hidden="true" tabindex="-1"></a>   identifying health data (special category of data, Article 9).</span>
+<span id="cb1-570"><a href="#cb1-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-571"><a href="#cb1-571" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>The *Data Set Type* field of a DIMSE message has the value <span class="in">`0101h`</span>.</span>
+<span id="cb1-572"><a href="#cb1-572" aria-hidden="true" tabindex="-1"></a>   What does this value indicate to the receiver, and which DICOM service</span>
+<span id="cb1-573"><a href="#cb1-573" aria-hidden="true" tabindex="-1"></a>   typically generates messages with this value?</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Medical Informatics — Master’s in Biomedical Engineering · UTAD</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

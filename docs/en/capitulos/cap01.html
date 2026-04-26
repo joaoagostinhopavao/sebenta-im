@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Foundations of Medical Informatics – Medical Informatics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/cap02.html" rel="next">
+<link href="../index.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a023c9ade86a60361e96e3e3f11bc54.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-61bc4ac84974e0785b3107ee93e74bfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bc9f1d3aef906c45e091843ae87821a0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../../assets/css/custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations of Medical Informatics</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Medical Informatics</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations of Medical Informatics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hospital Information Systems and Electronic Health Records</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-mi-definition" id="toc-sec-mi-definition" class="nav-link active" data-scroll-target="#sec-mi-definition"><span class="header-section-number">1.1</span> What is Medical Informatics</a>
+  <ul class="collapse">
+  <li><a href="#definition-and-disciplinary-scope" id="toc-definition-and-disciplinary-scope" class="nav-link" data-scroll-target="#definition-and-disciplinary-scope"><span class="header-section-number">1.1.1</span> Definition and disciplinary scope</a></li>
+  <li><a href="#the-three-foundational-pillars" id="toc-the-three-foundational-pillars" class="nav-link" data-scroll-target="#the-three-foundational-pillars"><span class="header-section-number">1.1.2</span> The three foundational pillars</a></li>
+  <li><a href="#differences-from-conventional-informatics" id="toc-differences-from-conventional-informatics" class="nav-link" data-scroll-target="#differences-from-conventional-informatics"><span class="header-section-number">1.1.3</span> Differences from conventional informatics</a></li>
+  </ul></li>
+  <li><a href="#sec-evolution" id="toc-sec-evolution" class="nav-link" data-scroll-target="#sec-evolution"><span class="header-section-number">1.2</span> Historical Evolution</a>
+  <ul class="collapse">
+  <li><a href="#from-hospital-administration-to-digital-health" id="toc-from-hospital-administration-to-digital-health" class="nav-link" data-scroll-target="#from-hospital-administration-to-digital-health"><span class="header-section-number">1.2.1</span> From hospital administration to digital health</a></li>
+  </ul></li>
+  <li><a href="#sec-sociotechnical" id="toc-sec-sociotechnical" class="nav-link" data-scroll-target="#sec-sociotechnical"><span class="header-section-number">1.3</span> The Hospital as a Sociotechnical System</a>
+  <ul class="collapse">
+  <li><a href="#technology-people-and-process-dimensions" id="toc-technology-people-and-process-dimensions" class="nav-link" data-scroll-target="#technology-people-and-process-dimensions"><span class="header-section-number">1.3.1</span> Technology, people and process dimensions</a></li>
+  <li><a href="#hospital-complexity" id="toc-hospital-complexity" class="nav-link" data-scroll-target="#hospital-complexity"><span class="header-section-number">1.3.2</span> Hospital complexity</a></li>
+  <li><a href="#clinical-versus-administrative-data" id="toc-clinical-versus-administrative-data" class="nav-link" data-scroll-target="#clinical-versus-administrative-data"><span class="header-section-number">1.3.3</span> Clinical versus administrative data</a></li>
+  </ul></li>
+  <li><a href="#sec-his-general" id="toc-sec-his-general" class="nav-link" data-scroll-target="#sec-his-general"><span class="header-section-number">1.4</span> Health Information Systems</a>
+  <ul class="collapse">
+  <li><a href="#definition-of-an-information-system" id="toc-definition-of-an-information-system" class="nav-link" data-scroll-target="#definition-of-an-information-system"><span class="header-section-number">1.4.1</span> Definition of an information system</a></li>
+  <li><a href="#the-datainformationknowledge-chain" id="toc-the-datainformationknowledge-chain" class="nav-link" data-scroll-target="#the-datainformationknowledge-chain"><span class="header-section-number">1.4.2</span> The data–information–knowledge chain</a></li>
+  <li><a href="#organisational-flows-and-the-structural-role-of-is" id="toc-organisational-flows-and-the-structural-role-of-is" class="nav-link" data-scroll-target="#organisational-flows-and-the-structural-role-of-is"><span class="header-section-number">1.4.3</span> Organisational flows and the structural role of IS</a></li>
+  </ul></li>
+  <li><a href="#sec-interop" id="toc-sec-interop" class="nav-link" data-scroll-target="#sec-interop"><span class="header-section-number">1.5</span> Interoperability</a>
+  <ul class="collapse">
+  <li><a href="#three-levels-of-interoperability" id="toc-three-levels-of-interoperability" class="nav-link" data-scroll-target="#three-levels-of-interoperability"><span class="header-section-number">1.5.1</span> Three levels of interoperability</a></li>
+  <li><a href="#the-problem-of-information-fragmentation" id="toc-the-problem-of-information-fragmentation" class="nav-link" data-scroll-target="#the-problem-of-information-fragmentation"><span class="header-section-number">1.5.2</span> The problem of information fragmentation</a></li>
+  <li><a href="#current-challenges" id="toc-current-challenges" class="nav-link" data-scroll-target="#current-challenges"><span class="header-section-number">1.5.3</span> Current challenges</a></li>
+  </ul></li>
+  <li><a href="#sec-summary-01" id="toc-sec-summary-01" class="nav-link" data-scroll-target="#sec-summary-01"><span class="header-section-number">1.6</span> Summary</a></li>
+  <li><a href="#consolidation-exercises" id="toc-consolidation-exercises" class="nav-link" data-scroll-target="#consolidation-exercises">Consolidation exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations of Medical Informatics</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-mi-definition" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sec-mi-definition"><span class="header-section-number">1.1</span> What is Medical Informatics</h2>
+<section id="definition-and-disciplinary-scope" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="definition-and-disciplinary-scope"><span class="header-section-number">1.1.1</span> Definition and disciplinary scope</h3>
+<p>Medical Informatics is a scientific discipline at the intersection of three knowledge domains: Information Science, Computer Science and Health Science <span class="citation" data-cites="Haux2006">(<a href="../references.html#ref-Haux2006" role="doc-biblioref">Haux, 2006</a>)</span>. Its object of study focuses on how information is generated, organised, stored, retrieved and used in the clinical and organisational context of healthcare.</p>
+<p>There is a frequent tendency to reduce Medical Informatics to the mere application of computing tools in healthcare. This perspective is, however, reductive: it is a discipline that integrates technology, information management and clinical practice in an inseparable way, requiring simultaneous competence in all three constituent domains <span class="citation" data-cites="Collen2015">(<a href="../references.html#ref-Collen2015" role="doc-biblioref">Collen &amp; Ball, 2015</a>)</span>.</p>
+</section>
+<section id="the-three-foundational-pillars" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="the-three-foundational-pillars"><span class="header-section-number">1.1.2</span> The three foundational pillars</h3>
+<p>Three structural pillars underpin the discipline:</p>
+<p><strong>Information</strong> — encompasses models for representing clinical knowledge, data semantics and its formal structuring. The quality of clinical information is decisive for patient safety and continuity of care.</p>
+<p><strong>Computing</strong> — comprises information systems, network architectures and computational models that support the processing and communication of clinical data. This pillar provides the technical means without which information sharing between systems would be impossible.</p>
+<p><strong>Health</strong> — encompasses clinical practice, care processes and the ethical and legal responsibilities arising from the use of information systems in the context of patient care. No technological solution can be designed without a solid understanding of the clinical domain it aims to support.</p>
+<p>The following figure illustrates the position of Medical Informatics as the intersection area of the three domains:</p>
+<!--
+  Venn diagram — three pillars of Medical Informatics
+  Static SVG, teal palette.
+-->
+<div style="display:flex;justify-content:center;margin:2rem 0;">
+<svg viewbox="0 0 420 360" width="380" height="330" xmlns="http://www.w3.org/2000/svg" aria-label="Venn diagram — three pillars of Medical Informatics">
+  <defs>
+    <radialgradient id="gInfo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0d7c8c" stop-opacity="0.50"></stop>
+      <stop offset="100%" stop-color="#0d7c8c" stop-opacity="0.15"></stop>
+    </radialgradient>
+    <radialgradient id="gComp" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1ab3a6" stop-opacity="0.50"></stop>
+      <stop offset="100%" stop-color="#1ab3a6" stop-opacity="0.15"></stop>
+    </radialgradient>
+    <radialgradient id="gSau" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0a5c6b" stop-opacity="0.50"></stop>
+      <stop offset="100%" stop-color="#0a5c6b" stop-opacity="0.15"></stop>
+    </radialgradient>
+  </defs>
+  <circle cx="168" cy="148" r="108" fill="url(#gInfo)" stroke="#0d7c8c" stroke-width="1.6"></circle>
+  <circle cx="252" cy="148" r="108" fill="url(#gComp)" stroke="#1ab3a6" stroke-width="1.6"></circle>
+  <circle cx="210" cy="220" r="108" fill="url(#gSau)" stroke="#0a5c6b" stroke-width="1.6"></circle>
+  <text x="112" y="96" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Information</text>
+  <text x="112" y="111" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Science</text>
+  <text x="308" y="96" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Computer</text>
+  <text x="308" y="111" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Science</text>
+  <text x="210" y="322" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Health Science</text>
+  <text x="210" y="192" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="system-ui,sans-serif">Medical</text>
+  <text x="210" y="208" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="system-ui,sans-serif">Informatics</text>
+</svg>
+</div>
+</section>
+<section id="differences-from-conventional-informatics" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="differences-from-conventional-informatics"><span class="header-section-number">1.1.3</span> Differences from conventional informatics</h3>
+<p>Medical Informatics differs from general-purpose informatics through a set of characteristics that impose additional requirements for rigour, safety and accountability:</p>
+<ul>
+<li><p><strong>Sensitive and critical data</strong> — clinical data are, by nature, special-category personal data subject to specific legal frameworks (notably the General Data Protection Regulation and sectoral health legislation).</p></li>
+<li><p><strong>Direct clinical impact</strong> — errors in recording, transmitting or interpreting clinical information can have direct consequences for patient health and safety.</p></li>
+<li><p><strong>Demanding regulation</strong> — health information systems are subject to technical standards and legal requirements with no parallel in other sectors.</p></li>
+<li><p><strong>High organisational complexity</strong> — hospitals and health centres are highly complex, multidisciplinary, multi-service organisations, which poses particular challenges for the integration and governance of information systems.</p></li>
+</ul>
+</section>
+</section>
+<section id="sec-evolution" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-evolution"><span class="header-section-number">1.2</span> Historical Evolution</h2>
+<section id="from-hospital-administration-to-digital-health" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="from-hospital-administration-to-digital-health"><span class="header-section-number">1.2.1</span> From hospital administration to digital health</h3>
+<p>The history of Medical Informatics can be traced across four major periods, each marked by a technological transformation that profoundly altered how clinical information is managed.</p>
+<p><strong>1960s–70s: first hospital administrative systems.</strong> The first computing systems introduced in hospitals were essentially administrative in scope: admission management, bed control and billing processing. The clinical record remained, almost entirely, on paper.</p>
+<p><strong>1980s–90s: clinical computerisation and digital imaging.</strong> This period was marked by the progressive introduction of systems supporting clinical activity and, particularly significantly, by the development of the DICOM standard (<em>Digital Imaging and Communications in Medicine</em>), which normalised the storage and transmission of digital medical images, establishing the technological foundation for modern PACS systems.</p>
+<p><strong>2000s: HL7 integration and electronic records.</strong> The first decade of the century saw the widespread adoption of electronic clinical records and the adoption of the HL7 (<em>Health Level Seven</em>) standard as the integration language between hospital systems. Technical interoperability between different applications became an operational requirement, not merely an aspiration.</p>
+<p><strong>Today: FHIR APIs, interoperability and digital health.</strong> The current paradigm rests on the FHIR standard (<em>Fast Healthcare Interoperability Resources</em>), which replaces the classical HL7 messaging model with a REST API architecture, making integration more agile and aligned with modern web standards. There is simultaneously growing pressure to create European-scale health data spaces, materialised in the EHDS regulation <span class="citation" data-cites="EHDS2025">(<a href="../references.html#ref-EHDS2025" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2025</a>)</span>.</p>
+<p>The following timeline summarises the four key milestones:</p>
+<!--
+  Horizontal timeline — historical evolution of Medical Informatics.
+  Four stages with teal accent. Responsive via flexbox.
+-->
+<div style="overflow-x:auto;margin:2rem 0;">
+<div style="display:flex;align-items:flex-start;min-width:560px;
+            padding:0 1rem;gap:0;position:relative;">
+  <div style="position:absolute;top:28px;left:calc(12.5% + 20px);
+              right:calc(12.5% + 20px);height:3px;
+              background:linear-gradient(90deg,#0d7c8c,#1ab3a6);
+              z-index:0;"></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#0d7c8c;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(13,124,140,0.35);">1</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">1960s–70s</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">Hospital administrative systems</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#0b8f9e;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(13,124,140,0.30);">2</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">1980s–90s</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">Clinical computerisation and DICOM</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#0fa2ae;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(26,179,166,0.30);">3</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">2000s</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">HL7 integration and electronic records</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#1ab3a6;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(26,179,166,0.35);">4</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">Today</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">FHIR APIs and digital health</div>
+  </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>To integrate is to connect. To interoperate is to understand.</strong> The distinction between technical integration and semantic interoperability is one of the central conceptual axes of this course.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-sociotechnical" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-sociotechnical"><span class="header-section-number">1.3</span> The Hospital as a Sociotechnical System</h2>
+<section id="technology-people-and-process-dimensions" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="technology-people-and-process-dimensions"><span class="header-section-number">1.3.1</span> Technology, people and process dimensions</h3>
+<p>The modern hospital is not simply a healthcare organisation — it is a complex sociotechnical system in which technology, people and processes articulate in an inseparable way. No information system creates value if it is designed or implemented in isolation, without considering the other two vertices of this triangle.</p>
+<p>The <strong>technological</strong> dimension encompasses the information systems themselves, the network infrastructure that connects them and the medical devices that generate and consume clinical data. Technology is a necessary but not sufficient condition for improving healthcare.</p>
+<p>The <strong>people</strong> dimension comprises health professionals (physicians, nurses, technicians), hospital managers and administrators, and the patients and their carers. People produce, validate and use clinical information; they also bear the consequences of any failures in the systems.</p>
+<p>The <strong>process</strong> dimension encompasses the clinical workflows that structure care activity, protocols and best-practice guidelines, and the inter-service coordination mechanisms. The quality of processes is frequently the determining factor for the success or failure of a hospital computerisation project.</p>
+</section>
+<section id="hospital-complexity" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="hospital-complexity"><span class="header-section-number">1.3.2</span> Hospital complexity</h3>
+<p>The particular complexity of hospitals results from three structural characteristics:</p>
+<ul>
+<li><p><strong>Multidisciplinary nature</strong> — different clinical specialties, each with their own language, processes and organisational culture, coexist within the same institution and share information about the same patients.</p></li>
+<li><p><strong>Multi-service nature</strong> — each hospital service holds a significant degree of functional and organisational autonomy, which complicates the adoption of uniform solutions and centralised information governance.</p></li>
+<li><p><strong>Multiplicity of systems</strong> — a medium-sized hospital typically runs dozens of specialist information systems (central hospital system, medical imaging system, laboratory system, operating theatre system, among others), each with its own data models, interfaces and vendors.</p></li>
+</ul>
+</section>
+<section id="clinical-versus-administrative-data" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="clinical-versus-administrative-data"><span class="header-section-number">1.3.3</span> Clinical versus administrative data</h3>
+<p>In the hospital context, two broad types of data can be distinguished, with different natures and requirements:</p>
+<div id="tbl-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.1: Types of data in a hospital context
+</figcaption>
+<div aria-describedby="tbl-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 34%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Examples</th>
+<th>Requirements</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Clinical</strong></td>
+<td>Diagnoses, prescriptions, test results, clinical observations</td>
+<td>Precision, confidentiality, temporal integrity</td>
+</tr>
+<tr class="even">
+<td><strong>Administrative</strong></td>
+<td>Patient identification, scheduling, billing, episodes</td>
+<td>Consistency, uniqueness, availability</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The distinct nature of these two data types implies equally distinct requirements for modelling, protection and governance. Clinical data demand a degree of semantic precision that administrative data alone do not require; the latter are frequently the linking key that allows clinical information dispersed across multiple systems to be aggregated.</p>
+</section>
+</section>
+<section id="sec-his-general" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-his-general"><span class="header-section-number">1.4</span> Health Information Systems</h2>
+<section id="definition-of-an-information-system" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="definition-of-an-information-system"><span class="header-section-number">1.4.1</span> Definition of an information system</h3>
+<p>An information system is defined as an organised set of people, processes and technology that collects, stores, processes and distributes information with the objective of supporting decision-making in an organisation <span class="citation" data-cites="Haux2006">(<a href="../references.html#ref-Haux2006" role="doc-biblioref">Haux, 2006</a>)</span>. This tripartite definition — input, processing, output — applies both to generic information systems and to systems specifically designed for the healthcare context.</p>
+<p>In the hospital domain, the input corresponds to the collection of clinical and administrative data generated throughout the patient’s journey; processing involves storing, validating and structuring those data; and the output materialises as information available to support clinical, managerial and statistical decisions.</p>
+</section>
+<section id="the-datainformationknowledge-chain" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="the-datainformationknowledge-chain"><span class="header-section-number">1.4.2</span> The data–information–knowledge chain</h3>
+<p>Three levels can be distinguished in the hierarchy of clinical information, with direct implications for the design and evaluation of systems:</p>
+<p><strong>Data</strong> are isolated records without context: a numeric value, a date, a code. On their own, data have no operational clinical meaning.</p>
+<p><strong>Information</strong> results from contextualising data: a numeric value associated with a physiological parameter, a patient and a point in time becomes information with clinical utility.</p>
+<p><strong>Knowledge</strong> emerges when information is interpreted in the light of clinical models and accumulated experience, enabling a diagnostic or therapeutic decision to be justified.</p>
+<p>Medical Informatics is not merely concerned with storing data, but with transforming them into knowledge useful for clinical practice.</p>
+<p>The following diagram illustrates this progression using a blood glucose record as an example:</p>
+<!--
+  Data → Information → Knowledge chain
+  Concrete example: blood glucose record.
+-->
+<div style="display:flex;flex-wrap:wrap;gap:0;
+            align-items:stretch;margin:2rem 0;justify-content:center;">
+
+  <!-- DATA -->
+  <div style="flex:1;min-width:150px;max-width:200px;
+              background:#f0fafa;border:2px solid #0d7c8c;
+              border-radius:8px 0 0 8px;padding:1.2rem 1rem;
+              display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;
+                text-transform:uppercase;color:#0d7c8c;margin-bottom:.5rem;">
+      Data
+    </div>
+    <div style="font-size:1.6rem;font-weight:800;color:#0a3d4a;">
+      210
+    </div>
+    <div style="font-size:.75rem;color:#555;margin-top:.3rem;
+                text-align:center;">
+      Isolated numeric value.<br>No context.
+    </div>
+  </div>
+
+  <!-- arrow 1 -->
+  <div style="display:flex;align-items:center;padding:0 .3rem;">
+    <svg width="32" height="24" viewbox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 12 H26 M20 5 L28 12 L20 19" stroke="#0d7c8c" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </div>
+
+  <!-- INFORMATION -->
+  <div style="flex:1;min-width:160px;max-width:210px;
+              background:#e6f7f6;border:2px solid #1ab3a6;
+              border-radius:0;padding:1.2rem 1rem;
+              display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;
+                text-transform:uppercase;color:#0d7c8c;margin-bottom:.5rem;">
+      Information
+    </div>
+    <div style="font-size:.9rem;font-weight:700;color:#0a3d4a;
+                text-align:center;">
+      Glycaemia = 210 mg/dL<br>
+      <span style="font-weight:400;font-size:.8rem;">
+        John Silva · 14:32 · fasting
+      </span>
+    </div>
+    <div style="font-size:.75rem;color:#555;margin-top:.5rem;
+                text-align:center;">
+      Contextualised data:<br>who, what, when.
+    </div>
+  </div>
+
+  <!-- arrow 2 -->
+  <div style="display:flex;align-items:center;padding:0 .3rem;">
+    <svg width="32" height="24" viewbox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 12 H26 M20 5 L28 12 L20 19" stroke="#1ab3a6" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </div>
+
+  <!-- KNOWLEDGE -->
+  <div style="flex:1;min-width:160px;max-width:220px;
+              background:#d6f2ef;border:2px solid #0a5c6b;
+              border-radius:0 8px 8px 0;padding:1.2rem 1rem;
+              display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;
+                text-transform:uppercase;color:#0a5c6b;margin-bottom:.5rem;">
+      Knowledge
+    </div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;
+                text-align:center;">
+      Fasting hyperglycaemia.<br>
+      <span style="font-weight:400;font-size:.8rem;">
+        ADA diagnostic criterion: ≥ 126 mg/dL.<br>
+        Evaluate T2DM.
+      </span>
+    </div>
+    <div style="font-size:.75rem;color:#555;margin-top:.5rem;
+                text-align:center;">
+      Decision grounded<br>in clinical models.
+    </div>
+  </div>
+
+</div>
+</section>
+<section id="organisational-flows-and-the-structural-role-of-is" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="organisational-flows-and-the-structural-role-of-is"><span class="header-section-number">1.4.3</span> Organisational flows and the structural role of IS</h3>
+<p>Clinical information does not exist in isolated silos: it circulates continuously between services, between professionals and between institutions. From this circulation depends the coordination between the different actors in the health system; from coordination depends continuity of care; and from continuity of care depends, ultimately, patient safety.</p>
+<p>This establishes a logical chain with direct implications for the governance of hospital information systems:</p>
+<blockquote class="blockquote">
+<p><em>No information systems → no coordination → no continuity of care → increased clinical risk.</em></p>
+</blockquote>
+<p>This chain demonstrates that information systems are not, in modern hospitals, a technological convenience: they are critical infrastructure. Their unavailability or degradation has direct effects on the quality and safety of care provided.</p>
+</section>
+</section>
+<section id="sec-interop" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="sec-interop"><span class="header-section-number">1.5</span> Interoperability</h2>
+<section id="three-levels-of-interoperability" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="three-levels-of-interoperability"><span class="header-section-number">1.5.1</span> Three levels of interoperability</h3>
+<p>Interoperability is the ability of different systems to exchange information and to use that information effectively <span class="citation" data-cites="BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>. In the healthcare context, three complementary levels can be identified:</p>
+<p><strong>Technical interoperability</strong> — systems can communicate at the level of transport, format and protocol. It is a necessary but not sufficient condition: it guarantees that data reach the destination, not that they are correctly interpreted.</p>
+<p><strong>Semantic interoperability</strong> — systems share the meaning of the data exchanged. For two systems to “understand each other”, they must use controlled vocabularies and standardised terminologies (such as SNOMED CT, LOINC or ICD), so that the same clinical concept has the same meaning in both systems.</p>
+<p><strong>Organisational interoperability</strong> — processes, policies and the legal framework are compatible between organisations wishing to share information. This level is frequently the most difficult to achieve, as it requires governance agreements that go beyond the purely technical dimension.</p>
+<p>The following diagram positions the three levels hierarchically, showing that each higher level presupposes the one below:</p>
+<!--
+  Interoperability pyramid — three stacked levels.
+  Technical (base) → Semantic → Organisational (top).
+-->
+<div style="display:flex;flex-direction:column;align-items:center;
+            margin:2rem 0;gap:4px;">
+
+  <!-- Level 3 — Organisational (top) -->
+  <div style="width:260px;background:#0a3d4a;color:#fff;
+              border-radius:6px;padding:.8rem 1rem;text-align:center;
+              box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;
+                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;">
+      Level 3
+    </div>
+    <div style="font-size:.95rem;font-weight:700;">Organisational</div>
+    <div style="font-size:.75rem;opacity:.85;margin-top:.2rem;">
+      Policies, governance, legal framework
+    </div>
+  </div>
+
+  <div style="color:#0a5c6b;font-size:1.2rem;line-height:1;">▼</div>
+
+  <!-- Level 2 — Semantic -->
+  <div style="width:340px;background:#0d7c8c;color:#fff;
+              border-radius:6px;padding:.8rem 1rem;text-align:center;
+              box-shadow:0 2px 8px rgba(13,124,140,0.20);">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;
+                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;">
+      Level 2
+    </div>
+    <div style="font-size:.95rem;font-weight:700;">Semantic</div>
+    <div style="font-size:.75rem;opacity:.85;margin-top:.2rem;">
+      Controlled vocabularies, standardised terminologies
+    </div>
+  </div>
+
+  <div style="color:#0d7c8c;font-size:1.2rem;line-height:1;">▼</div>
+
+  <!-- Level 1 — Technical (base) -->
+  <div style="width:420px;background:#1ab3a6;color:#fff;
+              border-radius:6px;padding:.8rem 1rem;text-align:center;
+              box-shadow:0 2px 8px rgba(26,179,166,0.20);">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;
+                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;">
+      Level 1
+    </div>
+    <div style="font-size:.95rem;font-weight:700;">Technical</div>
+    <div style="font-size:.75rem;opacity:.85;margin-top:.2rem;">
+      Transport, format, protocol (HL7, FHIR, TCP/IP)
+    </div>
+  </div>
+
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Illustrative example</strong></p>
+<p>Two hospitals can exchange messages (technical interoperability). One records the diagnosis as “Arterial hypertension”; the other uses the abbreviation “HTN”. The systems communicate — but do they understand each other? No, in the absence of shared standardised terminologies. This example illustrates the difference between technical and semantic interoperability.</p>
+</div>
+</div>
+</section>
+<section id="the-problem-of-information-fragmentation" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="the-problem-of-information-fragmentation"><span class="header-section-number">1.5.2</span> The problem of information fragmentation</h3>
+<p>One of the main obstacles to interoperability in current health systems is the fragmentation of clinical information: the same patient may have records distributed across multiple systems, in multiple institutions, without any effective aggregation and sharing mechanism.</p>
+<p>The practical consequences of this fragmentation are well documented <span class="citation" data-cites="Haggerty2003">(<a href="../references.html#ref-Haggerty2003" role="doc-biblioref">Haggerty et al., 2003</a>)</span>:</p>
+<ul>
+<li>unnecessary repetition of examinations due to unavailability of previous results;</li>
+<li>delays in clinical decision-making due to unavailability of relevant information at the point of care;</li>
+<li>increased clinical risk associated with medication errors, unrecorded allergies or contradictory diagnoses across institutions.</li>
+</ul>
+</section>
+<section id="current-challenges" class="level3" data-number="1.5.3">
+<h3 data-number="1.5.3" class="anchored" data-anchor-id="current-challenges"><span class="header-section-number">1.5.3</span> Current challenges</h3>
+<p>The main challenges facing Medical Informatics today can be grouped into four vectors:</p>
+<ul>
+<li><p><strong>Fragmentation</strong> — clinical information remains dispersed across heterogeneous systems, without effective interoperability between them.</p></li>
+<li><p><strong>Legacy systems</strong> — many hospitals operate with systems installed decades ago, with monolithic architectures and limited capacity to integrate with modern technologies.</p></li>
+<li><p><strong>Security and data protection</strong> — the increasing digitalisation of clinical data expands the attack surface and requires continuous investment in cybersecurity and regulatory compliance.</p></li>
+<li><p><strong>Technological sustainability</strong> — the accelerating evolution of information technologies imposes update cycles that health organisations, with limited resources, struggle to keep pace with.</p></li>
+</ul>
+</section>
+</section>
+<section id="sec-summary-01" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="sec-summary-01"><span class="header-section-number">1.6</span> Summary</h2>
+<p>This chapter established the conceptual foundations on which Medical Informatics rests as a scientific discipline. The concepts introduced — sociotechnical system, data–information–knowledge chain, levels of interoperability — will be revisited and deepened as technical standards and integration architectures are introduced.</p>
+<p>The following key points are retained:</p>
+<ol type="1">
+<li>Medical Informatics is an intersection discipline that cannot be reduced to any one of its three constituent domains in isolation.</li>
+<li>The hospital is a sociotechnical system: technology only produces value when aligned with clinical processes and organisational practices.</li>
+<li>Interoperability has three levels — technical, semantic and organisational — and the absence of any one of them compromises continuity of care.</li>
+<li>The fragmentation of clinical information is the main obstacle to health system integration and has direct consequences for patient safety.</li>
+</ol>
+</section>
+<section id="consolidation-exercises" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="consolidation-exercises">Consolidation exercises</h2>
+<ol type="1">
+<li><p>For each of the three pillars of Medical Informatics (Information, Computing, Health), identify a concrete problem that cannot be solved without simultaneous knowledge of the other two pillars.</p></li>
+<li><p>A hospital decides to replace its clinical record system with a new application. What factors, beyond the technical, should be considered in this process? Structure the answer using the sociotechnical system model.</p></li>
+<li><p>Explain, with a concrete example, why technical interoperability is a necessary but not sufficient condition for continuity of care between institutions.</p></li>
+<li><p>Considering the logical chain <em>no IS → no coordination → no continuity → increased clinical risk</em>, identify a real or plausible scenario in which a hospital information system failure had or could have had direct clinical consequences.</p></li>
+</ol>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-BensonGrieve2021" class="csl-entry" role="listitem">
+Benson, T., &amp; Grieve, G. (2021). <em>Principles of health interoperability: <span>FHIR</span>, <span>HL7</span> and <span>SNOMED CT</span></em> (4th ed.). Springer. <a href="https://doi.org/10.1007/978-3-030-56883-2">https://doi.org/10.1007/978-3-030-56883-2</a>
+</div>
+<div id="ref-Collen2015" class="csl-entry" role="listitem">
+Collen, M. F., &amp; Ball, M. J. (2015). <em>The history of medical informatics in the united states</em>. Springer. <a href="https://doi.org/10.1007/978-1-4471-6732-7">https://doi.org/10.1007/978-1-4471-6732-7</a>
+</div>
+<div id="ref-Haggerty2003" class="csl-entry" role="listitem">
+Haggerty, J. L., Reid, R. J., Freeman, G. K., et al. (2003). Continuity of care: A multidisciplinary review. <em>BMJ</em>, <em>327</em>(7425), 1219–1221. <a href="https://doi.org/10.1136/bmj.327.7425.1219">https://doi.org/10.1136/bmj.327.7425.1219</a>
+</div>
+<div id="ref-Haux2006" class="csl-entry" role="listitem">
+Haux, R. (2006). Health information systems – past, present, future. <em>International Journal of Medical Informatics</em>, <em>75</em>(3-4), 268–281. <a href="https://doi.org/10.1016/j.ijmedinf.2005.08.002">https://doi.org/10.1016/j.ijmedinf.2005.08.002</a>
+</div>
+<div id="ref-EHDS2025" class="csl-entry" role="listitem">
+Parlamento Europeu e Conselho da União Europeia. (2025). <em>Regulamento (<span>UE</span>) 2025/327 relativo ao espaço europeu de dados de saúde (<span>EHDS</span>)</em>. Jornal Oficial da UE, L 2025/327.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  var path = window.location.pathname;
+  var isEn = path.indexOf('/en/') !== -1;
+
+  var target, label, title;
+  if (isEn) {
+    target = path.replace('/en/', '/');
+    label  = '🇵🇹 PT';
+    title  = 'Mudar para Português';
+  } else {
+    var m = path.match(/^(\/[^/]*)(\/.*)$/);
+    target = m ? m[1] + '/en' + m[2] : '/en/';
+    label  = '🇬🇧 EN';
+    title  = 'Switch to English';
+  }
+
+  var btn = document.createElement('a');
+  btn.href  = target;
+  btn.title = title;
+  btn.textContent = label;
+  btn.style.cssText =
+    'position:fixed;top:68px;right:16px;z-index:9999;' +
+    'background:#0d7c8c;color:#fff;border-radius:6px;' +
+    'padding:5px 11px;font-size:13px;font-weight:600;' +
+    'text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.2);' +
+    'transition:background .2s;';
+  btn.onmouseover = function () { this.style.background = '#0a3d4a'; };
+  btn.onmouseout  = function () { this.style.background = '#0d7c8c'; };
+  document.body.appendChild(btn);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../index.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/cap02.html" class="pagination-link" aria-label="Hospital Information Systems and Electronic Health Records">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hospital Information Systems and Electronic Health Records</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Foundations of Medical Informatics"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> en-GB</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is Medical Informatics {#sec-mi-definition}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">### Definition and disciplinary scope</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Medical Informatics is a scientific discipline at the intersection of</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>three knowledge domains: Information Science, Computer Science and</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Health Science <span class="co">[</span><span class="ot">@Haux2006</span><span class="co">]</span>. Its object of study focuses on how</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>information is generated, organised, stored, retrieved and used in the</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>clinical and organisational context of healthcare.</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>There is a frequent tendency to reduce Medical Informatics to the</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>mere application of computing tools in healthcare. This perspective</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>is, however, reductive: it is a discipline that integrates technology,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>information management and clinical practice in an inseparable way,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>requiring simultaneous competence in all three constituent domains</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@Collen2015</span><span class="co">]</span>.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">### The three foundational pillars</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>Three structural pillars underpin the discipline:</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>**Information** — encompasses models for representing clinical</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>knowledge, data semantics and its formal structuring. The quality of</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>clinical information is decisive for patient safety and continuity of</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>care.</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>**Computing** — comprises information systems, network architectures</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>and computational models that support the processing and communication</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>of clinical data. This pillar provides the technical means without</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>which information sharing between systems would be impossible.</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>**Health** — encompasses clinical practice, care processes and the</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>ethical and legal responsibilities arising from the use of information</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>systems in the context of patient care. No technological solution can</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>be designed without a solid understanding of the clinical domain it</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>aims to support.</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>The following figure illustrates the position of Medical Informatics</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>as the intersection area of the three domains:</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="in">  Venn diagram — three pillars of Medical Informatics</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="in">  Static SVG, teal palette.</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="display:flex;justify-content:center;margin:2rem 0;"&gt;</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;svg viewBox="0 0 420 360" width="380" height="330"</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="in">     xmlns="http://www.w3.org/2000/svg"</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="in">     aria-label="Venn diagram — three pillars of Medical Informatics"&gt;</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;defs&gt;</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;radialGradient id="gInfo" cx="50%" cy="50%" r="50%"&gt;</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;stop offset="0%" stop-color="#0d7c8c" stop-opacity="0.50"/&gt;</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;stop offset="100%" stop-color="#0d7c8c" stop-opacity="0.15"/&gt;</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/radialGradient&gt;</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;radialGradient id="gComp" cx="50%" cy="50%" r="50%"&gt;</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;stop offset="0%" stop-color="#1ab3a6" stop-opacity="0.50"/&gt;</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;stop offset="100%" stop-color="#1ab3a6" stop-opacity="0.15"/&gt;</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/radialGradient&gt;</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;radialGradient id="gSau" cx="50%" cy="50%" r="50%"&gt;</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;stop offset="0%" stop-color="#0a5c6b" stop-opacity="0.50"/&gt;</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;stop offset="100%" stop-color="#0a5c6b" stop-opacity="0.15"/&gt;</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/radialGradient&gt;</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/defs&gt;</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;circle cx="168" cy="148" r="108" fill="url(#gInfo)" stroke="#0d7c8c" stroke-width="1.6"/&gt;</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;circle cx="252" cy="148" r="108" fill="url(#gComp)" stroke="#1ab3a6" stroke-width="1.6"/&gt;</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;circle cx="210" cy="220" r="108" fill="url(#gSau)" stroke="#0a5c6b" stroke-width="1.6"/&gt;</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="112" y="96" text-anchor="middle" font-size="11.5" font-weight="600"</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="in">        fill="#0a3d4a" font-family="system-ui,sans-serif"&gt;Information&lt;/text&gt;</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="112" y="111" text-anchor="middle" font-size="11.5" font-weight="600"</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="in">        fill="#0a3d4a" font-family="system-ui,sans-serif"&gt;Science&lt;/text&gt;</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="308" y="96" text-anchor="middle" font-size="11.5" font-weight="600"</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="in">        fill="#0a3d4a" font-family="system-ui,sans-serif"&gt;Computer&lt;/text&gt;</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="308" y="111" text-anchor="middle" font-size="11.5" font-weight="600"</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="in">        fill="#0a3d4a" font-family="system-ui,sans-serif"&gt;Science&lt;/text&gt;</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="210" y="322" text-anchor="middle" font-size="11.5" font-weight="600"</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="in">        fill="#0a3d4a" font-family="system-ui,sans-serif"&gt;Health Science&lt;/text&gt;</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="210" y="192" text-anchor="middle" font-size="13" font-weight="700"</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="in">        fill="#fff" font-family="system-ui,sans-serif"&gt;Medical&lt;/text&gt;</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="210" y="208" text-anchor="middle" font-size="13" font-weight="700"</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="in">        fill="#fff" font-family="system-ui,sans-serif"&gt;Informatics&lt;/text&gt;</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/svg&gt;</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="fu">### Differences from conventional informatics</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>Medical Informatics differs from general-purpose informatics through</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>a set of characteristics that impose additional requirements for</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>rigour, safety and accountability:</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sensitive and critical data** — clinical data are, by nature,</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>  special-category personal data subject to specific legal frameworks</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>  (notably the General Data Protection Regulation and sectoral health</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>  legislation).</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Direct clinical impact** — errors in recording, transmitting or</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>  interpreting clinical information can have direct consequences for</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>  patient health and safety.</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Demanding regulation** — health information systems are subject to</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>  technical standards and legal requirements with no parallel in other</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>  sectors.</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**High organisational complexity** — hospitals and health centres are</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>  highly complex, multidisciplinary, multi-service organisations, which</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>  poses particular challenges for the integration and governance of</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>  information systems.</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="fu">## Historical Evolution {#sec-evolution}</span></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="fu">### From hospital administration to digital health</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>The history of Medical Informatics can be traced across four major</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>periods, each marked by a technological transformation that profoundly</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>altered how clinical information is managed.</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>**1960s–70s: first hospital administrative systems.**</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>The first computing systems introduced in hospitals were essentially</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>administrative in scope: admission management, bed control and billing</span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>processing. The clinical record remained, almost entirely, on paper.</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>**1980s–90s: clinical computerisation and digital imaging.**</span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>This period was marked by the progressive introduction of systems</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>supporting clinical activity and, particularly significantly, by the</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>development of the DICOM standard (*Digital Imaging and Communications</span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>in Medicine*), which normalised the storage and transmission of digital</span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>medical images, establishing the technological foundation for modern</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>PACS systems.</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>**2000s: HL7 integration and electronic records.**</span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>The first decade of the century saw the widespread adoption of electronic</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>clinical records and the adoption of the HL7 (*Health Level Seven*)</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>standard as the integration language between hospital systems.</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>Technical interoperability between different applications became an</span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>operational requirement, not merely an aspiration.</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>**Today: FHIR APIs, interoperability and digital health.**</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>The current paradigm rests on the FHIR standard (*Fast Healthcare</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>Interoperability Resources*), which replaces the classical HL7 messaging</span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>model with a REST API architecture, making integration more agile and</span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>aligned with modern web standards. There is simultaneously growing</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>pressure to create European-scale health data spaces, materialised in</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>the EHDS regulation <span class="co">[</span><span class="ot">@EHDS2025</span><span class="co">]</span>.</span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>The following timeline summarises the four key milestones:</span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="in">  Horizontal timeline — historical evolution of Medical Informatics.</span></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="in">  Four stages with teal accent. Responsive via flexbox.</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="overflow-x:auto;margin:2rem 0;"&gt;</span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="display:flex;align-items:flex-start;min-width:560px;</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="in">            padding:0 1rem;gap:0;position:relative;"&gt;</span></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="position:absolute;top:28px;left:calc(12.5% + 20px);</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="in">              right:calc(12.5% + 20px);height:3px;</span></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="in">              background:linear-gradient(90deg,#0d7c8c,#1ab3a6);</span></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="in">              z-index:0;"&gt;&lt;/div&gt;</span></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="flex:1;display:flex;flex-direction:column;align-items:center;</span></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="in">              position:relative;z-index:1;"&gt;</span></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="width:56px;height:56px;border-radius:50%;</span></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="in">                background:#0d7c8c;color:#fff;display:flex;</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="in">                align-items:center;justify-content:center;</span></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="in">                font-size:1.3rem;font-weight:700;</span></span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="in">                box-shadow:0 2px 8px rgba(13,124,140,0.35);"&gt;1&lt;/div&gt;</span></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="margin-top:.7rem;text-align:center;font-size:.82rem;</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="in">                font-weight:700;color:#0a3d4a;"&gt;1960s–70s&lt;/div&gt;</span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;color:#444;text-align:center;</span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="in">                margin-top:.3rem;max-width:90px;"&gt;Hospital administrative systems&lt;/div&gt;</span></span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="flex:1;display:flex;flex-direction:column;align-items:center;</span></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="in">              position:relative;z-index:1;"&gt;</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="width:56px;height:56px;border-radius:50%;</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="in">                background:#0b8f9e;color:#fff;display:flex;</span></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="in">                align-items:center;justify-content:center;</span></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a><span class="in">                font-size:1.3rem;font-weight:700;</span></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="in">                box-shadow:0 2px 8px rgba(13,124,140,0.30);"&gt;2&lt;/div&gt;</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="margin-top:.7rem;text-align:center;font-size:.82rem;</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="in">                font-weight:700;color:#0a3d4a;"&gt;1980s–90s&lt;/div&gt;</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;color:#444;text-align:center;</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a><span class="in">                margin-top:.3rem;max-width:90px;"&gt;Clinical computerisation and DICOM&lt;/div&gt;</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="flex:1;display:flex;flex-direction:column;align-items:center;</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="in">              position:relative;z-index:1;"&gt;</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="width:56px;height:56px;border-radius:50%;</span></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="in">                background:#0fa2ae;color:#fff;display:flex;</span></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="in">                align-items:center;justify-content:center;</span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="in">                font-size:1.3rem;font-weight:700;</span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="in">                box-shadow:0 2px 8px rgba(26,179,166,0.30);"&gt;3&lt;/div&gt;</span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="margin-top:.7rem;text-align:center;font-size:.82rem;</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a><span class="in">                font-weight:700;color:#0a3d4a;"&gt;2000s&lt;/div&gt;</span></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;color:#444;text-align:center;</span></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="in">                margin-top:.3rem;max-width:90px;"&gt;HL7 integration and electronic records&lt;/div&gt;</span></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="flex:1;display:flex;flex-direction:column;align-items:center;</span></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a><span class="in">              position:relative;z-index:1;"&gt;</span></span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="width:56px;height:56px;border-radius:50%;</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="in">                background:#1ab3a6;color:#fff;display:flex;</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="in">                align-items:center;justify-content:center;</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="in">                font-size:1.3rem;font-weight:700;</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="in">                box-shadow:0 2px 8px rgba(26,179,166,0.35);"&gt;4&lt;/div&gt;</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="margin-top:.7rem;text-align:center;font-size:.82rem;</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="in">                font-weight:700;color:#0a3d4a;"&gt;Today&lt;/div&gt;</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;color:#444;text-align:center;</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="in">                margin-top:.3rem;max-width:90px;"&gt;FHIR APIs and digital health&lt;/div&gt;</span></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a>**To integrate is to connect. To interoperate is to understand.**</span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a>The distinction between technical integration and semantic</span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>interoperability is one of the central conceptual axes of this course.</span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Hospital as a Sociotechnical System {#sec-sociotechnical}</span></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### Technology, people and process dimensions</span></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a>The modern hospital is not simply a healthcare organisation — it is a</span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a>complex sociotechnical system in which technology, people and processes</span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>articulate in an inseparable way. No information system creates value</span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a>if it is designed or implemented in isolation, without considering the</span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a>other two vertices of this triangle.</span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a>The **technological** dimension encompasses the information systems</span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a>themselves, the network infrastructure that connects them and the</span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a>medical devices that generate and consume clinical data. Technology is</span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>a necessary but not sufficient condition for improving healthcare.</span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>The **people** dimension comprises health professionals (physicians,</span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a>nurses, technicians), hospital managers and administrators, and the</span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>patients and their carers. People produce, validate and use clinical</span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>information; they also bear the consequences of any failures in the</span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>systems.</span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>The **process** dimension encompasses the clinical workflows that</span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>structure care activity, protocols and best-practice guidelines, and</span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>the inter-service coordination mechanisms. The quality of processes is</span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>frequently the determining factor for the success or failure of a</span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>hospital computerisation project.</span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hospital complexity</span></span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>The particular complexity of hospitals results from three structural</span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a>characteristics:</span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multidisciplinary nature** — different clinical specialties, each</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>  with their own language, processes and organisational culture, coexist</span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a>  within the same institution and share information about the same</span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>  patients.</span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multi-service nature** — each hospital service holds a significant</span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>  degree of functional and organisational autonomy, which complicates</span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>  the adoption of uniform solutions and centralised information</span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>  governance.</span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multiplicity of systems** — a medium-sized hospital typically runs</span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>  dozens of specialist information systems (central hospital system,</span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>  medical imaging system, laboratory system, operating theatre system,</span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>  among others), each with its own data models, interfaces and vendors.</span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a><span class="fu">### Clinical versus administrative data</span></span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a>In the hospital context, two broad types of data can be distinguished,</span>
+<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>with different natures and requirements:</span>
+<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a>| Type | Examples | Requirements |</span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>|------|----------|-------------|</span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>| **Clinical** | Diagnoses, prescriptions, test results, clinical observations | Precision, confidentiality, temporal integrity |</span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>| **Administrative** | Patient identification, scheduling, billing, episodes | Consistency, uniqueness, availability |</span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>: Types of data in a hospital context {#tbl-data}</span>
+<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a>The distinct nature of these two data types implies equally distinct</span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>requirements for modelling, protection and governance. Clinical data</span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a>demand a degree of semantic precision that administrative data alone</span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a>do not require; the latter are frequently the linking key that allows</span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>clinical information dispersed across multiple systems to be aggregated.</span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a><span class="fu">## Health Information Systems {#sec-his-general}</span></span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="fu">### Definition of an information system</span></span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a>An information system is defined as an organised set of people,</span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>processes and technology that collects, stores, processes and</span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>distributes information with the objective of supporting decision-making</span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a>in an organisation <span class="co">[</span><span class="ot">@Haux2006</span><span class="co">]</span>. This tripartite definition — input,</span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a>processing, output — applies both to generic information systems and</span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a>to systems specifically designed for the healthcare context.</span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a>In the hospital domain, the input corresponds to the collection of</span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>clinical and administrative data generated throughout the patient's</span>
+<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>journey; processing involves storing, validating and structuring those</span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>data; and the output materialises as information available to support</span>
+<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a>clinical, managerial and statistical decisions.</span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a><span class="fu">### The data–information–knowledge chain</span></span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a>Three levels can be distinguished in the hierarchy of clinical</span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>information, with direct implications for the design and evaluation of</span>
+<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>systems:</span>
+<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a>**Data** are isolated records without context: a numeric value, a date,</span>
+<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>a code. On their own, data have no operational clinical meaning.</span>
+<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>**Information** results from contextualising data: a numeric value</span>
+<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a>associated with a physiological parameter, a patient and a point in</span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>time becomes information with clinical utility.</span>
+<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>**Knowledge** emerges when information is interpreted in the light of</span>
+<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a>clinical models and accumulated experience, enabling a diagnostic or</span>
+<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>therapeutic decision to be justified.</span>
+<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a>Medical Informatics is not merely concerned with storing data, but with</span>
+<span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a>transforming them into knowledge useful for clinical practice.</span>
+<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a>The following diagram illustrates this progression using a blood glucose</span>
+<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a>record as an example:</span>
+<span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a><span class="in">  Data → Information → Knowledge chain</span></span>
+<span id="cb1-330"><a href="#cb1-330" aria-hidden="true" tabindex="-1"></a><span class="in">  Concrete example: blood glucose record.</span></span>
+<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="display:flex;flex-wrap:wrap;gap:0;</span></span>
+<span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a><span class="in">            align-items:stretch;margin:2rem 0;justify-content:center;"&gt;</span></span>
+<span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- DATA --&gt;</span></span>
+<span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="flex:1;min-width:150px;max-width:200px;</span></span>
+<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a><span class="in">              background:#f0fafa;border:2px solid #0d7c8c;</span></span>
+<span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a><span class="in">              border-radius:8px 0 0 8px;padding:1.2rem 1rem;</span></span>
+<span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a><span class="in">              display:flex;flex-direction:column;align-items:center;"&gt;</span></span>
+<span id="cb1-340"><a href="#cb1-340" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;</span></span>
+<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a><span class="in">                text-transform:uppercase;color:#0d7c8c;margin-bottom:.5rem;"&gt;</span></span>
+<span id="cb1-342"><a href="#cb1-342" aria-hidden="true" tabindex="-1"></a><span class="in">      Data</span></span>
+<span id="cb1-343"><a href="#cb1-343" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-344"><a href="#cb1-344" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:1.6rem;font-weight:800;color:#0a3d4a;"&gt;</span></span>
+<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a><span class="in">      210</span></span>
+<span id="cb1-346"><a href="#cb1-346" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-347"><a href="#cb1-347" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;color:#555;margin-top:.3rem;</span></span>
+<span id="cb1-348"><a href="#cb1-348" aria-hidden="true" tabindex="-1"></a><span class="in">                text-align:center;"&gt;</span></span>
+<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a><span class="in">      Isolated numeric value.&lt;br&gt;No context.</span></span>
+<span id="cb1-350"><a href="#cb1-350" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-351"><a href="#cb1-351" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-352"><a href="#cb1-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- arrow 1 --&gt;</span></span>
+<span id="cb1-354"><a href="#cb1-354" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="display:flex;align-items:center;padding:0 .3rem;"&gt;</span></span>
+<span id="cb1-355"><a href="#cb1-355" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;svg width="32" height="24" viewBox="0 0 32 24"</span></span>
+<span id="cb1-356"><a href="#cb1-356" aria-hidden="true" tabindex="-1"></a><span class="in">         xmlns="http://www.w3.org/2000/svg"&gt;</span></span>
+<span id="cb1-357"><a href="#cb1-357" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;path d="M2 12 H26 M20 5 L28 12 L20 19"</span></span>
+<span id="cb1-358"><a href="#cb1-358" aria-hidden="true" tabindex="-1"></a><span class="in">            stroke="#0d7c8c" stroke-width="2.5"</span></span>
+<span id="cb1-359"><a href="#cb1-359" aria-hidden="true" tabindex="-1"></a><span class="in">            fill="none" stroke-linecap="round" stroke-linejoin="round"/&gt;</span></span>
+<span id="cb1-360"><a href="#cb1-360" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/svg&gt;</span></span>
+<span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-362"><a href="#cb1-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- INFORMATION --&gt;</span></span>
+<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="flex:1;min-width:160px;max-width:210px;</span></span>
+<span id="cb1-365"><a href="#cb1-365" aria-hidden="true" tabindex="-1"></a><span class="in">              background:#e6f7f6;border:2px solid #1ab3a6;</span></span>
+<span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a><span class="in">              border-radius:0;padding:1.2rem 1rem;</span></span>
+<span id="cb1-367"><a href="#cb1-367" aria-hidden="true" tabindex="-1"></a><span class="in">              display:flex;flex-direction:column;align-items:center;"&gt;</span></span>
+<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;</span></span>
+<span id="cb1-369"><a href="#cb1-369" aria-hidden="true" tabindex="-1"></a><span class="in">                text-transform:uppercase;color:#0d7c8c;margin-bottom:.5rem;"&gt;</span></span>
+<span id="cb1-370"><a href="#cb1-370" aria-hidden="true" tabindex="-1"></a><span class="in">      Information</span></span>
+<span id="cb1-371"><a href="#cb1-371" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-372"><a href="#cb1-372" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.9rem;font-weight:700;color:#0a3d4a;</span></span>
+<span id="cb1-373"><a href="#cb1-373" aria-hidden="true" tabindex="-1"></a><span class="in">                text-align:center;"&gt;</span></span>
+<span id="cb1-374"><a href="#cb1-374" aria-hidden="true" tabindex="-1"></a><span class="in">      Glycaemia = 210 mg/dL&lt;br&gt;</span></span>
+<span id="cb1-375"><a href="#cb1-375" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;span style="font-weight:400;font-size:.8rem;"&gt;</span></span>
+<span id="cb1-376"><a href="#cb1-376" aria-hidden="true" tabindex="-1"></a><span class="in">        John Silva · 14:32 · fasting</span></span>
+<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;/span&gt;</span></span>
+<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;color:#555;margin-top:.5rem;</span></span>
+<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a><span class="in">                text-align:center;"&gt;</span></span>
+<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a><span class="in">      Contextualised data:&lt;br&gt;who, what, when.</span></span>
+<span id="cb1-382"><a href="#cb1-382" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- arrow 2 --&gt;</span></span>
+<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="display:flex;align-items:center;padding:0 .3rem;"&gt;</span></span>
+<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;svg width="32" height="24" viewBox="0 0 32 24"</span></span>
+<span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a><span class="in">         xmlns="http://www.w3.org/2000/svg"&gt;</span></span>
+<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;path d="M2 12 H26 M20 5 L28 12 L20 19"</span></span>
+<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a><span class="in">            stroke="#1ab3a6" stroke-width="2.5"</span></span>
+<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a><span class="in">            fill="none" stroke-linecap="round" stroke-linejoin="round"/&gt;</span></span>
+<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/svg&gt;</span></span>
+<span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- KNOWLEDGE --&gt;</span></span>
+<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="flex:1;min-width:160px;max-width:220px;</span></span>
+<span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a><span class="in">              background:#d6f2ef;border:2px solid #0a5c6b;</span></span>
+<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a><span class="in">              border-radius:0 8px 8px 0;padding:1.2rem 1rem;</span></span>
+<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a><span class="in">              display:flex;flex-direction:column;align-items:center;"&gt;</span></span>
+<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;</span></span>
+<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a><span class="in">                text-transform:uppercase;color:#0a5c6b;margin-bottom:.5rem;"&gt;</span></span>
+<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a><span class="in">      Knowledge</span></span>
+<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.85rem;font-weight:700;color:#0a3d4a;</span></span>
+<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a><span class="in">                text-align:center;"&gt;</span></span>
+<span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a><span class="in">      Fasting hyperglycaemia.&lt;br&gt;</span></span>
+<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;span style="font-weight:400;font-size:.8rem;"&gt;</span></span>
+<span id="cb1-408"><a href="#cb1-408" aria-hidden="true" tabindex="-1"></a><span class="in">        ADA diagnostic criterion: ≥ 126 mg/dL.&lt;br&gt;</span></span>
+<span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a><span class="in">        Evaluate T2DM.</span></span>
+<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;/span&gt;</span></span>
+<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-412"><a href="#cb1-412" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;color:#555;margin-top:.5rem;</span></span>
+<span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a><span class="in">                text-align:center;"&gt;</span></span>
+<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a><span class="in">      Decision grounded&lt;br&gt;in clinical models.</span></span>
+<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-420"><a href="#cb1-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-421"><a href="#cb1-421" aria-hidden="true" tabindex="-1"></a><span class="fu">### Organisational flows and the structural role of IS</span></span>
+<span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a>Clinical information does not exist in isolated silos: it circulates</span>
+<span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a>continuously between services, between professionals and between</span>
+<span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a>institutions. From this circulation depends the coordination between</span>
+<span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a>the different actors in the health system; from coordination depends</span>
+<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a>continuity of care; and from continuity of care depends, ultimately,</span>
+<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a>patient safety.</span>
+<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a>This establishes a logical chain with direct implications for the</span>
+<span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a>governance of hospital information systems:</span>
+<span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *No information systems → no coordination → no continuity of care →</span></span>
+<span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; increased clinical risk.*</span></span>
+<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a>This chain demonstrates that information systems are not, in modern</span>
+<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a>hospitals, a technological convenience: they are critical infrastructure.</span>
+<span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a>Their unavailability or degradation has direct effects on the quality</span>
+<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a>and safety of care provided.</span>
+<span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interoperability {#sec-interop}</span></span>
+<span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a><span class="fu">### Three levels of interoperability</span></span>
+<span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a>Interoperability is the ability of different systems to exchange</span>
+<span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a>information and to use that information effectively <span class="co">[</span><span class="ot">@BensonGrieve2021</span><span class="co">]</span>.</span>
+<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a>In the healthcare context, three complementary levels can be identified:</span>
+<span id="cb1-448"><a href="#cb1-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a>**Technical interoperability** — systems can communicate at the level</span>
+<span id="cb1-450"><a href="#cb1-450" aria-hidden="true" tabindex="-1"></a>of transport, format and protocol. It is a necessary but not sufficient</span>
+<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a>condition: it guarantees that data reach the destination, not that they</span>
+<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a>are correctly interpreted.</span>
+<span id="cb1-453"><a href="#cb1-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-454"><a href="#cb1-454" aria-hidden="true" tabindex="-1"></a>**Semantic interoperability** — systems share the meaning of the data</span>
+<span id="cb1-455"><a href="#cb1-455" aria-hidden="true" tabindex="-1"></a>exchanged. For two systems to "understand each other", they must use</span>
+<span id="cb1-456"><a href="#cb1-456" aria-hidden="true" tabindex="-1"></a>controlled vocabularies and standardised terminologies (such as</span>
+<span id="cb1-457"><a href="#cb1-457" aria-hidden="true" tabindex="-1"></a>SNOMED CT, LOINC or ICD), so that the same clinical concept has the</span>
+<span id="cb1-458"><a href="#cb1-458" aria-hidden="true" tabindex="-1"></a>same meaning in both systems.</span>
+<span id="cb1-459"><a href="#cb1-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-460"><a href="#cb1-460" aria-hidden="true" tabindex="-1"></a>**Organisational interoperability** — processes, policies and the</span>
+<span id="cb1-461"><a href="#cb1-461" aria-hidden="true" tabindex="-1"></a>legal framework are compatible between organisations wishing to share</span>
+<span id="cb1-462"><a href="#cb1-462" aria-hidden="true" tabindex="-1"></a>information. This level is frequently the most difficult to achieve,</span>
+<span id="cb1-463"><a href="#cb1-463" aria-hidden="true" tabindex="-1"></a>as it requires governance agreements that go beyond the purely technical</span>
+<span id="cb1-464"><a href="#cb1-464" aria-hidden="true" tabindex="-1"></a>dimension.</span>
+<span id="cb1-465"><a href="#cb1-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-466"><a href="#cb1-466" aria-hidden="true" tabindex="-1"></a>The following diagram positions the three levels hierarchically,</span>
+<span id="cb1-467"><a href="#cb1-467" aria-hidden="true" tabindex="-1"></a>showing that each higher level presupposes the one below:</span>
+<span id="cb1-468"><a href="#cb1-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-469"><a href="#cb1-469" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-470"><a href="#cb1-470" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!--</span></span>
+<span id="cb1-471"><a href="#cb1-471" aria-hidden="true" tabindex="-1"></a><span class="in">  Interoperability pyramid — three stacked levels.</span></span>
+<span id="cb1-472"><a href="#cb1-472" aria-hidden="true" tabindex="-1"></a><span class="in">  Technical (base) → Semantic → Organisational (top).</span></span>
+<span id="cb1-473"><a href="#cb1-473" aria-hidden="true" tabindex="-1"></a><span class="in">--&gt;</span></span>
+<span id="cb1-474"><a href="#cb1-474" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div style="display:flex;flex-direction:column;align-items:center;</span></span>
+<span id="cb1-475"><a href="#cb1-475" aria-hidden="true" tabindex="-1"></a><span class="in">            margin:2rem 0;gap:4px;"&gt;</span></span>
+<span id="cb1-476"><a href="#cb1-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-477"><a href="#cb1-477" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Level 3 — Organisational (top) --&gt;</span></span>
+<span id="cb1-478"><a href="#cb1-478" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="width:260px;background:#0a3d4a;color:#fff;</span></span>
+<span id="cb1-479"><a href="#cb1-479" aria-hidden="true" tabindex="-1"></a><span class="in">              border-radius:6px;padding:.8rem 1rem;text-align:center;</span></span>
+<span id="cb1-480"><a href="#cb1-480" aria-hidden="true" tabindex="-1"></a><span class="in">              box-shadow:0 2px 8px rgba(0,0,0,0.12);"&gt;</span></span>
+<span id="cb1-481"><a href="#cb1-481" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;</span></span>
+<span id="cb1-482"><a href="#cb1-482" aria-hidden="true" tabindex="-1"></a><span class="in">                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;"&gt;</span></span>
+<span id="cb1-483"><a href="#cb1-483" aria-hidden="true" tabindex="-1"></a><span class="in">      Level 3</span></span>
+<span id="cb1-484"><a href="#cb1-484" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-485"><a href="#cb1-485" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.95rem;font-weight:700;"&gt;Organisational&lt;/div&gt;</span></span>
+<span id="cb1-486"><a href="#cb1-486" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;opacity:.85;margin-top:.2rem;"&gt;</span></span>
+<span id="cb1-487"><a href="#cb1-487" aria-hidden="true" tabindex="-1"></a><span class="in">      Policies, governance, legal framework</span></span>
+<span id="cb1-488"><a href="#cb1-488" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-489"><a href="#cb1-489" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-490"><a href="#cb1-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-491"><a href="#cb1-491" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="color:#0a5c6b;font-size:1.2rem;line-height:1;"&gt;▼&lt;/div&gt;</span></span>
+<span id="cb1-492"><a href="#cb1-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-493"><a href="#cb1-493" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Level 2 — Semantic --&gt;</span></span>
+<span id="cb1-494"><a href="#cb1-494" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="width:340px;background:#0d7c8c;color:#fff;</span></span>
+<span id="cb1-495"><a href="#cb1-495" aria-hidden="true" tabindex="-1"></a><span class="in">              border-radius:6px;padding:.8rem 1rem;text-align:center;</span></span>
+<span id="cb1-496"><a href="#cb1-496" aria-hidden="true" tabindex="-1"></a><span class="in">              box-shadow:0 2px 8px rgba(13,124,140,0.20);"&gt;</span></span>
+<span id="cb1-497"><a href="#cb1-497" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;</span></span>
+<span id="cb1-498"><a href="#cb1-498" aria-hidden="true" tabindex="-1"></a><span class="in">                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;"&gt;</span></span>
+<span id="cb1-499"><a href="#cb1-499" aria-hidden="true" tabindex="-1"></a><span class="in">      Level 2</span></span>
+<span id="cb1-500"><a href="#cb1-500" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-501"><a href="#cb1-501" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.95rem;font-weight:700;"&gt;Semantic&lt;/div&gt;</span></span>
+<span id="cb1-502"><a href="#cb1-502" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;opacity:.85;margin-top:.2rem;"&gt;</span></span>
+<span id="cb1-503"><a href="#cb1-503" aria-hidden="true" tabindex="-1"></a><span class="in">      Controlled vocabularies, standardised terminologies</span></span>
+<span id="cb1-504"><a href="#cb1-504" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-505"><a href="#cb1-505" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-506"><a href="#cb1-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-507"><a href="#cb1-507" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="color:#0d7c8c;font-size:1.2rem;line-height:1;"&gt;▼&lt;/div&gt;</span></span>
+<span id="cb1-508"><a href="#cb1-508" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-509"><a href="#cb1-509" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;!-- Level 1 — Technical (base) --&gt;</span></span>
+<span id="cb1-510"><a href="#cb1-510" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div style="width:420px;background:#1ab3a6;color:#fff;</span></span>
+<span id="cb1-511"><a href="#cb1-511" aria-hidden="true" tabindex="-1"></a><span class="in">              border-radius:6px;padding:.8rem 1rem;text-align:center;</span></span>
+<span id="cb1-512"><a href="#cb1-512" aria-hidden="true" tabindex="-1"></a><span class="in">              box-shadow:0 2px 8px rgba(26,179,166,0.20);"&gt;</span></span>
+<span id="cb1-513"><a href="#cb1-513" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;</span></span>
+<span id="cb1-514"><a href="#cb1-514" aria-hidden="true" tabindex="-1"></a><span class="in">                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;"&gt;</span></span>
+<span id="cb1-515"><a href="#cb1-515" aria-hidden="true" tabindex="-1"></a><span class="in">      Level 1</span></span>
+<span id="cb1-516"><a href="#cb1-516" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-517"><a href="#cb1-517" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.95rem;font-weight:700;"&gt;Technical&lt;/div&gt;</span></span>
+<span id="cb1-518"><a href="#cb1-518" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div style="font-size:.75rem;opacity:.85;margin-top:.2rem;"&gt;</span></span>
+<span id="cb1-519"><a href="#cb1-519" aria-hidden="true" tabindex="-1"></a><span class="in">      Transport, format, protocol (HL7, FHIR, TCP/IP)</span></span>
+<span id="cb1-520"><a href="#cb1-520" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb1-521"><a href="#cb1-521" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb1-522"><a href="#cb1-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-523"><a href="#cb1-523" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-524"><a href="#cb1-524" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-525"><a href="#cb1-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-526"><a href="#cb1-526" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb1-527"><a href="#cb1-527" aria-hidden="true" tabindex="-1"></a>**Illustrative example**</span>
+<span id="cb1-528"><a href="#cb1-528" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-529"><a href="#cb1-529" aria-hidden="true" tabindex="-1"></a>Two hospitals can exchange messages (technical interoperability).</span>
+<span id="cb1-530"><a href="#cb1-530" aria-hidden="true" tabindex="-1"></a>One records the diagnosis as "Arterial hypertension"; the other uses</span>
+<span id="cb1-531"><a href="#cb1-531" aria-hidden="true" tabindex="-1"></a>the abbreviation "HTN". The systems communicate — but do they</span>
+<span id="cb1-532"><a href="#cb1-532" aria-hidden="true" tabindex="-1"></a>understand each other? No, in the absence of shared standardised</span>
+<span id="cb1-533"><a href="#cb1-533" aria-hidden="true" tabindex="-1"></a>terminologies. This example illustrates the difference between</span>
+<span id="cb1-534"><a href="#cb1-534" aria-hidden="true" tabindex="-1"></a>technical and semantic interoperability.</span>
+<span id="cb1-535"><a href="#cb1-535" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-536"><a href="#cb1-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-537"><a href="#cb1-537" aria-hidden="true" tabindex="-1"></a><span class="fu">### The problem of information fragmentation</span></span>
+<span id="cb1-538"><a href="#cb1-538" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-539"><a href="#cb1-539" aria-hidden="true" tabindex="-1"></a>One of the main obstacles to interoperability in current health</span>
+<span id="cb1-540"><a href="#cb1-540" aria-hidden="true" tabindex="-1"></a>systems is the fragmentation of clinical information: the same patient</span>
+<span id="cb1-541"><a href="#cb1-541" aria-hidden="true" tabindex="-1"></a>may have records distributed across multiple systems, in multiple</span>
+<span id="cb1-542"><a href="#cb1-542" aria-hidden="true" tabindex="-1"></a>institutions, without any effective aggregation and sharing mechanism.</span>
+<span id="cb1-543"><a href="#cb1-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-544"><a href="#cb1-544" aria-hidden="true" tabindex="-1"></a>The practical consequences of this fragmentation are well documented</span>
+<span id="cb1-545"><a href="#cb1-545" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@Haggerty2003</span><span class="co">]</span>:</span>
+<span id="cb1-546"><a href="#cb1-546" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-547"><a href="#cb1-547" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>unnecessary repetition of examinations due to unavailability of</span>
+<span id="cb1-548"><a href="#cb1-548" aria-hidden="true" tabindex="-1"></a>  previous results;</span>
+<span id="cb1-549"><a href="#cb1-549" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>delays in clinical decision-making due to unavailability of relevant</span>
+<span id="cb1-550"><a href="#cb1-550" aria-hidden="true" tabindex="-1"></a>  information at the point of care;</span>
+<span id="cb1-551"><a href="#cb1-551" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>increased clinical risk associated with medication errors, unrecorded</span>
+<span id="cb1-552"><a href="#cb1-552" aria-hidden="true" tabindex="-1"></a>  allergies or contradictory diagnoses across institutions.</span>
+<span id="cb1-553"><a href="#cb1-553" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-554"><a href="#cb1-554" aria-hidden="true" tabindex="-1"></a><span class="fu">### Current challenges</span></span>
+<span id="cb1-555"><a href="#cb1-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-556"><a href="#cb1-556" aria-hidden="true" tabindex="-1"></a>The main challenges facing Medical Informatics today can be grouped</span>
+<span id="cb1-557"><a href="#cb1-557" aria-hidden="true" tabindex="-1"></a>into four vectors:</span>
+<span id="cb1-558"><a href="#cb1-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-559"><a href="#cb1-559" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fragmentation** — clinical information remains dispersed across</span>
+<span id="cb1-560"><a href="#cb1-560" aria-hidden="true" tabindex="-1"></a>  heterogeneous systems, without effective interoperability between</span>
+<span id="cb1-561"><a href="#cb1-561" aria-hidden="true" tabindex="-1"></a>  them.</span>
+<span id="cb1-562"><a href="#cb1-562" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-563"><a href="#cb1-563" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Legacy systems** — many hospitals operate with systems installed</span>
+<span id="cb1-564"><a href="#cb1-564" aria-hidden="true" tabindex="-1"></a>  decades ago, with monolithic architectures and limited capacity to</span>
+<span id="cb1-565"><a href="#cb1-565" aria-hidden="true" tabindex="-1"></a>  integrate with modern technologies.</span>
+<span id="cb1-566"><a href="#cb1-566" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-567"><a href="#cb1-567" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Security and data protection** — the increasing digitalisation of</span>
+<span id="cb1-568"><a href="#cb1-568" aria-hidden="true" tabindex="-1"></a>  clinical data expands the attack surface and requires continuous</span>
+<span id="cb1-569"><a href="#cb1-569" aria-hidden="true" tabindex="-1"></a>  investment in cybersecurity and regulatory compliance.</span>
+<span id="cb1-570"><a href="#cb1-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-571"><a href="#cb1-571" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Technological sustainability** — the accelerating evolution of</span>
+<span id="cb1-572"><a href="#cb1-572" aria-hidden="true" tabindex="-1"></a>  information technologies imposes update cycles that health</span>
+<span id="cb1-573"><a href="#cb1-573" aria-hidden="true" tabindex="-1"></a>  organisations, with limited resources, struggle to keep pace with.</span>
+<span id="cb1-574"><a href="#cb1-574" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-575"><a href="#cb1-575" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary {#sec-summary-01}</span></span>
+<span id="cb1-576"><a href="#cb1-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-577"><a href="#cb1-577" aria-hidden="true" tabindex="-1"></a>This chapter established the conceptual foundations on which Medical</span>
+<span id="cb1-578"><a href="#cb1-578" aria-hidden="true" tabindex="-1"></a>Informatics rests as a scientific discipline. The concepts introduced —</span>
+<span id="cb1-579"><a href="#cb1-579" aria-hidden="true" tabindex="-1"></a>sociotechnical system, data–information–knowledge chain, levels of</span>
+<span id="cb1-580"><a href="#cb1-580" aria-hidden="true" tabindex="-1"></a>interoperability — will be revisited and deepened as technical standards</span>
+<span id="cb1-581"><a href="#cb1-581" aria-hidden="true" tabindex="-1"></a>and integration architectures are introduced.</span>
+<span id="cb1-582"><a href="#cb1-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-583"><a href="#cb1-583" aria-hidden="true" tabindex="-1"></a>The following key points are retained:</span>
+<span id="cb1-584"><a href="#cb1-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-585"><a href="#cb1-585" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Medical Informatics is an intersection discipline that cannot be</span>
+<span id="cb1-586"><a href="#cb1-586" aria-hidden="true" tabindex="-1"></a>   reduced to any one of its three constituent domains in isolation.</span>
+<span id="cb1-587"><a href="#cb1-587" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The hospital is a sociotechnical system: technology only produces</span>
+<span id="cb1-588"><a href="#cb1-588" aria-hidden="true" tabindex="-1"></a>   value when aligned with clinical processes and organisational</span>
+<span id="cb1-589"><a href="#cb1-589" aria-hidden="true" tabindex="-1"></a>   practices.</span>
+<span id="cb1-590"><a href="#cb1-590" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Interoperability has three levels — technical, semantic and</span>
+<span id="cb1-591"><a href="#cb1-591" aria-hidden="true" tabindex="-1"></a>   organisational — and the absence of any one of them compromises</span>
+<span id="cb1-592"><a href="#cb1-592" aria-hidden="true" tabindex="-1"></a>   continuity of care.</span>
+<span id="cb1-593"><a href="#cb1-593" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>The fragmentation of clinical information is the main obstacle to</span>
+<span id="cb1-594"><a href="#cb1-594" aria-hidden="true" tabindex="-1"></a>   health system integration and has direct consequences for patient</span>
+<span id="cb1-595"><a href="#cb1-595" aria-hidden="true" tabindex="-1"></a>   safety.</span>
+<span id="cb1-596"><a href="#cb1-596" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-597"><a href="#cb1-597" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consolidation exercises {.unnumbered}</span></span>
+<span id="cb1-598"><a href="#cb1-598" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-599"><a href="#cb1-599" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>For each of the three pillars of Medical Informatics (Information,</span>
+<span id="cb1-600"><a href="#cb1-600" aria-hidden="true" tabindex="-1"></a>   Computing, Health), identify a concrete problem that cannot be</span>
+<span id="cb1-601"><a href="#cb1-601" aria-hidden="true" tabindex="-1"></a>   solved without simultaneous knowledge of the other two pillars.</span>
+<span id="cb1-602"><a href="#cb1-602" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-603"><a href="#cb1-603" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>A hospital decides to replace its clinical record system with a new</span>
+<span id="cb1-604"><a href="#cb1-604" aria-hidden="true" tabindex="-1"></a>   application. What factors, beyond the technical, should be</span>
+<span id="cb1-605"><a href="#cb1-605" aria-hidden="true" tabindex="-1"></a>   considered in this process? Structure the answer using the</span>
+<span id="cb1-606"><a href="#cb1-606" aria-hidden="true" tabindex="-1"></a>   sociotechnical system model.</span>
+<span id="cb1-607"><a href="#cb1-607" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-608"><a href="#cb1-608" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Explain, with a concrete example, why technical interoperability is</span>
+<span id="cb1-609"><a href="#cb1-609" aria-hidden="true" tabindex="-1"></a>   a necessary but not sufficient condition for continuity of care</span>
+<span id="cb1-610"><a href="#cb1-610" aria-hidden="true" tabindex="-1"></a>   between institutions.</span>
+<span id="cb1-611"><a href="#cb1-611" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-612"><a href="#cb1-612" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Considering the logical chain *no IS → no coordination → no</span>
+<span id="cb1-613"><a href="#cb1-613" aria-hidden="true" tabindex="-1"></a>   continuity → increased clinical risk*, identify a real or plausible</span>
+<span id="cb1-614"><a href="#cb1-614" aria-hidden="true" tabindex="-1"></a>   scenario in which a hospital information system failure had or could</span>
+<span id="cb1-615"><a href="#cb1-615" aria-hidden="true" tabindex="-1"></a>   have had direct clinical consequences.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Medical Informatics — Master’s in Biomedical Engineering · UTAD</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
