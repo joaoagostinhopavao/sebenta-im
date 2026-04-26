@@ -89,6 +89,7 @@ pre {
    ============================================================ */
 #title-block-header.quarto-title-block {
   background: linear-gradient(120deg, #050d28 0%, #1448c0 100%);
+  color: #fff;
   padding: 2rem 2.5rem 1.75rem;
   margin: -1rem -1rem 2.5rem;
   border-radius: 0 0 10px 10px;
@@ -108,8 +109,16 @@ pre {
   font-weight: 300;
 }
 
-#title-block-header.quarto-title-block .quarto-title-meta {
-  display: none;
+/* Força texto legível em todos os sub-elementos do banner */
+#title-block-header.quarto-title-block p.subtitle,
+#title-block-header.quarto-title-block .quarto-title-meta-author,
+#title-block-header.quarto-title-block .quarto-title-meta-heading,
+#title-block-header.quarto-title-block .quarto-title-meta-contents,
+#title-block-header.quarto-title-block p.author,
+#title-block-header.quarto-title-block p.affiliation,
+#title-block-header.quarto-title-block .quarto-title-meta-heading * {
+  color: rgba(255,255,255,0.82) !important;
+  opacity: 1 !important;
 }
 
 /* ============================================================
@@ -141,18 +150,6 @@ code {
   font-size: 0.88em;
 }
 
-/* Subtítulo e metadados do autor no banner de capítulo */
-#title-block-header.quarto-title-block p.subtitle {
-  color: rgba(255,255,255,0.82) !important;
-}
-
-#title-block-header.quarto-title-block .quarto-title-meta-author,
-#title-block-header.quarto-title-block .quarto-title-meta-heading,
-#title-block-header.quarto-title-block .quarto-title-meta-contents,
-#title-block-header.quarto-title-block p.author,
-#title-block-header.quarto-title-block p.affiliation {
-  color: rgba(255,255,255,0.75) !important;
-}
 
 /* ============================================================
    Legendas de figuras e tabelas
