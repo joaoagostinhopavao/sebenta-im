@@ -590,10 +590,10 @@ Tabela&nbsp;6.3: Delimitadores do HL7 v2 — declarados em MSH-1 e MSH-2 <span c
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>\|</code></td>
+<td><code>&amp;#124;</code></td>
 <td>Pipe</td>
 <td>Separador de campos</td>
-<td><code>PID\|1\|\|PAT001\|\|SILVA^ANA</code></td>
+<td><code>PID&amp;#124;1&amp;#124;&amp;#124;PAT001&amp;#124;&amp;#124;SILVA^ANA</code></td>
 </tr>
 <tr class="even">
 <td><code>^</code></td>
@@ -742,7 +742,7 @@ Tabela&nbsp;6.5: Campos principais do segmento MSH <span class="citation" data-c
 <tbody>
 <tr class="odd">
 <td>MSH-1</td>
-<td><code>\|</code></td>
+<td><code>&amp;#124;</code></td>
 <td>Field Separator</td>
 <td>O próprio pipe — único campo cujo valor é o delimitador</td>
 </tr>
@@ -2115,7 +2115,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a>| Carácter | Nome | Função | Exemplo |</span>
 <span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a>|----------|------|--------|---------|</span>
-<span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a>| <span class="in">`\|`</span> | Pipe | Separador de campos | <span class="in">`PID\|1\|\|PAT001\|\|SILVA^ANA`</span> |</span>
+<span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a>| <span class="in">`&amp;#124;`</span> | Pipe | Separador de campos | <span class="in">`PID&amp;#124;1&amp;#124;&amp;#124;PAT001&amp;#124;&amp;#124;SILVA^ANA`</span> |</span>
 <span id="cb10-237"><a href="#cb10-237" aria-hidden="true" tabindex="-1"></a>| <span class="in">`^`</span> | Caret | Separador de componentes | <span class="in">`SILVA^ANA^M`</span> → apelido ^ nome ^ inicial |</span>
 <span id="cb10-238"><a href="#cb10-238" aria-hidden="true" tabindex="-1"></a>| <span class="in">`~`</span> | Tilde | Separador de repetições | <span class="in">`PID-3: ID001~ID002`</span> → dois IDs alternativos |</span>
 <span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a>| <span class="in">`\`</span> | Backslash | Carácter de escape | <span class="in">`\F\`</span> representa um pipe literal no conteúdo |</span>
@@ -2187,7 +2187,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb10-305"><a href="#cb10-305" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-306"><a href="#cb10-306" aria-hidden="true" tabindex="-1"></a>| Campo | Valor | Nome | Significado |</span>
 <span id="cb10-307"><a href="#cb10-307" aria-hidden="true" tabindex="-1"></a>|-------|-------|------|-------------|</span>
-<span id="cb10-308"><a href="#cb10-308" aria-hidden="true" tabindex="-1"></a>| MSH-1 | <span class="in">`\|`</span> | Field Separator | O próprio pipe — único campo cujo valor é o delimitador |</span>
+<span id="cb10-308"><a href="#cb10-308" aria-hidden="true" tabindex="-1"></a>| MSH-1 | <span class="in">`&amp;#124;`</span> | Field Separator | O próprio pipe — único campo cujo valor é o delimitador |</span>
 <span id="cb10-309"><a href="#cb10-309" aria-hidden="true" tabindex="-1"></a>| MSH-2 | <span class="in">`^~\&amp;`</span> | Encoding Characters | Os quatro delimitadores secundários |</span>
 <span id="cb10-310"><a href="#cb10-310" aria-hidden="true" tabindex="-1"></a>| MSH-3 | <span class="in">`ADT1`</span> | Sending Application | Aplicação remetente |</span>
 <span id="cb10-311"><a href="#cb10-311" aria-hidden="true" tabindex="-1"></a>| MSH-4 | <span class="in">`ULSTMAD`</span> | Sending Facility | Instituição remetente |</span>
