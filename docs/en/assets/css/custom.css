@@ -1,0 +1,199 @@
+/* custom.css — Sebenta IM (paleta: azul) */
+
+/* ============================================================
+   HERO — capa da página principal (Prefácio)
+   ============================================================ */
+.hero {
+  background: linear-gradient(135deg, #050d28 0%, #1448c0 60%, #3570e0 100%);
+  color: #fff;
+  border-radius: 8px;
+  padding: 3.5rem 3rem 3rem;
+  margin: 0 0 2.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 260px; height: 260px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 50%;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: -80px; left: -40px;
+  width: 320px; height: 320px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 50%;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff !important;
+  border: none !important;
+  margin: 0 0 0.4rem;
+  line-height: 1.2;
+}
+
+.hero h2 {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.82) !important;
+  border: none !important;
+  margin: 0 0 1.4rem;
+}
+
+.hero p {
+  color: rgba(255,255,255,0.72);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.hero .hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 0.25rem 0.85rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  color: rgba(255,255,255,0.9);
+}
+
+/* ============================================================
+   Tipografia
+   ============================================================ */
+body {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+/* Blocos de código */
+pre {
+  border-left: 3px solid #1448c0;
+  background: #f0f4fc;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   Cabeçalho de capítulo — banner colorido
+   ============================================================ */
+#title-block-header.quarto-title-block {
+  background: linear-gradient(120deg, #050d28 0%, #1448c0 100%);
+  color: #fff;
+  padding: 2rem 2.5rem 1.75rem;
+  margin: -1rem -1rem 2.5rem;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+}
+
+#title-block-header.quarto-title-block h1.title {
+  color: #fff !important;
+  border: none !important;
+  font-size: 1.85rem;
+  margin: 0;
+  line-height: 1.25;
+}
+
+#title-block-header.quarto-title-block h1.title .chapter-number {
+  opacity: 0.65;
+  font-weight: 300;
+}
+
+/* Força texto legível em todos os sub-elementos do banner */
+#title-block-header.quarto-title-block p.subtitle,
+#title-block-header.quarto-title-block .quarto-title-meta-author,
+#title-block-header.quarto-title-block .quarto-title-meta-heading,
+#title-block-header.quarto-title-block .quarto-title-meta-contents,
+#title-block-header.quarto-title-block p.author,
+#title-block-header.quarto-title-block p.affiliation,
+#title-block-header.quarto-title-block .quarto-title-meta-heading * {
+  color: rgba(255,255,255,0.82) !important;
+  opacity: 1 !important;
+}
+
+/* ============================================================
+   Callouts — cor de acento IM */
+.callout-note {
+  border-left-color: #1448c0 !important;
+}
+
+.callout-tip {
+  border-left-color: #3570e0 !important;
+}
+
+/* Tabelas */
+table {
+  font-size: 0.92rem;
+}
+
+thead {
+  background: #1448c0;
+  color: #fff;
+}
+
+/* Destaque inline */
+code {
+  color: #0a1845;
+  background: #e8eefa;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  font-size: 0.88em;
+}
+
+
+/* ============================================================
+   Legendas de figuras e tabelas
+   ============================================================ */
+caption,
+.table-caption,
+.quarto-float-caption,
+.figure-caption {
+  font-size: 0.9rem !important;
+  color: #475569;
+}
+
+/* Tabela SOP Classes */
+#tbl-sop table,
+#tbl-sop td,
+#tbl-sop th {
+  font-size: 0.78rem !important;
+}
+
+/* ============================================================
+   Foto do autor
+   ============================================================ */
+.quarto-title-meta-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+p.author {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin: 0;
+}
+
+p.author::before {
+  content: "";
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-image: url('../img/jpavao.jpg');
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #1448c0;
+  flex-shrink: 0;
+}

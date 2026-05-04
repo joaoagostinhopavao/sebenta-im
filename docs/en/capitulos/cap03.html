@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Terminologies and Semantic Interoperability – Medical Informatics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/cap04.html" rel="next">
+<link href="../capitulos/cap02.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a023c9ade86a60361e96e3e3f11bc54.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-61bc4ac84974e0785b3107ee93e74bfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bc9f1d3aef906c45e091843ae87821a0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../../assets/css/custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Medical Informatics</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations of Medical Informatics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hospital Information Systems and Electronic Health Records</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Web Architecture and REST</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-free-text" id="toc-sec-free-text" class="nav-link active" data-scroll-target="#sec-free-text"><span class="header-section-number">3.1</span> The Problem of Free Text</a>
+  <ul class="collapse">
+  <li><a href="#ambiguity-in-clinical-information" id="toc-ambiguity-in-clinical-information" class="nav-link" data-scroll-target="#ambiguity-in-clinical-information"><span class="header-section-number">3.1.1</span> Ambiguity in clinical information</a></li>
+  <li><a href="#from-ambiguity-to-structured-coding" id="toc-from-ambiguity-to-structured-coding" class="nav-link" data-scroll-target="#from-ambiguity-to-structured-coding"><span class="header-section-number">3.1.2</span> From ambiguity to structured coding</a></li>
+  </ul></li>
+  <li><a href="#sec-key-concepts" id="toc-sec-key-concepts" class="nav-link" data-scroll-target="#sec-key-concepts"><span class="header-section-number">3.2</span> Key Concepts</a>
+  <ul class="collapse">
+  <li><a href="#technical-versus-semantic-interoperability" id="toc-technical-versus-semantic-interoperability" class="nav-link" data-scroll-target="#technical-versus-semantic-interoperability"><span class="header-section-number">3.2.1</span> Technical versus semantic interoperability</a></li>
+  <li><a href="#terminology-classification-and-ontology" id="toc-terminology-classification-and-ontology" class="nav-link" data-scroll-target="#terminology-classification-and-ontology"><span class="header-section-number">3.2.2</span> Terminology, classification and ontology</a></li>
+  </ul></li>
+  <li><a href="#sec-snomed" id="toc-sec-snomed" class="nav-link" data-scroll-target="#sec-snomed"><span class="header-section-number">3.3</span> SNOMED CT</a>
+  <ul class="collapse">
+  <li><a href="#what-is-snomed-ct" id="toc-what-is-snomed-ct" class="nav-link" data-scroll-target="#what-is-snomed-ct"><span class="header-section-number">3.3.1</span> What is SNOMED CT?</a></li>
+  <li><a href="#the-three-fundamental-components" id="toc-the-three-fundamental-components" class="nav-link" data-scroll-target="#the-three-fundamental-components"><span class="header-section-number">3.3.2</span> The three fundamental components</a></li>
+  <li><a href="#example-bacterial-pneumonia" id="toc-example-bacterial-pneumonia" class="nav-link" data-scroll-target="#example-bacterial-pneumonia"><span class="header-section-number">3.3.3</span> Example: Bacterial Pneumonia</a></li>
+  </ul></li>
+  <li><a href="#sec-icd" id="toc-sec-icd" class="nav-link" data-scroll-target="#sec-icd"><span class="header-section-number">3.4</span> ICD — International Classification of Diseases</a>
+  <ul class="collapse">
+  <li><a href="#characterisation-and-purpose" id="toc-characterisation-and-purpose" class="nav-link" data-scroll-target="#characterisation-and-purpose"><span class="header-section-number">3.4.1</span> Characterisation and purpose</a></li>
+  <li><a href="#hierarchical-structure" id="toc-hierarchical-structure" class="nav-link" data-scroll-target="#hierarchical-structure"><span class="header-section-number">3.4.2</span> Hierarchical structure</a></li>
+  <li><a href="#snomed-ct-versus-icd-complementarity" id="toc-snomed-ct-versus-icd-complementarity" class="nav-link" data-scroll-target="#snomed-ct-versus-icd-complementarity"><span class="header-section-number">3.4.3</span> SNOMED CT versus ICD — complementarity</a></li>
+  </ul></li>
+  <li><a href="#sec-loinc" id="toc-sec-loinc" class="nav-link" data-scroll-target="#sec-loinc"><span class="header-section-number">3.5</span> LOINC — Laboratory Observations</a>
+  <ul class="collapse">
+  <li><a href="#definition-and-scope" id="toc-definition-and-scope" class="nav-link" data-scroll-target="#definition-and-scope"><span class="header-section-number">3.5.1</span> Definition and scope</a></li>
+  <li><a href="#the-anatomy-of-a-loinc-code-the-six-axes" id="toc-the-anatomy-of-a-loinc-code-the-six-axes" class="nav-link" data-scroll-target="#the-anatomy-of-a-loinc-code-the-six-axes"><span class="header-section-number">3.5.2</span> The anatomy of a LOINC code — the six axes</a></li>
+  </ul></li>
+  <li><a href="#sec-icf" id="toc-sec-icf" class="nav-link" data-scroll-target="#sec-icf"><span class="header-section-number">3.6</span> ICF — International Classification of Functioning</a></li>
+  <li><a href="#sec-integration" id="toc-sec-integration" class="nav-link" data-scroll-target="#sec-integration"><span class="header-section-number">3.7</span> Integration of Terminologies in the Clinical Workflow</a></li>
+  <li><a href="#sec-summary-03" id="toc-sec-summary-03" class="nav-link" data-scroll-target="#sec-summary-03"><span class="header-section-number">3.8</span> Summary</a></li>
+  <li><a href="#consolidation-exercises" id="toc-consolidation-exercises" class="nav-link" data-scroll-target="#consolidation-exercises">Consolidation exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-free-text" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-free-text"><span class="header-section-number">3.1</span> The Problem of Free Text</h2>
+<section id="ambiguity-in-clinical-information" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="ambiguity-in-clinical-information"><span class="header-section-number">3.1.1</span> Ambiguity in clinical information</h3>
+<p>Free-text clinical documentation is, historically, the dominant form of record-keeping in health systems. However, free text introduces a structural problem: semantic ambiguity. The same clinical concept can be expressed in different ways by different professionals, in different contexts, making automatic aggregation and comparison of information impossible <span class="citation" data-cites="BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.</p>
+<p>A paradigmatic example: the term “high tension” can be interpreted as systemic arterial hypertension, emotional tension or tension headache, depending on the professional and the clinical context. Three distinct interpretations of the same free-text term, with completely different diagnostic and therapeutic implications.</p>
+<p>The practical consequences of this ambiguity are well documented: communication errors between professionals; inability to aggregate data for statistics or clinical research; failure in continuity of care between institutions; and, ultimately, systems that exchange data but do not share meaning.</p>
+</section>
+<section id="from-ambiguity-to-structured-coding" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="from-ambiguity-to-structured-coding"><span class="header-section-number">3.1.2</span> From ambiguity to structured coding</h3>
+<p>The solution to the ambiguity problem lies in replacing free text with <strong>structured coding</strong>: the assignment of standardised codes to clinical concepts, so that the same concept always has the same code, regardless of who records it or where it is recorded. Figure 3.1 illustrates this contrast.</p>
+<!--
+  Visual contrast: free text (red/warning) vs coded (green/ok).
+  Two cards side by side with transformation arrow.
+-->
+<div style="display:flex;flex-wrap:wrap;gap:1rem;
+            align-items:stretch;margin:2rem 0;justify-content:center;">
+
+  <!-- Free text -->
+  <div style="flex:1;min-width:200px;max-width:300px;
+              background:#fff5f5;border:2px solid #c0392b;
+              border-radius:8px;padding:1.2rem;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem;">
+      <span style="font-size:1.1rem;">⚠️</span>
+      <span style="font-weight:700;font-size:.85rem;color:#c0392b;">
+        Anamnesis (free text)
+      </span>
+    </div>
+    <p style="font-size:.85rem;color:#444;font-style:italic;margin:0;">
+      "Patient with high blood pressure, elevated sugar,
+       complains of chest pain since yesterday."
+    </p>
+    <p style="font-size:.75rem;color:#888;margin:.6rem 0 0;">
+      Ambiguous · not searchable · not comparable
+    </p>
+  </div>
+
+  <!-- arrow -->
+  <div style="display:flex;align-items:center;font-size:1.6rem;
+              color:#0d7c8c;padding:0 .5rem;">→</div>
+
+  <!-- Coded -->
+  <div style="flex:1;min-width:200px;max-width:300px;
+              background:#f0fafa;border:2px solid #0d7c8c;
+              border-radius:8px;padding:1.2rem;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem;">
+      <span style="font-size:1.1rem;">✅</span>
+      <span style="font-weight:700;font-size:.85rem;color:#0d7c8c;">
+        Coded (SNOMED CT)
+      </span>
+    </div>
+    <div style="font-size:.85rem;line-height:1.5;color:#0a3d4a;">
+      <p style="margin:0 0 .6rem 0;"><strong>38341003:</strong><br>Hypertension</p>
+      <p style="margin:0 0 .6rem 0;"><strong>44054006:</strong><br>Diabetes type 2</p>
+      <p style="margin:0;"><strong>29857009:</strong><br>Chest pain</p>
+    </div>
+    <p style="font-size:.75rem;color:#0d7c8c;margin:.6rem 0 0;font-weight:600;">
+      Precise · searchable · interoperable
+    </p>
+  </div>
+</div>
+<p style="text-align:center;font-size:14px;color:#475569;margin-top:.5rem;">
+Figure 3.1 — Contrast between free-text recording and structured coding (SNOMED CT)
+</p>
+</section>
+</section>
+<section id="sec-key-concepts" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-key-concepts"><span class="header-section-number">3.2</span> Key Concepts</h2>
+<section id="technical-versus-semantic-interoperability" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="technical-versus-semantic-interoperability"><span class="header-section-number">3.2.1</span> Technical versus semantic interoperability</h3>
+<p>The distinction between technical and semantic interoperability is central to Medical Informatics and must be clarified precisely:</p>
+<p><strong>Technical interoperability</strong> refers to the ability of two systems to exchange data at the level of transport, format and protocol. It guarantees that bytes reach the destination; it does not guarantee that meaning is preserved. Example: sending an HL7 v2 message between two systems.</p>
+<p><strong>Semantic interoperability</strong> refers to the ability of two systems to share the meaning of the data exchanged. It guarantees that the receiver interprets the message content in the same way as the sender. Example: both systems interpret code <code>386661006</code> as fever, because both use SNOMED CT <span class="citation" data-cites="BensonGrieve2021">(<a href="../references.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.</p>
+</section>
+<section id="terminology-classification-and-ontology" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="terminology-classification-and-ontology"><span class="header-section-number">3.2.2</span> Terminology, classification and ontology</h3>
+<p>Three related but distinct concepts structure the clinical coding ecosystem:</p>
+<p>A <strong>terminology</strong> is a controlled, detailed vocabulary that codes clinical data entry. It admits multiple synonyms per concept and aims for granular clinical documentation. SNOMED CT is the reference example.</p>
+<p>A <strong>classification</strong> groups concepts into fixed categories for statistical output and reporting purposes. Each concept occupies a unique place in the hierarchical tree. ICD and ICF are the paradigmatic examples.</p>
+<p>An <strong>ontology</strong> is a formal knowledge model that defines concepts and their logical relationships, enabling automatic inference. SNOMED CT is simultaneously a terminology and an ontology: its relationship structure enables computational reasoning over concepts.</p>
+</section>
+</section>
+<section id="sec-snomed" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-snomed"><span class="header-section-number">3.3</span> SNOMED CT</h2>
+<section id="what-is-snomed-ct" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="what-is-snomed-ct"><span class="header-section-number">3.3.1</span> What is SNOMED CT?</h3>
+<p>SNOMED CT (<em>Systematized Nomenclature of Medicine — Clinical Terms</em>) is the most comprehensive clinical terminology and ontology system in the world. Maintained by SNOMED International, it is in use in more than 40 countries and constitutes the reference terminology for coding clinical data entry in modern EHRs <span class="citation" data-cites="SNOMED2024">(<a href="../references.html#ref-SNOMED2024" role="doc-biblioref">SNOMED International, 2024</a>)</span>.</p>
+<p>Its scope is organised across three dimensions: terminology (controlled clinical vocabulary with more than 350,000 concepts), interoperability (standardisation of clinical language between institutions and systems) and ontological structure (poly-hierarchical graph of concepts and relationships).</p>
+</section>
+<section id="the-three-fundamental-components" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="the-three-fundamental-components"><span class="header-section-number">3.3.2</span> The three fundamental components</h3>
+<p>SNOMED CT is organised around three components that work together to represent clinical knowledge precisely and computably:</p>
+<p><strong>Concepts</strong> — atomic units of clinical meaning, each identified by a unique and permanent numeric <em>Concept ID</em>. Examples: <code>38341003</code> = Hypertension; <code>73211009</code> = Diabetes mellitus; <code>386661006</code> = Fever.</p>
+<p><strong>Descriptions</strong> — human-readable terms associated with each concept: the <em>Fully Specified Name</em> (FSN), which specifies the concept unambiguously; the <em>Preferred Term</em>, the preferred name in the local language; and synonyms, allowing multiple designations for the same concept.</p>
+<p><strong>Relationships</strong> — typed links between concepts that form the ontological graph. The main types are: <code>is-a</code> (taxonomic hierarchy), <code>finding-site</code> (anatomical location), and <code>causative-agent</code> (causative agent). The poly-hierarchy allows a concept to have multiple parents, reflecting the complexity of clinical reality.</p>
+</section>
+<section id="example-bacterial-pneumonia" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="example-bacterial-pneumonia"><span class="header-section-number">3.3.3</span> Example: Bacterial Pneumonia</h3>
+<p>The concept of bacterial pneumonia illustrates the expressive richness of SNOMED CT through its relationships. The formal expression of the concept is:</p>
+<!--
+  SNOMED CT formal expression — presented as independent short lines.
+-->
+<div style="background:#e8f7f8;border-left:4px solid #0d7c8c;
+            border-radius:4px;padding:.8rem 1.2rem;margin:1rem 0;
+            font-family:monospace;font-size:.8rem;line-height:1.6;
+            color:#0a3d4a;">
+  <div><strong>53084003</strong> | Bacterial pneumonia (disorder)</div>
+  <div style="padding-left:1.2rem;color:#0d7c8c;">├─ finding-site:
+    <strong>39607008</strong> | Lung structure</div>
+  <div style="padding-left:1.2rem;color:#0d7c8c;">└─ causative-agent:
+    <strong>56415008</strong> | Genus Streptococcus</div>
+</div>
+<p>Compact form (ECL syntax — <em>Expression Constraint Language</em>):</p>
+<div style="background:#e8f7f8;border-left:4px solid #1ab3a6;
+            border-radius:4px;padding:.7rem 1.2rem;margin:1rem 0;
+            font-family:monospace;font-size:.85rem;color:#0a3d4a;
+            line-height:1.4;white-space:nowrap;overflow-x:auto;">
+  53084003:363698007=39607008,246075003=9861002
+</div>
+<p>This example demonstrates that SNOMED CT does not merely name concepts: it expresses complex clinical relationships in a computable form, enabling automatic reasoning over medical knowledge. Figure 3.2 represents this hierarchy graphically.</p>
+<!--
+  SNOMED CT hierarchy for Bacterial Pneumonia.
+  Vertical tree: Clinical finding → Disorder → Respiratory disorder →
+  Pneumonia → Bacterial pneumonia, with finding-site and causative-agent branches.
+-->
+<div style="overflow-x:auto;margin:2rem 0;">
+<svg viewbox="0 0 580 350" width="560" height="340" xmlns="http://www.w3.org/2000/svg" aria-label="SNOMED CT hierarchy — Bacterial Pneumonia">
+
+  <!-- is-a vertical main line -->
+  <line x1="290" y1="36" x2="290" y2="82" stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"></line>
+  <line x1="290" y1="104" x2="290" y2="148" stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"></line>
+  <line x1="290" y1="170" x2="290" y2="214" stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"></line>
+  <line x1="290" y1="236" x2="290" y2="268" stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"></line>
+
+  <!-- Clinical finding (root) -->
+  <rect x="180" y="8" width="220" height="28" rx="5" fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.2"></rect>
+  <text x="290" y="27" text-anchor="middle" font-size="12" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">
+    Clinical finding [SNOMED root]</text>
+
+  <!-- Disorder -->
+  <rect x="180" y="82" width="220" height="24" rx="5" fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.2"></rect>
+  <text x="290" y="99" text-anchor="middle" font-size="12" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Disorder</text>
+
+  <!-- Respiratory disorder -->
+  <rect x="180" y="148" width="220" height="24" rx="5" fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.2"></rect>
+  <text x="290" y="165" text-anchor="middle" font-size="12" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Respiratory disorder</text>
+
+  <!-- Pneumonia -->
+  <rect x="180" y="214" width="220" height="24" rx="5" fill="#cceef2" stroke="#0d7c8c" stroke-width="1.3"></rect>
+  <text x="290" y="231" text-anchor="middle" font-size="12" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Pneumonia [233604007]</text>
+
+  <!-- Bacterial pneumonia (highlight) -->
+  <rect x="175" y="268" width="230" height="28" rx="6" fill="#0d7c8c" stroke="#0a3d4a" stroke-width="1.5"></rect>
+  <text x="290" y="287" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="system-ui,sans-serif">
+    Bacterial pneumonia [53084003]</text>
+
+  <!-- finding-site branch → Lung -->
+  <line x1="250" y1="282" x2="110" y2="252" stroke="#1ab3a6" stroke-width="2.5"></line>
+  <rect x="28" y="234" width="115" height="36" rx="5" fill="#d6f2ef" stroke="#1ab3a6" stroke-width="1.2"></rect>
+  <text x="85" y="249" text-anchor="middle" font-size="12" fill="#0a3d4a" font-family="system-ui,sans-serif">finding-site →</text>
+  <text x="85" y="263" text-anchor="middle" font-size="12" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Lung [39607008]</text>
+
+  <!-- causative-agent branch → Streptococcus -->
+  <line x1="330" y1="282" x2="454" y2="252" stroke="#f39c12" stroke-width="2.5"></line>
+  <rect x="400" y="234" width="158" height="36" rx="5" fill="#fef9ec" stroke="#f39c12" stroke-width="1.2"></rect>
+  <text x="479" y="249" text-anchor="middle" font-size="12" fill="#0a3d4a" font-family="system-ui,sans-serif">causative-agent →</text>
+  <text x="479" y="263" text-anchor="middle" font-size="12" font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Genus Streptococcus</text>
+
+  <!-- relationship type legend -->
+  <line x1="22" y1="310" x2="46" y2="310" stroke="#0d7c8c" stroke-width="2.5" stroke-dasharray="4,3"></line>
+  <text x="50" y="314" font-size="11" fill="#555" font-family="system-ui,sans-serif">is-a</text>
+  <line x1="90" y1="310" x2="114" y2="310" stroke="#1ab3a6" stroke-width="2.5"></line>
+  <text x="118" y="314" font-size="11" fill="#555" font-family="system-ui,sans-serif">finding-site</text>
+  <line x1="190" y1="310" x2="214" y2="310" stroke="#f39c12" stroke-width="2.5"></line>
+  <text x="218" y="314" font-size="11" fill="#555" font-family="system-ui,sans-serif">causative-agent</text>
+</svg>
+</div>
+
+<p style="text-align:center;font-size:14px;color:#475569;margin-top:.5rem;">
+Figure 3.2 — SNOMED CT hierarchy for the concept of Bacterial Pneumonia (53084003), with <em>is-a</em>, <em>finding-site</em> and <em>causative-agent</em> relationships
+</p>
+</section>
+</section>
+<section id="sec-icd" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-icd"><span class="header-section-number">3.4</span> ICD — International Classification of Diseases</h2>
+<section id="characterisation-and-purpose" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="characterisation-and-purpose"><span class="header-section-number">3.4.1</span> Characterisation and purpose</h3>
+<p>The ICD (<em>International Classification of Diseases and Related Health Problems</em>) is a classification system maintained by the World Health Organisation (WHO) and adopted by 194 member states. The version currently in force is ICD-11, adopted in 2022, with more than 55,000 codes organised across 26 chapters <span class="citation" data-cites="WHO_ICD11">(<a href="../references.html#ref-WHO_ICD11" role="doc-biblioref">World Health Organization, 2022</a>)</span>.</p>
+<p>The purpose of the ICD is fundamentally distinct from SNOMED CT: while the latter serves clinical data entry with high granularity, the ICD serves <strong>output</strong> — epidemiological reporting, health statistics and hospital billing. It is a classification, not a terminology: it organises diseases into fixed categories according to a mono-axial hierarchy.</p>
+</section>
+<section id="hierarchical-structure" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="hierarchical-structure"><span class="header-section-number">3.4.2</span> Hierarchical structure</h3>
+<p>The ICD structure is organised at three levels: chapter, block and category. The example of the respiratory chapter illustrates this organisation:</p>
+<!--
+  ICD-11 hierarchical tree — respiratory chapter.
+-->
+<div style="background:#fef9ec;border-left:4px solid #f39c12;
+            border-radius:4px;padding:1rem 1.2rem;margin:1rem 0;
+            font-family:monospace;font-size:.85rem;line-height:1.9;
+            color:#0a3d4a;overflow-wrap:break-word;">
+  <div>Chapter 12 — Diseases of the respiratory system</div>
+  <div style="padding-left:1.2rem;">└── Block CA00–CA08 — Acute respiratory infections</div>
+  <div style="padding-left:2.4rem;">├── CA40 — Common cold</div>
+  <div style="padding-left:3.6rem;">├── CA40.0 — Acute rhinitis</div>
+  <div style="padding-left:3.6rem;">└── CA40.Z — Cold, unspecified</div>
+  <div style="padding-left:2.4rem;">└── BA00 — Bacterial pneumonia</div>
+</div>
+<p>Some frequently used reference codes:</p>
+<div id="tbl-icd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-icd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1: Examples of ICD-11 codes
+</figcaption>
+<div aria-describedby="tbl-icd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ICD-11 Code</th>
+<th>Disease</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>CA40</code></td>
+<td>Common cold</td>
+</tr>
+<tr class="even">
+<td><code>BA00</code></td>
+<td>Bacterial pneumonia</td>
+</tr>
+<tr class="odd">
+<td><code>5A11</code></td>
+<td>Diabetes mellitus type 2</td>
+</tr>
+<tr class="even">
+<td><code>8B11</code></td>
+<td>Ischaemic stroke</td>
+</tr>
+<tr class="odd">
+<td><code>BA41</code></td>
+<td>Acute myocardial infarction</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="snomed-ct-versus-icd-complementarity" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="snomed-ct-versus-icd-complementarity"><span class="header-section-number">3.4.3</span> SNOMED CT versus ICD — complementarity</h3>
+<p>SNOMED CT and ICD are not competitors: they are complementary, each suited to its purpose. SNOMED CT encodes clinical detail at the point of care; ICD classifies for reporting and billing. SNOMED International maintains official maps between the two systems, allowing a SNOMED CT concept to be automatically translated into the corresponding ICD code.</p>
+<div id="tbl-snomed-icd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-snomed-icd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.2: SNOMED CT vs ICD — comparison
+</figcaption>
+<div aria-describedby="tbl-snomed-icd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimension</th>
+<th>SNOMED CT</th>
+<th>ICD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Type</strong></td>
+<td>Clinical terminology</td>
+<td>Statistical classification</td>
+</tr>
+<tr class="even">
+<td><strong>Function</strong></td>
+<td>Input — clinical recording</td>
+<td>Output — reporting and billing</td>
+</tr>
+<tr class="odd">
+<td><strong>Granularity</strong></td>
+<td>Very high (&gt;350,000)</td>
+<td>Medium (~55,000)</td>
+</tr>
+<tr class="even">
+<td><strong>Structure</strong></td>
+<td>Poly-hierarchical graph</td>
+<td>Mono-hierarchical tree</td>
+</tr>
+<tr class="odd">
+<td><strong>Maintained by</strong></td>
+<td>SNOMED International</td>
+<td>WHO</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-loinc" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-loinc"><span class="header-section-number">3.5</span> LOINC — Laboratory Observations</h2>
+<section id="definition-and-scope" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="definition-and-scope"><span class="header-section-number">3.5.1</span> Definition and scope</h3>
+<p>LOINC (<em>Logical Observation Identifiers Names and Codes</em>) is a terminology maintained by the Regenstrief Institute that provides a universal language for identifying laboratory measurements, clinical observations and health documents <span class="citation" data-cites="McDonald2003">(<a href="../references.html#ref-McDonald2003" role="doc-biblioref">McDonald et al., 2003</a>)</span>. Its scope is organised across three domains: clinical laboratory (full blood count, glucose, tumour markers); physiological observations (vital signs, assessment scales); and documents (discharge notes, reports).</p>
+</section>
+<section id="the-anatomy-of-a-loinc-code-the-six-axes" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="the-anatomy-of-a-loinc-code-the-six-axes"><span class="header-section-number">3.5.2</span> The anatomy of a LOINC code — the six axes</h3>
+<p>Each LOINC code is an opaque identifier (e.g.&nbsp;<code>2345-7</code>), whose meaning is entirely encoded in its formal name. This name results from the combination of six axes that describe, precisely, all relevant aspects of a measurement:</p>
+<div id="tbl-loinc" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-loinc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.3: The six axes of a LOINC code — blood glucose example
+</figcaption>
+<div aria-describedby="tbl-loinc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Axis</th>
+<th>Name</th>
+<th>Question</th>
+<th>Example (blood glucose)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Component</td>
+<td>What?</td>
+<td>Glucose</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Property</td>
+<td>Which quantity?</td>
+<td>MCnc (mass/volume)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Timing</td>
+<td>When?</td>
+<td>Pt (point in time)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>System</td>
+<td>Where?</td>
+<td>Ser/Plas (serum/plasma)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Scale</td>
+<td>How?</td>
+<td>Qn (quantitative)</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Method</td>
+<td>With what?</td>
+<td>(optional) Enzymatic</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Code <code>2345-7</code> corresponds to: <em>Glucose [Mass/volume] in Serum or Plasma</em>. This unique identifier ensures that two laboratories from different institutions report blood glucose in a comparable way, regardless of their internal systems. Figure 3.3 visualises the six axes for this concrete example.</p>
+<!--
+  LOINC six axes visualised as horizontal stacked cards.
+  Concrete example: Glucose in serum = 95 mg/dL, point-in-time collection.
+-->
+<div style="overflow-x:auto;margin:2rem 0;">
+<div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:center;">
+
+  <!-- context card -->
+  <div style="background:#0a3d4a;color:#fff;border-radius:6px;
+              padding:.7rem .9rem;min-width:120px;
+              display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-size:.7rem;opacity:.7;margin-bottom:.3rem;">Real measurement</div>
+    <div style="font-size:.8rem;font-weight:600;line-height:1.4;">
+      Glucose in serum<br>95 mg/dL<br>fasting
+    </div>
+    <div style="margin-top:.6rem;font-size:.75rem;font-weight:700;
+                color:#1ab3a6;">Code: 2345-7</div>
+  </div>
+
+  <!-- axis 1 Component -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:82px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">1 Component</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">Glucose</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">What?</div>
+  </div>
+
+  <!-- axis 2 Property -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:82px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">2 Property</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">MCnc</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">Which quantity?</div>
+  </div>
+
+  <!-- axis 3 Timing -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:72px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">3 Timing</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">Pt</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">When?</div>
+  </div>
+
+  <!-- axis 4 System -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:82px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">4 System</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">Ser/Plas</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">Where?</div>
+  </div>
+
+  <!-- axis 5 Scale -->
+  <div style="background:#e8f7f8;border:1.5px solid #0d7c8c;
+              padding:.6rem .7rem;min-width:72px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#0d7c8c;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">5 Scale</div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;">Qn</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">How?</div>
+  </div>
+
+  <!-- axis 6 Method -->
+  <div style="background:#f0fafa;border:1.5px solid #1ab3a6;
+              border-radius:6px;
+              padding:.6rem .7rem;min-width:82px;
+              display:flex;flex-direction:column;align-items:center;
+              text-align:center;">
+    <div style="font-size:.65rem;color:#1ab3a6;font-weight:700;
+                text-transform:uppercase;margin-bottom:.3rem;">6 Method</div>
+    <div style="font-size:.82rem;font-weight:700;color:#0a3d4a;">Enzymatic</div>
+    <div style="font-size:.68rem;color:#666;margin-top:.2rem;">(optional)</div>
+  </div>
+
+</div>
+</div>
+
+<p style="text-align:center;font-size:14px;color:#475569;margin-top:.5rem;">
+Figure 3.3 — The six axes of a LOINC code, illustrated with blood glucose in serum/plasma (code 2345-7)
+</p>
+</section>
+</section>
+<section id="sec-icf" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sec-icf"><span class="header-section-number">3.6</span> ICF — International Classification of Functioning</h2>
+<p>The ICF (<em>International Classification of Functioning, Disability and Health</em>) is a WHO classification that complements the ICD, shifting the focus from disease to <strong>functioning</strong> and social participation <span class="citation" data-cites="WHO_ICF">(<a href="../references.html#ref-WHO_ICF" role="doc-biblioref">World Health Organization, 2001</a>)</span>. While the ICD answers the question <em>“what does the patient have?”</em>, the ICF answers <em>“what can the patient do?”</em>.</p>
+<p>This distinction is clinically relevant: two patients with the same ICD diagnosis may have completely different functioning profiles, with different implications for rehabilitation, social support and return to activity.</p>
+<p>The ICF adopts a biopsychosocial model, recognising that disability results from the interaction between the individual’s health condition and contextual factors — both personal and environmental.</p>
+</section>
+<section id="sec-integration" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="sec-integration"><span class="header-section-number">3.7</span> Integration of Terminologies in the Clinical Workflow</h2>
+<p>None of the terminologies described operates in isolation. Effective semantic interoperability results from their coordinated use throughout the clinical workflow:</p>
+<p>At the time of <strong>clinical recording</strong>, the health professional codes symptoms, diagnoses and procedures in SNOMED CT, ensuring the semantic precision of data entry.</p>
+<p>At the time of the <strong>laboratory examination</strong>, requests and results are identified by LOINC codes, ensuring that the same analysis has the same meaning in any laboratory.</p>
+<p>At the time of <strong>reporting and billing</strong>, SNOMED CT codes are automatically mapped to ICD, through the official maps maintained by SNOMED International, producing the statistical and billing data required by health authorities. Figure 3.4 summarises this integrated workflow.</p>
+<!--
+  Integrated flow of the three terminologies: SNOMED CT → LOINC → ICD.
+  Three boxes in sequence with arrows and context labels.
+-->
+<div style="display:flex;flex-wrap:wrap;align-items:center;
+            justify-content:center;gap:.5rem;margin:2rem 0;">
+
+  <div style="flex:1;min-width:140px;max-width:175px;
+              background:#e8f7f8;border:2px solid #0d7c8c;
+              border-radius:8px;padding:1rem;text-align:center;">
+    <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;
+                color:#0d7c8c;letter-spacing:.06em;margin-bottom:.4rem;">
+      Clinical Recording</div>
+    <div style="font-size:1.05rem;font-weight:800;color:#0a3d4a;">
+      SNOMED CT</div>
+    <div style="font-size:.75rem;color:#555;margin-top:.4rem;">
+      Symptoms, diagnoses, procedures</div>
+  </div>
+
+  <div style="font-size:1.4rem;color:#0d7c8c;">→</div>
+
+  <div style="flex:1;min-width:140px;max-width:175px;
+              background:#e8f7f8;border:2px solid #1ab3a6;
+              border-radius:8px;padding:1rem;text-align:center;">
+    <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;
+                color:#1ab3a6;letter-spacing:.06em;margin-bottom:.4rem;">
+      Laboratory</div>
+    <div style="font-size:1.05rem;font-weight:800;color:#0a3d4a;">
+      LOINC</div>
+    <div style="font-size:.75rem;color:#555;margin-top:.4rem;">
+      Tests, observations, results</div>
+  </div>
+
+  <div style="font-size:1.4rem;color:#1ab3a6;">→</div>
+
+  <div style="flex:1;min-width:140px;max-width:175px;
+              background:#fef9ec;border:2px solid #f39c12;
+              border-radius:8px;padding:1rem;text-align:center;">
+    <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;
+                color:#e67e22;letter-spacing:.06em;margin-bottom:.4rem;">
+      Reporting / Billing</div>
+    <div style="font-size:1.05rem;font-weight:800;color:#0a3d4a;">
+      ICD</div>
+    <div style="font-size:.75rem;color:#555;margin-top:.4rem;">
+      Epidemiology and DRG coding</div>
+  </div>
+
+</div>
+
+<p style="text-align:center;font-size:14px;color:#475569;margin-top:.5rem;">
+Figure 3.4 — Integrated flow of clinical terminologies: SNOMED CT for recording, LOINC in the laboratory and ICD for reporting and billing
+</p>
+</section>
+<section id="sec-summary-03" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="sec-summary-03"><span class="header-section-number">3.8</span> Summary</h2>
+<p>This chapter addressed the problem of semantic ambiguity in clinical information and the standardised terminologies that resolve it. The SNOMED CT / LOINC / ICD / ICF ecosystem was presented as a coordinated set of tools, each with a distinct purpose in the clinical workflow, and none sufficient on its own.</p>
+<p>The following key points are retained:</p>
+<ol type="1">
+<li>Free text is the main obstacle to semantic interoperability; structured coding is its operational alternative.</li>
+<li>Semantic interoperability is distinct from technical: it is not enough for data to reach the destination — they must be correctly interpreted.</li>
+<li>SNOMED CT is the reference clinical entry terminology; ICD is the output classification for reporting and billing; LOINC standardises laboratory observations; ICF addresses the functioning dimension.</li>
+<li>The terminologies are complementary and linked through official maps: the clinician records in SNOMED CT; the system maps to ICD; the manager obtains comparable statistics.</li>
+</ol>
+</section>
+<section id="consolidation-exercises" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="consolidation-exercises">Consolidation exercises</h2>
+<ol type="1">
+<li><p>Explain, with a concrete example different from those presented in the chapter, how free text can introduce clinical ambiguity with consequences for patient safety.</p></li>
+<li><p>Distinguish terminology, classification and ontology. For each of the three concepts, give an example from the health terminology ecosystem and describe its specific purpose.</p></li>
+<li><p>Construct the SNOMED CT expression (in compact notation) for the concept of “<em>Klebsiella pneumoniae</em> pneumonia”, indicating the <code>finding-site</code> and <code>causative-agent</code> attributes with their respective codes (search at <code>browser.ihtsdotools.org</code> if needed).</p></li>
+<li><p>A hospital laboratory reports a haemoglobin value with LOINC code <code>718-7</code>. Identify the six axes of this code and explain why the use of LOINC guarantees comparability between laboratories from different institutions.</p></li>
+<li><p>Consider the complete workflow of a patient diagnosed with bacterial pneumonia. For each stage of the workflow (clinical recording, laboratory, discharge/billing), indicate which terminology is used and the corresponding code.</p></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-BensonGrieve2021" class="csl-entry" role="listitem">
+Benson, T., &amp; Grieve, G. (2021). <em>Principles of health interoperability: <span>FHIR</span>, <span>HL7</span> and <span>SNOMED CT</span></em> (4th ed.). Springer. <a href="https://doi.org/10.1007/978-3-030-56883-2">https://doi.org/10.1007/978-3-030-56883-2</a>
+</div>
+<div id="ref-McDonald2003" class="csl-entry" role="listitem">
+McDonald, C. J. et al. (2003). <span>LOINC</span>, a universal standard for identifying laboratory observations: A 5-year update. <em>Clinical Chemistry</em>, <em>49</em>(4), 624–633.
+</div>
+<div id="ref-SNOMED2024" class="csl-entry" role="listitem">
+SNOMED International. (2024). <em><span>SNOMED CT</span> starter guide</em>. <a href="https://docs.snomed.org" class="uri">https://docs.snomed.org</a>.
+</div>
+<div id="ref-WHO_ICF" class="csl-entry" role="listitem">
+World Health Organization. (2001). <em>International classification of functioning, disability and health (<span>ICF</span>)</em>. <a href="https://www.who.int/classifications/icf" class="uri">https://www.who.int/classifications/icf</a>.
+</div>
+<div id="ref-WHO_ICD11" class="csl-entry" role="listitem">
+World Health Organization. (2022). <em>International classification of diseases, 11th revision (<span>ICD-11</span>)</em>. <a href="https://icd.who.int" class="uri">https://icd.who.int</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/cap02.html" class="pagination-link" aria-label="Hospital Information Systems and Electronic Health Records">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hospital Information Systems and Electronic Health Records</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/cap04.html" class="pagination-link" aria-label="DICOM as a Data Model">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Medical Informatics — Master’s in Biomedical Engineering · UTAD</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><a href="https://joaoagostinhopavao.github.io/sebenta-im/">🇵🇹 Português</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
