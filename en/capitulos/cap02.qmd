@@ -1,0 +1,523 @@
+---
+title: "Hospital Information Systems and Electronic Health Records"
+lang: en-GB
+---
+
+## The Hospital Information System {#sec-his}
+
+### Definition and components
+
+A Hospital Information System (HIS) is an information system whose
+data, processes and actors are oriented towards healthcare, integrating
+clinical, administrative and financial functionalities in a common
+platform. It is, in essence, the concrete instance of the generic
+information system model — people, processes, technology — applied to
+the hospital context.
+
+Three structural components can be distinguished in a HIS:
+
+**Data** — encompass the clinical and administrative information
+produced throughout the patient's journey: patient identification,
+episodes and diagnoses, procedures performed, images and reports.
+
+**Processes** — include Admission, Discharge and Transfer (ADT)
+workflows, operating theatre scheduling and management, billing and
+clinical coding, and approval workflows with clinical validation.
+
+**Technology** — comprises databases (relational or NoSQL), standardised
+integration interfaces (HL7, FHIR), specialist modules (PACS, LIS) and
+security and access control mechanisms [@Haux2006].
+
+### Modular architecture
+
+The architecture of a HIS is typically modular: a central core —
+frequently designated the ADT module — aggregates and manages the
+unique patient record, to which specialist modules are connected by
+functional area. This architecture ensures that all modules share the
+same central database, guaranteeing record uniqueness.
+
+The modules that typically constitute a reference HIS are: Emergency/
+Admissions, Outpatient Clinic, Inpatient, Operating Theatre, Day
+Hospital, PACS/Imaging, LIS/Laboratory and Billing/Coding.
+
+The following diagram illustrates this star organisation, with the
+HIS/ADT core at the centre:
+
+```{=html}
+<!--
+  HIS modular architecture — star diagram.
+  Central core connected to 8 modules by dashed lines.
+  Responsive SVG, teal palette.
+-->
+<div style="display:flex;justify-content:center;margin:2rem 0;">
+<svg viewBox="0 0 500 400" width="480" height="384"
+     xmlns="http://www.w3.org/2000/svg"
+     aria-label="Modular architecture of a HIS">
+
+  <!-- connection lines to core (cx=250, cy=200) -->
+  <line x1="250" y1="200" x2="110" y2="75"
+        stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="250" y1="200" x2="85" y2="200"
+        stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="250" y1="200" x2="110" y2="318"
+        stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="250" y1="200" x2="210" y2="355"
+        stroke="#0d7c8c" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="250" y1="200" x2="295" y2="355"
+        stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="250" y1="200" x2="390" y2="318"
+        stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="250" y1="200" x2="415" y2="200"
+        stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="250" y1="200" x2="390" y2="82"
+        stroke="#1ab3a6" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+  <!-- CORE -->
+  <rect x="178" y="163" width="144" height="74" rx="8"
+        fill="#0a3d4a" stroke="#0d7c8c" stroke-width="2"/>
+  <text x="250" y="194" text-anchor="middle" font-size="13"
+        font-weight="700" fill="#fff" font-family="system-ui,sans-serif">CORE</text>
+  <text x="250" y="212" text-anchor="middle" font-size="12"
+        font-weight="600" fill="#1ab3a6" font-family="system-ui,sans-serif">HIS / ADT</text>
+  <text x="250" y="228" text-anchor="middle" font-size="9.5"
+        fill="rgba(255,255,255,0.65)" font-family="system-ui,sans-serif">unique patient record</text>
+
+  <!-- Emergency / Admissions -->
+  <rect x="42" y="42" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.3"/>
+  <text x="101" y="62" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Emergency /</text>
+  <text x="101" y="77" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Admissions</text>
+
+  <!-- Outpatient Clinic -->
+  <rect x="10" y="177" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.3"/>
+  <text x="69" y="197" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Outpatient</text>
+  <text x="69" y="212" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Clinic</text>
+
+  <!-- Inpatient -->
+  <rect x="42" y="296" width="118" height="36" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.3"/>
+  <text x="101" y="319" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Inpatient</text>
+
+  <!-- Operating Theatre -->
+  <rect x="148" y="340" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.3"/>
+  <text x="207" y="360" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Operating</text>
+  <text x="207" y="375" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Theatre</text>
+
+  <!-- Day Hospital -->
+  <rect x="238" y="340" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#1ab3a6" stroke-width="1.3"/>
+  <text x="297" y="360" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Day</text>
+  <text x="297" y="375" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Hospital</text>
+
+  <!-- PACS / Imaging -->
+  <rect x="338" y="296" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#1ab3a6" stroke-width="1.3"/>
+  <text x="397" y="316" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">PACS /</text>
+  <text x="397" y="331" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Imaging</text>
+
+  <!-- LIS / Laboratory -->
+  <rect x="370" y="177" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#1ab3a6" stroke-width="1.3"/>
+  <text x="429" y="197" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">LIS /</text>
+  <text x="429" y="212" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Laboratory</text>
+
+  <!-- Billing / Coding -->
+  <rect x="338" y="42" width="118" height="46" rx="6"
+        fill="#e8f7f8" stroke="#1ab3a6" stroke-width="1.3"/>
+  <text x="397" y="62" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Billing /</text>
+  <text x="397" y="77" text-anchor="middle" font-size="10.5"
+        font-weight="600" fill="#0a3d4a" font-family="system-ui,sans-serif">Coding</text>
+
+</svg>
+</div>
+```
+
+### The typical patient flow in the HIS
+
+The patient's journey in a hospital materialises, from an informatics
+perspective, as a sequence of events recorded in the HIS. The generic
+flow comprises four key moments: **Admission** — recording the patient's
+entry into the system, whether through the emergency department, an
+outpatient appointment or a planned admission; **Examination** —
+performing and recording diagnostic or therapeutic acts in the
+specialist modules (laboratory, imaging, theatre); **Diagnosis** —
+consolidating the clinical information and formulating the diagnosis;
+**Discharge** — closing the episode, with a discharge note and coding
+for billing.
+
+::: {.callout-note}
+The ADT (*Admission, Discharge, Transfer*) module is the operational
+core of the HIS: it is where the patient's entry into the system is
+recorded, bed occupancy is managed and inter-service transfers are
+handled. All subsequent clinical events are associated with the episode
+created in the ADT.
+:::
+
+## Types of Electronic Health Record {#sec-emr-ehr}
+
+### EMR, EHR and PHR — definitions and distinctions
+
+In Medical Informatics vocabulary, three types of electronic health
+record can be distinguished, each with different scopes and purposes
+[@NAHIT2008; @Garets2006]:
+
+The **EMR** (*Electronic Medical Record*) is the electronic clinical
+record of a single organisation. It is created and used by the health
+professionals and authorised staff of that organisation; it does not
+follow the patient when they change institution; and it can only be
+consulted internally. The Portuguese reference example is SClínico,
+the institutional clinical system integrated within the NHS (SNS)
+ecosystem.
+
+The **EHR** (*Electronic Health Record*) has a multi-institutional
+scope: it complies with interoperability standards that allow sharing
+across multiple organisations, follows the patient throughout the entire
+health system and constitutes the basis of modern health systems. In
+Portugal, the RSE (*Registo de Saúde Electrónico*) of the NHS is the
+reference example.
+
+The **PHR** (*Personal Health Record*) is managed, controlled and
+shared by the patient themselves. It can aggregate data from multiple
+sources — mobile applications, health sensors, institutional records —
+and is not necessarily clinical in the strict sense. Platforms such as
+Apple Health or Google Health are paradigmatic examples. Note that the
+PHR is complementary to the EHR, not a substitute for it.
+
+The following table summarises the fundamental differences between the
+three types:
+
+| | **EMR** | **EHR** | **PHR** |
+|---|---|---|---|
+| **Scope** | 1 institution | Multi-institution | Personal / global |
+| **Interop.** | Not required | Required | Required |
+| **Control** | Institution | Institution | Patient |
+| **PT example** | SClinico | RSE | Apple Health |
+
+: Comparison of EMR, EHR and PHR {#tbl-emr-ehr}
+
+### From the patient journey to the EHR
+
+The clinical journey of a chronic patient typically involves multiple
+institutions over time: a hospital admission, follow-up appointments
+at a health centre, surgery at another hospital, prescriptions
+dispensed at a pharmacy. Each institution maintains its own EMR, with
+its own data model, internal identifiers and access rules.
+
+The EHR emerges precisely from the need to aggregate this dispersed
+information into a longitudinal, shared view of the patient. The
+interoperability between EMRs is the technical condition that makes
+the EHR possible — and this is the central challenge that the HL7,
+FHIR standards and IHE profiles seek to address [@BensonGrieve2021].
+
+### Technical requirements of the EHR
+
+For an EHR to be operational, three fundamental technical requirements
+must be met that are mutually dependent:
+
+- **Patient uniqueness** — a unique and universal identifier must
+  exist to unambiguously associate all dispersed records with the same
+  patient. In its absence, the EHR becomes impossible and clinical
+  errors due to identity confusion become likely [@Just2016].
+
+- **Technical interoperability between systems** — institutional
+  systems must be able to communicate with each other, using
+  standardised protocols and formats (HL7 v2, FHIR R4).
+
+- **Standardised terminologies** — for data to have the same meaning
+  between systems, shared controlled vocabularies must be used
+  (SNOMED CT for clinical concepts, LOINC for laboratory observations,
+  ICD for diagnoses).
+
+## SONHO — Portuguese Case Study {#sec-sonho}
+
+### Characterisation and role in the NHS
+
+SONHO (*Sistema de Informação Hospitalar*) is the reference HIS of the
+Portuguese National Health Service, present in approximately 90% of
+public hospitals. In continuous production since the 1990s, it is
+functionally classified as an EMR: its scope is institutional, and its
+interoperability with external systems is limited by the original
+architecture.
+
+SONHO's role in the NHS is organised around five essential functions:
+unique patient identification by NHS number; administrative management
+of the hospital episode; recording of emergency, inpatient, outpatient
+and theatre activity; discharge recording and DRG-based billing coding;
+and serving as an integration backbone for the hospital's other systems
+[@SPMS2019].
+
+### Functional modules
+
+SONHO is organised into eight main functional modules:
+
+| Module | Main function |
+|--------|--------------|
+| **1 — Identification** | Demographics, NHS number, Citizen's Card |
+| **2 — Emergency** | Manchester triage, routing, transfer |
+| **3 — Inpatient** | Admission, bed, responsible service, discharge |
+| **4 — Outpatient** | Medical schedules, booking, waiting lists |
+| **5 — Operating Theatre** | Surgical scheduling, anaesthesia, waiting list |
+| **6 — Day Hospital** | Haemodialysis/chemotherapy sessions, schedule management |
+| **7 — Archive / Statistics** | Record requests, statistical reports |
+| **8 — Billing** | Episodes, funding entities, co-payments |
+
+: SONHO functional modules {#tbl-sonho-modules}
+
+SONHO also serves as a backbone for the clinical systems built on top
+of it: SAM (*Sistema de Apoio ao Médico*), SAPE (*Sistema de Apoio à
+Prática de Enfermagem*) and, more recently, SClínico, which replaces
+SAM and SAPE in updated versions.
+
+### Limitations and evolution trajectory
+
+SONHO has structural limitations arising from its original architecture,
+developed at a time when current interoperability requirements did not
+exist:
+
+**Obsolete architecture** — the original version runs on a Progress
+database, 1990s technology, with a monolithic architecture subject to
+availability failures and serious difficulty integrating with modern
+HL7 and FHIR standards.
+
+**Licensing costs** — migration to Oracle RDBMS in the most recent
+version resolved some performance issues but introduced vendor lock-in
+with high per-hospital licensing costs and slow updates.
+
+The evolution trajectory points to three vectors: SClínico as the
+evolving clinical platform; RSE as the NHS EHR component; and FHIR
+integration planned in national roadmaps, driven by European regulatory
+pressure from the EHDS — *European Health Data Space* [@EHDS2025].
+
+## Patient Identification {#sec-identification}
+
+### The problem of record uniqueness
+
+Unambiguous patient identification is an absolute prerequisite for
+any EHR system. The fundamental problem arises from the fact that the
+same patient may have different identifiers in each hospital, health
+centre or system they visit. Without uniqueness, the EHR is technically
+impossible and clinical errors due to identity confusion become
+structurally likely [@Just2016].
+
+This is not merely an administrative problem: the incorrect association
+of records — for example, confusing two patients with similar names —
+can have serious clinical consequences, including medication errors,
+incompatible transfusions or surgery on the wrong patient.
+
+### Patient identifiers in Portugal
+
+Four identifiers relevant to patient identification coexist in the
+Portuguese health system:
+
+| Identifier | Description |
+|---|---|
+| **NHS No.** | NHS patient number — 9 digits, unique nationwide, permanent |
+| **Citizen's Card** | Civil identification — used at admission to confirm identity |
+| **MRN** | *Medical Record Number* — internal number of each institution |
+| **Tax ID** | Tax Identification Number — used for billing |
+
+: Patient identifiers in Portugal {#tbl-identifiers}
+
+The **National Patient Number (NNU)**, incorporated in the NHS number,
+is the reference identifier in all NHS information systems. Its
+assignment is unique and permanent, guaranteeing longitudinal
+traceability of the patient throughout their entire life within the
+health system.
+
+### Master Patient Index and the RNU
+
+The concept of *Master Patient Index* (MPI) designates the centralised
+system for matching each institution's local identifiers with the
+patient's universal identifier. In Portugal, this function is performed
+by the **RNU** (*Registo Nacional de Utentes*), managed by SPMS
+(*Serviços Partilhados do Ministério da Saúde*).
+
+The RNU works as follows: each hospital maintains its own local MRNs;
+when a patient is admitted, the system queries the RNU to obtain the
+corresponding NNU; the matching is performed by combining name, date of
+birth, tax ID and NNU.
+
+```{=html}
+<!--
+  MPI diagram — three hospitals with distinct local MRNs
+  converging to the RNU, which resolves to a unique NNU.
+-->
+<div style="display:flex;justify-content:center;margin:2rem 0;">
+<svg viewBox="0 0 500 260" width="480" height="250"
+     xmlns="http://www.w3.org/2000/svg"
+     aria-label="MPI diagram — RNU as National Master Patient Index">
+
+  <!-- Hospital A -->
+  <rect x="30" y="20" width="120" height="54" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.4"/>
+  <text x="90" y="43" text-anchor="middle" font-size="11"
+        font-weight="700" fill="#0a3d4a" font-family="system-ui,sans-serif">Hospital A</text>
+  <text x="90" y="60" text-anchor="middle" font-size="10"
+        fill="#0d7c8c" font-family="system-ui,sans-serif">MRN 1234</text>
+
+  <!-- Hospital B -->
+  <rect x="190" y="20" width="120" height="54" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.4"/>
+  <text x="250" y="43" text-anchor="middle" font-size="11"
+        font-weight="700" fill="#0a3d4a" font-family="system-ui,sans-serif">Hospital B</text>
+  <text x="250" y="60" text-anchor="middle" font-size="10"
+        fill="#0d7c8c" font-family="system-ui,sans-serif">MRN 8882</text>
+
+  <!-- Hospital C -->
+  <rect x="350" y="20" width="120" height="54" rx="6"
+        fill="#e8f7f8" stroke="#0d7c8c" stroke-width="1.4"/>
+  <text x="410" y="43" text-anchor="middle" font-size="11"
+        font-weight="700" fill="#0a3d4a" font-family="system-ui,sans-serif">Hospital C</text>
+  <text x="410" y="60" text-anchor="middle" font-size="10"
+        fill="#0d7c8c" font-family="system-ui,sans-serif">MRN 5510</text>
+
+  <!-- arrows to RNU -->
+  <line x1="90"  y1="74" x2="200" y2="148"
+        stroke="#0d7c8c" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="250" y1="74" x2="250" y2="148"
+        stroke="#0d7c8c" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="410" y1="74" x2="300" y2="148"
+        stroke="#0d7c8c" stroke-width="1.8" marker-end="url(#arr)"/>
+
+  <!-- RNU -->
+  <rect x="140" y="148" width="220" height="44" rx="6"
+        fill="#0d7c8c" stroke="#0a3d4a" stroke-width="1.5"/>
+  <text x="250" y="167" text-anchor="middle" font-size="11.5"
+        font-weight="700" fill="#fff" font-family="system-ui,sans-serif">RNU</text>
+  <text x="250" y="183" text-anchor="middle" font-size="10"
+        fill="rgba(255,255,255,0.85)" font-family="system-ui,sans-serif">National Master Patient Index</text>
+
+  <!-- arrow RNU → NNU -->
+  <line x1="250" y1="192" x2="250" y2="216"
+        stroke="#1ab3a6" stroke-width="2" marker-end="url(#arr2)"/>
+
+  <!-- NNU -->
+  <rect x="110" y="216" width="280" height="36" rx="6"
+        fill="#0a3d4a" stroke="#1ab3a6" stroke-width="1.8"/>
+  <text x="250" y="239" text-anchor="middle" font-size="11.5"
+        font-weight="700" fill="#fff" font-family="system-ui,sans-serif">NNU 123456789 — John Silva</text>
+
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8"
+            refX="6" refY="4" orient="auto">
+      <path d="M1,1 L6,4 L1,7" stroke="#0d7c8c" stroke-width="1.2"
+            fill="none"/>
+    </marker>
+    <marker id="arr2" markerWidth="8" markerHeight="8"
+            refX="6" refY="4" orient="auto">
+      <path d="M1,1 L6,4 L1,7" stroke="#1ab3a6" stroke-width="1.2"
+            fill="none"/>
+    </marker>
+  </defs>
+</svg>
+</div>
+```
+
+## Continuity of Care {#sec-continuity}
+
+### Definition and dimensions
+
+Continuity of care is defined as the ability of a health professional
+to access the relevant clinical history of a patient, regardless of
+when or where care was provided [@Haggerty2003]. It is a
+multidimensional concept that the literature organises into three
+components:
+
+**Informational continuity** — the clinical record follows the patient.
+Diagnoses, active medication, allergies and previous episodes are
+available at the point of care, regardless of the institution. This
+dimension is most directly dependent on the existence of an operational
+EHR.
+
+**Management continuity** — treatment plans and previous clinical
+decisions are known and respected by the professionals providing care
+at each moment. It avoids duplicate examinations and contradictory
+prescriptions, with a direct impact on safety and efficiency.
+
+**Relational continuity** — the patient has a GP or reference team who
+knows their clinical history longitudinally. The EHR facilitates
+communication and coordination between the different providers who make
+up this extended team.
+
+### The EHR as a technical requirement for continuity
+
+Continuity of care is not, therefore, merely a clinical aspiration:
+it has precise technical requirements that the EHR must satisfy. These
+requirements are articulated at three mutually dependent levels:
+
+1. **Patient uniqueness** via MPI (RNU in Portugal) — without this
+   condition, it is not possible to aggregate the records of the same
+   patient from different institutions.
+
+2. **Technical interoperability** via HL7 and FHIR — without this
+   condition, systems cannot exchange data in a structured and
+   automatic way.
+
+3. **Standardised terminologies** (SNOMED CT, LOINC, ICD) — without
+   this condition, data reach the destination but are not correctly
+   interpreted, compromising semantic interoperability.
+
+::: {.callout-tip}
+**Summary:** technical interoperability is necessary but not sufficient
+for continuity of care. For different systems to understand each other,
+data must share the same meaning — which requires standardised
+terminologies. It is this articulation between the three levels that
+makes the EHR effective in clinical practice.
+:::
+
+## Summary {#sec-summary-02}
+
+This chapter addressed the architecture of hospital information systems
+and the different types of electronic health record. SONHO was analysed
+as a case study of the Portuguese health system, highlighting both its
+capabilities and its structural limitations. Patient identification and
+continuity of care were framed as technical and clinical requirements
+that converge in the concept of the EHR.
+
+The following key points are retained:
+
+1. The HIS is the concrete instance of the information system in the
+   hospital context, with modular architecture centred on the ADT core.
+2. EMR, EHR and PHR differ in scope and interoperability: the EHR
+   follows the patient; the EMR stays in the institution.
+3. Without patient uniqueness (MPI/RNU), it is not possible to build
+   an effective EHR — identification is a requirement, not a detail.
+4. Continuity of care depends simultaneously on technical and semantic
+   interoperability; neither is sufficient alone.
+
+## Consolidation exercises {.unnumbered}
+
+1. Consider a hospital with active SONHO modules. Describe the
+   informatics journey of a patient who enters through the emergency
+   department, is admitted, undergoes surgery and is discharged,
+   indicating which modules are involved at each stage.
+
+2. Explain why SONHO is functionally classified as an EMR and not an
+   EHR. What technical and organisational changes would be needed for
+   it to evolve into an EHR?
+
+3. A Portuguese patient has an appointment at Hospital de Braga
+   (MRN 4421) and is subsequently transferred to Hospital de São João
+   in Porto (MRN 9903). Explain the role of the RNU in this scenario
+   and what would happen in the absence of a national MPI.
+
+4. For each of the three dimensions of continuity of care
+   (informational, management, relational), identify a concrete
+   example of failure that could occur in the absence of an
+   operational EHR.

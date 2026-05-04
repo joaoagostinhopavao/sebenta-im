@@ -1,0 +1,806 @@
+---
+title: "HL7 v2 — Message Model and Limitations"
+lang: en-GB
+---
+
+## HL7 v2 and the Message Model {#sec-hl7v2-model}
+
+### The problem HL7 v2 solved
+
+Before HL7, each hospital information system operated as an isolated
+silo. Exchanging clinical data between systems — for example, between
+the admissions system and the laboratory — required manual intervention
+or proprietary point-to-point solutions. **HL7 v2** was designed to
+solve this problem: an application-layer protocol (OSI layer 7) for
+the automatic exchange of clinical messages between heterogeneous
+systems [@HL7_v28].
+
+HL7 v2 achieves a degree of **semantic interoperability**: data flows
+automatically between different systems with shared meaning. The unit
+of exchange is a *message*, sent when a clinical event occurs. The
+format is structured text, human-readable: segments separated by
+special characters (*pipes* and *carets*). The standard is open,
+maintained by the HL7 International consortium since 1987 [@HL7_v28].
+
+The adoption was remarkable: more than 35 billion HL7 v2 messages are
+estimated to be processed every year worldwide, and the protocol is
+present in 95% of hospitals [@Bhagat2019]. Version 3 (2005) and FHIR
+(2011) coexist with v2 — they have not replaced it.
+
+### A standard with 35 years of longevity
+
+HL7 v2 is deeply embedded in existing hospital systems (HIS, LIS, RIS,
+PACS). Replacing it would require migrating decades of active interfaces.
+@tbl-hl7-versions summarises the main versions.
+
+| Year | Version | Milestone |
+|------|---------|-----------|
+| 1987 | v2.0 | Creation |
+| 1990 | v2.1 | First widespread adoption |
+| 1994 | v2.2 | Refinement |
+| 1999 | v2.3.1 | Most widely installed |
+| 2003 | v2.5 | Domain expansion |
+| 2014 | v2.8 | Last published version |
+
+: Main versions of HL7 v2 [@HL7_v28]. {#tbl-hl7-versions}
+
+The longevity is not accidental: HL7 v2 aligns with real clinical
+workflows, is human-readable text, and benefits from a mature ecosystem
+of tools and consultants. Any clinical integration project in a hospital
+setting directly involves HL7 v2 messages in production
+[@BensonGrieve2021].
+
+### The trigger-event model
+
+In HL7 v2, messages are not sent continuously — they are created when
+something happens in the real world. A **trigger event** is a clinical
+occurrence that causes an HL7 message to be generated. Without an event
+there is no message: the system always waits for something to happen
+before communicating. The content of the message depends on the event
+that triggered it [@Bhagat2019].
+
+```{=html}
+<!--
+  Diagram: trigger-event model.
+  Timeline: clinical event → message generation → send → receiver.
+  Teal palette.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="200" rx="10" fill="#f8fbfc"/>
+
+  <!-- Title -->
+  <text x="340" y="22" text-anchor="middle" font-size="12"
+        font-weight="bold" fill="#0a3d4a">Trigger-Event Model — HL7 v2</text>
+
+  <!-- Block: Clinical Event -->
+  <rect x="20" y="40" width="140" height="80" rx="8" fill="#0a3d4a"/>
+  <text x="90" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Clinical</text>
+  <text x="90" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Event</text>
+  <text x="90" y="108" text-anchor="middle" font-size="9" fill="#e2f4f3">e.g. admission</text>
+
+  <!-- Arrow -->
+  <line x1="162" y1="80" x2="218" y2="80" stroke="#0d7c8c" stroke-width="2"
+        marker-end="url(#te1)"/>
+  <text x="190" y="72" text-anchor="middle" font-size="9" fill="#0d7c8c">triggers</text>
+
+  <!-- Block: HL7 Message -->
+  <rect x="220" y="40" width="140" height="80" rx="8" fill="#0d7c8c"/>
+  <text x="290" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">HL7 v2</text>
+  <text x="290" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Message</text>
+  <text x="290" y="108" text-anchor="middle" font-size="9" fill="#e2f4f3">ADT^A01</text>
+
+  <!-- Arrow -->
+  <line x1="362" y1="80" x2="418" y2="80" stroke="#1ab3a6" stroke-width="2"
+        marker-end="url(#te2)"/>
+  <text x="390" y="72" text-anchor="middle" font-size="9" fill="#1ab3a6">sent to</text>
+
+  <!-- Block: Receiving System -->
+  <rect x="420" y="40" width="140" height="80" rx="8" fill="#1ab3a6"/>
+  <text x="490" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Receiving</text>
+  <text x="490" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">System</text>
+  <text x="490" y="108" text-anchor="middle" font-size="9" fill="#0a3d4a">e.g. PACS, LIS, EMR</text>
+
+  <!-- Examples -->
+  <rect x="20" y="140" width="140" height="22" rx="4" fill="#e2f4f3"/>
+  <text x="90" y="155" text-anchor="middle" font-size="9" fill="#0a3d4a">Admission → ADT^A01</text>
+  <rect x="170" y="140" width="140" height="22" rx="4" fill="#e2f4f3"/>
+  <text x="240" y="155" text-anchor="middle" font-size="9" fill="#0a3d4a">Order request → ORM^O01</text>
+  <rect x="320" y="140" width="140" height="22" rx="4" fill="#e2f4f3"/>
+  <text x="390" y="155" text-anchor="middle" font-size="9" fill="#0a3d4a">Lab result → ORU^R01</text>
+  <rect x="470" y="140" width="140" height="22" rx="4" fill="#e2f4f3"/>
+  <text x="540" y="155" text-anchor="middle" font-size="9" fill="#0a3d4a">Discharge → ADT^A03</text>
+
+  <text x="340" y="188" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 6.1 — Trigger-event model: clinical event → HL7 message → receiving system
+  </text>
+
+  <defs>
+    <marker id="te1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"/></marker>
+    <marker id="te2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"/></marker>
+  </defs>
+</svg>
+</div>
+```
+
+### Message types and trigger codes
+
+Each HL7 message is identified by two codes joined by a caret (`^`): the
+message type and the trigger event. The type is a three-letter uppercase
+acronym (e.g. `ADT`); the trigger is a letter followed by two digits
+(e.g. `A01`). @tbl-msg-types lists the most relevant types in a hospital
+context.
+
+| Type | Full name | Trigger | Clinical event |
+|------|-----------|---------|----------------|
+| ADT | Patient Administration | A01 | Patient admission |
+| ADT | Patient Administration | A02 | Patient transfer |
+| ADT | Patient Administration | A03 | Patient discharge |
+| ADT | Patient Administration | A04 | Outpatient / emergency registration |
+| ORM | Order Message | O01 | Lab or exam order |
+| ORU | Observation Result | R01 | Lab result |
+| MDM | Medical Document Management | T02 | Clinical document creation |
+| DFT | Detail Financial Transaction | P03 | Financial / billing transaction |
+
+: Message types and main triggers in HL7 v2 [@HL7_v28; @Bhagat2019]. {#tbl-msg-types}
+
+`ADT^A01` means: *Patient Administration* (type) + *Admit* (trigger).
+The two codes together uniquely identify the message in any conformant
+implementation.
+
+## Structure of an HL7 v2 Message {#sec-hl7v2-structure}
+
+### Five-level hierarchy
+
+An HL7 v2 message is composed of five levels of granularity — from the
+broadest to the most specific [@HL7_v28]:
+
+1. **Message** — the complete unit of exchange (e.g. `ADT^A01`)
+2. **Segment** — a logical grouping of related fields (e.g. `MSH`, `PID`, `PV1`)
+3. **Field** — a data unit within a segment (e.g. `PID-5` = patient name)
+4. **Component** — a subdivision of a field, separated by `^` (e.g. family name `^` given name)
+5. **Subcomponent** — a subdivision of a component, separated by `&` (e.g. code `&` institution)
+
+```{=html}
+<!--
+  Diagram: HL7 v2 five-level hierarchy.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:660px;font-family:sans-serif;">
+  <rect width="660" height="320" rx="10" fill="#f8fbfc"/>
+
+  <!-- Level 1: Message -->
+  <rect x="20" y="20" width="620" height="48" rx="8" fill="#0a3d4a"/>
+  <text x="140" y="49" font-size="12" font-weight="bold" fill="#fff">Message</text>
+  <text x="340" y="49" font-size="11" fill="#e2f4f3">ADT^A01 — admission message</text>
+
+  <line x1="330" y1="68" x2="330" y2="88" stroke="#0d7c8c" stroke-width="2"
+        marker-end="url(#h1)"/>
+
+  <!-- Level 2: Segment -->
+  <rect x="50" y="90" width="560" height="48" rx="8" fill="#0d7c8c"/>
+  <text x="150" y="119" font-size="12" font-weight="bold" fill="#fff">Segment</text>
+  <text x="330" y="119" font-size="11" fill="#e2f4f3">MSH · EVN · PID · NK1 · PV1</text>
+
+  <line x1="330" y1="138" x2="330" y2="158" stroke="#1ab3a6" stroke-width="2"
+        marker-end="url(#h2)"/>
+
+  <!-- Level 3: Field -->
+  <rect x="80" y="160" width="500" height="48" rx="8" fill="#1ab3a6"/>
+  <text x="160" y="189" font-size="12" font-weight="bold" fill="#fff">Field</text>
+  <text x="330" y="189" font-size="11" fill="#0a3d4a">PID-5:  BAPTISTA^JOAO^A^JUNIOR</text>
+
+  <line x1="330" y1="208" x2="330" y2="228" stroke="#0d7c8c" stroke-width="2"
+        marker-end="url(#h1)"/>
+
+  <!-- Level 4: Component -->
+  <rect x="110" y="230" width="440" height="48" rx="8" fill="#e2f4f3" stroke="#0d7c8c" stroke-width="1.5"/>
+  <text x="180" y="259" font-size="12" font-weight="bold" fill="#0a3d4a">Component</text>
+  <text x="330" y="259" font-size="11" fill="#0d7c8c">BAPTISTA · JOAO · A · JUNIOR  (separated by ^)</text>
+
+  <line x1="330" y1="278" x2="330" y2="293" stroke="#1ab3a6" stroke-width="1.5"
+        marker-end="url(#h2)"/>
+
+  <!-- Level 5: Subcomponent -->
+  <rect x="140" y="295" width="380" height="14" rx="4" fill="#e2f4f3" stroke="#1ab3a6" stroke-width="1"/>
+  <text x="330" y="306" text-anchor="middle" font-size="9" fill="#0a3d4a">Subcomponent — separated by &amp;  (e.g. code &amp; issuing institution)</text>
+
+  <defs>
+    <marker id="h1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"/></marker>
+    <marker id="h2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"/></marker>
+  </defs>
+</svg>
+</div>
+```
+
+### The delimiters
+
+Five special characters define the grammar of HL7 v2. They are declared
+in fields `MSH-1` and `MSH-2` of every message, meaning a parser can
+verify their presence before processing any other field [@HL7_v28].
+
+| Character | Name | Function | Example |
+|-----------|------|----------|---------|
+| `&#124;` | Pipe | Field separator | `PID&#124;1&#124;&#124;PAT001&#124;&#124;SILVA^ANA` |
+| `^` | Caret | Component separator | `SILVA^ANA^M` → family name ^ given name ^ initial |
+| `~` | Tilde | Repetition separator | `PID-3: ID001~ID002` → two alternative IDs |
+| `\` | Backslash | Escape character | `\F\` represents a literal pipe in content |
+| `&` | Ampersand | Subcomponent separator | `ID001&UTAD` → ID ^ issuing institution |
+
+: HL7 v2 delimiters — declared in MSH-1 and MSH-2 [@HL7_v28]. {#tbl-delimiters}
+
+`MSH-1` always contains the pipe — it is the field separator itself.
+`MSH-2` contains the other four in order `^~\&`. These two fields are
+the first in any message and allow the receiver to determine the
+delimiters before beginning to parse.
+
+### Segments: the logical unit
+
+A **segment** is a logical grouping of related fields. It begins with a
+three-letter uppercase identifier followed by a pipe. The position
+determines the meaning of the field — `PID-5` is always the patient name,
+regardless of the implementation. @tbl-segments describes the essential
+segments in an ADT context.
+
+| ID | Name | Presence | Function |
+|----|------|----------|---------|
+| MSH | Message Header | Mandatory, unique | Sender, receiver, message type, version |
+| EVN | Event Type | Mandatory | Event type and occurrence timestamp |
+| PID | Patient Identification | Mandatory | Name, ID, date of birth, gender, address |
+| PV1 | Patient Visit | Mand./Optional | Ward, bed, attending physician, service |
+| NK1 | Next of Kin | Optional, repeatable | Family members or emergency contacts |
+| NTE | Notes and Comments | Optional, repeatable | Free-text notes |
+| ERR | Error | Optional | Error detail in negative ACK messages |
+
+: Essential segments in ADT messages [@HL7_v28]. {#tbl-segments}
+
+The presence notation follows a normalised convention: no brackets means
+mandatory; `[ ]` means optional; `{ }` means repeatable; `[{ }]` means
+optional and repeatable.
+
+### Fields: positional and fill states
+
+Within a segment, fields are **positional**: the position number defines
+the meaning. A parser counts the pipes to know which field it is in.
+Trailing empty fields may be omitted — the parser infers their absence.
+
+A field can be in three distinct states with different semantics
+[@HL7_v28]:
+
+- **Populated** — the sending system provides a value. Example: `19610615`
+- **Not Populated** — the field exists but is empty; the sender does not
+  have the value. Example: `||`
+- **Null** — an explicit instruction for the receiver to delete the value
+  it holds. Example: `|""|`
+
+The distinction between *Not Populated* and *Null* is critical: confusing
+the two can cause silent data corruption in the receiving system. *Not
+Populated* means "I don't have the value"; *Null* means "delete the value
+you have".
+
+## Essential Segments {#sec-hl7v2-segments}
+
+### MSH — Message header
+
+The MSH is always the first segment and defines the full context of the
+message. @tbl-msh describes the most relevant fields, using the example
+from the lectures:
+
+```
+MSH|^~\&|ADT1|ULSTMAD|SCLINICO|ULSTMAD|200707181123||ADT^A01^ADT_A01|MSG00001|P|2.8
+```
+
+| Field | Value | Name | Meaning |
+|-------|-------|------|---------|
+| MSH-1 | `&#124;` | Field Separator | The pipe itself — the only field whose value is the delimiter |
+| MSH-2 | `^~\&` | Encoding Characters | The four secondary delimiters |
+| MSH-3 | `ADT1` | Sending Application | Sending application |
+| MSH-4 | `ULSTMAD` | Sending Facility | Sending institution |
+| MSH-5 | `SCLINICO` | Receiving Application | Receiving application |
+| MSH-6 | `ULSTMAD` | Receiving Facility | Receiving institution |
+| MSH-7 | `200707181123` | Date/Time | Timestamp: YYYYMMDDHHII |
+| MSH-9 | `ADT^A01^ADT_A01` | Message Type | Type ^ Trigger ^ structure |
+| MSH-10 | `MSG00001` | Message Control ID | Unique ID — returned by receiver in ACK |
+| MSH-11 | `P` | Processing ID | P = production · T = test · D = debug |
+| MSH-12 | `2.8` | Version ID | HL7 version used |
+
+: Main fields of the MSH segment [@HL7_v28]. {#tbl-msh}
+
+`MSH-10` (*Message Control ID*) is the field the receiver returns in
+the ACK message to confirm which message was received — it is the
+correlation mechanism between request and response.
+
+### EVN — Event type
+
+The EVN segment records the event type and the relevant timestamps.
+It appears immediately after the MSH:
+
+```
+EVN|A01|200707181123||
+```
+
+The most relevant fields are: `EVN-1` (trigger code, e.g. `A01`),
+`EVN-2` (moment the event was recorded in the system) and `EVN-5`
+(identifier of the operator who recorded the event). `EVN-3` (planned
+date) and `EVN-4` (event reason) are optional and frequently empty.
+
+In a transfer message (`ADT^A02`), the difference between `EVN-2`
+(recording timestamp) and `EVN-6` (actual event time) documents the
+interval between the clinical occurrence and its administrative
+registration.
+
+### PID — Patient identification
+
+The PID segment uniquely identifies the patient. Dissecting the example
+from the lectures illustrates field positional semantics [@HL7_v28]:
+
+```
+PID|1||PATID1234^^^ULSTMAD^MR~123456789^^^PORTUGAL^SS||BAPTISTA^JOAO^A^JUNIOR
+||19610615|M|||45^RUADOCARMO^^VILAREAL^VILAREAL^5000-678|||92212345
+||S||PATID12345001^2^M10^ADT1^AN^A|
+```
+
+| Field | Value | Meaning |
+|-------|-------|---------|
+| PID-1 | `1` | Set ID — segment order number |
+| PID-3 | `PATID1234^^^ULSTMAD^MR~123456789^^^PORTUGAL^SS` | Two IDs: internal MR + Social Security number |
+| PID-5 | `BAPTISTA^JOAO^A^JUNIOR` | Name: family name ^ given name ^ initial ^ suffix |
+| PID-7 | `19610615` | Date of birth — 15 Jun 1961 |
+| PID-8 | `M` | Gender — M (Male) |
+| PID-11 | `45^RUADOCARMO^^VILAREAL^...^5000-678` | Structured address: street ^ ^ city ^ … ^ postal code |
+
+: Main fields of the PID segment, João Baptista example [@HL7_v28]. {#tbl-pid}
+
+Field `PID-3` illustrates repetition with `~`: two groups separated by
+tilde correspond to two distinct identifiers for the same patient — the
+hospital's internal ID and the Social Security number. Within each group,
+`^` separates the identifier components: value, check digit, verification
+code, assigning authority, type and authority name.
+
+### PV1 — Patient visit
+
+The PV1 segment describes the current visit: physical location,
+attending physician and clinical service. Field `PV1-3` uses a
+three-component structure identifying the location:
+`ward^room^bed`.
+
+```
+PV1|1|I|CIR-10^64^01||||124340^SILVA^ANTONIO|||SUR||||ADM
+```
+
+`PV1-2` indicates the visit type (`I` = inpatient; `O` = outpatient;
+`E` = emergency). `PV1-7` identifies the attending physician as
+`code^family name^given name`. `PV1-10` indicates the clinical service
+(`SUR` = surgery, `ICU` = intensive care unit). In a discharge message,
+`PV1-44` and `PV1-45` record the admission date and discharge date
+respectively, allowing any receiving system to calculate the length of
+stay.
+
+## Message Confirmation: the ACK {#sec-hl7v2-ack}
+
+After receiving a message, the destination system sends an **ACK**
+message to confirm receipt or to reject with error detail. The ACK
+always includes an `MSA` segment whose field `MSA-2` repeats the
+`MSH-10` of the original message, ensuring correlation between request
+and response [@HL7_v28].
+
+The response codes in field `MSA-1` are:
+
+- **AA** (*Application Accept*) — message processed successfully
+- **AE** (*Application Error*) — processed but with a content error
+- **AR** (*Application Reject*) — rejected; processing was not possible
+
+```{=html}
+<!--
+  Diagram: message exchange + ACK.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:640px;font-family:sans-serif;">
+  <rect width="640" height="240" rx="10" fill="#f8fbfc"/>
+
+  <!-- System A -->
+  <rect x="20" y="20" width="120" height="200" rx="8" fill="#0a3d4a" opacity="0.08"
+        stroke="#0a3d4a" stroke-width="1.5"/>
+  <rect x="20" y="20" width="120" height="32" rx="8" fill="#0a3d4a"/>
+  <text x="80" y="41" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">System A</text>
+  <text x="80" y="58" text-anchor="middle" font-size="9" fill="#0a3d4a">(Sender)</text>
+
+  <!-- System B -->
+  <rect x="500" y="20" width="120" height="200" rx="8" fill="#0d7c8c" opacity="0.08"
+        stroke="#0d7c8c" stroke-width="1.5"/>
+  <rect x="500" y="20" width="120" height="32" rx="8" fill="#0d7c8c"/>
+  <text x="560" y="41" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">System B</text>
+  <text x="560" y="58" text-anchor="middle" font-size="9" fill="#0d7c8c">(Receiver)</text>
+
+  <!-- Arrow: message A→B -->
+  <line x1="142" y1="100" x2="498" y2="100" stroke="#0a3d4a" stroke-width="2"
+        marker-end="url(#ack1)"/>
+  <text x="320" y="90" text-anchor="middle" font-size="11" font-weight="bold" fill="#0a3d4a">ADT^A01  (MSH-10: MSG00001)</text>
+
+  <!-- Arrow: ACK B→A -->
+  <line x1="498" y1="140" x2="142" y2="140" stroke="#1ab3a6" stroke-width="2"
+        stroke-dasharray="6" marker-end="url(#ack2)"/>
+  <text x="320" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#1ab3a6">ACK  (MSA-1: AA · MSA-2: MSG00001)</text>
+
+  <!-- Response codes -->
+  <rect x="180" y="160" width="280" height="50" rx="6" fill="#e2f4f3" stroke="#0d7c8c" stroke-width="1"/>
+  <text x="320" y="177" text-anchor="middle" font-size="10" font-weight="bold" fill="#0a3d4a">MSA-1:</text>
+  <text x="230" y="195" text-anchor="middle" font-size="10" fill="#16a34a">AA = Accepted</text>
+  <text x="320" y="195" text-anchor="middle" font-size="10" fill="#dc2626">AE = Error</text>
+  <text x="410" y="195" text-anchor="middle" font-size="10" fill="#dc2626">AR = Rejected</text>
+
+  <text x="320" y="225" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 6.2 — Message exchange and ACK: MSA-2 correlates request with response (HL7 v2.8, §2)
+  </text>
+
+  <defs>
+    <marker id="ack1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0a3d4a"/></marker>
+    <marker id="ack2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"/></marker>
+  </defs>
+</svg>
+</div>
+```
+
+In a negative ACK (`AE`), the `ERR` segment provides error detail:
+field `ERR-2` identifies the segment and field position with the error
+(`PID^5` = field 5 of PID, patient name); `ERR-3` contains the error
+code; `ERR-4` indicates severity (`E` = error, `W` = warning). This
+mechanism allows the sender to diagnose exactly what failed.
+
+## ADT Messages: the Patient's Administrative Journey {#sec-hl7v2-adt}
+
+**ADT** (*Admission, Discharge, Transfer*) messages track each
+administrative state change of the patient. Whenever a patient is
+admitted, changes service, or is discharged, an ADT message is generated
+and distributed to all subscribed systems. They are the most frequent
+messages in any hospital [@HL7_v28].
+
+To illustrate the three central events, the lectures use a complete
+clinical case: João A. Baptista Júnior, admitted to ULSTMAD on 18 July
+2007 for surgery, transferred to ICU early the following morning, and
+discharged on 25 July.
+
+### ADT^A01 — Admission
+
+The `A01` event signals that a patient has been admitted and assigned
+a bed. It is the start of the hospital process: the HIS generates the
+`ADT^A01` and distributes it to all subscribed systems [@HL7_v28].
+
+In the case study, on 18 July 2007 at 11:23, João Baptista is admitted
+to the surgery service (SUR), Ward CIR-10, Room 64, Bed 01, with
+Dr. António Silva (#124340) as attending physician. The complete
+message is:
+
+```
+MSH|^~\&|ADT1|ULSTMAD|SCLINICO|ULSTMAD|200707181123||ADT^A01^ADT_A01|MSG00001|P|2.8
+EVN|A01|200707181123||
+PID|1||PATID1234^^^ULSTMAD^MR~123456789^^^PORTUGAL^SS||BAPTISTA^JOAO^A^JUNIOR
+||19610615|M|||45^RUADOCARMO^^VILAREAL^VILAREAL^5000-678|||92212345
+||S||PATID12345001^2^M10^ADT1^AN^A|
+NK1|1|PEREIRA^NILZA^F|SPO^SPOUSE||||NK^NEXT OF KIN
+PV1|1|I|CIR-10^64^01||||124340^SILVA^ANTONIO|||SUR||||ADM
+```
+
+The message has five segments: MSH (envelope), EVN (event timestamp),
+PID (patient identification, three lines), NK1 (spouse Nilza F. Pereira)
+and PV1 (location and physician). `PV1-3` uses the structure
+`CIR-10^64^01` — ward ^ room ^ bed.
+
+### ADT^A02 — Transfer
+
+The `A02` event is generated when an admitted patient changes location
+within the hospital. The PID remains unchanged; the PV1 is updated with
+the new location, new responsible physician and new service [@HL7_v28].
+
+In the early hours of 19 July, João Baptista's condition worsens due
+to a post-operative complication. He is transferred to the ICU at 02:30;
+the event is recorded at 02:45:
+
+```
+MSH|^~\&|ADT1|ULSTMAD|SCLINICO|ULSTMAD|200707190245||ADT^A02^ADT_A02|000002|P|2.8||||
+EVN|A02|200707190245||01||200707190230
+PID|1||PATID1234^^^ULSTMAD^MR~123456789^^^PORTUGAL^SS||BAPTISTA^JOAO^A^JUNIOR
+||19610615|M|||45^RUADOCARMO^^VILAREAL^VILAREAL^5000-678|GL||(259)123-456
+||S||PATID12345001^2^M10^ADT1^AN^A|
+PV1||I|UCI^01^02^ULSTMAD|||CIR-10^64^01|124340^SILVA^ANTONIO|856321^FERREIRA^CARLOS||ICU
+|||||||856321^FERREIRA^CARLOS|S|||||||||||||||||||ULSTMAD|||||200707181123|
+```
+
+`EVN-2` (`200707190245`) records when the event was entered into the
+system; `EVN-6` (`200707190230`) records the actual transfer time. The
+15-minute gap documents the administrative delay. In PV1: `PV1-3` = new
+location (`UCI^01^02`), `PV1-6` = previous location (`CIR-10^64^01`),
+`PV1-8` = Dr. Ferreira (new responsible), `PV1-10` = ICU service.
+
+### ADT^A03 — Discharge
+
+The `A03` event records the end of the hospital stay. Field `PV1-36`
+indicates the discharge destination; fields `PV1-44` and `PV1-45`
+record the admission date and discharge date respectively [@HL7_v28].
+
+On 25 July 2007 at 10:00, João Baptista is discharged home with home
+health care (HH):
+
+```
+MSH|^~\&|ADT1|ULSTMAD|SCLINICO|ULSTMAD|200707251000||ADT^A03^ADT_A03|000003|P|2.8||||
+EVN|A03|200707251000||01||200707251000
+PID|1||PATID1234^^^ULSTMAD^MR~123456789^^^PORTUGAL^SS||BAPTISTA^JOAO^A^JUNIOR
+||19610615|M|||45^RUADOCARMO^^VILAREAL^VILAREAL^5000-678|GL||(259)123-456
+||S||PATID12345001^2^M10^ADT1^AN^A|
+PV1||I|CIR-10^64^01||||124340^SILVA^ANTONIO|||SUR|||||||124340^SILVA^ANTONIO|S|1400|A
+||||||||||||||||||HH|||ULSTMAD|||||200707181123|200707251000
+```
+
+`PV1-44` (`200707181123`) − `PV1-45` (`200707251000`) = 7-day hospital
+stay, automatically calculable by any receiving system. Possible values
+in `PV1-36` include: `HH` (home health care), `SNF` (skilled nursing
+facility), `HSP` (transfer to another hospital) and `EXP` (expired).
+
+```{=html}
+<!--
+  Diagram: ADT sequence A01 → A02 → A03 along a timeline.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 680 160" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="160" rx="10" fill="#f8fbfc"/>
+
+  <!-- Timeline -->
+  <line x1="60" y1="80" x2="620" y2="80" stroke="#cbd5e1" stroke-width="2"/>
+
+  <!-- Event 1: A01 -->
+  <circle cx="140" cy="80" r="18" fill="#0a3d4a"/>
+  <text x="140" y="85" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">A01</text>
+  <text x="140" y="120" text-anchor="middle" font-size="10" font-weight="bold" fill="#0a3d4a">Admission</text>
+  <text x="140" y="134" text-anchor="middle" font-size="9" fill="#64748b">18 Jul 11:23</text>
+  <text x="140" y="148" text-anchor="middle" font-size="9" fill="#64748b">CIR-10 · Dr. Silva</text>
+
+  <!-- Event 2: A02 -->
+  <circle cx="340" cy="80" r="18" fill="#0d7c8c"/>
+  <text x="340" y="85" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">A02</text>
+  <text x="340" y="120" text-anchor="middle" font-size="10" font-weight="bold" fill="#0d7c8c">Transfer</text>
+  <text x="340" y="134" text-anchor="middle" font-size="9" fill="#64748b">19 Jul 02:30</text>
+  <text x="340" y="148" text-anchor="middle" font-size="9" fill="#64748b">ICU · Dr. Ferreira</text>
+
+  <!-- Event 3: A03 -->
+  <circle cx="560" cy="80" r="18" fill="#1ab3a6"/>
+  <text x="560" y="85" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">A03</text>
+  <text x="560" y="120" text-anchor="middle" font-size="10" font-weight="bold" fill="#1ab3a6">Discharge</text>
+  <text x="560" y="134" text-anchor="middle" font-size="9" fill="#64748b">25 Jul 10:00</text>
+  <text x="560" y="148" text-anchor="middle" font-size="9" fill="#64748b">Destination: HH</text>
+
+  <!-- Duration -->
+  <line x1="140" y1="55" x2="560" y2="55" stroke="#1ab3a6" stroke-width="1.5"
+        stroke-dasharray="4" marker-start="url(#d1)" marker-end="url(#d2)"/>
+  <text x="350" y="46" text-anchor="middle" font-size="10" fill="#1ab3a6">7-day hospital stay</text>
+
+  <defs>
+    <marker id="d1" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto">
+      <path d="M6,0 L0,3 L6,6 Z" fill="#1ab3a6"/></marker>
+    <marker id="d2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"/></marker>
+  </defs>
+</svg>
+</div>
+```
+
+Figure 6.3 — ADT sequence for the João Baptista case: admission (A01), transfer (A02) and discharge (A03).
+
+## HL7 v2 Limitations {#sec-hl7v2-limitations}
+
+### Structural fragility: no formal schema
+
+HL7 v2 has no formal schema. Any string is accepted in any field — the
+standard does not define automatic format validation. Field `PID-7`
+(date of birth) should contain `YYYYMMDD`, but the receiver must accept
+whatever arrives. Format errors pass silently until they surface in a
+wrong clinical report [@HL7_v28].
+
+```
+PID|1||PAT001||SILVA^ANA||19850312|F|...    ← YYYYMMDD — correct
+PID|1||PAT001||SILVA^ANA||1985-03-12|F|...  ← accepted, but different format
+PID|1||PAT001||SILVA^ANA||12/03/1985|F|...  ← accepted, yet another dialect
+```
+
+A database with a `DATE` column automatically rejects `15/06/1961`. In
+HL7 v2, no such mechanism exists. Each sending system has its own dialect
+for dates, genders and codes; the integration engine accumulates
+normalisation rules per system. As the hospital network grows, this
+normalisation work becomes a permanent ongoing cost.
+
+### Weak semantics: local value tables
+
+HL7 v2 defines fields by name and position, but does not define the
+vocabulary of their values. The specification provides **user-defined
+tables**: each hospital chooses its own codes. What should be a shared
+vocabulary becomes a private dialect of each institution
+[@BensonGrieve2021].
+
+The most common example is `PV1-4` (admission type):
+
+| Hospital | Value in PV1-4 | Local meaning |
+|----------|----------------|---------------|
+| Hospital A | `U` | Urgência (Emergency) |
+| Hospital B | `E` | Emergency |
+| Hospital C | `1` | Urgent |
+
+: Weak semantics: the same field, incompatible values across hospitals [@BensonGrieve2021]. {#tbl-semantics}
+
+All three hospitals are conformant with the specification — and are
+incompatible with each other. The same problem exists in `PID-8`
+(gender), clinical service, diagnosis type and marital status: every
+field with a *user-defined table* is a potential point of
+incompatibility. Two "HL7 v2 conformant" systems may have completely
+different semantics and require bilateral mapping before any data
+exchange.
+
+### Z-segments: private extensions
+
+Any segment whose identifier begins with `Z` is reserved for local use.
+The specification prohibits Z-segments in the normalised standard — they
+are intentionally private and opaque. Each hospital creates its own
+extra fields (e.g. `ZPI` for insurance information, `ZIN` for health
+subsystem data) without publishing them [@HL7_v28].
+
+The problem becomes apparent when integrating two hospitals:
+
+```
+Hospital A:  ZIN|ADSE|GROUP001|PLANO_B
+Hospital B:  ZSG|ADSE|PLANO_B|GROUP001
+```
+
+The same content, different identifiers, different field order —
+mutually incompatible. An external parser does not know what `ZIN` or
+`ZSG` mean; it must be configured case by case, by bilateral agreement.
+Z-segments are the most visible example of a broader problem: the
+standard is open enough to generate incompatibilities even between
+conformant implementations.
+
+### Parsing: hidden complexity
+
+Processing an HL7 v2 message is more demanding than simply splitting
+strings on the pipe character. Three main sources of complexity can be
+identified [@Bhagat2019]:
+
+- **Repeatable fields with `~`** — a field may have multiple values
+  separated by tilde; `PID-3` can contain several identifiers for the
+  same patient; the parser must handle lists, not single values.
+- **Opaque Z-segments** — a generic parser does not know what `ZIN`,
+  `ZPI` or `ZCU` mean; it must be configured case by case.
+- **Version differences** — the same field may have different structures
+  between v2.3 and v2.8; in a real environment, different systems send
+  different versions and the parser must handle all of them.
+
+There is no universal parser for HL7 v2: every environment requires
+system-specific and version-specific rules.
+
+### The integration engine: the required piece
+
+The limitations described above converge on one point: any real HL7 v2
+environment requires an **integration middleware** — commonly called an
+*integration engine*. Products such as Mirth Connect, Rhapsody or
+InterSystems Ensemble receive messages from multiple systems, normalise
+formats, map local tables, translate Z-segments and route to the correct
+destinations [@BensonGrieve2021].
+
+```{=html}
+<!--
+  Diagram: integration engine — N sending systems → engine → N receiving systems.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="240" rx="10" fill="#f8fbfc"/>
+
+  <!-- Sending systems (left) -->
+  <rect x="15" y="30"  width="110" height="32" rx="6" fill="#0a3d4a"/>
+  <text x="70" y="51" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">HIS (Admissions)</text>
+  <rect x="15" y="80"  width="110" height="32" rx="6" fill="#0a3d4a"/>
+  <text x="70" y="101" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">LIS (Laboratory)</text>
+  <rect x="15" y="130" width="110" height="32" rx="6" fill="#0a3d4a"/>
+  <text x="70" y="151" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">RIS (Radiology)</text>
+
+  <!-- Arrows → engine -->
+  <line x1="127" y1="46"  x2="245" y2="100" stroke="#0d7c8c" stroke-width="1.5" marker-end="url(#ie1)"/>
+  <line x1="127" y1="96"  x2="245" y2="110" stroke="#0d7c8c" stroke-width="1.5" marker-end="url(#ie1)"/>
+  <line x1="127" y1="146" x2="245" y2="120" stroke="#0d7c8c" stroke-width="1.5" marker-end="url(#ie1)"/>
+
+  <!-- Integration Engine -->
+  <rect x="247" y="70" width="186" height="80" rx="10" fill="#0d7c8c"/>
+  <text x="340" y="98"  text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Integration Engine</text>
+  <text x="340" y="115" text-anchor="middle" font-size="9" fill="#e2f4f3">Mirth · Rhapsody · Ensemble</text>
+  <text x="340" y="130" text-anchor="middle" font-size="9" fill="#e2f4f3">Normalises · Maps · Routes</text>
+
+  <!-- Arrows engine → receivers -->
+  <line x1="435" y1="100" x2="548" y2="50"  stroke="#1ab3a6" stroke-width="1.5" marker-end="url(#ie2)"/>
+  <line x1="435" y1="110" x2="548" y2="100" stroke="#1ab3a6" stroke-width="1.5" marker-end="url(#ie2)"/>
+  <line x1="435" y1="120" x2="548" y2="150" stroke="#1ab3a6" stroke-width="1.5" marker-end="url(#ie2)"/>
+
+  <!-- Receiving systems (right) -->
+  <rect x="550" y="30"  width="110" height="32" rx="6" fill="#1ab3a6"/>
+  <text x="605" y="51" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">EMR (Clinical)</text>
+  <rect x="550" y="82"  width="110" height="32" rx="6" fill="#1ab3a6"/>
+  <text x="605" y="103" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Pharmacy</text>
+  <rect x="550" y="134" width="110" height="32" rx="6" fill="#1ab3a6"/>
+  <text x="605" y="155" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">PACS (Imaging)</text>
+
+  <text x="340" y="225" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 6.4 — Integration engine: the required piece in any real HL7 v2 environment
+  </text>
+
+  <defs>
+    <marker id="ie1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"/></marker>
+    <marker id="ie2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"/></marker>
+  </defs>
+</svg>
+</div>
+```
+
+The integration engine is not optional: it is the piece that makes HL7
+v2 work in heterogeneous environments. The cost the standard does not
+show is the maintenance cost of this middleware: each new system joining
+the network requires analysis, mapping and testing. As N systems grow,
+the number of interfaces — and the cost of maintaining them — grows with
+it. This is the structural limit of the bilateral model that HL7 v2
+imposes.
+
+### Balance: what HL7 v2 solved and where it fell short
+
+HL7 v2 solved a real problem: it eliminated the manual exchange of data
+between hospital systems, created a trigger-event model aligned with
+clinical workflows, and survived 35 years of technological change. Its
+limits only became apparent as scale grew.
+
+| Aspect | Assessment |
+|--------|------------|
+| Elimination of manual data exchange | Solved |
+| Trigger-event model aligned with clinical workflows | Solved |
+| Global adoption (95% of hospitals) | Solved |
+| Mature ecosystem of tools | Solved |
+| Formal schema with automatic validation | Not solved |
+| Shared semantics across institutions | Not solved |
+| Interoperable private extensions (Z-segments) | Not solved |
+| Universal parser | Not solved |
+| Integration cost proportional to number of systems | Not solved |
+
+: Balance of HL7 v2 [@HL7_v28; @BensonGrieve2021]. {#tbl-balance}
+
+## Summary and Exercises {#sec-hl7v2-summary}
+
+### Consolidation exercises {.unnumbered}
+
+1. A laboratory system (LIS) receives an order sent by the prescribing
+   system. Identify: (a) the HL7 message type used; (b) the trigger
+   event; (c) the MSH fields that allow the LIS to determine who sent
+   the order and which HL7 version it conforms to.
+
+2. The `PID-3` field of a message contains the value
+   `PATID1234^^^ULSTMAD^MR~123456789^^^PORTUGAL^SS`.
+   Explain the role of the `~` character in this context and identify
+   the two identifiers present, stating the type of each.
+
+3. A negative ACK (AE) contains `ERR||PID^5|101^Required field missing|E`.
+   Interpret each component of this segment and explain the practical
+   consequence for the sending system.
+
+4. Two hospitals use different values in `PV1-4` to classify emergency
+   admissions: Hospital X uses `U`, Hospital Y uses `E`. Both claim
+   to be HL7 v2 conformant. Explain how this situation is possible and
+   what architectural component is needed to integrate them.
+
+5. A hospital needs to transmit health insurance data (subsystem code,
+   group number, plan) between the HIS and the pharmacy. The HL7 v2
+   specification defines no standard segment for this purpose. What
+   mechanism does the standard provide? What are the implications for
+   interoperability with other hospitals?

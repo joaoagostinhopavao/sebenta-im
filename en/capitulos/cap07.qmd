@@ -1,0 +1,1022 @@
+---
+title: "Web Architecture and REST"
+lang: en-GB
+---
+
+## From Message to Resource — Evolution of Communication Models in Healthcare {#sec-rest-evolucao}
+
+### The message model and its limitations
+
+`HL7` v2 solved a fundamental problem: it eliminated the manual exchange
+of data between hospital information systems and created an automatic
+model based on clinical messages. However, as hospital networks grew
+and inter-institutional interoperability became necessary, the structural
+limits of the model became evident [@BensonGrieve2021].
+
+The central problem is **tight coupling**: in a message-based model, each
+pair of systems must be configured individually. If a hospital has N
+systems (HIS, LIS, RIS, PACS, pharmacy, etc.), the number of interfaces
+to configure and maintain grows on the order of N², since each system
+must have a specific interface for every other. With ten systems, there
+are potentially ninety bilateral interfaces. Each new interface requires
+analysis, development, testing and ongoing maintenance. Scalability is
+structurally limited.
+
+Alongside this, the message model is *push-based*: information is
+transmitted when an event occurs, not when it is needed. An external
+system that needs to query the current state of a patient cannot simply
+ask — it must wait for the relevant event to generate a message and
+deliver it. Ad hoc querying is not part of the model.
+
+The following table compares the two models across the dimensions
+relevant to modern interoperability:
+
+| Dimension | Message model (HL7 v2) | Resource model (`REST`) |
+|-----------|------------------------|-------------------------|
+| Initiative | *Push* — the sending system decides when to transmit | *Pull* — the client decides when to query |
+| Coupling | Tight — A knows B and vice versa | Loose — the client only knows the `URL` |
+| Scale | N² interfaces | Any client, any server |
+| Prior configuration | Required per pair of systems | Not required |
+| Formats | Positional text (pipes and carets) | `JSON` over `HTTP` |
+| Ad hoc querying | Not provided | Native |
+
+: Comparison between the message model (HL7 v2) and the resource model (REST) [@BensonGrieve2021; @Fielding2000]. {#tbl-modelos-comparacao}
+
+### From `SOAP`/`XML` to `REST`/`JSON`
+
+Before `REST` established itself as the dominant paradigm, integration
+between more recent healthcare systems relied on **Web Services**
+`SOAP` — Simple Object Access Protocol — a communication protocol based
+on `XML` that structures messages in a rigid format called an *envelope*:
+a structure with header and body that wraps the data to be transmitted.
+HL7 v3, released in 2005, was designed precisely to use this model:
+voluminous `XML` messages transported in `SOAP` *envelopes*, consumed
+by Web Services servers, managed by specialised *middleware*
+[@BensonGrieve2021]. Middleware — intermediary software that mediates
+communication between systems — was mandatory in HL7 v3 architectures.
+In practice, it required specialised integration engines such as Mirth
+Connect or Rhapsody, responsible for receiving, transforming and routing
+`SOAP` messages.
+
+Complexity was its greatest obstacle. A typical `SOAP` request required:
+generating the `XML` *envelope*, configuring the Web Services server,
+installing and maintaining integration middleware (of the
+`ESB` — Enterprise Service Bus type), and dealing with a data model
+(`RIM` — Reference Information Model) too abstract for direct
+implementation. In many institutions, this implementation cost seriously
+limited the adoption of HL7 v3 [@BensonGrieve2021].
+
+`REST` proposes a radically simpler model: any HTTP server can serve
+clinical resources. It need not be a specific server (that is, a
+dedicated special webservice). A request is purely HTTP — a
+`GET /Patient/123` — and the response is `JSON`. There is no `SOAP`
+*envelope*, no mandatory middleware. Any web developer can implement a
+`REST` server without knowledge of hospital middleware — the barrier to
+entry dropped drastically.
+
+### The web as universal infrastructure
+
+`HTTP` — HyperText Transfer Protocol — has existed since 1991. It is
+the most widely deployed application protocol in the world: supported
+by every programming language, operating system and device [@RFC9110].
+Its adoption as the transport for clinical interoperability was not
+accidental — it represents the deliberate choice of a universally
+available infrastructure over a proprietary stack.
+
+This choice has direct practical consequences:
+
+- Any hospital with a web server can expose clinical data via `REST`
+- The development and debugging tools are the same used in any web
+  project
+- Security (`HTTPS`, token-based authentication) is shared with the
+  global web ecosystem
+- Maintenance draws on a vast knowledge base of web developers
+
+It is this alignment with the universal infrastructure of the web that
+explains why FHIR, the modern clinical interoperability standard, adopted
+`REST` as its native communication model.
+
+## The `REST` Model — Principles, *Constraints* and *Stateless* {#sec-rest-modelo}
+
+### What `REST` is
+
+`REST` — Representational State Transfer — is an architectural style for
+distributed systems, proposed by Roy Fielding in his doctoral dissertation
+in 2000 [@Fielding2000]. It is not a protocol, not a formal standard,
+not a data format. It is a set of constraints that, when respected,
+produce systems with specific properties: scalability, simplicity and
+interoperability.
+
+The distinction matters: a system can use `HTTP` and `JSON` without being
+`REST`; and it can be `REST` without using `JSON`. What qualifies a system
+as *RESTful* (conformant with `REST`) is adherence to the architectural
+constraints defined by Fielding [@Fielding2000].
+
+### The six architectural constraints
+
+Fielding defined six constraints. A system that satisfies all of them is
+said to be *RESTful*:
+
+**1. Client–server** — Separation of concerns: the client manages the
+interface and user experience; the server manages data and business
+logic. The two evolve independently. A FHIR server can change its
+internal implementation without requiring clients to be updated —
+provided the `REST` interface remains stable.
+
+**2. *Stateless*** — The server retains no session state between
+requests. Each client request contains all the information necessary to
+be processed independently: resource identity, authentication credentials,
+search parameters. This constraint is the most critical for scalability —
+see the following section.
+
+**3. *Cacheable*** — Responses must indicate whether they may be stored
+in cache. Resources that change infrequently (such as terminologies or
+lists of specialties) can be cached by the client, reducing server load
+and response latency.
+
+**4. Uniform interface** — The interface between client and server is
+standardised and predictable, regardless of the resource type. It rests
+on four sub-constraints: identification of resources by `URI`
+— Uniform Resource Identifier; manipulation of resources through their
+representations; self-descriptive messages (each message contains
+sufficient information to be interpreted without external context); and
+`HATEOAS` — Hypermedia as the Engine of Application State — the server
+includes in its responses links to the next possible states.
+
+**5. Layered system** — The client need not know whether it communicates
+directly with the final server or with intermediaries (proxies, load
+balancers, API gateways). Layers are transparent to the client. This
+property enables horizontal scaling and the addition of security without
+altering the interface.
+
+**6. Code on demand** *(optional)* — The server may send executable code
+to the client (for example, JavaScript). It is the only optional
+constraint. In clinical contexts, this capability is rarely used; most
+`REST` implementations in healthcare ignore this constraint without
+ceasing to be considered *RESTful*.
+
+### *Stateless* — the central principle
+
+Of all the constraints, *stateless* is the one with the greatest
+practical impact. Understanding it in depth is essential to appreciating
+why `REST` scales where other models fail.
+
+In a *stateful* model, the server maintains a session per client: it
+knows who is connected, what was previously requested, language
+preferences, and the current point in navigation. The client need only
+send the differences relative to the previous state. This reduces the
+volume of data transmitted — but creates a rigid dependency between client
+and server. If the server fails, the session is lost. Horizontal scaling
+(adding servers) requires session synchronisation across instances
+[@Fielding2000].
+
+In a *stateless* model, each request is completely autonomous. The client
+always sends all required information: the resource identity, credentials,
+parameters. The server processes and responds with no memory of previous
+requests. If the server fails, the client can resend exactly the same
+request to a different server with no loss of context. Any server
+instance can respond to any request — horizontal scalability is immediate
+[@Fielding2000; @RichardsonRuby2007].
+
+```{=html}
+<!--
+  Diagram: stateful vs stateless.
+  Two panels side by side. Teal palette.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="240" rx="10" fill="#f8fbfc"/>
+
+  <!-- Título -->
+  <text x="340" y="22" text-anchor="middle" font-size="12"
+        font-weight="bold" fill="#0a3d4a">Stateful vs Stateless</text>
+
+  <!-- STATEFUL (esq) -->
+  <rect x="20" y="35" width="300" height="185" rx="8"
+        fill="#0a3d4a" fill-opacity="0.06" stroke="#0a3d4a" stroke-width="1.2"/>
+  <text x="170" y="55" text-anchor="middle" font-size="11"
+        font-weight="bold" fill="#0a3d4a">Stateful</text>
+
+  <!-- Cliente A -->
+  <rect x="35" y="65" width="80" height="30" rx="5" fill="#0a3d4a"/>
+  <text x="75" y="85" text-anchor="middle" font-size="9"
+        font-weight="bold" fill="#fff">Client A</text>
+
+  <!-- Arrow → server with session -->
+  <line x1="117" y1="80" x2="178" y2="80" stroke="#0d7c8c"
+        stroke-width="1.5" marker-end="url(#sf1)"/>
+  <text x="148" y="73" text-anchor="middle" font-size="8"
+        fill="#0d7c8c">request 2</text>
+
+  <!-- Servidor stateful -->
+  <rect x="180" y="60" width="120" height="130" rx="6" fill="#0d7c8c"/>
+  <text x="240" y="80" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Server</text>
+  <rect x="192" y="88" width="96" height="18" rx="3" fill="#fff" fill-opacity="0.15"/>
+  <text x="240" y="101" text-anchor="middle" font-size="8"
+        fill="#e2f4f3">session A: step 2</text>
+  <rect x="192" y="112" width="96" height="18" rx="3" fill="#fff" fill-opacity="0.15"/>
+  <text x="240" y="125" text-anchor="middle" font-size="8"
+        fill="#e2f4f3">session B: step 1</text>
+  <rect x="192" y="136" width="96" height="18" rx="3" fill="#fff" fill-opacity="0.15"/>
+  <text x="240" y="149" text-anchor="middle" font-size="8"
+        fill="#e2f4f3">session C: step 3</text>
+  <text x="240" y="178" text-anchor="middle" font-size="8"
+        fill="#e2f4f3">If it fails → sessions lost</text>
+
+  <!-- STATELESS (dir) -->
+  <rect x="360" y="35" width="300" height="185" rx="8"
+        fill="#1ab3a6" fill-opacity="0.06" stroke="#1ab3a6" stroke-width="1.2"/>
+  <text x="510" y="55" text-anchor="middle" font-size="11"
+        font-weight="bold" fill="#0a3d4a">Stateless</text>
+
+  <!-- Cliente B -->
+  <rect x="375" y="65" width="80" height="30" rx="5" fill="#0a3d4a"/>
+  <text x="415" y="85" text-anchor="middle" font-size="9"
+        font-weight="bold" fill="#fff">Client B</text>
+
+  <!-- Arrow → stateless server -->
+  <line x1="457" y1="80" x2="518" y2="80" stroke="#1ab3a6"
+        stroke-width="1.5" marker-end="url(#sf2)"/>
+  <text x="488" y="73" text-anchor="middle" font-size="8"
+        fill="#1ab3a6">complete request</text>
+
+  <!-- Servidor 1 stateless -->
+  <rect x="520" y="60" width="56" height="50" rx="5" fill="#1ab3a6"/>
+  <text x="548" y="80" text-anchor="middle" font-size="9"
+        font-weight="bold" fill="#fff">Srv 1</text>
+  <text x="548" y="98" text-anchor="middle" font-size="7"
+        fill="#0a3d4a">no session</text>
+  <!-- Servidor 2 stateless -->
+  <rect x="520" y="120" width="56" height="50" rx="5" fill="#1ab3a6"/>
+  <text x="548" y="140" text-anchor="middle" font-size="9"
+        font-weight="bold" fill="#fff">Srv 2</text>
+  <text x="548" y="158" text-anchor="middle" font-size="7"
+        fill="#0a3d4a">no session</text>
+
+  <!-- Arrows: client → both servers -->
+  <line x1="457" y1="80" x2="518" y2="85" stroke="#1ab3a6"
+        stroke-width="1" stroke-dasharray="3"/>
+  <line x1="457" y1="80" x2="518" y2="145" stroke="#1ab3a6"
+        stroke-width="1" stroke-dasharray="3"/>
+
+  <text x="510" y="192" text-anchor="middle" font-size="8"
+        fill="#0a3d4a">Any server responds — no sync required.</text>
+
+  <text x="340" y="232" text-anchor="middle" font-size="14"
+        fill="#64748b">
+    Figure 7.1 — Stateful: session on the server; Stateless: each request is autonomous
+  </text>
+
+  <defs>
+    <marker id="sf1" markerWidth="6" markerHeight="6"
+            refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"/></marker>
+    <marker id="sf2" markerWidth="6" markerHeight="6"
+            refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"/></marker>
+  </defs>
+</svg>
+</div>
+```
+
+The most accessible illustration of *stateless* is a web search: each
+request to a search engine includes the terms, language filters and
+location. The server has no knowledge of what was searched before — there
+is no session to maintain. The same request can be processed by any
+server instance in the data centre. It is precisely this model that
+`REST` generalises to any type of resource — including clinical resources.
+
+::: {.callout-note}
+**Note** — The term *stateless* refers to session state on the server,
+not to the state of data. A `REST` server has state in its data (resources
+exist and are persisted); what it lacks is memory of the conversation
+with the client. Data is maintained — the session is not.
+:::
+
+## `CRUD` and `HTTP` Methods {#sec-rest-crud}
+
+### The four fundamental operations
+
+`CRUD` — Create, Read, Update, Delete — describes the four operations
+possible on any information resource. These are primitive and complete
+operations: any data manipulation can be expressed as a combination of
+the four. In `REST`, each `CRUD` operation has a corresponding `HTTP`
+method, which creates a universal vocabulary shared by any implementation
+[@RFC9110; @RichardsonRuby2007].
+
+| `CRUD` Operation | `HTTP` Method | Semantics | Idempotent? |
+|------------------|---------------|-----------|-------------|
+| **C**reate | `POST` | Creates a new resource; ID assigned by the server | No |
+| **R**ead | `GET` | Reads a resource; does not alter data | Yes |
+| **U**pdate | `PUT` | Replaces the resource in its entirety | Yes |
+| **U**pdate (partial) | `PATCH` | Updates only the specified fields | Not guaranteed |
+| **D**elete | `DELETE` | Removes the resource permanently | Yes |
+
+: CRUD mapping — HTTP methods [@RFC9110]. {#tbl-crud-http}
+
+The property of **idempotency** deserves attention: a method is
+idempotent when executing it N times produces the same result as
+executing it once. `GET`, `PUT` and `DELETE` are idempotent — repeating
+the request has no additional effect. `POST` is not idempotent: sending
+the same `POST` twice creates two distinct resources. This distinction
+is relevant in clinical environments where network reliability cannot be
+guaranteed — a client that does not know whether its request was received
+can safely repeat a `GET` or a `DELETE`, but must not repeat a `POST`
+without first verifying whether the resource has already been created
+[@RFC9110].
+
+### Structure of an `HTTP` request and response
+
+All `HTTP` communication follows a fixed cycle: the client sends a
+**request** and the server returns a **response**. Both have a normalised
+structure [@RFC9110].
+
+A request is composed of three parts:
+
+1. **Request line** — HTTP method (see table @tbl-crud-http) + `URL` +
+   `HTTP` version. Example: `GET /api/courses/42 HTTP/1.1`.
+2. **Headers** — metadata: destination server, accepted content type,
+   authentication credentials. Plain text, inspectable with any tool
+   (curl, Postman, browser). The `Host` header is mandatory; the rest
+   are optional.
+3. **Body** — data sent (used in `POST` and `PUT`; absent in `GET` and
+   `DELETE`).
+
+A response is composed of:
+
+1. **Status line** — `HTTP` version + status code + message. Example:
+   `HTTP/1.1 200 OK`
+2. **Headers** — response content type, size, location of the created
+   resource (in `POST`).
+3. **Body** — the requested resource, typically in `JSON`.
+
+```
+GET /api/utentes/P-12345 HTTP/1.1
+Host: fhir.snssul.min-saude.pt
+Accept: application/json
+Authorization: Bearer eyJhbGci...
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 412
+
+{
+  "id": "P-12345",
+  "nome": "Ana Silva",
+  "dataNascimento": "1978-04-22",
+  "nrUtente": "123456789"
+}
+```
+
+### `HTTP` status codes
+
+Status codes standardise the server's response. They are grouped by
+family — the first digit identifies the category [@RFC9110]:
+
+| Code | Name | Meaning in a clinical context |
+|------|------|-------------------------------|
+| `200` | OK | Request successful; resource returned in the body |
+| `201` | Created | Resource created; URL of the new resource in the `Location` header |
+| `204` | No Content | Request successful; no body (common in `DELETE`) |
+| `400` | Bad Request | Malformed request — invalid parameters or incorrect `JSON` |
+| `401` | Unauthorized | Authentication required or invalid token |
+| `403` | Forbidden | Authenticated but lacking permission to access the resource |
+| `404` | Not Found | The requested resource does not exist on the server |
+| `409` | Conflict | Version conflict — resource was modified by another client |
+| `500` | Internal Server Error | Server-side error, unrelated to the request |
+
+: Most relevant HTTP status codes in a clinical context [@RFC9110]. {#tbl-http-status}
+
+The distinction between `401` and `403` is frequently confused: `401`
+means "I do not know who you are"; `403` means "I know who you are, but
+you may not access this resource". In clinical systems, a `403` may
+indicate that the clinician lacks authorisation to access the patient
+record in question — a situation distinct from not having valid
+credentials.
+
+### Examples in a hospital context
+
+The following table presents typical clinical operations expressed in
+`CRUD`/`HTTP`:
+
+| Clinical operation | Method | URL | Note |
+|--------------------|--------|-----|------|
+| Retrieve patient data | `GET` | `/Patient/P-12345` | Idempotent — safe to repeat |
+| Register new patient | `POST` | `/Patient` | Server assigns the ID |
+| Update address | `PUT` | `/Patient/P-12345` | Replaces the entire resource |
+| Correct date of birth | `PATCH` | `/Patient/P-12345` | Updates only the field |
+| Cancel appointment | `DELETE` | `/Appointment/A-789` | Removes the resource |
+| List patient observations | `GET` | `/Observation?patient=P-12345` | Search parameter |
+
+: Clinical operations mapped to CRUD/HTTP (examples with FHIR resource names). {#tbl-crud-clinico}
+
+::: {.callout-note}
+**Note** — In clinical systems, `DELETE` rarely physically removes the
+record. For audit and traceability reasons, the standard practice is to
+mark the resource as inactive or cancelled (*soft delete*), keeping the
+history accessible. The operation remains semantically a `DELETE` — the
+observable result is that the resource is no longer returned in normal
+searches.
+:::
+
+## *Endpoints* and URLs — Structure and Search Parameters {#sec-rest-endpoints}
+
+### What an *endpoint* is
+
+An *endpoint* is a specific address that a `REST` server exposes to allow
+interaction with a resource type. It is identified by a `URL`
+— Uniform Resource Locator — and an `HTTP` method.
+
+The combination of method + `URL` uniquely defines the operation:
+`GET /Patient/123` and `POST /Patient` are two different *endpoints*,
+even though they share the same base path.
+
+### Anatomy of a `REST` `URL`
+
+A well-formed `REST` `URL` follows a predictable hierarchical structure
+[@RFC3986]:
+
+```
+https://fhir.snssul.min-saude.pt/api/v1/Patient/P-12345?_format=json
+│       │                            │   │        │      │
+│       │                            │   │        │      └─ search parameter
+│       │                            │   │        └───────── resource id
+│       │                            │   └────────────────── resource type
+│       │                            └────────────────────── base path (API version)
+│       └─────────────────────────────────────────────────── server
+└─────────────────────────────────────────────────────────── protocol
+```
+
+Each component has a defined role:
+
+- **Protocol** (`https://`) — `HTTPS` ensures the communication is
+  encrypted. `HTTP` is acceptable in local development; never in
+  production with clinical data.
+- **Server** — domain name of the server hosting the `API`. Different
+  subdomains may host distinct `APIs`: `fhir.hospital.pt` for clinical
+  data, `pacs.hospital.pt` for imaging.
+- **Base path** — prefix identifying the `API` and, frequently, its
+  version (`/api/v1`). Allows the `API` to evolve without breaking
+  existing clients: a client using `/v1` continues to function when
+  `/v2` is released.
+- **Resource type** — name of the collection, by convention in singular
+  or plural. In FHIR: `Patient`, `Observation`, `DiagnosticReport`,
+  `Appointment`.
+- **Resource ID** — unique identifier of the resource within this
+  collection. If omitted (`GET /Patient`), the request returns the
+  collection (list of all resources, typically with pagination).
+- **Search parameters** — after `?`, filters and modifiers.
+  See section 7.6.
+
+### Naming conventions
+
+Naming conventions for `REST` *endpoints* have evolved into a set of
+widely adopted practices [@RichardsonRuby2007]:
+
+- Nouns, not verbs — `/Patient` and not `/getPatient` or
+  `/createPatient`; the verb is the `HTTP` method
+- Hierarchy for relationships — `/Patient/123/Observation` for
+  the observations of patient 123
+- Opaque IDs — the client must not infer semantics from the ID;
+  `/Patient/abc-123` is preferable to `/Patient/2026-silva-ana`
+- Version in the base path — `/api/v1/Patient` allows the `API` to
+  evolve without breaking clients
+
+```{=html}
+<!--
+  Diagram: anatomy of a clinical REST URL.
+  Decomposition into annotated boxes.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="180" rx="10" fill="#f8fbfc"/>
+
+  <!-- URL como texto -->
+  <rect x="20" y="30" width="640" height="36" rx="6" fill="#0a3d4a"/>
+  <text x="40" y="53" font-size="11" font-family="monospace"
+        font-weight="bold" fill="#fff">https://</text>
+  <text x="115" y="53" font-size="11" font-family="monospace"
+        fill="#e2f4f3">fhir.hospital.pt</text>
+  <text x="248" y="53" font-size="11" font-family="monospace"
+        fill="#1ab3a6">/api/v1/</text>
+  <text x="325" y="53" font-size="11" font-family="monospace"
+        fill="#fff">Patient</text>
+  <text x="390" y="53" font-size="11" font-family="monospace"
+        fill="#e2f4f3">/P-12345</text>
+  <text x="457" y="53" font-size="11" font-family="monospace"
+        fill="#1ab3a6">?_format=json</text>
+
+  <!-- Annotation arrows -->
+  <!-- Protocolo -->
+  <line x1="68" y1="66" x2="68" y2="90" stroke="#0d7c8c" stroke-width="1.2"/>
+  <rect x="20" y="91" width="96" height="22" rx="4" fill="#0d7c8c"/>
+  <text x="68" y="106" text-anchor="middle" font-size="9" fill="#fff">Protocol (HTTPS)</text>
+
+  <!-- Servidor -->
+  <line x1="195" y1="66" x2="195" y2="90" stroke="#0d7c8c" stroke-width="1.2"/>
+  <rect x="138" y="91" width="108" height="22" rx="4" fill="#0d7c8c"/>
+  <text x="192" y="106" text-anchor="middle" font-size="9" fill="#fff">Server</text>
+
+  <!-- Base path -->
+  <line x1="285" y1="66" x2="285" y2="120" stroke="#1ab3a6" stroke-width="1.2"/>
+  <rect x="234" y="121" width="100" height="22" rx="4" fill="#1ab3a6"/>
+  <text x="284" y="136" text-anchor="middle" font-size="9" fill="#fff">Base path + version</text>
+
+  <!-- Tipo de recurso -->
+  <line x1="362" y1="66" x2="362" y2="90" stroke="#0d7c8c" stroke-width="1.2"/>
+  <rect x="308" y="91" width="108" height="22" rx="4" fill="#0d7c8c"/>
+  <text x="362" y="106" text-anchor="middle" font-size="9" fill="#fff">Resource type</text>
+
+  <!-- ID -->
+  <line x1="430" y1="66" x2="430" y2="120" stroke="#1ab3a6" stroke-width="1.2"/>
+  <rect x="378" y="121" width="104" height="22" rx="4" fill="#1ab3a6"/>
+  <text x="430" y="136" text-anchor="middle" font-size="9" fill="#fff">System ID</text>
+
+  <!-- Parâmetros -->
+  <line x1="540" y1="66" x2="540" y2="90" stroke="#0d7c8c" stroke-width="1.2"/>
+  <rect x="482" y="91" width="130" height="22" rx="4" fill="#0d7c8c"/>
+  <text x="547" y="106" text-anchor="middle" font-size="9" fill="#fff">Search parameters</text>
+
+  <text x="340" y="170" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 7.2 — Anatomy of a clinical REST URL
+  </text>
+</svg>
+</div>
+```
+
+### *Endpoints* in a clinical context
+
+To make this concrete, consider a FHIR server at a hospital. The
+*endpoints* follow exactly the same generic pattern, with resource names
+specific to the FHIR standard:
+
+| Method | URL | Clinical operation |
+|--------|-----|--------------------|
+| `GET` | `/Patient/P-12345` | Retrieve data for patient with ID P-12345 |
+| `GET` | `/Patient?identifier=123456789` | Search for patient by NHS number |
+| `POST` | `/Patient` | Register a new patient |
+| `GET` | `/Observation?patient=P-12345` | List all clinical observations for the patient |
+| `GET` | `/Observation?patient=P-12345&date=2025` | Patient observations in 2025 |
+| `GET` | `/DiagnosticReport?patient=P-12345&category=LAB` | Patient laboratory reports |
+| `PUT` | `/Appointment/A-789` | Update an appointment |
+| `DELETE` | `/Appointment/A-789` | Cancel an appointment |
+
+: Examples of REST endpoints in an FHIR hospital context. {#tbl-endpoints-clinicos}
+
+## `JSON` — Structure, Data Types and Readability {#sec-rest-json}
+
+### What `JSON` is
+
+`JSON` — JavaScript Object Notation — is the most widely used data
+serialisation format in web `APIs`. Defined by the `ECMA-404` standard
+[@ECMA404], it is plain text structured as key–value pairs, human-readable
+and directly processable by any modern programming language.
+
+Despite the name including *JavaScript*, `JSON` is completely independent
+of any language. In Python, Java, C#, R or any other language, native
+functions exist for serialising and deserialising `JSON` without external
+libraries.
+
+### Fundamental syntax
+
+`JSON` syntax is defined by six rules:
+
+1. **Object** — a collection of key–value pairs delimited by curly
+   braces `{` `}`. Keys are always `strings` in double quotes. Pairs
+   are separated by commas.
+2. **Array** — an ordered sequence of values delimited by square brackets
+   `[` `]`. Elements are separated by commas.
+3. **String** — a sequence of characters in double quotes.
+   Example: `"Ana Silva"`.
+4. **Number** — an integer or decimal number, without quotes.
+   Example: `42`, `3.14`.
+5. **Boolean** — `true` or `false`, without quotes.
+6. **Null** — an explicit null value: `null`.
+
+Any value may be an object, array, string, number, boolean or null —
+and objects and arrays may be nested to any depth.
+
+### Data types in `JSON`
+
+```json
+{
+  "id": "OBS-001",
+  "codigo": "8480-6",
+  "designacao": "Tensão arterial sistólica",
+  "valor": 122,
+  "unidade": "mmHg",
+  "dataHora": "2025-11-14T09:30:00+00:00",
+  "critico": false,
+  "componentes": [
+    { "codigo": "8480-6", "valor": 122, "designacao": "Sistólica" },
+    { "codigo": "8462-4", "valor": 78,  "designacao": "Diastólica" }
+  ],
+  "notas": null
+}
+```
+
+In this example:
+
+- `"id"`, `"codigo"`, `"designacao"`, `"unidade"`, `"dataHora"`
+  — strings (in double quotes)
+- `"valor"` → `122` — integer number, without quotes
+- `"critico"` → `false` — boolean
+- `"componentes"` → `[...]` — array of objects (two elements)
+- `"notas"` → `null` — explicit null value (the field exists but has
+  no value)
+
+::: {.callout-note}
+**Note** — In `JSON`, the difference between `"122"` (string) and `122`
+(number) is semantic, not merely a matter of format. A system that
+expects a number and receives a string may fail or behave incorrectly.
+Dates and times are always strings in `JSON` (there is no native `date`
+type) — the normalised representation is `ISO 8601`:
+`"2025-11-14T09:30:00+00:00"`.
+:::
+
+### `JSON` vs `XML` in a clinical context
+
+`XML` — Extensible Markup Language — was the dominant format in the
+`APIs` of the previous generation (Web Services `SOAP`, HL7 v3 `CDA`).
+A direct comparison illustrates the practical differences:
+
+```xml
+<!-- XML — clinical observation -->
+<observacao>
+  <id>OBS-001</id>
+  <codigo>8480-6</codigo>
+  <designacao>Tensão arterial sistólica</designacao>
+  <valor tipo="numero">122</valor>
+  <unidade>mmHg</unidade>
+  <critico tipo="booleano">false</critico>
+</observacao>
+```
+
+```json
+{
+  "id": "OBS-001",
+  "codigo": "8480-6",
+  "designacao": "Tensão arterial sistólica",
+  "valor": 122,
+  "unidade": "mmHg",
+  "critico": false
+}
+```
+
+| Characteristic | `XML` | `JSON` |
+|----------------|-------|--------|
+| Structure | Opening and closing tags per field | Key–value pair |
+| Verbosity | Moderate — repeated tags | Low — compact structure |
+| Native data types | No (everything is text; types via attribute or schema) | Yes (string, number, boolean, null, array, object) |
+| Arrays | Repeated element without explicit marker | Explicit `[ ]` |
+| Support in modern languages | Partial (manual parsing or library) | Universal (`JSON.parse` / equivalent) |
+| Current use in healthcare | HL7 v3 CDA, DICOM SR (legacy) | FHIR, modern REST APIs |
+
+: JSON vs XML comparison in the context of clinical APIs [@ECMA404]. {#tbl-json-xml}
+
+### A complete clinical resource in `JSON`
+
+The following example represents a patient conforming to the FHIR model,
+in `JSON`, to illustrate how a real clinical resource is structured:
+
+```json
+{
+  "resourceType": "Patient",
+  "id": "P-12345",
+  "meta": {
+    "versionId": "3",
+    "lastUpdated": "2025-11-14T08:00:00+00:00"
+  },
+  "identifier": [
+    {
+      "system": "https://www.sns.gov.pt/utente",
+      "value": "123456789"
+    }
+  ],
+  "name": [
+    {
+      "use": "official",
+      "family": "Silva",
+      "given": ["Ana", "Maria"]
+    }
+  ],
+  "gender": "female",
+  "birthDate": "1978-04-22",
+  "address": [
+    {
+      "line": ["Rua do Comércio, 45"],
+      "city": "Vila Real",
+      "postalCode": "5000-678",
+      "country": "PT"
+    }
+  ],
+  "telecom": [
+    { "system": "phone", "value": "+351 259 123 456" }
+  ]
+}
+```
+
+Each field has a precise role:
+
+- `"resourceType"` — identifies the FHIR resource type; always present
+- `"id"` — the system ID: a technical identifier assigned by the server;
+  it is what appears in the URL `/Patient/P-12345`
+- `"meta"` — resource metadata: version (`versionId`) and last update
+  (`lastUpdated`)
+- `"identifier"` — array of clinical identifiers: the NHS patient number;
+  may contain several (record number, NIF, etc.)
+- `"name"`, `"address"`, `"telecom"` — arrays because a person may have
+  multiple names, addresses and contacts
+
+Note the distinction between `"id"` (system ID) and `"identifier"`
+(clinical ID). The `"id"` is technical and internal to the server — it
+may change if data are migrated to another system. The NHS patient number
+in `"identifier"` is the real-world identifier, independent of any
+technology, recognised and used by clinicians in day-to-day practice.
+
+## *Search Parameters* and *Chaining* — Composite Searches {#sec-rest-search}
+
+### Basic search parameters
+
+In `REST`, resource searches are performed through **search parameters**
+(*search parameters*) appended to the `URL` after the `?` symbol. Each
+parameter is a `name=value` pair. Multiple parameters are combined with
+`&`, forming a logical AND [@RFC3986; @RichardsonRuby2007].
+
+The general structure is:
+
+```
+GET /[ResourceType]?[parameter1]=[value1]&[parameter2]=[value2]
+```
+
+Progressive examples with clinical resources:
+
+```
+# Single parameter: observations for a patient
+GET /Observation?patient=P-12345
+
+# Two parameters (AND): observations for a patient within a period
+GET /Observation?patient=P-12345&date=ge2025-01-01
+
+# Three parameters: laboratory observations for a patient in 2025
+GET /Observation?patient=P-12345&date=ge2025-01-01&category=laboratory
+
+# Pagination: first 10 results, sorted by date
+GET /Observation?patient=P-12345&_count=10&_sort=-date
+```
+
+Parameters beginning with `_` (underscore) are control parameters,
+common to all resource types:
+
+| Control parameter | Function |
+|-------------------|----------|
+| `_count` | Maximum number of results per page |
+| `_sort` | Sort field (prefix `-` for descending) |
+| `_format` | Response format (`json`, `xml`) |
+| `_include` | Include referenced resources in the response |
+| `_summary` | Return only essential fields (summary) |
+
+: Common REST control parameters (used in FHIR) [@RFC9110]. {#tbl-control-params}
+
+### Search modifiers
+
+Beyond simple equality, search parameters support **modifiers** that
+enable more expressive queries. In FHIR, numeric and date comparison
+modifiers use two-character prefixes:
+
+| Modifier | Meaning | Example |
+|----------|---------|---------|
+| `eq` (omissible) | Equal to | `?valor=120` |
+| `ne` | Not equal to | `?status=ne cancelled` |
+| `gt` | Greater than | `?date=gt2025-01-01` |
+| `lt` | Less than | `?date=lt2025-12-31` |
+| `ge` | Greater than or equal | `?date=ge2025-01-01` |
+| `le` | Less than or equal | `?date=le2025-12-31` |
+| `:contains` | String contains | `?name:contains=silva` |
+| `:exact` | Exact match | `?name:exact=Ana Silva` |
+
+: REST/FHIR search modifiers [@RFC3986]. {#tbl-search-modifiers}
+
+Combined examples in a hospital context:
+
+```
+# Laboratory reports between two dates
+GET /DiagnosticReport?patient=P-12345
+  &date=ge2025-01-01
+  &date=le2025-12-31
+  &category=LAB
+
+# Patients whose family name contains "silva"
+GET /Patient?family:contains=silva
+
+# Observations with systolic blood pressure above 140
+GET /Observation?code=8480-6&value-quantity=gt140
+```
+
+### *Chaining* — chained searches
+
+*Chaining* is an advanced search capability that allows filtering a
+resource type based on attributes of a referenced resource — without
+requiring multiple sequential `HTTP` requests [@RichardsonRuby2007].
+
+The notation uses a full stop (`.`) as the separator between the
+reference and the attribute of the referenced resource:
+
+```
+GET /[ResourceType]?[reference-field].[referenced-attribute]=[value]
+```
+
+To illustrate the concept, consider a clinical scenario: retrieve all
+observations whose patient has a particular NHS number.
+
+**Without *chaining*** (two sequential requests):
+
+```
+# Step 1: find the patient ID by NHS number
+GET /Patient?identifier=123456789
+→ returns { "id": "P-12345", ... }
+
+# Step 2: use the obtained ID to search for observations
+GET /Observation?patient=P-12345
+```
+
+**With *chaining*** (a single request):
+
+```
+GET /Observation?patient.identifier=123456789
+```
+
+The server resolves the reference internally: it traverses the
+observations, navigates to the patient referenced in each one, checks the
+identifier, and returns only the observations whose patient holds that
+NHS number.
+
+```{=html}
+<!--
+  Diagram: chaining — internal reference resolution.
+  Teal palette.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="200" rx="10" fill="#f8fbfc"/>
+
+  <!-- Título -->
+  <text x="340" y="22" text-anchor="middle" font-size="12"
+        font-weight="bold" fill="#0a3d4a">
+    Chaining — GET /Observation?patient.identifier=123456789
+  </text>
+
+  <!-- Observation (esq) -->
+  <rect x="20" y="40" width="150" height="90" rx="8" fill="#0a3d4a"/>
+  <text x="95" y="62" text-anchor="middle" font-size="11"
+        font-weight="bold" fill="#fff">Observation</text>
+  <text x="95" y="80" text-anchor="middle" font-size="9" fill="#e2f4f3">id: OBS-001</text>
+  <text x="95" y="95" text-anchor="middle" font-size="9" fill="#e2f4f3">code: 8480-6</text>
+  <text x="95" y="110" text-anchor="middle" font-size="9"
+        fill="#1ab3a6">patient → P-12345</text>
+
+  <!-- Arrow: navigate reference -->
+  <line x1="172" y1="95" x2="258" y2="95" stroke="#0d7c8c" stroke-width="2"
+        marker-end="url(#ch1)"/>
+  <text x="215" y="87" text-anchor="middle" font-size="9"
+        fill="#0d7c8c">navigate ref.</text>
+
+  <!-- Patient (centro) -->
+  <rect x="260" y="40" width="160" height="90" rx="8" fill="#0d7c8c"/>
+  <text x="340" y="62" text-anchor="middle" font-size="11"
+        font-weight="bold" fill="#fff">Patient</text>
+  <text x="340" y="80" text-anchor="middle" font-size="9" fill="#e2f4f3">id: P-12345</text>
+  <text x="340" y="95" text-anchor="middle" font-size="9"
+        fill="#1ab3a6">identifier: 123456789</text>
+  <text x="340" y="112" text-anchor="middle" font-size="9"
+        fill="#e2f4f3">name: Ana Silva</text>
+
+  <!-- Arrow: check criterion -->
+  <line x1="422" y1="95" x2="500" y2="95" stroke="#1ab3a6" stroke-width="2"
+        marker-end="url(#ch2)"/>
+  <text x="461" y="87" text-anchor="middle" font-size="9"
+        fill="#1ab3a6">check criterion</text>
+
+  <!-- Resultado (dir) -->
+  <rect x="502" y="50" width="158" height="70" rx="8" fill="#1ab3a6"/>
+  <text x="581" y="72" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">OBS-001 included</text>
+  <text x="581" y="90" text-anchor="middle" font-size="9" fill="#0a3d4a">identifier = 123456789</text>
+  <text x="581" y="107" text-anchor="middle" font-size="9" fill="#0a3d4a">condition satisfied</text>
+
+  <!-- Notes at the bottom -->
+  <rect x="20" y="144" width="640" height="30" rx="5"
+        fill="#e2f4f3" stroke="#0d7c8c" stroke-width="1"/>
+  <text x="340" y="164" text-anchor="middle" font-size="9" fill="#0a3d4a">
+    Without chaining: 2 sequential HTTP requests.
+    With chaining: 1 request — the server resolves the reference internally.
+  </text>
+
+  <text x="340" y="192" text-anchor="middle" font-size="14" fill="#64748b">
+    Figure 7.3 — Chaining: reference navigation in a single query
+  </text>
+
+  <defs>
+    <marker id="ch1" markerWidth="6" markerHeight="6"
+            refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"/></marker>
+    <marker id="ch2" markerWidth="6" markerHeight="6"
+            refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"/></marker>
+  </defs>
+</svg>
+</div>
+```
+
+### *Chaining* examples in a hospital context
+
+```
+# Observations for female patients
+GET /Observation?patient.gender=female
+
+# DiagnosticReports for patients born after 1990
+GET /DiagnosticReport?patient.birthdate=gt1990-01-01
+
+# Observations performed by a clinician from a specific department
+GET /Observation?performer.organization.name=Laboratório+Central
+
+# Double chaining: observations for patients with address in Vila Real
+GET /Observation?patient.address-city=Vila+Real
+```
+
+*Chaining* can be nested across multiple levels (separated by additional
+full stops), although the supported depth varies across implementations.
+The principle remains: each full stop traverses a reference between
+resources.
+
+::: {.callout-note}
+**Note** — *Chaining* significantly increases search expressiveness, but
+carries a performance cost: the server must resolve references internally,
+which may entail multiple database operations. In production FHIR servers,
+deep *chaining* queries are frequently subject to timeout or complexity
+limits. When implementing clients, simple *chaining* (one level) should
+be preferred wherever possible.
+:::
+
+## Proposed Exercises {#sec-rest-exercicios .unnumbered}
+
+**1.** Consider the following statements about `REST`:
+(a) "`REST` is a communication protocol";
+(b) "A `RESTful` system must use `JSON`";
+(c) "The *stateless* constraint means that the server does not store
+persistent data".
+Identify which statements are false and justify your answer.
+
+**2.** A server returns status code `403` in response to
+`GET /Patient/P-12345`. Another server returns `404` for the same
+request. What is the semantic difference between the two responses?
+What implication does each have for the client?
+
+**3.** A telemedicine system needs to retrieve, for a patient identified
+by their NHS number, all clinical observations recorded in the past year.
+Write the sequence of `HTTP` requests required:
+(a) without using *chaining* (two requests);
+(b) with *chaining* (a single request).
+
+**4.** Analyse the following `JSON` fragment and identify:
+(a) the number of top-level key–value pairs;
+(b) the fields with an `array` value;
+(c) the field with a `boolean` value;
+(d) the field with a `null` value.
+
+```json
+{
+  "resourceType": "Observation",
+  "id": "OBS-789",
+  "status": "final",
+  "code": {
+    "coding": [
+      { "system": "http://loinc.org", "code": "2345-7" }
+    ],
+    "text": "Glicemia em jejum"
+  },
+  "valueQuantity": { "value": 5.6, "unit": "mmol/L" },
+  "interpretation": null,
+  "issued": "2025-11-14T10:00:00+00:00",
+  "performer": ["Laboratório Central"],
+  "note": []
+}
+```
+
+**5.** The *endpoint* `GET /Patient?family:contains=ferreira&address-city=Braga`
+returns a list of patients. Explain in plain language the search criterion
+expressed by this request. Then reformulate the request to also return
+only male patients, sorted by date of birth in descending order, with
+pagination of 20 results per page.
+
+**6.** A hospital wishes to export to a statistical analysis system all
+systolic blood pressure observations (LOINC code `8480-6`) recorded
+between 1 January and 31 March 2025 for patients aged over 65. Describe
+the `REST` search strategy for obtaining these data, identifying the
+search parameters and any use of *chaining*.

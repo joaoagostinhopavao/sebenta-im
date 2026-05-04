@@ -1,0 +1,38 @@
+---
+lang: en-GB
+---
+
+# Preface {.unnumbered}
+
+```{=html}
+<div class="hero">
+  <div class="hero-badge">UTAD · 2025/2026</div>
+  <h1>Medical Informatics</h1>
+  <h2>Course Study Guide</h2>
+  <p>University of Trás-os-Montes e Alto Douro</p>
+</div>
+```
+
+This textbook is a self-contained study resource for the **Medical
+Informatics** course, covering the main topics in health information
+systems, interoperability standards and clinical integration
+architectures.
+
+## Organisation {.unnumbered}
+
+The textbook is organised into six thematic blocks:
+
+1. **Foundations and Context** — medical informatics, hospital information
+   systems and interoperability
+2. **DICOM and PACS** — medical imaging and technical integration
+3. **From HL7 to FHIR** — messages and modern APIs
+4. **IHE** — integration profiles and operationalisation
+5. **Privacy and Governance** — structural requirements and security
+6. **Integrated Architecture** — final integrated view
+
+## How to use this textbook {.unnumbered}
+
+Concepts are presented with academic rigour and illustrated with concrete
+examples drawn from real systems used in the Portuguese and international
+healthcare system. The exercises at the end of each chapter are designed
+for independent consolidation of the material.

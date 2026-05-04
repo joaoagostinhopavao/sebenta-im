@@ -1,0 +1,615 @@
+---
+title: "Foundations of Medical Informatics"
+lang: en-GB
+---
+
+## What is Medical Informatics {#sec-mi-definition}
+
+### Definition and disciplinary scope
+
+Medical Informatics is a scientific discipline at the intersection of
+three knowledge domains: Information Science, Computer Science and
+Health Science [@Haux2006]. Its object of study focuses on how
+information is generated, organised, stored, retrieved and used in the
+clinical and organisational context of healthcare.
+
+There is a frequent tendency to reduce Medical Informatics to the
+mere application of computing tools in healthcare. This perspective
+is, however, reductive: it is a discipline that integrates technology,
+information management and clinical practice in an inseparable way,
+requiring simultaneous competence in all three constituent domains
+[@Collen2015].
+
+### The three foundational pillars
+
+Three structural pillars underpin the discipline:
+
+**Information** — encompasses models for representing clinical
+knowledge, data semantics and its formal structuring. The quality of
+clinical information is decisive for patient safety and continuity of
+care.
+
+**Computing** — comprises information systems, network architectures
+and computational models that support the processing and communication
+of clinical data. This pillar provides the technical means without
+which information sharing between systems would be impossible.
+
+**Health** — encompasses clinical practice, care processes and the
+ethical and legal responsibilities arising from the use of information
+systems in the context of patient care. No technological solution can
+be designed without a solid understanding of the clinical domain it
+aims to support.
+
+The following figure illustrates the position of Medical Informatics
+as the intersection area of the three domains:
+
+```{=html}
+<!--
+  Venn diagram — three pillars of Medical Informatics
+  Static SVG, teal palette.
+-->
+<div style="display:flex;justify-content:center;margin:2rem 0;">
+<svg viewBox="0 0 420 360" width="380" height="330"
+     xmlns="http://www.w3.org/2000/svg"
+     aria-label="Venn diagram — three pillars of Medical Informatics">
+  <defs>
+    <radialGradient id="gInfo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0d7c8c" stop-opacity="0.50"/>
+      <stop offset="100%" stop-color="#0d7c8c" stop-opacity="0.15"/>
+    </radialGradient>
+    <radialGradient id="gComp" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1ab3a6" stop-opacity="0.50"/>
+      <stop offset="100%" stop-color="#1ab3a6" stop-opacity="0.15"/>
+    </radialGradient>
+    <radialGradient id="gSau" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0a5c6b" stop-opacity="0.50"/>
+      <stop offset="100%" stop-color="#0a5c6b" stop-opacity="0.15"/>
+    </radialGradient>
+  </defs>
+  <circle cx="168" cy="148" r="108" fill="url(#gInfo)" stroke="#0d7c8c" stroke-width="1.6"/>
+  <circle cx="252" cy="148" r="108" fill="url(#gComp)" stroke="#1ab3a6" stroke-width="1.6"/>
+  <circle cx="210" cy="220" r="108" fill="url(#gSau)" stroke="#0a5c6b" stroke-width="1.6"/>
+  <text x="112" y="96" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Information</text>
+  <text x="112" y="111" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Science</text>
+  <text x="308" y="96" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Computer</text>
+  <text x="308" y="111" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Science</text>
+  <text x="210" y="322" text-anchor="middle" font-size="11.5" font-weight="600"
+        fill="#0a3d4a" font-family="system-ui,sans-serif">Health Science</text>
+  <text x="210" y="192" text-anchor="middle" font-size="13" font-weight="700"
+        fill="#fff" font-family="system-ui,sans-serif">Medical</text>
+  <text x="210" y="208" text-anchor="middle" font-size="13" font-weight="700"
+        fill="#fff" font-family="system-ui,sans-serif">Informatics</text>
+</svg>
+</div>
+```
+
+### Differences from conventional informatics
+
+Medical Informatics differs from general-purpose informatics through
+a set of characteristics that impose additional requirements for
+rigour, safety and accountability:
+
+- **Sensitive and critical data** — clinical data are, by nature,
+  special-category personal data subject to specific legal frameworks
+  (notably the General Data Protection Regulation and sectoral health
+  legislation).
+
+- **Direct clinical impact** — errors in recording, transmitting or
+  interpreting clinical information can have direct consequences for
+  patient health and safety.
+
+- **Demanding regulation** — health information systems are subject to
+  technical standards and legal requirements with no parallel in other
+  sectors.
+
+- **High organisational complexity** — hospitals and health centres are
+  highly complex, multidisciplinary, multi-service organisations, which
+  poses particular challenges for the integration and governance of
+  information systems.
+
+## Historical Evolution {#sec-evolution}
+
+### From hospital administration to digital health
+
+The history of Medical Informatics can be traced across four major
+periods, each marked by a technological transformation that profoundly
+altered how clinical information is managed.
+
+**1960s–70s: first hospital administrative systems.**
+The first computing systems introduced in hospitals were essentially
+administrative in scope: admission management, bed control and billing
+processing. The clinical record remained, almost entirely, on paper.
+
+**1980s–90s: clinical computerisation and digital imaging.**
+This period was marked by the progressive introduction of systems
+supporting clinical activity and, particularly significantly, by the
+development of the DICOM standard (*Digital Imaging and Communications
+in Medicine*), which normalised the storage and transmission of digital
+medical images, establishing the technological foundation for modern
+PACS systems.
+
+**2000s: HL7 integration and electronic records.**
+The first decade of the century saw the widespread adoption of electronic
+clinical records and the adoption of the HL7 (*Health Level Seven*)
+standard as the integration language between hospital systems.
+Technical interoperability between different applications became an
+operational requirement, not merely an aspiration.
+
+**Today: FHIR APIs, interoperability and digital health.**
+The current paradigm rests on the FHIR standard (*Fast Healthcare
+Interoperability Resources*), which replaces the classical HL7 messaging
+model with a REST API architecture, making integration more agile and
+aligned with modern web standards. There is simultaneously growing
+pressure to create European-scale health data spaces, materialised in
+the EHDS regulation [@EHDS2025].
+
+The following timeline summarises the four key milestones:
+
+```{=html}
+<!--
+  Horizontal timeline — historical evolution of Medical Informatics.
+  Four stages with teal accent. Responsive via flexbox.
+-->
+<div style="overflow-x:auto;margin:2rem 0;">
+<div style="display:flex;align-items:flex-start;min-width:560px;
+            padding:0 1rem;gap:0;position:relative;">
+  <div style="position:absolute;top:28px;left:calc(12.5% + 20px);
+              right:calc(12.5% + 20px);height:3px;
+              background:linear-gradient(90deg,#0d7c8c,#1ab3a6);
+              z-index:0;"></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#0d7c8c;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(13,124,140,0.35);">1</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">1960s–70s</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">Hospital administrative systems</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#0b8f9e;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(13,124,140,0.30);">2</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">1980s–90s</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">Clinical computerisation and DICOM</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#0fa2ae;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(26,179,166,0.30);">3</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">2000s</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">HL7 integration and electronic records</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;
+              position:relative;z-index:1;">
+    <div style="width:56px;height:56px;border-radius:50%;
+                background:#1ab3a6;color:#fff;display:flex;
+                align-items:center;justify-content:center;
+                font-size:1.3rem;font-weight:700;
+                box-shadow:0 2px 8px rgba(26,179,166,0.35);">4</div>
+    <div style="margin-top:.7rem;text-align:center;font-size:.82rem;
+                font-weight:700;color:#0a3d4a;">Today</div>
+    <div style="font-size:.75rem;color:#444;text-align:center;
+                margin-top:.3rem;max-width:90px;">FHIR APIs and digital health</div>
+  </div>
+</div>
+</div>
+```
+
+::: {.callout-note}
+**To integrate is to connect. To interoperate is to understand.**
+The distinction between technical integration and semantic
+interoperability is one of the central conceptual axes of this course.
+:::
+
+## The Hospital as a Sociotechnical System {#sec-sociotechnical}
+
+### Technology, people and process dimensions
+
+The modern hospital is not simply a healthcare organisation — it is a
+complex sociotechnical system in which technology, people and processes
+articulate in an inseparable way. No information system creates value
+if it is designed or implemented in isolation, without considering the
+other two vertices of this triangle.
+
+The **technological** dimension encompasses the information systems
+themselves, the network infrastructure that connects them and the
+medical devices that generate and consume clinical data. Technology is
+a necessary but not sufficient condition for improving healthcare.
+
+The **people** dimension comprises health professionals (physicians,
+nurses, technicians), hospital managers and administrators, and the
+patients and their carers. People produce, validate and use clinical
+information; they also bear the consequences of any failures in the
+systems.
+
+The **process** dimension encompasses the clinical workflows that
+structure care activity, protocols and best-practice guidelines, and
+the inter-service coordination mechanisms. The quality of processes is
+frequently the determining factor for the success or failure of a
+hospital computerisation project.
+
+### Hospital complexity
+
+The particular complexity of hospitals results from three structural
+characteristics:
+
+- **Multidisciplinary nature** — different clinical specialties, each
+  with their own language, processes and organisational culture, coexist
+  within the same institution and share information about the same
+  patients.
+
+- **Multi-service nature** — each hospital service holds a significant
+  degree of functional and organisational autonomy, which complicates
+  the adoption of uniform solutions and centralised information
+  governance.
+
+- **Multiplicity of systems** — a medium-sized hospital typically runs
+  dozens of specialist information systems (central hospital system,
+  medical imaging system, laboratory system, operating theatre system,
+  among others), each with its own data models, interfaces and vendors.
+
+### Clinical versus administrative data
+
+In the hospital context, two broad types of data can be distinguished,
+with different natures and requirements:
+
+| Type | Examples | Requirements |
+|------|----------|-------------|
+| **Clinical** | Diagnoses, prescriptions, test results, clinical observations | Precision, confidentiality, temporal integrity |
+| **Administrative** | Patient identification, scheduling, billing, episodes | Consistency, uniqueness, availability |
+
+: Types of data in a hospital context {#tbl-data}
+
+The distinct nature of these two data types implies equally distinct
+requirements for modelling, protection and governance. Clinical data
+demand a degree of semantic precision that administrative data alone
+do not require; the latter are frequently the linking key that allows
+clinical information dispersed across multiple systems to be aggregated.
+
+## Health Information Systems {#sec-his-general}
+
+### Definition of an information system
+
+An information system is defined as an organised set of people,
+processes and technology that collects, stores, processes and
+distributes information with the objective of supporting decision-making
+in an organisation [@Haux2006]. This tripartite definition — input,
+processing, output — applies both to generic information systems and
+to systems specifically designed for the healthcare context.
+
+In the hospital domain, the input corresponds to the collection of
+clinical and administrative data generated throughout the patient's
+journey; processing involves storing, validating and structuring those
+data; and the output materialises as information available to support
+clinical, managerial and statistical decisions.
+
+### The data–information–knowledge chain
+
+Three levels can be distinguished in the hierarchy of clinical
+information, with direct implications for the design and evaluation of
+systems:
+
+**Data** are isolated records without context: a numeric value, a date,
+a code. On their own, data have no operational clinical meaning.
+
+**Information** results from contextualising data: a numeric value
+associated with a physiological parameter, a patient and a point in
+time becomes information with clinical utility.
+
+**Knowledge** emerges when information is interpreted in the light of
+clinical models and accumulated experience, enabling a diagnostic or
+therapeutic decision to be justified.
+
+Medical Informatics is not merely concerned with storing data, but with
+transforming them into knowledge useful for clinical practice.
+
+The following diagram illustrates this progression using a blood glucose
+record as an example:
+
+```{=html}
+<!--
+  Data → Information → Knowledge chain
+  Concrete example: blood glucose record.
+-->
+<div style="display:flex;flex-wrap:wrap;gap:0;
+            align-items:stretch;margin:2rem 0;justify-content:center;">
+
+  <!-- DATA -->
+  <div style="flex:1;min-width:150px;max-width:200px;
+              background:#f0fafa;border:2px solid #0d7c8c;
+              border-radius:8px 0 0 8px;padding:1.2rem 1rem;
+              display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;
+                text-transform:uppercase;color:#0d7c8c;margin-bottom:.5rem;">
+      Data
+    </div>
+    <div style="font-size:1.6rem;font-weight:800;color:#0a3d4a;">
+      210
+    </div>
+    <div style="font-size:.75rem;color:#555;margin-top:.3rem;
+                text-align:center;">
+      Isolated numeric value.<br>No context.
+    </div>
+  </div>
+
+  <!-- arrow 1 -->
+  <div style="display:flex;align-items:center;padding:0 .3rem;">
+    <svg width="32" height="24" viewBox="0 0 32 24"
+         xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 12 H26 M20 5 L28 12 L20 19"
+            stroke="#0d7c8c" stroke-width="2.5"
+            fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- INFORMATION -->
+  <div style="flex:1;min-width:160px;max-width:210px;
+              background:#e6f7f6;border:2px solid #1ab3a6;
+              border-radius:0;padding:1.2rem 1rem;
+              display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;
+                text-transform:uppercase;color:#0d7c8c;margin-bottom:.5rem;">
+      Information
+    </div>
+    <div style="font-size:.9rem;font-weight:700;color:#0a3d4a;
+                text-align:center;">
+      Glycaemia = 210 mg/dL<br>
+      <span style="font-weight:400;font-size:.8rem;">
+        John Silva · 14:32 · fasting
+      </span>
+    </div>
+    <div style="font-size:.75rem;color:#555;margin-top:.5rem;
+                text-align:center;">
+      Contextualised data:<br>who, what, when.
+    </div>
+  </div>
+
+  <!-- arrow 2 -->
+  <div style="display:flex;align-items:center;padding:0 .3rem;">
+    <svg width="32" height="24" viewBox="0 0 32 24"
+         xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 12 H26 M20 5 L28 12 L20 19"
+            stroke="#1ab3a6" stroke-width="2.5"
+            fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- KNOWLEDGE -->
+  <div style="flex:1;min-width:160px;max-width:220px;
+              background:#d6f2ef;border:2px solid #0a5c6b;
+              border-radius:0 8px 8px 0;padding:1.2rem 1rem;
+              display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;
+                text-transform:uppercase;color:#0a5c6b;margin-bottom:.5rem;">
+      Knowledge
+    </div>
+    <div style="font-size:.85rem;font-weight:700;color:#0a3d4a;
+                text-align:center;">
+      Fasting hyperglycaemia.<br>
+      <span style="font-weight:400;font-size:.8rem;">
+        ADA diagnostic criterion: ≥ 126 mg/dL.<br>
+        Evaluate T2DM.
+      </span>
+    </div>
+    <div style="font-size:.75rem;color:#555;margin-top:.5rem;
+                text-align:center;">
+      Decision grounded<br>in clinical models.
+    </div>
+  </div>
+
+</div>
+```
+
+### Organisational flows and the structural role of IS
+
+Clinical information does not exist in isolated silos: it circulates
+continuously between services, between professionals and between
+institutions. From this circulation depends the coordination between
+the different actors in the health system; from coordination depends
+continuity of care; and from continuity of care depends, ultimately,
+patient safety.
+
+This establishes a logical chain with direct implications for the
+governance of hospital information systems:
+
+> *No information systems → no coordination → no continuity of care →
+> increased clinical risk.*
+
+This chain demonstrates that information systems are not, in modern
+hospitals, a technological convenience: they are critical infrastructure.
+Their unavailability or degradation has direct effects on the quality
+and safety of care provided.
+
+## Interoperability {#sec-interop}
+
+### Three levels of interoperability
+
+Interoperability is the ability of different systems to exchange
+information and to use that information effectively [@BensonGrieve2021].
+In the healthcare context, three complementary levels can be identified:
+
+**Technical interoperability** — systems can communicate at the level
+of transport, format and protocol. It is a necessary but not sufficient
+condition: it guarantees that data reach the destination, not that they
+are correctly interpreted.
+
+**Semantic interoperability** — systems share the meaning of the data
+exchanged. For two systems to "understand each other", they must use
+controlled vocabularies and standardised terminologies (such as
+SNOMED CT, LOINC or ICD), so that the same clinical concept has the
+same meaning in both systems.
+
+**Organisational interoperability** — processes, policies and the
+legal framework are compatible between organisations wishing to share
+information. This level is frequently the most difficult to achieve,
+as it requires governance agreements that go beyond the purely technical
+dimension.
+
+The following diagram positions the three levels hierarchically,
+showing that each higher level presupposes the one below:
+
+```{=html}
+<!--
+  Interoperability pyramid — three stacked levels.
+  Technical (base) → Semantic → Organisational (top).
+-->
+<div style="display:flex;flex-direction:column;align-items:center;
+            margin:2rem 0;gap:4px;">
+
+  <!-- Level 3 — Organisational (top) -->
+  <div style="width:260px;background:#0a3d4a;color:#fff;
+              border-radius:6px;padding:.8rem 1rem;text-align:center;
+              box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;
+                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;">
+      Level 3
+    </div>
+    <div style="font-size:.95rem;font-weight:700;">Organisational</div>
+    <div style="font-size:.75rem;opacity:.85;margin-top:.2rem;">
+      Policies, governance, legal framework
+    </div>
+  </div>
+
+  <div style="color:#0a5c6b;font-size:1.2rem;line-height:1;">▼</div>
+
+  <!-- Level 2 — Semantic -->
+  <div style="width:340px;background:#0d7c8c;color:#fff;
+              border-radius:6px;padding:.8rem 1rem;text-align:center;
+              box-shadow:0 2px 8px rgba(13,124,140,0.20);">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;
+                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;">
+      Level 2
+    </div>
+    <div style="font-size:.95rem;font-weight:700;">Semantic</div>
+    <div style="font-size:.75rem;opacity:.85;margin-top:.2rem;">
+      Controlled vocabularies, standardised terminologies
+    </div>
+  </div>
+
+  <div style="color:#0d7c8c;font-size:1.2rem;line-height:1;">▼</div>
+
+  <!-- Level 1 — Technical (base) -->
+  <div style="width:420px;background:#1ab3a6;color:#fff;
+              border-radius:6px;padding:.8rem 1rem;text-align:center;
+              box-shadow:0 2px 8px rgba(26,179,166,0.20);">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;
+                text-transform:uppercase;opacity:.75;margin-bottom:.25rem;">
+      Level 1
+    </div>
+    <div style="font-size:.95rem;font-weight:700;">Technical</div>
+    <div style="font-size:.75rem;opacity:.85;margin-top:.2rem;">
+      Transport, format, protocol (HL7, FHIR, TCP/IP)
+    </div>
+  </div>
+
+</div>
+```
+
+::: {.callout-tip}
+**Illustrative example**
+
+Two hospitals can exchange messages (technical interoperability).
+One records the diagnosis as "Arterial hypertension"; the other uses
+the abbreviation "HTN". The systems communicate — but do they
+understand each other? No, in the absence of shared standardised
+terminologies. This example illustrates the difference between
+technical and semantic interoperability.
+:::
+
+### The problem of information fragmentation
+
+One of the main obstacles to interoperability in current health
+systems is the fragmentation of clinical information: the same patient
+may have records distributed across multiple systems, in multiple
+institutions, without any effective aggregation and sharing mechanism.
+
+The practical consequences of this fragmentation are well documented
+[@Haggerty2003]:
+
+- unnecessary repetition of examinations due to unavailability of
+  previous results;
+- delays in clinical decision-making due to unavailability of relevant
+  information at the point of care;
+- increased clinical risk associated with medication errors, unrecorded
+  allergies or contradictory diagnoses across institutions.
+
+### Current challenges
+
+The main challenges facing Medical Informatics today can be grouped
+into four vectors:
+
+- **Fragmentation** — clinical information remains dispersed across
+  heterogeneous systems, without effective interoperability between
+  them.
+
+- **Legacy systems** — many hospitals operate with systems installed
+  decades ago, with monolithic architectures and limited capacity to
+  integrate with modern technologies.
+
+- **Security and data protection** — the increasing digitalisation of
+  clinical data expands the attack surface and requires continuous
+  investment in cybersecurity and regulatory compliance.
+
+- **Technological sustainability** — the accelerating evolution of
+  information technologies imposes update cycles that health
+  organisations, with limited resources, struggle to keep pace with.
+
+## Summary {#sec-summary-01}
+
+This chapter established the conceptual foundations on which Medical
+Informatics rests as a scientific discipline. The concepts introduced —
+sociotechnical system, data–information–knowledge chain, levels of
+interoperability — will be revisited and deepened as technical standards
+and integration architectures are introduced.
+
+The following key points are retained:
+
+1. Medical Informatics is an intersection discipline that cannot be
+   reduced to any one of its three constituent domains in isolation.
+2. The hospital is a sociotechnical system: technology only produces
+   value when aligned with clinical processes and organisational
+   practices.
+3. Interoperability has three levels — technical, semantic and
+   organisational — and the absence of any one of them compromises
+   continuity of care.
+4. The fragmentation of clinical information is the main obstacle to
+   health system integration and has direct consequences for patient
+   safety.
+
+## Consolidation exercises {.unnumbered}
+
+1. For each of the three pillars of Medical Informatics (Information,
+   Computing, Health), identify a concrete problem that cannot be
+   solved without simultaneous knowledge of the other two pillars.
+
+2. A hospital decides to replace its clinical record system with a new
+   application. What factors, beyond the technical, should be
+   considered in this process? Structure the answer using the
+   sociotechnical system model.
+
+3. Explain, with a concrete example, why technical interoperability is
+   a necessary but not sufficient condition for continuity of care
+   between institutions.
+
+4. Considering the logical chain *no IS → no coordination → no
+   continuity → increased clinical risk*, identify a real or plausible
+   scenario in which a hospital information system failure had or could
+   have had direct clinical consequences.
