@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-PT" xml:lang="pt-PT"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Arquitectura Web e REST – Informática Médica</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../referencias.html" rel="next">
+<link href="../capitulos/cap06.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a023c9ade86a60361e96e3e3f11bc54.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-61bc4ac84974e0785b3107ee93e74bfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bc9f1d3aef906c45e091843ae87821a0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../assets/css/custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Arquitectura Web e REST</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Informática Médica</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos da Informática Médica</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas de Informação Hospitalares e Registos Electrónicos de Saúde</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologias e Interoperabilidade Semântica</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM como Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Serviços DICOM e Arquitectura PACS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Modelo de Mensagens e Limitações</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap07.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Arquitectura Web e REST</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../referencias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#sec-rest-evolucao" id="toc-sec-rest-evolucao" class="nav-link active" data-scroll-target="#sec-rest-evolucao"><span class="header-section-number">7.1</span> Da Mensagem ao Recurso — Evolução dos Modelos de Comunicação em Saúde</a>
+  <ul class="collapse">
+  <li><a href="#o-modelo-de-mensagens-e-os-seus-limites" id="toc-o-modelo-de-mensagens-e-os-seus-limites" class="nav-link" data-scroll-target="#o-modelo-de-mensagens-e-os-seus-limites"><span class="header-section-number">7.1.1</span> O modelo de mensagens e os seus limites</a></li>
+  <li><a href="#do-soapxml-ao-restjson" id="toc-do-soapxml-ao-restjson" class="nav-link" data-scroll-target="#do-soapxml-ao-restjson"><span class="header-section-number">7.1.2</span> Do <code>SOAP</code>/<code>XML</code> ao <code>REST</code>/<code>JSON</code></a></li>
+  <li><a href="#a-web-como-infraestrutura-universal" id="toc-a-web-como-infraestrutura-universal" class="nav-link" data-scroll-target="#a-web-como-infraestrutura-universal"><span class="header-section-number">7.1.3</span> A web como infraestrutura universal</a></li>
+  </ul></li>
+  <li><a href="#sec-rest-modelo" id="toc-sec-rest-modelo" class="nav-link" data-scroll-target="#sec-rest-modelo"><span class="header-section-number">7.2</span> O Modelo <code>REST</code> — Princípios, <em>Constraints</em> e <em>Stateless</em></a>
+  <ul class="collapse">
+  <li><a href="#o-que-é-o-rest" id="toc-o-que-é-o-rest" class="nav-link" data-scroll-target="#o-que-é-o-rest"><span class="header-section-number">7.2.1</span> O que é o <code>REST</code></a></li>
+  <li><a href="#as-seis-restrições-arquitecturais" id="toc-as-seis-restrições-arquitecturais" class="nav-link" data-scroll-target="#as-seis-restrições-arquitecturais"><span class="header-section-number">7.2.2</span> As seis restrições arquitecturais</a></li>
+  <li><a href="#stateless-o-princípio-central" id="toc-stateless-o-princípio-central" class="nav-link" data-scroll-target="#stateless-o-princípio-central"><span class="header-section-number">7.2.3</span> <em>Stateless</em> — o princípio central</a></li>
+  </ul></li>
+  <li><a href="#sec-rest-crud" id="toc-sec-rest-crud" class="nav-link" data-scroll-target="#sec-rest-crud"><span class="header-section-number">7.3</span> <code>CRUD</code> e os Métodos <code>HTTP</code></a>
+  <ul class="collapse">
+  <li><a href="#as-quatro-operações-fundamentais" id="toc-as-quatro-operações-fundamentais" class="nav-link" data-scroll-target="#as-quatro-operações-fundamentais"><span class="header-section-number">7.3.1</span> As quatro operações fundamentais</a></li>
+  <li><a href="#estrutura-de-um-pedido-e-resposta-http" id="toc-estrutura-de-um-pedido-e-resposta-http" class="nav-link" data-scroll-target="#estrutura-de-um-pedido-e-resposta-http"><span class="header-section-number">7.3.2</span> Estrutura de um pedido e resposta <code>HTTP</code></a></li>
+  <li><a href="#códigos-de-estado-http" id="toc-códigos-de-estado-http" class="nav-link" data-scroll-target="#códigos-de-estado-http"><span class="header-section-number">7.3.3</span> Códigos de estado <code>HTTP</code></a></li>
+  <li><a href="#exemplos-em-contexto-hospitalar" id="toc-exemplos-em-contexto-hospitalar" class="nav-link" data-scroll-target="#exemplos-em-contexto-hospitalar"><span class="header-section-number">7.3.4</span> Exemplos em contexto hospitalar</a></li>
+  </ul></li>
+  <li><a href="#sec-rest-endpoints" id="toc-sec-rest-endpoints" class="nav-link" data-scroll-target="#sec-rest-endpoints"><span class="header-section-number">7.4</span> <em>Endpoints</em> e URLs — Estrutura e Parâmetros de Pesquisa</a>
+  <ul class="collapse">
+  <li><a href="#o-que-é-um-endpoint" id="toc-o-que-é-um-endpoint" class="nav-link" data-scroll-target="#o-que-é-um-endpoint"><span class="header-section-number">7.4.1</span> O que é um <em>endpoint</em></a></li>
+  <li><a href="#anatomia-de-uma-url-rest" id="toc-anatomia-de-uma-url-rest" class="nav-link" data-scroll-target="#anatomia-de-uma-url-rest"><span class="header-section-number">7.4.2</span> Anatomia de uma <code>URL REST</code></a></li>
+  <li><a href="#convenções-de-nomeação" id="toc-convenções-de-nomeação" class="nav-link" data-scroll-target="#convenções-de-nomeação"><span class="header-section-number">7.4.3</span> Convenções de nomeação</a></li>
+  <li><a href="#endpoints-em-contexto-clínico" id="toc-endpoints-em-contexto-clínico" class="nav-link" data-scroll-target="#endpoints-em-contexto-clínico"><span class="header-section-number">7.4.4</span> <em>Endpoints</em> em contexto clínico</a></li>
+  </ul></li>
+  <li><a href="#sec-rest-json" id="toc-sec-rest-json" class="nav-link" data-scroll-target="#sec-rest-json"><span class="header-section-number">7.5</span> <code>JSON</code> — Estrutura, Tipos de Dados e Legibilidade</a>
+  <ul class="collapse">
+  <li><a href="#o-que-é-o-json" id="toc-o-que-é-o-json" class="nav-link" data-scroll-target="#o-que-é-o-json"><span class="header-section-number">7.5.1</span> O que é o <code>JSON</code></a></li>
+  <li><a href="#sintaxe-fundamental" id="toc-sintaxe-fundamental" class="nav-link" data-scroll-target="#sintaxe-fundamental"><span class="header-section-number">7.5.2</span> Sintaxe fundamental</a></li>
+  <li><a href="#tipos-de-dados-em-json" id="toc-tipos-de-dados-em-json" class="nav-link" data-scroll-target="#tipos-de-dados-em-json"><span class="header-section-number">7.5.3</span> Tipos de dados em <code>JSON</code></a></li>
+  <li><a href="#json-vs-xml-em-contexto-clínico" id="toc-json-vs-xml-em-contexto-clínico" class="nav-link" data-scroll-target="#json-vs-xml-em-contexto-clínico"><span class="header-section-number">7.5.4</span> <code>JSON</code> vs <code>XML</code> em contexto clínico</a></li>
+  <li><a href="#um-recurso-clínico-completo-em-json" id="toc-um-recurso-clínico-completo-em-json" class="nav-link" data-scroll-target="#um-recurso-clínico-completo-em-json"><span class="header-section-number">7.5.5</span> Um recurso clínico completo em <code>JSON</code></a></li>
+  </ul></li>
+  <li><a href="#sec-rest-search" id="toc-sec-rest-search" class="nav-link" data-scroll-target="#sec-rest-search"><span class="header-section-number">7.6</span> <em>Search Parameters</em> e <em>Chaining</em> — Pesquisas Compostas</a>
+  <ul class="collapse">
+  <li><a href="#parâmetros-de-pesquisa-básicos" id="toc-parâmetros-de-pesquisa-básicos" class="nav-link" data-scroll-target="#parâmetros-de-pesquisa-básicos"><span class="header-section-number">7.6.1</span> Parâmetros de pesquisa básicos</a></li>
+  <li><a href="#modificadores-de-pesquisa" id="toc-modificadores-de-pesquisa" class="nav-link" data-scroll-target="#modificadores-de-pesquisa"><span class="header-section-number">7.6.2</span> Modificadores de pesquisa</a></li>
+  <li><a href="#chaining-pesquisas-encadeadas" id="toc-chaining-pesquisas-encadeadas" class="nav-link" data-scroll-target="#chaining-pesquisas-encadeadas"><span class="header-section-number">7.6.3</span> <em>Chaining</em> — pesquisas encadeadas</a></li>
+  <li><a href="#exemplos-de-chaining-em-contexto-hospitalar" id="toc-exemplos-de-chaining-em-contexto-hospitalar" class="nav-link" data-scroll-target="#exemplos-de-chaining-em-contexto-hospitalar"><span class="header-section-number">7.6.4</span> Exemplos de <em>chaining</em> em contexto hospitalar</a></li>
+  </ul></li>
+  <li><a href="#sec-rest-exercicios" id="toc-sec-rest-exercicios" class="nav-link" data-scroll-target="#sec-rest-exercicios">Exercícios Propostos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Arquitectura Web e REST</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-rest-evolucao" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="sec-rest-evolucao"><span class="header-section-number">7.1</span> Da Mensagem ao Recurso — Evolução dos Modelos de Comunicação em Saúde</h2>
+<section id="o-modelo-de-mensagens-e-os-seus-limites" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="o-modelo-de-mensagens-e-os-seus-limites"><span class="header-section-number">7.1.1</span> O modelo de mensagens e os seus limites</h3>
+<p>O <code>HL7</code> v2 resolveu um problema fundamental: eliminou a troca manual de dados entre sistemas hospitalares e criou um modelo automático assente em mensagens clínicas. Contudo, à medida que as redes hospitalares cresceram e a interoperabilidade inter-institucional se tornou necessária, os limites estruturais do modelo tornaram-se evidentes <span class="citation" data-cites="BensonGrieve2021">(<a href="../referencias.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.</p>
+<p>O problema central é o <strong>acoplamento forte</strong>: num modelo de mensagens, cada par de sistemas precisa de ser configurado individualmente. Se um hospital tem N sistemas (HIS, LIS, RIS, PACS, farmácia, etc.), o número de interfaces a configurar e manter cresce na ordem de N², pois cada um deles tem que ter uma interface específica para cada um dos outros. Com dez sistemas, são potencialmente noventa interfaces bilaterais. Cada nova interface implica análise, desenvolvimento, testes e manutenção permanente. A escalabilidade é estruturalmente limitada.</p>
+<p>A par disto, o modelo de mensagens é <em>push-based</em> (baseado em envio): a informação é transmitida quando um evento ocorre, não quando é necessária. Um sistema externo que precise de consultar o estado de um paciente não pode simplesmente perguntar — tem de esperar que o evento relevante gere uma mensagem e chegue até si. A consulta ad hoc não está prevista no modelo.</p>
+<p>A tabela seguinte compara os dois modelos nas dimensões relevantes para a interoperabilidade moderna:</p>
+<div id="tbl-modelos-comparacao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-modelos-comparacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.1: Comparação entre modelo de mensagens (HL7 v2) e modelo de recursos (REST) <span class="citation" data-cites="BensonGrieve2021 Fielding2000">(<a href="../referencias.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>; <a href="../referencias.html#ref-Fielding2000" role="doc-biblioref">R. T. Fielding, 2000</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-modelos-comparacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 42%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimensão</th>
+<th>Modelo de mensagens (HL7 v2)</th>
+<th>Modelo de recursos (<code>REST</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Iniciativa</td>
+<td><em>Push</em> — o sistema emissor decide quando enviar</td>
+<td><em>Pull</em> — o cliente decide quando consultar</td>
+</tr>
+<tr class="even">
+<td>Acoplamento</td>
+<td>Forte — A conhece B e vice-versa</td>
+<td>Fraco — o cliente só conhece a <code>URL</code></td>
+</tr>
+<tr class="odd">
+<td>Escala</td>
+<td>N² interfaces</td>
+<td>Qualquer cliente, qualquer servidor</td>
+</tr>
+<tr class="even">
+<td>Configuração prévia</td>
+<td>Necessária por par de sistemas</td>
+<td>Não necessária</td>
+</tr>
+<tr class="odd">
+<td>Formatos</td>
+<td>Texto posicional (pipes e carets)</td>
+<td><code>JSON</code> sobre <code>HTTP</code></td>
+</tr>
+<tr class="even">
+<td>Consulta ad hoc</td>
+<td>Não prevista</td>
+<td>Nativa</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="do-soapxml-ao-restjson" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="do-soapxml-ao-restjson"><span class="header-section-number">7.1.2</span> Do <code>SOAP</code>/<code>XML</code> ao <code>REST</code>/<code>JSON</code></h3>
+<p>Antes do <code>REST</code> se impor como paradigma dominante, a integração entre sistemas de saúde de geração mais recente assentava em <strong>Web Services</strong> <code>SOAP</code> (Simple Object Access Protocol — Protocolo de Acesso a Objectos Simples), um protocolo de comunicação baseado em <code>XML</code> que estrutura as mensagens num formato rígido chamado <em>envelope</em> — uma estrutura com cabeçalho e corpo que envolve os dados a transmitir. O HL7 v3, lançado em 2005, foi desenhado precisamente para usar este modelo: mensagens <code>XML</code> volumosas transportadas em <em>envelopes</em> <code>SOAP</code>, consumidas por servidores de Web Services, geridas por <em>middleware</em> especializado <span class="citation" data-cites="BensonGrieve2021">(<a href="../referencias.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>. O <em>middleware</em> — software intermediário que medeia a comunicação entre sistemas — era obrigatório nas arquitecturas HL7 v3. Na prática, exigia motores de integração especializados como o Mirth Connect ou o Rhapsody, responsáveis por receber, transformar e encaminhar mensagens <code>SOAP</code>.</p>
+<p>A complexidade foi o seu maior obstáculo. Um pedido <code>SOAP</code> típico exigia: gerar o <em>envelope</em> <code>XML</code>, configurar o servidor de Web Services, instalar e manter um <em>middleware</em> de integração (tipo <code>ESB</code> — Barramento de Serviços Empresariais), e lidar com um modelo de dados (<code>RIM</code> — Modelo de Informação de Referência) demasiado abstracto para implementação directa. Em muitas instituições, este custo de implementação limitou seriamente a adopção do HL7 v3 <span class="citation" data-cites="BensonGrieve2021">(<a href="../referencias.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.</p>
+<p>O <code>REST</code> propõe um modelo radicalmente mais simples: qualquer servidor HTTP pode servir recursos clínicos. Não precisa de ser um servidor específico (ou seja, um webservice especial, dedicado) Um pedido é puramente em HTTP, é um <code>GET /Patient/123</code> e a resposta é <code>JSON</code>. Não há <em>envelope</em> <code>SOAP</code>, não há <em>middleware</em> obrigatório. Qualquer programador web consegue implementar um servidor <code>REST</code> sem conhecimentos de <em>middleware</em> hospitalar — a barreira de entrada baixou drasticamente.</p>
+</section>
+<section id="a-web-como-infraestrutura-universal" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="a-web-como-infraestrutura-universal"><span class="header-section-number">7.1.3</span> A web como infraestrutura universal</h3>
+<p>O <code>HTTP</code> (<code>HyperText Transfer Protocol</code> — Protocolo de Transferência de Hipertexto) existe desde 1991. É o protocolo de aplicação mais difundido do mundo: suportado por qualquer linguagem de programação, sistema operativo e dispositivo <span class="citation" data-cites="RFC9110">(<a href="../referencias.html#ref-RFC9110" role="doc-biblioref">R. Fielding et al., 2022</a>)</span>. A sua adopção como transporte para interoperabilidade clínica não foi acidental — representa a escolha deliberada de uma infraestrutura universalmente disponível em vez de uma stack proprietária.</p>
+<p>Esta opção tem consequências práticas directas:</p>
+<ul>
+<li>Qualquer hospital com um servidor web pode expor dados clínicos via <code>REST</code></li>
+<li>As ferramentas de desenvolvimento e depuração são as mesmas que se usam em qualquer projecto web</li>
+<li>A segurança (<code>HTTPS</code>, autenticação por token) é partilhada com o ecossistema web global</li>
+<li>A manutenção aproveita uma base de conhecimento vastíssima de programadores web</li>
+</ul>
+<p>É este alinhamento com a infraestrutura universal da web que explica por que razão o FHIR, a norma de interoperabilidade clínica moderna, adoptou <code>REST</code> como modelo de comunicação nativo.</p>
+</section>
+</section>
+<section id="sec-rest-modelo" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="sec-rest-modelo"><span class="header-section-number">7.2</span> O Modelo <code>REST</code> — Princípios, <em>Constraints</em> e <em>Stateless</em></h2>
+<section id="o-que-é-o-rest" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="o-que-é-o-rest"><span class="header-section-number">7.2.1</span> O que é o <code>REST</code></h3>
+<p><code>REST</code> (Transferência de Estado Representacional) é um estilo arquitectural para sistemas distribuídos, proposto por Roy Fielding na sua dissertação de doutoramento em 2000 <span class="citation" data-cites="Fielding2000">(<a href="../referencias.html#ref-Fielding2000" role="doc-biblioref">R. T. Fielding, 2000</a>)</span>. Não é um protocolo, não é um standard formal, não é um formato de dados. É um conjunto de restrições (<em>constraints</em>) que, se respeitadas, produzem sistemas com propriedades específicas: escalabilidade, simplicidade e interoperabilidade.</p>
+<p>A distinção é importante: um sistema pode usar <code>HTTP</code> e <code>JSON</code> sem ser <code>REST</code>; e pode ser <code>REST</code> sem usar <code>JSON</code>. O que qualifica um sistema como <code>RESTful</code> (conforme com <code>REST</code>) é o cumprimento das restrições arquitecturais definidas por Fielding <span class="citation" data-cites="Fielding2000">(<a href="../referencias.html#ref-Fielding2000" role="doc-biblioref">R. T. Fielding, 2000</a>)</span>.</p>
+</section>
+<section id="as-seis-restrições-arquitecturais" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="as-seis-restrições-arquitecturais"><span class="header-section-number">7.2.2</span> As seis restrições arquitecturais</h3>
+<p>Fielding definiu seis restrições. Um sistema que as cumpre todas é dito <em>RESTful</em>:</p>
+<p><strong>1. Cliente–servidor</strong> — Separação de responsabilidades: o cliente gere a interface e a experiência do utilizador; o servidor gere os dados e a lógica de negócio. Os dois evoluem de forma independente. Um servidor FHIR pode mudar a sua implementação interna sem que os clientes precisem de ser actualizados — desde que a interface <code>REST</code> se mantenha estável.</p>
+<p><strong>2. <em>Stateless</em> (sem estado)</strong> — O servidor não guarda qualquer estado de sessão entre pedidos. Cada pedido do cliente contém toda a informação necessária para ser processado de forma independente: identidade do recurso, credenciais de autenticação, parâmetros de pesquisa. Esta restrição é a mais crítica para a escalabilidade — ver secção seguinte.</p>
+<p><strong>3. <em>Cacheable</em> (cacheável)</strong> — As respostas devem indicar se podem ser guardadas em cache. Recursos que não mudam frequentemente (como terminologias ou listas de especialidades) podem ser cacheados pelo cliente, reduzindo a carga no servidor e a latência das respostas.</p>
+<p><strong>4. Interface uniforme</strong> — A interface entre cliente e servidor é normalizada e previsível, independentemente do tipo de recurso. Assenta em quatro sub-restrições: identificação de recursos por <code>URI</code> (Identificador Uniforme de Recurso); manipulação de recursos através das suas representações; mensagens auto-descritivas (cada mensagem contém informação suficiente para ser interpretada sem contexto externo); e <code>HATEOAS</code> (Hipermedia como Motor do Estado da Aplicação) — o servidor inclui nas respostas ligações para os próximos estados possíveis.</p>
+<p><strong>5. Sistema em camadas</strong> — O cliente não precisa de saber se comunica directamente com o servidor final ou com intermediários (proxies, balanceadores de carga, gateways de API). As camadas são transparentes para o cliente. Esta propriedade permite escalar horizontalmente e adicionar segurança sem alterar a interface.</p>
+<p><strong>6. Código a pedido</strong> <em>(opcional)</em> — O servidor pode enviar código executável ao cliente (por exemplo, JavaScript). É a única restrição opcional. Em contextos clínicos, esta capacidade é raramente utilizada; a maioria das implementações <code>REST</code> em saúde ignora esta restrição sem deixar de ser considerada <em>RESTful</em>.</p>
+</section>
+<section id="stateless-o-princípio-central" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="stateless-o-princípio-central"><span class="header-section-number">7.2.3</span> <em>Stateless</em> — o princípio central</h3>
+<p>De todas as restrições, <em>stateless</em> é a que tem maior impacto prático. Compreendê-la em profundidade é essencial para perceber porque o <code>REST</code> escala onde outros modelos falham.</p>
+<p>Num modelo <em>stateful</em> (com estado), o servidor mantém uma sessão por cliente: sabe quem está ligado, o que pediu antes, qual a sua preferência de idioma, em que ponto da navegação se encontra. O cliente pode enviar apenas as diferenças em relação ao estado anterior. Isto reduz o volume de dados transmitidos — mas cria uma dependência rígida entre cliente e servidor. Se o servidor falhar, a sessão perde-se. Escalar horizontalmente (adicionar servidores) exige sincronização de sessões entre instâncias <span class="citation" data-cites="Fielding2000">(<a href="../referencias.html#ref-Fielding2000" role="doc-biblioref">R. T. Fielding, 2000</a>)</span>.</p>
+<p>Num modelo <em>stateless</em> (sem estado), cada pedido é completamente autónomo. O cliente envia sempre toda a informação necessária: a identidade do recurso, as credenciais, os parâmetros. O servidor processa e responde sem qualquer memória de pedidos anteriores. Se o servidor falhar, o cliente pode re-enviar exactamente o mesmo pedido para um servidor diferente, sem perda de contexto. Qualquer instância do servidor pode responder a qualquer pedido — a escalabilidade horizontal é imediata <span class="citation" data-cites="Fielding2000 RichardsonRuby2007">(<a href="../referencias.html#ref-Fielding2000" role="doc-biblioref">R. T. Fielding, 2000</a>; <a href="../referencias.html#ref-RichardsonRuby2007" role="doc-biblioref">Richardson &amp; Ruby, 2007</a>)</span>.</p>
+<!--
+  Diagrama: stateful vs stateless.
+  Dois painéis lado a lado. Paleta teal.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 680 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="240" rx="10" fill="#f8fbfc"></rect>
+
+  <!-- Título -->
+  <text x="340" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0a3d4a">Stateful vs Stateless</text>
+
+  <!-- STATEFUL (esq) -->
+  <rect x="20" y="35" width="300" height="185" rx="8" fill="#0a3d4a" fill-opacity="0.06" stroke="#0a3d4a" stroke-width="1.2"></rect>
+  <text x="170" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#0a3d4a">Stateful</text>
+
+  <!-- Cliente A -->
+  <rect x="35" y="65" width="80" height="30" rx="5" fill="#0a3d4a"></rect>
+  <text x="75" y="85" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff">Cliente A</text>
+
+  <!-- Seta → servidor com sessão -->
+  <line x1="117" y1="80" x2="178" y2="80" stroke="#0d7c8c" stroke-width="1.5" marker-end="url(#sf1)"></line>
+  <text x="148" y="73" text-anchor="middle" font-size="8" fill="#0d7c8c">pedido 2</text>
+
+  <!-- Servidor stateful -->
+  <rect x="180" y="60" width="120" height="130" rx="6" fill="#0d7c8c"></rect>
+  <text x="240" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Servidor</text>
+  <rect x="192" y="88" width="96" height="18" rx="3" fill="#fff" fill-opacity="0.15"></rect>
+  <text x="240" y="101" text-anchor="middle" font-size="8" fill="#e2f4f3">sessão A: passo 2</text>
+  <rect x="192" y="112" width="96" height="18" rx="3" fill="#fff" fill-opacity="0.15"></rect>
+  <text x="240" y="125" text-anchor="middle" font-size="8" fill="#e2f4f3">sessão B: passo 1</text>
+  <rect x="192" y="136" width="96" height="18" rx="3" fill="#fff" fill-opacity="0.15"></rect>
+  <text x="240" y="149" text-anchor="middle" font-size="8" fill="#e2f4f3">sessão C: passo 3</text>
+  <text x="240" y="178" text-anchor="middle" font-size="8" fill="#e2f4f3">Se falhar → sessões perdidas</text>
+
+  <!-- STATELESS (dir) -->
+  <rect x="360" y="35" width="300" height="185" rx="8" fill="#1ab3a6" fill-opacity="0.06" stroke="#1ab3a6" stroke-width="1.2"></rect>
+  <text x="510" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#0a3d4a">Stateless</text>
+
+  <!-- Cliente B -->
+  <rect x="375" y="65" width="80" height="30" rx="5" fill="#0a3d4a"></rect>
+  <text x="415" y="85" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff">Cliente B</text>
+
+  <!-- Seta → servidor sem estado -->
+  <line x1="457" y1="80" x2="518" y2="80" stroke="#1ab3a6" stroke-width="1.5" marker-end="url(#sf2)"></line>
+  <text x="488" y="73" text-anchor="middle" font-size="8" fill="#1ab3a6">pedido completo</text>
+
+  <!-- Servidor 1 stateless -->
+  <rect x="520" y="60" width="56" height="50" rx="5" fill="#1ab3a6"></rect>
+  <text x="548" y="80" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff">Srv 1</text>
+  <text x="548" y="98" text-anchor="middle" font-size="7" fill="#0a3d4a">sem sessão</text>
+  <!-- Servidor 2 stateless -->
+  <rect x="520" y="120" width="56" height="50" rx="5" fill="#1ab3a6"></rect>
+  <text x="548" y="140" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff">Srv 2</text>
+  <text x="548" y="158" text-anchor="middle" font-size="7" fill="#0a3d4a">sem sessão</text>
+
+  <!-- Seta cliente → ambos os servidores -->
+  <line x1="457" y1="80" x2="518" y2="85" stroke="#1ab3a6" stroke-width="1" stroke-dasharray="3"></line>
+  <line x1="457" y1="80" x2="518" y2="145" stroke="#1ab3a6" stroke-width="1" stroke-dasharray="3"></line>
+
+  <text x="510" y="192" text-anchor="middle" font-size="8" fill="#0a3d4a">Qualquer servidor responde — sem sinc.</text>
+
+  <text x="340" y="232" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 7.1 — Stateful: sessão no servidor; Stateless: cada pedido é autónomo
+  </text>
+
+  <defs>
+    <marker id="sf1" markerwidth="6" markerheight="6" refx="5" refy="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"></path></marker>
+    <marker id="sf2" markerwidth="6" markerheight="6" refx="5" refy="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"></path></marker>
+  </defs>
+</svg>
+</div>
+<p>O exemplo mais acessível para ilustrar <em>stateless</em> é uma pesquisa na web: cada pedido ao motor de pesquisa inclui os termos, filtros de idioma e localização. O servidor não sabe o que foi pesquisado antes — não há sessão a manter. O mesmo pedido pode ser processado por qualquer instância de servidor no datacenter. É precisamente este modelo que o <code>REST</code> generaliza para qualquer tipo de recurso — incluindo recursos clínicos.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Atenção</strong> — O termo <em>stateless</em> refere-se ao estado de sessão no servidor, não ao estado dos dados. O servidor <code>REST</code> tem estado nos seus dados (os recursos existem e são persistidos); o que não tem é memória da conversa com o cliente. Os dados são mantidos — a sessão não.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-rest-crud" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="sec-rest-crud"><span class="header-section-number">7.3</span> <code>CRUD</code> e os Métodos <code>HTTP</code></h2>
+<section id="as-quatro-operações-fundamentais" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="as-quatro-operações-fundamentais"><span class="header-section-number">7.3.1</span> As quatro operações fundamentais</h3>
+<p><code>CRUD</code> (Criar, Ler, Actualizar, Eliminar) descreve as quatro operações possíveis sobre qualquer recurso de informação. São operações primitivas e completas: qualquer manipulação de dados pode ser expressa como uma combinação destas quatro. Em <code>REST</code>, cada operação <code>CRUD</code> tem um método <code>HTTP</code> correspondente, o que cria um vocabulário universal partilhado por qualquer implementação <span class="citation" data-cites="RFC9110 RichardsonRuby2007">(<a href="../referencias.html#ref-RFC9110" role="doc-biblioref">R. Fielding et al., 2022</a>; <a href="../referencias.html#ref-RichardsonRuby2007" role="doc-biblioref">Richardson &amp; Ruby, 2007</a>)</span>.</p>
+<div id="tbl-crud-http" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-crud-http-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.2: Mapeamento CRUD — métodos HTTP <span class="citation" data-cites="RFC9110">(<a href="../referencias.html#ref-RFC9110" role="doc-biblioref">R. Fielding et al., 2022</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-crud-http-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 26%">
+<col style="width: 19%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operação <code>CRUD</code></th>
+<th>Método <code>HTTP</code></th>
+<th>Semântica</th>
+<th>Idempotente?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>C</strong>reate (Criar)</td>
+<td><code>POST</code></td>
+<td>Cria um novo recurso; ID atribuído pelo servidor</td>
+<td>Não</td>
+</tr>
+<tr class="even">
+<td><strong>R</strong>ead (Ler)</td>
+<td><code>GET</code></td>
+<td>Lê um recurso; não altera dados</td>
+<td>Sim</td>
+</tr>
+<tr class="odd">
+<td><strong>U</strong>pdate (Actualizar)</td>
+<td><code>PUT</code></td>
+<td>Substitui o recurso na totalidade</td>
+<td>Sim</td>
+</tr>
+<tr class="even">
+<td><strong>U</strong>pdate parcial</td>
+<td><code>PATCH</code></td>
+<td>Actualiza apenas os campos indicados</td>
+<td>Não garantido</td>
+</tr>
+<tr class="odd">
+<td><strong>D</strong>elete (Eliminar)</td>
+<td><code>DELETE</code></td>
+<td>Remove o recurso permanentemente</td>
+<td>Sim</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A propriedade de <strong>idempotência</strong> merece atenção: um método é idempotente quando executá-lo N vezes produz o mesmo resultado que executá-lo uma vez. <code>GET</code>, <code>PUT</code> e <code>DELETE</code> são idempotentes — repetir o pedido não tem efeitos adicionais. <code>POST</code> não é idempotente: enviar o mesmo <code>POST</code> duas vezes cria dois recursos distintos. Esta distinção é relevante em ambientes clínicos onde a fiabilidade da rede não pode ser garantida — um cliente que não sabe se o seu pedido chegou pode repetir em segurança um <code>GET</code> ou um <code>DELETE</code>, mas não deve repetir um <code>POST</code> sem verificar primeiro se o recurso já foi criado <span class="citation" data-cites="RFC9110">(<a href="../referencias.html#ref-RFC9110" role="doc-biblioref">R. Fielding et al., 2022</a>)</span>.</p>
+</section>
+<section id="estrutura-de-um-pedido-e-resposta-http" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="estrutura-de-um-pedido-e-resposta-http"><span class="header-section-number">7.3.2</span> Estrutura de um pedido e resposta <code>HTTP</code></h3>
+<p>Toda a comunicação <code>HTTP</code> segue um ciclo fixo: o cliente envia um <strong>pedido</strong> (<em>request</em>) e o servidor devolve uma <strong>resposta</strong> (<em>response</em>). Ambos têm estrutura normalizada <span class="citation" data-cites="RFC9110">(<a href="../referencias.html#ref-RFC9110" role="doc-biblioref">R. Fielding et al., 2022</a>)</span>.</p>
+<p>Um pedido é composto por três partes:</p>
+<ol type="1">
+<li><strong>Linha de pedido</strong> — método HTTP (ver tabela <a href="#tbl-crud-http" class="quarto-xref">Tabela&nbsp;<span>7.2</span></a>) + <code>URL</code> + versão <code>HTTP</code>. Exemplo: <code>GET /api/cursos/42 HTTP/1.1</code>.</li>
+<li><strong>Cabeçalhos</strong> (<em>headers</em>) — metadados: servidor de destino, tipo de conteúdo aceite, credenciais de autenticação. Texto simples, inspeccionável com qualquer ferramenta (curl, Postman, browser). O cabeçalho ``´é obrigatório. Os restantes são opcionais.</li>
+<li><strong>Corpo</strong> (<em>body</em>) — dados enviados (usado em <code>POST</code> e <code>PUT</code>; ausente em <code>GET</code> e <code>DELETE</code>).</li>
+</ol>
+<p>Uma resposta é composta por:</p>
+<ol type="1">
+<li><strong>Linha de estado</strong> — versão <code>HTTP</code> + código de estado + mensagem. Exemplo: <code>HTTP/1.1 200 OK</code></li>
+<li><strong>Cabeçalhos</strong> — tipo de conteúdo da resposta, dimensão, localização do recurso criado (em <code>POST</code>).</li>
+<li><strong>Corpo</strong> — o recurso solicitado, tipicamente em <code>JSON</code>.</li>
+</ol>
+<pre><code>GET /api/utentes/P-12345 HTTP/1.1
+Host: fhir.snssul.min-saude.pt
+Accept: application/json
+Authorization: Bearer eyJhbGci...</code></pre>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 412
+
+{
+  "id": "P-12345",
+  "nome": "Ana Silva",
+  "dataNascimento": "1978-04-22",
+  "nrUtente": "123456789"
+}</code></pre>
+</section>
+<section id="códigos-de-estado-http" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="códigos-de-estado-http"><span class="header-section-number">7.3.3</span> Códigos de estado <code>HTTP</code></h3>
+<p>Os códigos de estado normalizam a resposta do servidor. São agrupados por famílias — o primeiro dígito identifica a categoria <span class="citation" data-cites="RFC9110">(<a href="../referencias.html#ref-RFC9110" role="doc-biblioref">R. Fielding et al., 2022</a>)</span>:</p>
+<div id="tbl-http-status" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-http-status-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.3: Códigos de estado HTTP mais relevantes em contexto clínico <span class="citation" data-cites="RFC9110">(<a href="../referencias.html#ref-RFC9110" role="doc-biblioref">R. Fielding et al., 2022</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-http-status-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 12%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Código</th>
+<th>Nome</th>
+<th>Significado em contexto clínico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>200</code></td>
+<td>OK</td>
+<td>Pedido bem-sucedido; recurso devolvido no corpo</td>
+</tr>
+<tr class="even">
+<td><code>201</code></td>
+<td>Created</td>
+<td>Recurso criado; URL do novo recurso no cabeçalho <code>Location</code></td>
+</tr>
+<tr class="odd">
+<td><code>204</code></td>
+<td>No Content</td>
+<td>Pedido bem-sucedido; sem corpo (comum em <code>DELETE</code>)</td>
+</tr>
+<tr class="even">
+<td><code>400</code></td>
+<td>Bad Request</td>
+<td>Pedido malformado — parâmetros inválidos ou <code>JSON</code> incorrecto</td>
+</tr>
+<tr class="odd">
+<td><code>401</code></td>
+<td>Unauthorized</td>
+<td>Autenticação necessária ou token inválido</td>
+</tr>
+<tr class="even">
+<td><code>403</code></td>
+<td>Forbidden</td>
+<td>Autenticado mas sem permissão para aceder ao recurso</td>
+</tr>
+<tr class="odd">
+<td><code>404</code></td>
+<td>Not Found</td>
+<td>O recurso solicitado não existe no servidor</td>
+</tr>
+<tr class="even">
+<td><code>409</code></td>
+<td>Conflict</td>
+<td>Conflito de versão — recurso foi modificado por outro cliente</td>
+</tr>
+<tr class="odd">
+<td><code>500</code></td>
+<td>Internal Server Error</td>
+<td>Erro no servidor, não relacionado com o pedido</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A distinção entre <code>401</code> e <code>403</code> é frequentemente confundida: <code>401</code> significa «não sei quem és»; <code>403</code> significa «sei quem és, mas não podes aceder a este recurso». Em sistemas clínicos, um <code>403</code> pode indicar que o profissional não tem autorização para aceder ao processo do paciente em questão — situação diferente de não ter credenciais válidas.</p>
+</section>
+<section id="exemplos-em-contexto-hospitalar" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="exemplos-em-contexto-hospitalar"><span class="header-section-number">7.3.4</span> Exemplos em contexto hospitalar</h3>
+<p>A tabela seguinte apresenta operações clínicas típicas expressas em <code>CRUD</code>/<code>HTTP</code>:</p>
+<div id="tbl-crud-clinico" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-crud-clinico-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.4: Operações clínicas mapeadas em CRUD/HTTP (exemplos com nomes de recursos FHIR).
+</figcaption>
+<div aria-describedby="tbl-crud-clinico-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 18%">
+<col style="width: 11%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operação clínica</th>
+<th>Método</th>
+<th>URL</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Obter dados do utente</td>
+<td><code>GET</code></td>
+<td><code>/Patient/P-12345</code></td>
+<td>Idempotente — seguro repetir</td>
+</tr>
+<tr class="even">
+<td>Registar novo utente</td>
+<td><code>POST</code></td>
+<td><code>/Patient</code></td>
+<td>Servidor atribui o ID</td>
+</tr>
+<tr class="odd">
+<td>Actualizar morada</td>
+<td><code>PUT</code></td>
+<td><code>/Patient/P-12345</code></td>
+<td>Substitui o recurso inteiro</td>
+</tr>
+<tr class="even">
+<td>Corrigir data de nascimento</td>
+<td><code>PATCH</code></td>
+<td><code>/Patient/P-12345</code></td>
+<td>Actualiza apenas o campo</td>
+</tr>
+<tr class="odd">
+<td>Cancelar agendamento</td>
+<td><code>DELETE</code></td>
+<td><code>/Appointment/A-789</code></td>
+<td>Remove o recurso</td>
+</tr>
+<tr class="even">
+<td>Listar análises do utente</td>
+<td><code>GET</code></td>
+<td><code>/Observation?patient=P-12345</code></td>
+<td>Parâmetro de pesquisa</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Atenção</strong> — Em sistemas clínicos, o <code>DELETE</code> raramente apaga fisicamente o registo. Por razões de auditoria e rastreabilidade, a prática habitual é marcar o recurso como inactivo ou cancelado (<em>soft delete</em>), mantendo o histórico acessível. A operação continua a ser semanticamente um <code>DELETE</code> — o resultado observável é que o recurso deixa de ser devolvido nas pesquisas normais.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-rest-endpoints" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="sec-rest-endpoints"><span class="header-section-number">7.4</span> <em>Endpoints</em> e URLs — Estrutura e Parâmetros de Pesquisa</h2>
+<section id="o-que-é-um-endpoint" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="o-que-é-um-endpoint"><span class="header-section-number">7.4.1</span> O que é um <em>endpoint</em></h3>
+<p>Um <em>endpoint</em> (ponto de acesso) é um endereço específico que um servidor <code>REST</code> expõe para permitir a interacção com um tipo de recurso. É identificado por uma <code>URL</code> (<code>Uniform Resource Locator</code> — Localizador Uniforme de Recursos) e um método <code>HTTP</code>.</p>
+<p>A combinação método + <code>URL</code> define univocamente a operação: <code>GET /Patient/123</code> e <code>POST /Patient</code> são dois <em>endpoints</em> diferentes, embora partilhem o mesmo caminho base.</p>
+</section>
+<section id="anatomia-de-uma-url-rest" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="anatomia-de-uma-url-rest"><span class="header-section-number">7.4.2</span> Anatomia de uma <code>URL REST</code></h3>
+<p>Uma <code>URL REST</code> bem formada segue uma estrutura hierárquica previsível <span class="citation" data-cites="RFC3986">(<a href="../referencias.html#ref-RFC3986" role="doc-biblioref">Berners-Lee et al., 2005</a>)</span>:</p>
+<pre><code>https://fhir.snssul.min-saude.pt/api/v1/Patient/P-12345?_format=json
+│       │                            │   │        │      │
+│       │                            │   │        │      └─ parâmetro de pesquisa
+│       │                            │   │        └───────── id do recurso
+│       │                            │   └────────────────── tipo de recurso
+│       │                            └────────────────────── base path (versão da API)
+│       └─────────────────────────────────────────────────── servidor
+└─────────────────────────────────────────────────────────── protocolo</code></pre>
+<p>Cada componente tem um papel definido:</p>
+<ul>
+<li><strong>Protocolo</strong> (<code>https://</code>) — <code>HTTPS</code> garante que a comunicação é cifrada. <code>HTTP</code> é aceitável em desenvolvimento local; nunca em produção com dados clínicos.</li>
+<li><strong>Servidor</strong> — nome de domínio do servidor que alberga a <code>API</code>. Diferentes subdomínios podem albergar <code>APIs</code> distintas: <code>fhir.hospital.pt</code> para dados clínicos, <code>pacs.hospital.pt</code> para imagem.</li>
+<li><strong>Base path</strong> — prefixo que identifica a <code>API</code> e, frequentemente, a versão (<code>/api/v1</code>). Permite evoluir a <code>API</code> sem quebrar clientes existentes: um cliente que usa <code>/v1</code> continua a funcionar quando <code>/v2</code> é lançada.</li>
+<li><strong>Tipo de recurso</strong> — nome da colecção, por convenção em minúsculas singular ou plural. Em FHIR: <code>Patient</code>, <code>Observation</code>, <code>DiagnosticReport</code>, <code>Appointment</code>.</li>
+<li><strong>ID do recurso</strong> — identificador único do recurso nesta colecção. Se omitido (<code>GET /Patient</code>), o pedido devolve a colecção (lista de todos os recursos, tipicamente com paginação).</li>
+<li><strong>Parâmetros de pesquisa</strong> — após <code>?</code>, filtros e modificadores. Ver secção 7.6.</li>
+</ul>
+</section>
+<section id="convenções-de-nomeação" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="convenções-de-nomeação"><span class="header-section-number">7.4.3</span> Convenções de nomeação</h3>
+<p>As convenções de nomeação de <em>endpoints</em> <code>REST</code> evoluíram para um conjunto de práticas amplamente adoptadas <span class="citation" data-cites="RichardsonRuby2007">(<a href="../referencias.html#ref-RichardsonRuby2007" role="doc-biblioref">Richardson &amp; Ruby, 2007</a>)</span>:</p>
+<ul>
+<li>Substantivos, não verbos — <code>/Patient</code> e não <code>/getPatient</code> ou <code>/createPatient</code>; o verbo está no método <code>HTTP</code></li>
+<li>Hierarquia para relações — <code>/Patient/123/Observation</code> para as observações do paciente 123</li>
+<li>IDs opacos — o cliente não deve inferir semântica do ID; <code>/Patient/abc-123</code> é preferível a <code>/Patient/2026-silva-ana</code></li>
+<li>Versão na base path — <code>/api/v1/Patient</code> permite evoluir a <code>API</code> sem quebrar clientes</li>
+</ul>
+<!--
+  Diagrama: anatomia de uma URL REST clínica.
+  Decomposição em caixas com anotações.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="180" rx="10" fill="#f8fbfc"></rect>
+
+  <!-- URL como texto -->
+  <rect x="20" y="30" width="640" height="36" rx="6" fill="#0a3d4a"></rect>
+  <text x="40" y="53" font-size="11" font-family="monospace" font-weight="bold" fill="#fff">https://</text>
+  <text x="115" y="53" font-size="11" font-family="monospace" fill="#e2f4f3">fhir.hospital.pt</text>
+  <text x="248" y="53" font-size="11" font-family="monospace" fill="#1ab3a6">/api/v1/</text>
+  <text x="325" y="53" font-size="11" font-family="monospace" fill="#fff">Patient</text>
+  <text x="390" y="53" font-size="11" font-family="monospace" fill="#e2f4f3">/P-12345</text>
+  <text x="457" y="53" font-size="11" font-family="monospace" fill="#1ab3a6">?_format=json</text>
+
+  <!-- Setas de anotação -->
+  <!-- Protocolo -->
+  <line x1="68" y1="66" x2="68" y2="90" stroke="#0d7c8c" stroke-width="1.2"></line>
+  <rect x="20" y="91" width="96" height="22" rx="4" fill="#0d7c8c"></rect>
+  <text x="68" y="106" text-anchor="middle" font-size="9" fill="#fff">Protocolo (HTTPS)</text>
+
+  <!-- Servidor -->
+  <line x1="195" y1="66" x2="195" y2="90" stroke="#0d7c8c" stroke-width="1.2"></line>
+  <rect x="138" y="91" width="108" height="22" rx="4" fill="#0d7c8c"></rect>
+  <text x="192" y="106" text-anchor="middle" font-size="9" fill="#fff">Servidor</text>
+
+  <!-- Base path -->
+  <line x1="285" y1="66" x2="285" y2="120" stroke="#1ab3a6" stroke-width="1.2"></line>
+  <rect x="234" y="121" width="100" height="22" rx="4" fill="#1ab3a6"></rect>
+  <text x="284" y="136" text-anchor="middle" font-size="9" fill="#fff">Base path + versão</text>
+
+  <!-- Tipo de recurso -->
+  <line x1="362" y1="66" x2="362" y2="90" stroke="#0d7c8c" stroke-width="1.2"></line>
+  <rect x="308" y="91" width="108" height="22" rx="4" fill="#0d7c8c"></rect>
+  <text x="362" y="106" text-anchor="middle" font-size="9" fill="#fff">Tipo de recurso</text>
+
+  <!-- ID -->
+  <line x1="430" y1="66" x2="430" y2="120" stroke="#1ab3a6" stroke-width="1.2"></line>
+  <rect x="378" y="121" width="104" height="22" rx="4" fill="#1ab3a6"></rect>
+  <text x="430" y="136" text-anchor="middle" font-size="9" fill="#fff">id do sistema</text>
+
+  <!-- Parâmetros -->
+  <line x1="540" y1="66" x2="540" y2="90" stroke="#0d7c8c" stroke-width="1.2"></line>
+  <rect x="482" y="91" width="130" height="22" rx="4" fill="#0d7c8c"></rect>
+  <text x="547" y="106" text-anchor="middle" font-size="9" fill="#fff">Parâmetros de pesquisa</text>
+
+  <text x="340" y="170" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 7.2 — Anatomia de uma URL REST clínica
+  </text>
+</svg>
+</div>
+</section>
+<section id="endpoints-em-contexto-clínico" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="endpoints-em-contexto-clínico"><span class="header-section-number">7.4.4</span> <em>Endpoints</em> em contexto clínico</h3>
+<p>Para concretizar, considere-se um servidor FHIR de um hospital português. Os <em>endpoints</em> seguem exactamente o mesmo padrão genérico, com nomes de recursos específicos da norma FHIR:</p>
+<div id="tbl-endpoints-clinicos" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-endpoints-clinicos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.5: Exemplos de endpoints REST em contexto FHIR hospitalar.
+</figcaption>
+<div aria-describedby="tbl-endpoints-clinicos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 16%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Método</th>
+<th>URL</th>
+<th>Operação clínica</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/Patient/P-12345</code></td>
+<td>Obter dados do utente com ID P-12345</td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/Patient?identifier=123456789</code></td>
+<td>Pesquisar utente por número de utente do SNS</td>
+</tr>
+<tr class="odd">
+<td><code>POST</code></td>
+<td><code>/Patient</code></td>
+<td>Registar novo utente</td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/Observation?patient=P-12345</code></td>
+<td>Listar todas as observações clínicas do utente</td>
+</tr>
+<tr class="odd">
+<td><code>GET</code></td>
+<td><code>/Observation?patient=P-12345&amp;date=2025</code></td>
+<td>Observações do utente em 2025</td>
+</tr>
+<tr class="even">
+<td><code>GET</code></td>
+<td><code>/DiagnosticReport?patient=P-12345&amp;category=LAB</code></td>
+<td>Relatórios laboratoriais do utente</td>
+</tr>
+<tr class="odd">
+<td><code>PUT</code></td>
+<td><code>/Appointment/A-789</code></td>
+<td>Actualizar agendamento</td>
+</tr>
+<tr class="even">
+<td><code>DELETE</code></td>
+<td><code>/Appointment/A-789</code></td>
+<td>Cancelar agendamento</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-rest-json" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="sec-rest-json"><span class="header-section-number">7.5</span> <code>JSON</code> — Estrutura, Tipos de Dados e Legibilidade</h2>
+<section id="o-que-é-o-json" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="o-que-é-o-json"><span class="header-section-number">7.5.1</span> O que é o <code>JSON</code></h3>
+<p><code>JSON</code> (Notação de Objectos JavaScript) é o formato de serialização de dados mais utilizado em <code>APIs</code> web. Definido pela norma <code>ECMA-404</code> <span class="citation" data-cites="ECMA404">(<a href="../referencias.html#ref-ECMA404" role="doc-biblioref">Ecma International, 2017</a>)</span>, é texto simples estruturado como pares chave–valor, legível por humanos e directamente processável por qualquer linguagem de programação moderna.</p>
+<p>Apesar do nome incluir <em>JavaScript</em>, o <code>JSON</code> é completamente independente de qualquer linguagem. Em Python, Java, C#, R ou qualquer outra linguagem, existem funções nativas para serializar e desserializar <code>JSON</code> sem bibliotecas externas.</p>
+</section>
+<section id="sintaxe-fundamental" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="sintaxe-fundamental"><span class="header-section-number">7.5.2</span> Sintaxe fundamental</h3>
+<p>A sintaxe <code>JSON</code> é definida por seis regras:</p>
+<ol type="1">
+<li><strong>Objecto</strong> — colecção de pares chave–valor delimitada por chavetas <code>{</code> <code>}</code>. As chaves são sempre <code>strings</code> entre aspas duplas. Os pares são separados por vírgulas.</li>
+<li><strong>Array</strong> — sequência ordenada de valores delimitada por parênteses rectos <code>[</code> <code>]</code>. Os elementos são separados por vírgulas.</li>
+<li><strong>String</strong> — sequência de caracteres entre aspas duplas. Exemplo: <code>"Ana Silva"</code>.</li>
+<li><strong>Number</strong> — número inteiro ou decimal, sem aspas. Exemplo: <code>42</code>, <code>3.14</code>.</li>
+<li><strong>Boolean</strong> — <code>true</code> ou <code>false</code>, sem aspas.</li>
+<li><strong>Null</strong> — valor nulo explícito: <code>null</code>.</li>
+</ol>
+<p>Qualquer valor pode ser um objecto, array, string, number, boolean ou null — e os objectos e arrays podem ser aninhados sem limite de profundidade.</p>
+</section>
+<section id="tipos-de-dados-em-json" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="tipos-de-dados-em-json"><span class="header-section-number">7.5.3</span> Tipos de dados em <code>JSON</code></h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"OBS-001"</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"codigo"</span><span class="fu">:</span> <span class="st">"8480-6"</span><span class="fu">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"designacao"</span><span class="fu">:</span> <span class="st">"Tensão arterial sistólica"</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"valor"</span><span class="fu">:</span> <span class="dv">122</span><span class="fu">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"unidade"</span><span class="fu">:</span> <span class="st">"mmHg"</span><span class="fu">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"dataHora"</span><span class="fu">:</span> <span class="st">"2025-11-14T09:30:00+00:00"</span><span class="fu">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"critico"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"componentes"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"codigo"</span><span class="fu">:</span> <span class="st">"8480-6"</span><span class="fu">,</span> <span class="dt">"valor"</span><span class="fu">:</span> <span class="dv">122</span><span class="fu">,</span> <span class="dt">"designacao"</span><span class="fu">:</span> <span class="st">"Sistólica"</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"codigo"</span><span class="fu">:</span> <span class="st">"8462-4"</span><span class="fu">,</span> <span class="dt">"valor"</span><span class="fu">:</span> <span class="dv">78</span><span class="fu">,</span>  <span class="dt">"designacao"</span><span class="fu">:</span> <span class="st">"Diastólica"</span> <span class="fu">}</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"notas"</span><span class="fu">:</span> <span class="kw">null</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Neste exemplo:</p>
+<ul>
+<li><code>"id"</code>, <code>"codigo"</code>, <code>"designacao"</code>, <code>"unidade"</code>, <code>"dataHora"</code> — strings (entre aspas duplas)</li>
+<li><code>"valor"</code> → <code>122</code> — número inteiro (<em>integer</em>), sem aspas</li>
+<li><code>"critico"</code> → <code>false</code> — booleano</li>
+<li><code>"componentes"</code> → <code>[...]</code> — array de objectos (dois elementos)</li>
+<li><code>"notas"</code> → <code>null</code> — valor nulo explícito (campo existe mas não tem valor)</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Atenção</strong> — Em <code>JSON</code>, a diferença entre <code>"122"</code> (string) e <code>122</code> (número) é semântica, não apenas de formato. Um sistema que espera um número e recebe uma string pode falhar ou comportar-se incorrectamente. Datas e horas são sempre strings em <code>JSON</code> (não existe tipo <code>date</code> nativo) — a representação normalizada é <code>ISO 8601</code>: <code>"2025-11-14T09:30:00+00:00"</code>.</p>
+</div>
+</div>
+</section>
+<section id="json-vs-xml-em-contexto-clínico" class="level3" data-number="7.5.4">
+<h3 data-number="7.5.4" class="anchored" data-anchor-id="json-vs-xml-em-contexto-clínico"><span class="header-section-number">7.5.4</span> <code>JSON</code> vs <code>XML</code> em contexto clínico</h3>
+<p>O <code>XML</code> (<code>Extensible Markup Language</code> — Linguagem de Marcação Extensível) foi o formato dominante nas <code>APIs</code> da geração anterior (Web Services <code>SOAP</code>, HL7 v3 <code>CDA</code>). A comparação directa ilustra as diferenças práticas:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- XML — observação clínica --&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">observacao</span>&gt;</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">id</span>&gt;OBS-001&lt;/<span class="kw">id</span>&gt;</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">codigo</span>&gt;8480-6&lt;/<span class="kw">codigo</span>&gt;</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">designacao</span>&gt;Tensão arterial sistólica&lt;/<span class="kw">designacao</span>&gt;</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">valor</span><span class="ot"> tipo=</span><span class="st">"numero"</span>&gt;122&lt;/<span class="kw">valor</span>&gt;</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">unidade</span>&gt;mmHg&lt;/<span class="kw">unidade</span>&gt;</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">critico</span><span class="ot"> tipo=</span><span class="st">"booleano"</span>&gt;false&lt;/<span class="kw">critico</span>&gt;</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">observacao</span>&gt;</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"OBS-001"</span><span class="fu">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"codigo"</span><span class="fu">:</span> <span class="st">"8480-6"</span><span class="fu">,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"designacao"</span><span class="fu">:</span> <span class="st">"Tensão arterial sistólica"</span><span class="fu">,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"valor"</span><span class="fu">:</span> <span class="dv">122</span><span class="fu">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"unidade"</span><span class="fu">:</span> <span class="st">"mmHg"</span><span class="fu">,</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"critico"</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-json-xml" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-json-xml-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.6: Comparação JSON vs XML em contexto de APIs clínicas <span class="citation" data-cites="ECMA404">(<a href="../referencias.html#ref-ECMA404" role="doc-biblioref">Ecma International, 2017</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-json-xml-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 51%">
+<col style="width: 22%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Característica</th>
+<th><code>XML</code></th>
+<th><code>JSON</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Estrutura</td>
+<td>Tags de abertura e fecho por campo</td>
+<td>Par chave–valor</td>
+</tr>
+<tr class="even">
+<td>Verbosidade</td>
+<td>Moderada — tags repetidas</td>
+<td>Baixa — estrutura compacta</td>
+</tr>
+<tr class="odd">
+<td>Tipos de dados nativos</td>
+<td>Não (tudo é texto; tipos por atributo ou schema)</td>
+<td>Sim (string, number, boolean, null, array, object)</td>
+</tr>
+<tr class="even">
+<td>Arrays</td>
+<td>Elemento repetido sem marcador explícito</td>
+<td><code>[ ]</code> explícitos</td>
+</tr>
+<tr class="odd">
+<td>Suporte em linguagens modernas</td>
+<td>Parcial (parsing manual ou biblioteca)</td>
+<td>Universal (<code>JSON.parse</code> / equivalente)</td>
+</tr>
+<tr class="even">
+<td>Uso actual em saúde</td>
+<td>HL7 v3 CDA, DICOM SR (legado)</td>
+<td>FHIR, APIs REST modernas</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="um-recurso-clínico-completo-em-json" class="level3" data-number="7.5.5">
+<h3 data-number="7.5.5" class="anchored" data-anchor-id="um-recurso-clínico-completo-em-json"><span class="header-section-number">7.5.5</span> Um recurso clínico completo em <code>JSON</code></h3>
+<p>O exemplo seguinte representa um utente conforme o modelo FHIR, em <code>JSON</code>, para ilustrar como um recurso clínico real é estruturado:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"Patient"</span><span class="fu">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"P-12345"</span><span class="fu">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"meta"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"versionId"</span><span class="fu">:</span> <span class="st">"3"</span><span class="fu">,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"lastUpdated"</span><span class="fu">:</span> <span class="st">"2025-11-14T08:00:00+00:00"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"identifier"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"https://www.sns.gov.pt/utente"</span><span class="fu">,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"123456789"</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"use"</span><span class="fu">:</span> <span class="st">"official"</span><span class="fu">,</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"family"</span><span class="fu">:</span> <span class="st">"Silva"</span><span class="fu">,</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"given"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"Ana"</span><span class="ot">,</span> <span class="st">"Maria"</span><span class="ot">]</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"gender"</span><span class="fu">:</span> <span class="st">"female"</span><span class="fu">,</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"birthDate"</span><span class="fu">:</span> <span class="st">"1978-04-22"</span><span class="fu">,</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"address"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"line"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"Rua do Comércio, 45"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"city"</span><span class="fu">:</span> <span class="st">"Vila Real"</span><span class="fu">,</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"postalCode"</span><span class="fu">:</span> <span class="st">"5000-678"</span><span class="fu">,</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"country"</span><span class="fu">:</span> <span class="st">"PT"</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"telecom"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"phone"</span><span class="fu">,</span> <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"+351 259 123 456"</span> <span class="fu">}</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Cada campo tem um papel preciso:</p>
+<ul>
+<li><code>"resourceType"</code> — identifica o tipo de recurso FHIR; sempre presente</li>
+<li><code>"id"</code> — o id do sistema: identificador técnico atribuído pelo servidor; é o que aparece na URL <code>/Patient/P-12345</code></li>
+<li><code>"meta"</code> — metadados do recurso: versão (<code>versionId</code>) e última actualização (<code>lastUpdated</code>)</li>
+<li><code>"identifier"</code> — array de identificadores clínicos: o número de utente do SNS; pode conter vários (número de processo, NIF, etc.)</li>
+<li><code>"name"</code>, <code>"address"</code>, <code>"telecom"</code> — arrays porque uma pessoa pode ter múltiplos nomes, moradas e contactos</li>
+</ul>
+<p>Note-se a diferença entre o <code>"id"</code> (id do sistema) e o <code>"identifier"</code> (id clínico). O <code>"id"</code> é técnico e interno ao servidor — pode mudar se os dados forem migrados para outro sistema. O número de utente do SNS em <code>"identifier"</code> é o identificador do mundo real, independente de qualquer tecnologia, que os profissionais reconhecem e utilizam no dia-a-dia.</p>
+</section>
+</section>
+<section id="sec-rest-search" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="sec-rest-search"><span class="header-section-number">7.6</span> <em>Search Parameters</em> e <em>Chaining</em> — Pesquisas Compostas</h2>
+<section id="parâmetros-de-pesquisa-básicos" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="parâmetros-de-pesquisa-básicos"><span class="header-section-number">7.6.1</span> Parâmetros de pesquisa básicos</h3>
+<p>Em <code>REST</code>, a pesquisa de recursos é feita através de <strong>parâmetros de pesquisa</strong> (<em>search parameters</em>) adicionados à <code>URL</code> após o símbolo <code>?</code>. Cada parâmetro é um par <code>nome=valor</code>. Múltiplos parâmetros são combinados com <code>&amp;</code>, formando um <code>AND</code> lógico <span class="citation" data-cites="RFC3986 RichardsonRuby2007">(<a href="../referencias.html#ref-RFC3986" role="doc-biblioref">Berners-Lee et al., 2005</a>; <a href="../referencias.html#ref-RichardsonRuby2007" role="doc-biblioref">Richardson &amp; Ruby, 2007</a>)</span>.</p>
+<p>A estrutura geral é:</p>
+<pre><code>GET /[TipoRecurso]?[parametro1]=[valor1]&amp;[parametro2]=[valor2]</code></pre>
+<p>Exemplos progressivos com recursos clínicos:</p>
+<pre><code># Parâmetro único: observações de um paciente
+GET /Observation?patient=P-12345
+
+# Dois parâmetros (AND): observações de um paciente num período
+GET /Observation?patient=P-12345&amp;date=ge2025-01-01
+
+# Três parâmetros: observações laboratoriais de um paciente em 2025
+GET /Observation?patient=P-12345&amp;date=ge2025-01-01&amp;category=laboratory
+
+# Paginação: primeiros 10 resultados, ordenados por data
+GET /Observation?patient=P-12345&amp;_count=10&amp;_sort=-date</code></pre>
+<p>Os parâmetros que começam com <code>_</code> (sublinhado) são parâmetros de controlo, comuns a todos os tipos de recurso:</p>
+<div id="tbl-control-params" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-control-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.7: Parâmetros de controlo REST comuns (usados em FHIR) <span class="citation" data-cites="RFC9110">(<a href="../referencias.html#ref-RFC9110" role="doc-biblioref">R. Fielding et al., 2022</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-control-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parâmetro de controlo</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>_count</code></td>
+<td>Número máximo de resultados por página</td>
+</tr>
+<tr class="even">
+<td><code>_sort</code></td>
+<td>Campo de ordenação (prefixo <code>-</code> para descendente)</td>
+</tr>
+<tr class="odd">
+<td><code>_format</code></td>
+<td>Formato da resposta (<code>json</code>, <code>xml</code>)</td>
+</tr>
+<tr class="even">
+<td><code>_include</code></td>
+<td>Incluir recursos referenciados na resposta</td>
+</tr>
+<tr class="odd">
+<td><code>_summary</code></td>
+<td>Devolver apenas campos essenciais (sumário)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="modificadores-de-pesquisa" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="modificadores-de-pesquisa"><span class="header-section-number">7.6.2</span> Modificadores de pesquisa</h3>
+<p>Além do operador de igualdade simples, os parâmetros de pesquisa suportam <strong>modificadores</strong> que permitem pesquisas mais expressivas. Em FHIR, os modificadores de comparação numérica e de data usam prefixos de dois caracteres:</p>
+<div id="tbl-search-modifiers" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-search-modifiers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.8: Modificadores de pesquisa REST/FHIR <span class="citation" data-cites="RFC3986">(<a href="../referencias.html#ref-RFC3986" role="doc-biblioref">Berners-Lee et al., 2005</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-search-modifiers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Modificador</th>
+<th>Significado</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>eq</code> (omissível)</td>
+<td>Igual a</td>
+<td><code>?valor=120</code></td>
+</tr>
+<tr class="even">
+<td><code>ne</code></td>
+<td>Diferente de</td>
+<td><code>?status=ne cancelled</code></td>
+</tr>
+<tr class="odd">
+<td><code>gt</code></td>
+<td>Maior que</td>
+<td><code>?date=gt2025-01-01</code></td>
+</tr>
+<tr class="even">
+<td><code>lt</code></td>
+<td>Menor que</td>
+<td><code>?date=lt2025-12-31</code></td>
+</tr>
+<tr class="odd">
+<td><code>ge</code></td>
+<td>Maior ou igual</td>
+<td><code>?date=ge2025-01-01</code></td>
+</tr>
+<tr class="even">
+<td><code>le</code></td>
+<td>Menor ou igual</td>
+<td><code>?date=le2025-12-31</code></td>
+</tr>
+<tr class="odd">
+<td><code>:contains</code></td>
+<td>String contém</td>
+<td><code>?name:contains=silva</code></td>
+</tr>
+<tr class="even">
+<td><code>:exact</code></td>
+<td>Correspondência exacta</td>
+<td><code>?name:exact=Ana Silva</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Exemplos combinados em contexto hospitalar:</p>
+<pre><code># Relatórios laboratoriais entre duas datas
+GET /DiagnosticReport?patient=P-12345
+  &amp;date=ge2025-01-01
+  &amp;date=le2025-12-31
+  &amp;category=LAB
+
+# Pacientes com apelido que contém "silva"
+GET /Patient?family:contains=silva
+
+# Observações com valor de tensão sistólica acima de 140
+GET /Observation?code=8480-6&amp;value-quantity=gt140</code></pre>
+</section>
+<section id="chaining-pesquisas-encadeadas" class="level3" data-number="7.6.3">
+<h3 data-number="7.6.3" class="anchored" data-anchor-id="chaining-pesquisas-encadeadas"><span class="header-section-number">7.6.3</span> <em>Chaining</em> — pesquisas encadeadas</h3>
+<p>O <em>chaining</em> (encadeamento) é uma capacidade avançada de pesquisa que permite filtrar um tipo de recurso com base em atributos de um recurso referenciado — sem necessitar de múltiplos pedidos <code>HTTP</code> sequenciais <span class="citation" data-cites="RichardsonRuby2007">(<a href="../referencias.html#ref-RichardsonRuby2007" role="doc-biblioref">Richardson &amp; Ruby, 2007</a>)</span>.</p>
+<p>A notação usa o ponto (<code>.</code>) como separador entre a referência e o atributo do recurso referenciado:</p>
+<pre><code>GET /[TipoRecurso]?[campo-referencia].[atributo-referenciado]=[valor]</code></pre>
+<p>Para ilustrar o conceito, considere um cenário clínico: obter todas as observações cujo paciente tem um determinado número de utente do SNS.</p>
+<p><strong>Sem <em>chaining</em></strong> (dois pedidos sequenciais):</p>
+<pre><code># Passo 1: encontrar o ID do paciente pelo número de utente
+GET /Patient?identifier=123456789
+→ devolve { "id": "P-12345", ... }
+
+# Passo 2: usar o ID obtido para pesquisar as observações
+GET /Observation?patient=P-12345</code></pre>
+<p><strong>Com <em>chaining</em></strong> (um único pedido):</p>
+<pre><code>GET /Observation?patient.identifier=123456789</code></pre>
+<p>O servidor resolve internamente a referência: percorre as observações, navega para o paciente referenciado em cada uma, verifica o identificador, e devolve apenas as observações cujo paciente tem esse número de utente.</p>
+<!--
+  Diagrama: chaining — resolução interna de referência.
+  Paleta teal.
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="200" rx="10" fill="#f8fbfc"></rect>
+
+  <!-- Título -->
+  <text x="340" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0a3d4a">
+    Chaining — GET /Observation?patient.identifier=123456789
+  </text>
+
+  <!-- Observation (esq) -->
+  <rect x="20" y="40" width="150" height="90" rx="8" fill="#0a3d4a"></rect>
+  <text x="95" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Observation</text>
+  <text x="95" y="80" text-anchor="middle" font-size="9" fill="#e2f4f3">id: OBS-001</text>
+  <text x="95" y="95" text-anchor="middle" font-size="9" fill="#e2f4f3">código: 8480-6</text>
+  <text x="95" y="110" text-anchor="middle" font-size="9" fill="#1ab3a6">patient → P-12345</text>
+
+  <!-- Seta navega referência -->
+  <line x1="172" y1="95" x2="258" y2="95" stroke="#0d7c8c" stroke-width="2" marker-end="url(#ch1)"></line>
+  <text x="215" y="87" text-anchor="middle" font-size="9" fill="#0d7c8c">navega ref.</text>
+
+  <!-- Patient (centro) -->
+  <rect x="260" y="40" width="160" height="90" rx="8" fill="#0d7c8c"></rect>
+  <text x="340" y="62" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Patient</text>
+  <text x="340" y="80" text-anchor="middle" font-size="9" fill="#e2f4f3">id: P-12345</text>
+  <text x="340" y="95" text-anchor="middle" font-size="9" fill="#1ab3a6">identifier: 123456789</text>
+  <text x="340" y="112" text-anchor="middle" font-size="9" fill="#e2f4f3">nome: Ana Silva</text>
+
+  <!-- Seta verificação critério -->
+  <line x1="422" y1="95" x2="500" y2="95" stroke="#1ab3a6" stroke-width="2" marker-end="url(#ch2)"></line>
+  <text x="461" y="87" text-anchor="middle" font-size="9" fill="#1ab3a6">verifica critério</text>
+
+  <!-- Resultado (dir) -->
+  <rect x="502" y="50" width="158" height="70" rx="8" fill="#1ab3a6"></rect>
+  <text x="581" y="72" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">OBS-001 incluída</text>
+  <text x="581" y="90" text-anchor="middle" font-size="9" fill="#0a3d4a">identifier = 123456789</text>
+  <text x="581" y="107" text-anchor="middle" font-size="9" fill="#0a3d4a">condição satisfeita</text>
+
+  <!-- Notas em baixo -->
+  <rect x="20" y="144" width="640" height="30" rx="5" fill="#e2f4f3" stroke="#0d7c8c" stroke-width="1"></rect>
+  <text x="340" y="164" text-anchor="middle" font-size="9" fill="#0a3d4a">
+    Sem chaining: 2 pedidos HTTP sequenciais.
+    Com chaining: 1 pedido — o servidor resolve a referência internamente.
+  </text>
+
+  <text x="340" y="192" text-anchor="middle" font-size="14" fill="#64748b">
+    Figura 7.3 — Chaining: navegação de referências numa única query
+  </text>
+
+  <defs>
+    <marker id="ch1" markerwidth="6" markerheight="6" refx="5" refy="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#0d7c8c"></path></marker>
+    <marker id="ch2" markerwidth="6" markerheight="6" refx="5" refy="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1ab3a6"></path></marker>
+  </defs>
+</svg>
+</div>
+</section>
+<section id="exemplos-de-chaining-em-contexto-hospitalar" class="level3" data-number="7.6.4">
+<h3 data-number="7.6.4" class="anchored" data-anchor-id="exemplos-de-chaining-em-contexto-hospitalar"><span class="header-section-number">7.6.4</span> Exemplos de <em>chaining</em> em contexto hospitalar</h3>
+<pre><code># Observações de pacientes do sexo feminino
+GET /Observation?patient.gender=female
+
+# DiagnosticReports de pacientes nascidos depois de 1990
+GET /DiagnosticReport?patient.birthdate=gt1990-01-01
+
+# Observações realizadas por profissional de saúde de determinado serviço
+GET /Observation?performer.organization.name=Laboratório+Central
+
+# Duplo encadeamento: observações de pacientes com morada em Vila Real
+GET /Observation?patient.address-city=Vila+Real</code></pre>
+<p>O <em>chaining</em> pode ser encadeado em múltiplos níveis (separados por pontos adicionais), embora a profundidade suportada varie entre implementações. O princípio mantém-se: cada ponto atravessa uma referência entre recursos.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Atenção</strong> — O <em>chaining</em> aumenta expressivamente a capacidade de pesquisa, mas tem um custo de desempenho: o servidor precisa de resolver referências internamente, o que pode implicar múltiplas operações sobre a base de dados. Em servidores FHIR de produção, as queries de <em>chaining</em> profundo são frequentemente sujeitas a limites de timeout ou de complexidade. Na implementação de clientes, deve preferir-se <em>chaining</em> simples (um nível) quando possível.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-rest-exercicios" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-rest-exercicios">Exercícios Propostos</h2>
+<p><strong>1.</strong> Considere as seguintes afirmações sobre o <code>REST</code>: (a) «O <code>REST</code> é um protocolo de comunicação»; (b) «Um sistema <code>RESTful</code> usa obrigatoriamente <code>JSON</code>»; (c) «A restrição <em>stateless</em> significa que o servidor não guarda dados persistentes». Identifique quais são falsas e justifique.</p>
+<p><strong>2.</strong> Um servidor devolve o código de estado <code>403</code> em resposta a <code>GET /Patient/P-12345</code>. Outro servidor devolve <code>404</code> para o mesmo pedido. Qual a diferença semântica entre as duas respostas? Que implicação tem cada uma para o cliente?</p>
+<p><strong>3.</strong> Um sistema de telemedicina precisa de consultar, para um paciente identificado pelo seu número de utente do SNS, todas as observações clínicas registadas no último ano. Escreva a sequência de pedidos <code>HTTP</code> necessária: (a) sem recorrer a <em>chaining</em> (dois pedidos); (b) com <em>chaining</em> (um único pedido).</p>
+<p><strong>4.</strong> Analise o seguinte fragmento <code>JSON</code> e identifique: (a) o número de pares chave–valor de primeiro nível; (b) os campos com valor de tipo <code>array</code>; (c) o campo com valor de tipo <code>boolean</code>; (d) o campo com valor <code>null</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"Observation"</span><span class="fu">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"OBS-789"</span><span class="fu">,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"final"</span><span class="fu">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">{</span> <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://loinc.org"</span><span class="fu">,</span> <span class="dt">"code"</span><span class="fu">:</span> <span class="st">"2345-7"</span> <span class="fu">}</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"Glicemia em jejum"</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"valueQuantity"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"value"</span><span class="fu">:</span> <span class="fl">5.6</span><span class="fu">,</span> <span class="dt">"unit"</span><span class="fu">:</span> <span class="st">"mmol/L"</span> <span class="fu">},</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"interpretation"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"issued"</span><span class="fu">:</span> <span class="st">"2025-11-14T10:00:00+00:00"</span><span class="fu">,</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"performer"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"Laboratório Central"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"note"</span><span class="fu">:</span> <span class="ot">[]</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>5.</strong> O <em>endpoint</em> <code>GET /Patient?family:contains=ferreira&amp;address-city=Braga</code> devolve uma lista de pacientes. Explique em linguagem natural o critério de pesquisa expresso por este pedido. De seguida, reformule o pedido para devolver também apenas pacientes do sexo masculino, ordenados por data de nascimento descendente, com paginação de 20 resultados por página.</p>
+<p><strong>6.</strong> Um hospital pretende exportar para um sistema de análise estatística todas as observações de tensão arterial sistólica (código LOINC <code>8480-6</code>) registadas entre 1 de Janeiro e 31 de Março de 2025 para pacientes com mais de 65 anos de idade. Descreva a estratégia de pesquisa <code>REST</code> para obter estes dados, identificando os parâmetros de pesquisa e o eventual recurso a <em>chaining</em>.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-BensonGrieve2021" class="csl-entry" role="listitem">
+Benson, T., &amp; Grieve, G. (2021). <em>Principles of Health Interoperability: <span>FHIR</span>, <span>HL7</span> and <span>SNOMED CT</span></em> (4.ª ed.). Springer. <a href="https://doi.org/10.1007/978-3-030-56883-2">https://doi.org/10.1007/978-3-030-56883-2</a>
+</div>
+<div id="ref-RFC3986" class="csl-entry" role="listitem">
+Berners-Lee, T., Fielding, R., &amp; Masinter, L. (2005). <em><span>Uniform Resource Identifier (URI): Generic Syntax</span></em> (RFC 3986). IETF. <a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>
+</div>
+<div id="ref-ECMA404" class="csl-entry" role="listitem">
+Ecma International. (2017). <em><span>The JSON Data Interchange Syntax</span></em> (Standard ECMA-404; 2.ª ed.). Ecma International. <a href="https://www.ecma-international.org/publications-and-standards/standards/ecma-404/">https://www.ecma-international.org/publications-and-standards/standards/ecma-404/</a>
+</div>
+<div id="ref-Fielding2000" class="csl-entry" role="listitem">
+Fielding, R. T. (2000). <em>Architectural Styles and the Design of Network-based Software Architectures</em> [Tese de doutorado, University of California, Irvine]. <a href="https://ics.uci.edu/~fielding/pubs/dissertation/top.htm">https://ics.uci.edu/~fielding/pubs/dissertation/top.htm</a>
+</div>
+<div id="ref-RFC9110" class="csl-entry" role="listitem">
+Fielding, R., Nottingham, M., &amp; Reschke, J. (2022). <em><span>HTTP</span> Semantics</em> (RFC 9110). IETF. <a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>
+</div>
+<div id="ref-RichardsonRuby2007" class="csl-entry" role="listitem">
+Richardson, L., &amp; Ruby, S. (2007). <em><span>RESTful</span> Web Services</em>. O’Reilly Media.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/cap06.html" class="pagination-link" aria-label="HL7 v2 — Modelo de Mensagens e Limitações">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Modelo de Mensagens e Limitações</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../referencias.html" class="pagination-link" aria-label="Referências">
+        <span class="nav-page-text">Referências</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Informática Médica — Mestrado em Engenharia Biomédica · UTAD</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><a href="https://joaoagostinhopavao.github.io/sebenta-im/en/">🇬🇧 English</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
