@@ -1,0 +1,1038 @@
+---
+title: "FHIR: Modelo de Recursos"
+lang: pt-PT
+---
+
+## Contexto Histórico — Porquê o FHIR {#sec-fhir-contexto}
+
+### O HL7 v3 e a tentativa falhada do `RIM`
+
+Nos anos seguintes à publicação do `HL7` v2, ficou claro que o protocolo
+tinha limitações estruturais difíceis de superar: a ausência de semântica
+formal, a ambiguidade de implementação e o acoplamento forte entre pares
+de sistemas. Para as resolver, o consórcio HL7 International lançou, em
+2003, o **HL7 v3** — uma reescrita completa assente num modelo de
+informação central chamado `RIM` (Reference Information Model — Modelo de
+Informação de Referência), um modelo `UML` (Unified Modeling Language —
+Linguagem de Modelação Unificada) único e formal destinado a representar
+*toda* a informação de saúde [@Heitmann2004].
+
+A ambição era considerável: um único modelo unificaria toda a comunicação
+em saúde, eliminando a ambiguidade estrutural do `HL7` v2. Na prática, o
+resultado foi oposto. O `RIM` era extremamente abstracto — centenas de
+classes organizadas em múltiplas hierarquias — e a sua aprendizagem exigia
+meses para implementadores. As mensagens `HL7` v3 chegavam a centenas de
+kilobytes por transacção simples, transportadas em *envelopes* `SOAP`
+(Simple Object Access Protocol — Protocolo de Acesso a Objectos Simples)
+sobre Web Services `XML` (Extensible Markup Language — Linguagem de
+Marcação Extensível). Toda a arquitectura exigia *middleware* especializado
+— motores de integração como o Mirth Connect ou o Rhapsody — tornando a
+instalação e manutenção cara e tecnicamente exigente [@BensonGrieve2021].
+
+A adopção ficou muito aquém do esperado: o `HL7` v2, apesar das suas
+limitações, manteve-se dominante. O `HL7` v3 ficou maioritariamente no
+papel.
+
+### O `CDA` — o único produto HL7 v3 com adopção real
+
+A excepção foi o `CDA` (Clinical Document Architecture — Arquitectura de
+Documento Clínico), publicado em 2000 e revisto na versão R2 em 2005. O
+`CDA` usa o `RIM`, mas aplica-o a um domínio restrito e concreto:
+documentos clínicos — notas de alta, sumários clínicos, relatórios de
+consulta [@HL7_CDA2005].
+
+A estrutura de um documento `CDA` é `XML` com um cabeçalho obrigatório
+(identificador, data, paciente, autor) e um *body* com secções codificadas
+em `LOINC` (Logical Observation Identifiers Names and Codes — Identificadores
+Lógicos de Nomes e Códigos para Observações). O documento é legível tanto
+por máquina como por humano. Esta dualidade foi uma das razões da sua
+adopção.
+
+```xml
+<!-- Excerto CDA R2 — cabeçalho de documento clínico -->
+<ClinicalDocument>
+  <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+  <templateId root="2.16.840.1.113883.10.20.22.1.1"/>
+  <id root="a6e29b60-4d4a-11ed" extension="doc-001"/>
+  <code code="34133-9" displayName="Sumário Clínico"/>
+  <recordTarget>
+    <patientRole>
+      <patient>
+        <name>
+          <given>Maria</given>
+          <family>Silva</family>
+        </name>
+      </patient>
+    </patientRole>
+  </recordTarget>
+</ClinicalDocument>
+```
+
+Na Europa, o programa **ELGA** (*Elektronische Gesundheitsakte* — Registo
+Electrónico de Saúde austríaco) adoptou o `CDA` R2 como formato base para
+a troca de documentos clínicos, tornando-se um dos casos europeus mais
+notáveis de implementação em produção [@HL7_CDA2005].
+
+Contudo, o `CDA` tem limites claros: é adequado para documentos, não para
+a troca granular de dados clínicos. Enviar um resultado laboratorial, uma
+observação de tensão arterial ou um registo de medicação através de `CDA`
+implicaria embrulhá-los num documento quando o que se quer é simplesmente
+transmitir um dado atómico. Este problema ficaria por resolver até ao
+surgimento do `FHIR`.
+
+### Grahame Grieve e o *Fresh Look* (2011)
+
+Em 2011, Grahame Grieve, consultor neozelandês de interoperabilidade em
+saúde, publicou uma série de artigos num blogue intitulados *Fresh Look at
+HL7* [@Grieve2011]. A tese central era simples: em vez de construir mais
+abstracções sobre o `RIM`, havia que recomeçar com os padrões da web
+moderna — `REST` e `JSON`.
+
+As quatro ideias fundadoras do *Fresh Look* foram:
+
+**1. Recursos atómicos** — cada conceito clínico (paciente, observação,
+medicação, episódio clínico) é um recurso independente, com identificador
+próprio, transmissível de forma autónoma. Não há documentos monolíticos
+que embrulhem tudo.
+
+**2. `REST` como transporte** — em vez de *envelopes* `SOAP` e *middleware*
+obrigatório, qualquer servidor `HTTP` (HyperText Transfer Protocol —
+Protocolo de Transferência de Hipertexto) pode servir recursos clínicos. Um
+pedido `GET /Patient/123` devolve um paciente em `JSON`. A barreira de
+entrada baixa drasticamente.
+
+**3. `JSON` e `XML`** — suporte nativo a ambos os formatos. Os programadores
+web adoptam imediatamente com `JSON`; os sistemas legados que preferem `XML`
+são igualmente suportados.
+
+**4. Regra dos 80/20** — cobrir 80% dos casos de uso com especificações
+simples no núcleo (*core*) da norma. Os restantes 20% — os casos locais ou
+especializados — resolvem-se com *profiles* (perfis) e extensões, sem
+sobrecarregar o modelo base.
+
+A proposta foi apresentada à HL7 International, que a adoptou como projecto
+oficial. O primeiro rascunho para uso experimental, `DSTU 1` (*Draft Standard
+for Trial Use* — Rascunho de Norma para Uso Experimental), foi publicado em
+2012. O processo de maturação levou menos de uma década:
+
+| Versão | Ano | Marco |
+|--------|-----|-------|
+| `DSTU 1` | 2012 | Primeiros implementadores testam a especificação |
+| `DSTU 2` | 2015 | Base do `SMART on FHIR` (*Substitutable Medical Applications, Reusable Technologies*); primeiras implementações clínicas reais |
+| `STU 3` | 2017 | `STU` (Standard for Trial Use — Norma para Uso Experimental) — estabilização dos recursos *core*; adopção alargada |
+| `R4` | 2019 | Primeira versão normativa (não mais "uso experimental") |
+| `R5` | 2023 | Maturidade técnica; alinhamento com `IPS` (International Patient Summary — Sumário Internacional do Paciente) |
+
+: Linha cronológica do FHIR — de DSTU1 a R5 [@HL7_FHIR_R4; @HL7_FHIR_R5]. {#tbl-fhir-timeline}
+
+### Adopção regulatória global
+
+A velocidade de adopção do `FHIR` é inseparável do enquadramento
+regulatório. Dois marcos são particularmente relevantes.
+
+Na Europa, o `EHDS` (European Health Data Space — Espaço Europeu de Dados
+de Saúde), regulamento adoptado entre 2022 e 2024, designa o `FHIR` como
+formato de referência para a partilha transfronteiriça de dados de saúde
+entre Estados-Membros. O programa **MyHealth@EU**, que visa a continuidade
+de cuidados para cidadãos europeus em deslocação, assenta neste enquadramento.
+
+Nos Estados Unidos, legislação federal de 2016 (conhecida como *21st Century
+Cures Act*) impôs que qualquer sistema `EHR` (Electronic Health Record —
+Registo Electrónico de Saúde) certificado pelo `ONC` (Office of the National
+Coordinator for Health Information Technology — Gabinete do Coordenador
+Nacional para as Tecnologias de Informação em Saúde) expusesse uma `API`
+(Application Programming Interface — Interface de Programação de Aplicações)
+`FHIR` R4 acessível a aplicações de terceiros, proibindo simultaneamente
+práticas de *information blocking* — restrições deliberadas ao acesso de
+pacientes e profissionais aos seus dados [@ONC2020].
+
+A adopção estendeu-se também à Austrália (`ADHA` — Australian Digital Health
+Agency — Agência Australiana de Saúde Digital) e ao Canadá, tornando o `FHIR`
+R4 a versão de referência a nível global.
+
+::: {.callout-note}
+**Nota** — O `SMART on FHIR` é uma *framework* de autorização e autenticação
+que permite a aplicações externas aceder a dados `FHIR` de forma segura e
+padronizada, usando OAuth 2.0 e OpenID Connect. É o mecanismo que permite
+a uma aplicação de saúde num telemóvel pedir autorização ao sistema
+hospitalar para aceder aos dados `FHIR` de um paciente sem conhecer os
+detalhes internos do sistema [@Mandl2020].
+:::
+
+## O Modelo de Recursos `FHIR` {#sec-fhir-recursos}
+
+### O que é um *Resource*
+
+A unidade fundamental de informação no `FHIR` é o `Resource` (recurso). Um
+`Resource` representa um conceito clínico ou administrativo discreto —
+paciente, observação, medicação, episódio clínico — que é independentemente
+identificável, persistível num servidor e transmissível numa única resposta
+`HTTP`.
+
+Esta atomicidade é a diferença essencial em relação ao `CDA`. Num documento
+`CDA`, o paciente, o autor, as observações e os diagnósticos existem todos
+dentro de um único documento monolítico. No `FHIR`, cada um desses conceitos
+é um recurso separado, com o seu próprio endereço `URL`, que pode ser
+criado, lido, actualizado e eliminado de forma independente.
+
+Todo o `Resource` tem uma anatomia comum:
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `resourceType` | `string` | Tipo do recurso — obrigatório. Ex: `"Patient"`, `"Observation"` |
+| `id` | `id` | Identificador único no servidor; aparece na `URL` |
+| `meta` | `Meta` | Metadados: versão, data de última actualização, perfil seguido |
+| `implicitRules` | `uri` | `URI` de regras adicionais; quem não as conhece não pode processar o recurso |
+| `language` | `code` | Idioma do conteúdo; segue `BCP-47` (Best Current Practice 47 — norma de etiquetas de língua: `pt`, `en`, `de`, `fr`) |
+| `text` | `Narrative` | Narrativa `XHTML` (Extensible HyperText Markup Language — Linguagem de Marcação de Hipertexto Extensível) legível por humano; gerada automaticamente pelos servidores |
+| `contained` | `Resource[]` | Recursos embutidos dentro deste recurso |
+| `extension` | `Extension[]` | Campos adicionais não definidos no *core* `FHIR` |
+| Elementos específicos | — | Campos próprios do tipo: `name`, `birthDate` (em `Patient`), `valueQuantity` (em `Observation`) |
+
+: Anatomia de um Resource FHIR [@HL7_FHIR_R4]. {#tbl-resource-anatomy}
+
+Os campos `implicitRules` e `language` são omitidos dos slides por serem
+raramente usados em contexto de introdução, mas merecem atenção na sebenta.
+O `implicitRules` indica que o recurso foi construído seguindo regras adicionais
+a um perfil ou guia de implementação. Um sistema que não conheça essas regras
+não pode processar o recurso com segurança. O campo `language` é útil em
+contextos multilingues — num sistema que serve populações com diferentes
+línguas, distinguir o idioma do conteúdo facilita a renderização e a
+tradução.
+
+### Hierarquia de tipos: `Resource` → `DomainResource`
+
+O `FHIR` define uma hierarquia formal de tipos. A classe de base `Resource`
+fornece os campos técnicos comuns — `id`, `meta`, `implicitRules`,
+`language`. A maior parte dos recursos clínicos não herda directamente de
+`Resource`, mas sim de `DomainResource`, que acrescenta três capacidades
+fundamentais [@HL7_FHIR_R4]:
+
+- `text` — narrativa `XHTML` legível por humano; permite que qualquer
+  sistema que não conheça o tipo específico de recurso consiga ainda assim
+  apresentar uma versão legível do conteúdo
+- `contained` — mecanismo para embutir recursos dentro de outros (ver
+  secção 8.4)
+- `extension` e `modifierExtension` — mecanismos de extensibilidade (ver
+  abaixo)
+
+```{=html}
+<!--
+  Diagrama: hierarquia Resource → DomainResource → recursos clínicos.
+  Paleta azul (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="260" rx="10" fill="#f5f8fc"/>
+
+  <!-- Resource (topo) -->
+  <rect x="240" y="18" width="200" height="48" rx="8" fill="#1a3a6b"/>
+  <text x="340" y="38" text-anchor="middle" font-size="13"
+        font-weight="bold" fill="#fff">Resource</text>
+  <text x="340" y="56" text-anchor="middle" font-size="9"
+        fill="#b8d0f0">id · meta · implicitRules · language</text>
+
+  <!-- Seta Resource → DomainResource -->
+  <line x1="340" y1="66" x2="340" y2="96" stroke="#2d6abf" stroke-width="2"
+        marker-end="url(#arr1)"/>
+
+  <!-- DomainResource -->
+  <rect x="190" y="98" width="300" height="50" rx="8" fill="#2d6abf"/>
+  <text x="340" y="118" text-anchor="middle" font-size="13"
+        font-weight="bold" fill="#fff">DomainResource</text>
+  <text x="340" y="136" text-anchor="middle" font-size="9"
+        fill="#d0e4ff">text · contained · extension · modifierExtension</text>
+
+  <!-- Seta DomainResource → recursos clínicos -->
+  <line x1="340" y1="148" x2="340" y2="170" stroke="#2d6abf" stroke-width="2"
+        marker-end="url(#arr1)"/>
+
+  <!-- Recursos clínicos (fila) -->
+  <rect x="20" y="172" width="110" height="36" rx="6" fill="#4a86d8"/>
+  <text x="75" y="195" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Patient</text>
+
+  <rect x="140" y="172" width="110" height="36" rx="6" fill="#4a86d8"/>
+  <text x="195" y="195" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Observation</text>
+
+  <rect x="260" y="172" width="110" height="36" rx="6" fill="#4a86d8"/>
+  <text x="315" y="195" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Encounter</text>
+
+  <rect x="380" y="172" width="110" height="36" rx="6" fill="#4a86d8"/>
+  <text x="435" y="195" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Practitioner</text>
+
+  <rect x="500" y="172" width="160" height="36" rx="6" fill="#4a86d8"/>
+  <text x="580" y="195" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Condition · Medication…</text>
+
+  <!-- Linha de herança para recursos -->
+  <line x1="75" y1="172" x2="340" y2="148" stroke="#4a86d8" stroke-width="1" stroke-dasharray="3"/>
+  <line x1="195" y1="172" x2="340" y2="148" stroke="#4a86d8" stroke-width="1" stroke-dasharray="3"/>
+  <line x1="315" y1="172" x2="340" y2="148" stroke="#4a86d8" stroke-width="1" stroke-dasharray="3"/>
+  <line x1="435" y1="172" x2="340" y2="148" stroke="#4a86d8" stroke-width="1" stroke-dasharray="3"/>
+  <line x1="580" y1="172" x2="340" y2="148" stroke="#4a86d8" stroke-width="1" stroke-dasharray="3"/>
+
+  <!-- Excepções -->
+  <rect x="120" y="222" width="440" height="28" rx="5"
+        fill="#e8f0fb" stroke="#2d6abf" stroke-width="1"/>
+  <text x="340" y="241" text-anchor="middle" font-size="9"
+        fill="#1a3a6b">Não herdam de DomainResource: Bundle · Binary · Parameters</text>
+
+  <text x="340" y="258" text-anchor="middle" font-size="13" fill="#64748b">
+    Figura 8.1 — Hierarquia de tipos FHIR: Resource → DomainResource → recursos clínicos
+  </text>
+
+  <defs>
+    <marker id="arr1" markerWidth="7" markerHeight="7"
+            refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2d6abf"/></marker>
+  </defs>
+</svg>
+</div>
+```
+
+Três recursos — `Bundle`, `Binary` e `Parameters` — não herdam de
+`DomainResource`. São recursos de infraestrutura com semântica especial:
+não têm narrativa `XHTML` nem suportam extensões arbitrárias.
+
+### Extensões: `extension` e `modifierExtension`
+
+O mecanismo de extensão é central para a filosofia de 80/20 do `FHIR`.
+O *core* da norma cobre os 80% mais comuns; os 20% específicos de cada
+país ou instituição são adicionados por extensão, sem quebrar a norma.
+
+- **`extension`** — campo adicional que não existe no modelo *core*. Exemplo:
+  o número de utente do `SNS` (Serviço Nacional de Saúde) num recurso
+  `Patient` português. Um sistema que não conheça esta extensão pode
+  simplesmente ignorá-la — o recurso continua válido.
+- **`modifierExtension`** — igual ao anterior, mas com um aviso explícito:
+  esta extensão *altera o significado* do recurso. Um sistema que não
+  a compreenda não pode ignorá-la com segurança — deve rejeitar o recurso.
+
+A distinção entre os dois é importante em contextos de interoperabilidade:
+as `modifierExtension` são sinalizadores de que algo fora do *core* é
+semânticamente determinante.
+
+### Categorias de recursos `FHIR`
+
+O `FHIR` R4 define mais de 140 recursos, organizados em categorias por
+domínio funcional:
+
+| Categoria | Recursos representativos | Papel |
+|-----------|--------------------------|-------|
+| Clínica | `Patient`, `Observation` (observação clínica), `Condition` (diagnóstico) | Informação directamente relacionada com o estado do paciente |
+| Administrativa | `Organization` (organização de saúde), `Practitioner` (profissional de saúde), `Encounter` (episódio clínico) | Contexto e actores dos cuidados |
+| Financeira | `Claim` (pedido de reembolso), `Coverage` (cobertura de saúde: `SNS`, subsistemas, seguro) | Gestão de pagamentos e seguros |
+| Infraestrutura | `Bundle` (contentor de recursos), `CapabilityStatement` (declaração de capacidades), `OperationOutcome` (resultado de operação) | Funcionamento do servidor `FHIR` |
+
+: Categorias de recursos FHIR R4 e exemplos representativos [@HL7_FHIR_R4]. {#tbl-resource-categories}
+
+::: {.callout-note}
+**Nota** — O `Practitioner` é deliberadamente abrangente: inclui médicos,
+enfermeiros, farmacêuticos, fisioterapeutas, técnicos de radiologia, e
+qualquer outro profissional habilitado a prestar cuidados de saúde. A
+distinção de categoria profissional é feita através de campos de qualificação
+associados, não no tipo de recurso em si.
+:::
+
+## id do Sistema vs id Clínico {#sec-fhir-identifiers}
+
+### Dois tipos de identificador
+
+Um `Resource FHIR` pode ter dois tipos de identificador com semânticas
+completamente distintas. Compreender a diferença é essencial para
+implementar correctamente pesquisas e referências entre sistemas.
+
+O **id do sistema** (nos slides também referido como *id lógico*) é o
+identificador técnico atribuído pelo servidor `FHIR` ao recurso. Aparece
+no campo `id` do recurso e faz parte da `URL`:
+
+```
+GET /Patient/550e8400-e29b-41d4
+               └─ este é o id do sistema
+```
+
+O id do sistema tem duas propriedades importantes:
+
+1. **É único dentro do servidor** — dois servidores `FHIR` diferentes podem
+   ter recursos com o mesmo id do sistema, sem qualquer conflito.
+2. **Pode mudar** — se os dados forem migrados para um novo servidor, o id
+   do sistema é tipicamente reatribuído. O recurso `Patient/123` num sistema
+   legado pode tornar-se `Patient/550e8400-e29b` no novo servidor.
+
+O **id clínico** (nos slides também referido como *business identifier*) é o
+identificador que existe no mundo real, independentemente do servidor. Está
+no campo `identifier` do recurso e persiste mesmo com migrações:
+
+```json
+"identifier": [{
+  "system": "http://rnsnp.min-saude.pt",
+  "value": "123456789"
+}]
+```
+
+O número de utente do `SNS`, o número de processo clínico, o `NIF` (Número
+de Identificação Fiscal) — são exemplos de ids clínicos. Os profissionais
+de saúde reconhecem e usam estes identificadores no dia-a-dia. Quando um
+médico pede os dados de um paciente, não conhece o id do sistema — conhece
+o número de utente.
+
+| Dimensão | id do sistema | id clínico |
+|----------|---------------|------------|
+| Campo | `id` | `identifier` |
+| Atribuído por | Servidor `FHIR` | Sistema clínico / entidade emissora |
+| Aparece na `URL` | Sim | Não |
+| Persiste em migrações | Não | Sim |
+| Reconhecido por profissionais | Raramente | Sempre |
+| Exemplos | `550e8400-e29b-41d4` | Número de utente `SNS`, nº processo, `NIF` |
+
+: Comparação entre id do sistema e id clínico em FHIR [@HL7_FHIR_R4]. {#tbl-id-comparison}
+
+O campo `identifier` é um *array* porque uma pessoa pode ter múltiplos
+ids clínicos simultaneamente: número de utente do `SNS`, número de processo
+do hospital, número de beneficiário da `ADSE` (Assistência na Doença aos
+Servidores do Estado). Cada elemento do *array* tem um campo `system` — a
+`URI` canónica da entidade que atribuiu o identificador — e um campo `value`
+— o valor do identificador nesse sistema.
+
+```json
+{
+  "resourceType": "Patient",
+  "id": "550e8400-e29b-41d4",
+  "identifier": [
+    {
+      "system": "http://rnsnp.min-saude.pt",
+      "value": "123456789"
+    },
+    {
+      "system": "http://hospitalx.pt/processos",
+      "value": "PROC-2024-00891"
+    }
+  ],
+  "name": [{ "family": "Silva", "given": ["Maria"] }],
+  "birthDate": "1980-06-15"
+}
+```
+
+Neste exemplo, o `id` do sistema é `550e8400-e29b-41d4` e a `URL` do
+recurso é `/Patient/550e8400-e29b-41d4`. O número de utente `123456789`
+e o número de processo `PROC-2024-00891` são ids clínicos — identificam
+a mesma pessoa independentemente do servidor onde os dados residem.
+
+## Referências e Recursos Embutidos {#sec-fhir-references}
+
+### O tipo `Reference`
+
+Os recursos `FHIR` raramente existem de forma isolada. Uma `Observation`
+(observação clínica) pertence a um paciente; um `Encounter` (episódio
+clínico) envolve um `Practitioner` (profissional de saúde); um
+`DiagnosticReport` (relatório diagnóstico) agrupa várias `Observation`.
+Estas relações são expressas através do tipo `Reference` — uma referência
+tipada a outro recurso [@HL7_FHIR_R4].
+
+Uma `Reference` tem três formas possíveis:
+
+**Referência relativa** (a mais comum) — aponta para um recurso no mesmo
+servidor:
+
+```json
+"subject": {
+  "reference": "Patient/p-123",
+  "display": "Maria Silva"
+}
+```
+
+**Referência absoluta** — aponta para um recurso noutro servidor (*cross-server*):
+
+```json
+"subject": {
+  "reference": "https://server.hospital.pt/fhir/Patient/p-123",
+  "display": "Maria Silva"
+}
+```
+
+**Referência embutida** (*contained*) — aponta para um recurso embutido
+dentro do próprio recurso corrente (ver secção seguinte):
+
+```json
+"subject": {
+  "reference": "#p-local"
+}
+```
+
+O campo `display` é opcional e serve apenas para apresentação legível — não
+tem valor semântico para sistemas automatizados. O campo `reference` é o
+identificador técnico que os sistemas usam para resolver a referência.
+
+### Recursos embutidos (`contained`)
+
+Em determinadas situações, um recurso precisa de referenciar outro que não
+existe de forma independente no servidor. O mecanismo `contained` permite
+embutir um recurso *dentro* de outro.
+
+O caso mais frequente em contexto de interoperabilidade: um laboratório
+externo envia um resultado (`Observation`) que referencia um paciente que
+não existe no servidor `FHIR` do laboratório — apenas existe no servidor
+do hospital. Em vez de enviar uma referência externa que o laboratório não
+consegue resolver, embute-se um recurso `Patient` mínimo directamente
+dentro da `Observation`.
+
+```json
+{
+  "resourceType": "Observation",
+  "id": "obs-glicemia-001",
+  "contained": [{
+    "resourceType": "Patient",
+    "id": "p-local",
+    "name": [{ "text": "João Ferreira" }]
+  }],
+  "subject": {
+    "reference": "#p-local"
+  },
+  "status": "final",
+  "code": {
+    "coding": [{
+      "system": "http://loinc.org",
+      "code": "1558-6",
+      "display": "Fasting glucose [Moles/vol] Serum"
+    }],
+    "text": "Glicémia em jejum"
+  },
+  "valueQuantity": {
+    "value": 6.4,
+    "unit": "mmol/L",
+    "system": "http://unitsofmeasure.org"
+  }
+}
+```
+
+Neste exemplo — *Observation com Patient embutido* — a `Observation` continua
+a ter uma referência no campo `subject`, mas em vez de apontar para
+`/Patient/p-123` num servidor externo, aponta para `#p-local`, que é o id
+do `Patient` embutido no campo `contained`. A notação `#` sinaliza que a
+referência é interna ao recurso.
+
+O `Patient` embutido não tem `URL` própria e não pode ser acedido directamente
+— existe apenas dentro desta `Observation`, para esta finalidade específica.
+
+::: {.callout-note}
+**Atenção** — O recurso embutido (*contained*) é uma solução de conveniência
+para situações onde a referência externa não é possível. Na prática, deve
+ser evitado sempre que possível: complica a manutenção, impede a reutilização
+do recurso referenciado e pode criar inconsistências se o mesmo paciente
+aparecer embutido de formas diferentes em vários recursos.
+:::
+
+## Tipos Primitivos e Compostos {#sec-fhir-datatypes}
+
+### Tipos primitivos
+
+Os **tipos primitivos** são os blocos elementares de informação no `FHIR` —
+valores escalares simples, sem estrutura interna, que mapeiam directamente
+para os tipos de dados `JSON`. São equivalentes aos tipos base de qualquer
+linguagem de programação [@HL7_FHIR_R4].
+
+| Tipo `FHIR` | Descrição | Exemplo `JSON` |
+|-------------|-----------|----------------|
+| `string` | Texto Unicode | `"Ana Sofia Ferreira"` |
+| `boolean` | Verdadeiro/Falso | `true` · `false` |
+| `integer` | Número inteiro | `42` · `-5` · `0` |
+| `decimal` | Número decimal | `6.4` · `98.6` · `3.14` |
+| `dateTime` | Data e hora `ISO 8601` (International Organization for Standardization 8601 — norma de representação de datas e horas) | `"2025-04-15T09:30:00+01:00"` |
+| `date` | Data (sem hora) | `"2025-04-15"` |
+| `uri` / `url` | Referência `URI`/`URL` | `"http://loinc.org"` |
+| `code` | Código de vocabulário | `"active"` · `"male"` · `"final"` |
+| `id` | Identificador do sistema | `"550e8400-e29b-41d4"` |
+
+: Tipos primitivos FHIR e exemplos JSON [@HL7_FHIR_R4]. {#tbl-primitive-types}
+
+Os tipos primitivos `FHIR` mapeiam directamente para `JSON` sem camadas de
+*wrapping* adicional. Um campo `birthDate` é uma `string` em `JSON`; um
+campo `active` é um `boolean`; um campo `multipleBirthInteger` é um
+`integer`. Esta correspondência directa é uma das razões da facilidade de
+implementação do `FHIR` em comparação com o `HL7` v3, onde os tipos de
+dados eram estruturados e muito mais verbosos.
+
+### Tipos compostos
+
+Os **tipos compostos** são estruturas com campos internos, compostas por
+múltiplos primitivos (e eventualmente outros compostos). A designação
+"composto" significa apenas que têm estrutura interna — não que sejam
+complicados [@HL7_FHIR_R4].
+
+Os tipos compostos mais frequentes em contexto clínico:
+
+**`HumanName`** — nome de uma pessoa, com campos para apelido, nome(s)
+próprio(s), prefixo e sufixo:
+
+```json
+"name": [{
+  "use": "official",
+  "family": "Silva",
+  "given": ["Maria", "José"],
+  "prefix": ["Dra."]
+}]
+```
+
+**`Address`** (morada) — endereço postal com campos para linha de rua,
+cidade, código postal, país:
+
+```json
+"address": [{
+  "use": "home",
+  "line": ["Rua do Comércio, 45"],
+  "city": "Vila Real",
+  "postalCode": "5000-678",
+  "country": "PT"
+}]
+```
+
+**`Period`** (período) — intervalo temporal com início e fim:
+
+```json
+"period": {
+  "start": "2025-01-10T08:00:00+00:00",
+  "end": "2025-01-10T09:30:00+00:00"
+}
+```
+
+**`Quantity`** (quantidade) — valor numérico com unidade e sistema de
+unidades:
+
+```json
+"valueQuantity": {
+  "value": 6.4,
+  "unit": "mmol/L",
+  "system": "http://unitsofmeasure.org",
+  "code": "mmol/L"
+}
+```
+
+### Cardinalidade
+
+A **cardinalidade** define quantas vezes cada elemento pode ocorrer num
+recurso. É expressa na notação `mínimo..máximo`, onde `*` significa
+"sem limite":
+
+| Notação | Significado | Exemplo |
+|---------|-------------|---------|
+| `0..1` | Opcional, no máximo uma ocorrência | `Patient.birthDate` — pode estar ausente |
+| `0..*` | Opcional, múltiplas ocorrências (*array*) | `Patient.name` — pode ter vários nomes |
+| `1..1` | Obrigatório, exactamente uma ocorrência | `Observation.status` — sempre presente |
+| `1..*` | Obrigatório, pelo menos uma ocorrência | `Bundle.entry` — pelo menos uma entrada |
+
+: Notação de cardinalidade FHIR [@HL7_FHIR_R4]. {#tbl-cardinality}
+
+A cardinalidade é verificável por validadores `FHIR`. Um recurso com um
+campo obrigatório ausente (`1..1`) ou com um campo singular repetido
+(`0..1` com dois valores) é inválido. Esta validabilidade formal é uma
+das vantagens do `FHIR` em relação ao `HL7` v2, onde a cardinalidade era
+uma recomendação sem verificação automática.
+
+O exemplo seguinte mostra um `Patient` com tipos compostos e cardinalidades
+diversas anotadas em comentário:
+
+```json
+{
+  "resourceType": "Patient",
+  "id": "p-12345",
+  "name": [{
+    "use": "official",
+    "family": "Silva",
+    "given": ["Maria", "José"]
+  }],
+  "birthDate": "1980-06-15",
+  "address": [{
+    "use": "home",
+    "city": "Porto",
+    "country": "PT"
+  }]
+}
+```
+
+No campo `name` (cardinalidade `0..*`), o array pode ter zero ou mais
+entradas. O tipo composto `HumanName` contém os campos `family` e `given`,
+sendo que `given` é ele próprio um *array* de `string` (cardinalidade
+`0..*`). O campo `birthDate` (cardinalidade `0..1`) é opcional mas, quando
+presente, é único. O campo `address` (cardinalidade `0..*`) é um *array*
+de `Address`.
+
+## Codificação e Terminologias {#sec-fhir-coding}
+
+### O tipo `CodeableConcept`
+
+O `FHIR` usa o tipo composto `CodeableConcept` para representar conceitos
+com código formal. A necessidade deste tipo surge de um problema estrutural:
+o mesmo conceito clínico existe em múltiplas terminologias. A *diabetes
+mellitus* tipo 2 é o código `73211009` em `SNOMED CT` (Systematized
+Nomenclature of Medicine Clinical Terms — Nomenclatura Sistematizada de
+Medicina — Termos Clínicos) e `E11` em `ICD-10` (International Classification
+of Diseases, 10th revision — Classificação Internacional de Doenças, 10ª
+revisão). Um código simples pressupõe que emissor e receptor usam a mesma
+terminologia. O `CodeableConcept` é resiliente — transporta o mesmo conceito
+em múltiplas terminologias simultaneamente, e o receptor usa a que conhece
+[@HL7_FHIR_R4].
+
+A estrutura de um `CodeableConcept` tem dois componentes:
+
+- **`coding`** — *array* de codificações formais. Cada elemento é do tipo
+  `Coding`, com três campos: `system` (a `URI` canónica da terminologia),
+  `code` (o código na terminologia) e `display` (a designação legível
+  por humano nessa terminologia).
+- **`text`** — texto livre legível por humano. Preserva a terminologia local
+  do sistema de origem. Útil quando não existe código formal disponível.
+
+```json
+"code": {
+  "coding": [
+    {
+      "system": "http://loinc.org",
+      "code": "1558-6",
+      "display": "Fasting glucose [Moles/vol] Serum"
+    },
+    {
+      "system": "http://snomed.info/sct",
+      "code": "87522002",
+      "display": "Fasting blood glucose"
+    }
+  ],
+  "text": "Glicémia em jejum"
+}
+```
+
+Neste exemplo — o código de uma `Observation` para glicémia em jejum — o
+mesmo conceito está representado em `LOINC` e em `SNOMED CT`
+simultaneamente. Um sistema que só conheça `LOINC` usa o primeiro `Coding`;
+um sistema que só conheça `SNOMED CT` usa o segundo. O campo `text`
+preserva a designação local em português.
+
+As `URI` canónicas das terminologias mais comuns em contexto clínico:
+
+| Terminologia | `URI` canónica |
+|--------------|----------------|
+| `LOINC` | `http://loinc.org` |
+| `SNOMED CT` | `http://snomed.info/sct` |
+| `ICD-10` | `http://hl7.org/fhir/sid/icd-10` |
+| `ATC` (Anatomical Therapeutic Chemical — Anatómica Terapêutica Química; classificação de medicamentos) | `http://www.whocc.no/atc` |
+
+: URIs canónicas das terminologias mais comuns em FHIR [@HL7_FHIR_R4]. {#tbl-terminology-uris}
+
+### *Binding strength* — a força de ligação a terminologias
+
+O `FHIR` define quatro níveis de obrigatoriedade (*binding strength*) para
+a ligação entre campos de recursos e *ValueSets* (conjuntos de valores
+válidos numa terminologia) [@HL7_FHIR_R4]:
+
+**`required`** — obrigatório. O código *deve* provir do `ValueSet`
+especificado. Se não provir, a validação falha. Exemplo: `Patient.gender`
+aceita apenas `"male"`, `"female"`, `"other"` ou `"unknown"`.
+
+**`extensible`** — preferencial. Se existir um código adequado no `ValueSet`,
+*deve* ser usado. Só se o conceito não estiver representado no `ValueSet`
+pode usar-se um código de outro sistema. Exemplo: especialidade médica —
+o `ValueSet` cobre as especialidades estabelecidas, mas uma especialidade
+emergente pode não estar ainda representada, e o `extensible` permite usar
+outro código nesse caso.
+
+**`preferred`** — sugerido. Devia usar-se o `ValueSet` recomendado, mas não
+é obrigatório. O contexto local pode justificar vocabulário diferente sem
+invalidar o recurso. Exemplo: idioma preferido do paciente — há um `ValueSet`
+recomendado, mas um hospital pode precisar de registar uma língua regional
+ou dialecto que não consta da lista.
+
+**`example`** — apenas ilustrativo. O `ValueSet` é um exemplo de que tipo
+de valores são apropriados. Qualquer código é aceitável. Usado em elementos
+muito genéricos onde a diversidade de contextos é demasiado grande para
+normalizar.
+
+| Nível | Obrigatoriedade | Consequência de desvio |
+|-------|-----------------|------------------------|
+| `required` | Obrigatório | Validação falha |
+| `extensible` | Preferencial (usar se existir código adequado) | Permitido se o conceito não está no `ValueSet` |
+| `preferred` | Sugerido | Permitido com justificação local |
+| `example` | Apenas ilustrativo | Sempre permitido |
+
+: Níveis de binding strength em FHIR [@HL7_FHIR_R4]. {#tbl-binding-strength}
+
+Em resumo: `required` > `extensible` > `preferred` > `example` — do mais
+para o menos restritivo.
+
+## `Bundle` {#sec-fhir-bundle}
+
+### O que é um `Bundle`
+
+Um `Bundle` é um contentor que agrupa múltiplos recursos `FHIR` numa única
+resposta ou transacção. É o mecanismo *standard* para enviar ou receber
+conjuntos de recursos [@HL7_FHIR_R4].
+
+O `Bundle` não herda de `DomainResource` — é um recurso de infraestrutura
+com semântica própria. O seu campo principal é `type`, que define a finalidade
+do contentor, e `entry`, que é o *array* de recursos contidos.
+
+O `FHIR` define quatro tipos de `Bundle` principais:
+
+**`searchset`** — resposta a uma pesquisa. Quando se envia `GET /Patient?family=Silva`,
+o servidor devolve um `Bundle` do tipo `searchset` com os `Patient` encontrados,
+metadados de paginação (total de resultados) e ligações de navegação.
+
+**`transaction`** — conjunto de operações a executar atomicamente. Ou todas
+têm sucesso, ou todas falham. Usado, por exemplo, para criar um `Patient`,
+um `Encounter` e uma `Observation` em simultâneo, garantindo que a operação
+é atómica — se a criação do `Encounter` falhar, o `Patient` não é criado.
+
+**`message`** — mensagem assíncrona com cabeçalho `MessageHeader`. Funciona
+como substituto moderno das mensagens `HL7` v2 — *push* de eventos clínicos
+para outro sistema.
+
+**`document`** — documento clínico equivalente ao `CDA`. O primeiro `entry`
+é sempre uma `Composition`; os restantes são os recursos referenciados no
+documento.
+
+Existe ainda o tipo **`collection`** — colecção de recursos sem semântica
+transaccional, usada para exportações e arquivos de dados.
+
+### Estrutura de um `Bundle searchset`
+
+O exemplo mais frequente em implementações `REST` é o `searchset`. A
+resposta a `GET /Patient?family=Silva` é:
+
+```json
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "total": 2,
+  "link": [{
+    "relation": "self",
+    "url": "https://fhir.example/Patient?family=Silva"
+  }],
+  "entry": [
+    {
+      "fullUrl": "Patient/p-001",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "p-001",
+        "name": [{ "family": "Silva", "given": ["João"] }]
+      }
+    },
+    {
+      "fullUrl": "Patient/p-002",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "p-002",
+        "name": [{ "family": "Silva", "given": ["Maria"] }]
+      }
+    }
+  ]
+}
+```
+
+A anatomia deste `Bundle searchset`:
+
+- **`type: "searchset"`** — indica que é resultado de uma pesquisa
+- **`total: 2`** — número total de recursos encontrados; pode ser maior do
+  que o número de entradas devolvidas se a resposta for paginada
+- **`link[]`** — navegação: `"self"` é o pedido actual; se existirem mais
+  resultados, o servidor inclui `"next"` com a `URL` da próxima página
+- **`entry[]`** — *array* de entradas; cada entrada tem `fullUrl` (a `URL`
+  canónica do recurso) e `resource` (o recurso completo em `JSON`)
+
+```{=html}
+<!--
+  Diagrama: anatomia do Bundle searchset.
+  Paleta azul (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:680px;font-family:sans-serif;">
+  <rect width="680" height="240" rx="10" fill="#f5f8fc"/>
+
+  <!-- Título -->
+  <text x="340" y="22" text-anchor="middle" font-size="12"
+        font-weight="bold" fill="#1a3a6b">Bundle searchset — estrutura</text>
+
+  <!-- Bundle (envelope) -->
+  <rect x="20" y="32" width="640" height="186" rx="8"
+        fill="#e8f0fb" stroke="#2d6abf" stroke-width="1.5"/>
+  <text x="36" y="52" font-size="11" font-weight="bold" fill="#1a3a6b">Bundle</text>
+  <text x="36" y="68" font-size="9" fill="#2d6abf">type: "searchset"</text>
+  <text x="36" y="82" font-size="9" fill="#2d6abf">total: 2</text>
+  <text x="36" y="96" font-size="9" fill="#2d6abf">link[]: self / next / previous</text>
+
+  <!-- entry[] label -->
+  <text x="36" y="116" font-size="10" font-weight="bold" fill="#1a3a6b">entry[]</text>
+
+  <!-- Entry 1 -->
+  <rect x="36" y="124" width="280" height="82" rx="6" fill="#2d6abf"/>
+  <text x="52" y="142" font-size="9" fill="#d0e4ff">fullUrl: "Patient/p-001"</text>
+  <rect x="52" y="150" width="248" height="48" rx="4" fill="#4a86d8"/>
+  <text x="68" y="167" font-size="9" font-weight="bold" fill="#fff">resource: Patient</text>
+  <text x="68" y="181" font-size="8" fill="#d0e4ff">id: "p-001"</text>
+  <text x="68" y="193" font-size="8" fill="#d0e4ff">name: Silva, João</text>
+
+  <!-- Entry 2 -->
+  <rect x="364" y="124" width="280" height="82" rx="6" fill="#2d6abf"/>
+  <text x="380" y="142" font-size="9" fill="#d0e4ff">fullUrl: "Patient/p-002"</text>
+  <rect x="380" y="150" width="248" height="48" rx="4" fill="#4a86d8"/>
+  <text x="396" y="167" font-size="9" font-weight="bold" fill="#fff">resource: Patient</text>
+  <text x="396" y="181" font-size="8" fill="#d0e4ff">id: "p-002"</text>
+  <text x="396" y="193" font-size="8" fill="#d0e4ff">name: Silva, Maria</text>
+
+  <text x="340" y="232" text-anchor="middle" font-size="13" fill="#64748b">
+    Figura 8.2 — Anatomia de um Bundle searchset com dois Patient
+  </text>
+</svg>
+</div>
+```
+
+### `Bundle transaction` — operações atómicas
+
+O `Bundle` do tipo `transaction` é usado quando é necessário criar ou
+actualizar múltiplos recursos de forma atómica. Cada entrada inclui, além
+do recurso, uma secção `request` que especifica a operação `HTTP` a
+executar:
+
+```json
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "name": [{ "family": "Rodrigues", "given": ["Ana"] }]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "subject": { "reference": "Patient/p-novo" },
+        "code": {
+          "text": "Tensão arterial"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    }
+  ]
+}
+```
+
+O servidor processa todas as operações do `Bundle transaction` como uma
+unidade: se qualquer uma falhar, nenhuma é persistida. Esta garantia
+atómica é essencial em contextos clínicos onde a consistência dos dados
+não pode ser parcial — por exemplo, criar um episódio clínico e as suas
+observações associadas deve ser tudo-ou-nada.
+
+## Exercícios Propostos {#sec-fhir-exercicios .unnumbered}
+
+**1.** Um hospital português migra os seus dados de um sistema legado para
+um novo servidor `FHIR`. Após a migração:
+
+(a) O id do sistema dos recursos `Patient` mantém-se o mesmo? Justifique.
+(b) O número de utente do `SNS` de cada paciente mantém-se? Em que campo
+    `FHIR` deve estar registado?
+(c) Um sistema externo que pesquisava pacientes por id do sistema precisa de
+    actualizar as suas pesquisas. Que parâmetro de pesquisa deve usar em vez
+    do id do sistema?
+
+**2.** Analise o seguinte fragmento `JSON` e responda:
+
+```json
+{
+  "resourceType": "Observation",
+  "id": "obs-ta-001",
+  "status": "final",
+  "code": {
+    "coding": [
+      { "system": "http://loinc.org", "code": "8480-6",
+        "display": "Systolic blood pressure" }
+    ],
+    "text": "Tensão arterial sistólica"
+  },
+  "subject": { "reference": "Patient/p-456" },
+  "valueQuantity": {
+    "value": 138,
+    "unit": "mmHg",
+    "system": "http://unitsofmeasure.org"
+  },
+  "effectiveDateTime": "2025-03-10T10:15:00+00:00"
+}
+```
+
+(a) Qual é o id do sistema desta `Observation`?
+(b) Que recurso é referenciado no campo `subject`? Como se resolveria
+    essa referência num servidor `FHIR`?
+(c) O campo `code` usa que tipo composto? Identifique a terminologia
+    e o código usados.
+(d) O campo `valueQuantity` usa que tipo composto? Que campo indica o
+    sistema de unidades?
+
+**3.** Considere um laboratório externo que envia resultados a um servidor
+`FHIR` hospitalar. O laboratório conhece o nome e a data de nascimento do
+paciente, mas não tem acesso ao servidor `Patient` do hospital.
+
+(a) Que mecanismo `FHIR` permite ao laboratório incluir informação mínima
+    do paciente no resultado sem precisar de um `Patient` independente?
+(b) Escreva um esboço `JSON` de uma `Observation` que use esse mecanismo,
+    incluindo apenas os campos essenciais.
+(c) Que limitação tem esta abordagem em relação à interoperabilidade?
+
+**4.** Um campo de um recurso `FHIR` tem *binding* `extensible` a um
+`ValueSet` de especialidades médicas. O hospital pretende usar o código
+`"Medicina-Hiperbarica"` definido internamente porque essa especialidade
+ainda não consta do `ValueSet` oficial.
+
+(a) É válido usar esse código interno? Justifique com base no nível
+    de *binding*.
+(b) Se o campo tivesse *binding* `required`, a resposta seria diferente?
+(c) Que estrutura `FHIR` permite incluir em simultâneo um código de
+    terminologia local e um código do `ValueSet` recomendado?
+
+**5.** Um servidor `FHIR` devolve o seguinte `Bundle` em resposta a
+`GET /Observation?patient=p-789&_count=1`:
+
+```json
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "total": 47,
+  "link": [
+    { "relation": "self",
+      "url": "https://fhir.hospital.pt/Observation?patient=p-789&_count=1" },
+    { "relation": "next",
+      "url": "https://fhir.hospital.pt/Observation?patient=p-789&_count=1&_page=2" }
+  ],
+  "entry": [
+    {
+      "fullUrl": "Observation/obs-001",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-001",
+        "status": "final",
+        "code": { "text": "Glicémia" },
+        "valueQuantity": { "value": 5.2, "unit": "mmol/L" }
+      }
+    }
+  ]
+}
+```
+
+(a) Quantas `Observation` existem no total para este paciente?
+(b) Quantas são devolvidas nesta resposta?
+(c) Como obteria a segunda página de resultados?
+(d) O que indicam os campos `relation: "self"` e `relation: "next"`?
+
+**6.** Explique, com base nos conceitos desta aula, por que razão o `FHIR`
+representou uma ruptura em relação ao `HL7` v3. Organize a resposta em
+torno de três dimensões: modelo de dados, transporte e extensibilidade.

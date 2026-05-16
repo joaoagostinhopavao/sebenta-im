@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-PT" xml:lang="pt-PT"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; FHIR: Interoperabilidade Inter-Hospitalar – Informática Médica</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../referencias.html" rel="next">
+<link href="../capitulos/cap08.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a023c9ade86a60361e96e3e3f11bc54.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-61bc4ac84974e0785b3107ee93e74bfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bc9f1d3aef906c45e091843ae87821a0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../assets/css/custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap09.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">FHIR: Interoperabilidade Inter-Hospitalar</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Informática Médica</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos da Informática Médica</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas de Informação Hospitalares e Registos Electrónicos de Saúde</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologias e Interoperabilidade Semântica</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM como Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Serviços DICOM e Arquitectura PACS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Modelo de Mensagens e Limitações</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Arquitectura Web e REST</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">FHIR: Modelo de Recursos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap09.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">FHIR: Interoperabilidade Inter-Hospitalar</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../referencias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#sec-09-intro" id="toc-sec-09-intro" class="nav-link active" data-scroll-target="#sec-09-intro">Introdução</a></li>
+  <li><a href="#sec-09-estrutura-fluxo" id="toc-sec-09-estrutura-fluxo" class="nav-link" data-scroll-target="#sec-09-estrutura-fluxo"><span class="header-section-number">9.1</span> De Estrutura a Fluxo</a></li>
+  <li><a href="#sec-09-reference" id="toc-sec-09-reference" class="nav-link" data-scroll-target="#sec-09-reference"><span class="header-section-number">9.2</span> <code>Reference()</code> — Como os Recursos se Ligam</a>
+  <ul class="collapse">
+  <li><a href="#sec-09-reference-anatomia" id="toc-sec-09-reference-anatomia" class="nav-link" data-scroll-target="#sec-09-reference-anatomia"><span class="header-section-number">9.2.1</span> Anatomia de uma <code>Reference()</code></a></li>
+  <li><a href="#sec-09-reference-tipos" id="toc-sec-09-reference-tipos" class="nav-link" data-scroll-target="#sec-09-reference-tipos"><span class="header-section-number">9.2.2</span> Tipos de referência e resolução</a></li>
+  </ul></li>
+  <li><a href="#sec-09-bundle-tipos" id="toc-sec-09-bundle-tipos" class="nav-link" data-scroll-target="#sec-09-bundle-tipos"><span class="header-section-number">9.3</span> <code>Bundle</code> — Tipos e Usos</a></li>
+  <li><a href="#sec-09-recursos-fluxo" id="toc-sec-09-recursos-fluxo" class="nav-link" data-scroll-target="#sec-09-recursos-fluxo"><span class="header-section-number">9.4</span> Recursos do Fluxo Clínico</a>
+  <ul class="collapse">
+  <li><a href="#sec-09-patient" id="toc-sec-09-patient" class="nav-link" data-scroll-target="#sec-09-patient"><span class="header-section-number">9.4.1</span> <code>Patient</code> — o pivô central</a></li>
+  <li><a href="#sec-09-practitioner" id="toc-sec-09-practitioner" class="nav-link" data-scroll-target="#sec-09-practitioner"><span class="header-section-number">9.4.2</span> <code>Practitioner</code> e <code>PractitionerRole</code> — identidade e papel</a></li>
+  <li><a href="#sec-09-organization" id="toc-sec-09-organization" class="nav-link" data-scroll-target="#sec-09-organization"><span class="header-section-number">9.4.3</span> <code>Organization</code> — a instituição como recurso</a></li>
+  <li><a href="#sec-09-encounter" id="toc-sec-09-encounter" class="nav-link" data-scroll-target="#sec-09-encounter"><span class="header-section-number">9.4.4</span> <code>Encounter</code> — o nó que articula o episódio</a></li>
+  <li><a href="#sec-09-diagnostic" id="toc-sec-09-diagnostic" class="nav-link" data-scroll-target="#sec-09-diagnostic"><span class="header-section-number">9.4.5</span> <code>DiagnosticReport</code> e <code>Observation</code> — resultado estruturado</a></li>
+  <li><a href="#sec-09-imagingstudy" id="toc-sec-09-imagingstudy" class="nav-link" data-scroll-target="#sec-09-imagingstudy"><span class="header-section-number">9.4.6</span> <code>ImagingStudy</code> — a ponte <code>DICOM</code>↔︎<code>FHIR</code></a></li>
+  </ul></li>
+  <li><a href="#sec-09-interop" id="toc-sec-09-interop" class="nav-link" data-scroll-target="#sec-09-interop"><span class="header-section-number">9.5</span> Interoperabilidade Distribuída</a>
+  <ul class="collapse">
+  <li><a href="#sec-09-interop-cross" id="toc-sec-09-interop-cross" class="nav-link" data-scroll-target="#sec-09-interop-cross"><span class="header-section-number">9.5.1</span> Cenário 1 — Referenciação entre instituições</a></li>
+  <li><a href="#sec-09-interop-transfer" id="toc-sec-09-interop-transfer" class="nav-link" data-scroll-target="#sec-09-interop-transfer"><span class="header-section-number">9.5.2</span> Cenário 2 — Transferência e continuidade de cuidados</a></li>
+  </ul></li>
+  <li><a href="#sec-09-resolucao" id="toc-sec-09-resolucao" class="nav-link" data-scroll-target="#sec-09-resolucao"><span class="header-section-number">9.6</span> Resolução de Referências — Comparação</a></li>
+  <li><a href="#sec-09-limitacoes" id="toc-sec-09-limitacoes" class="nav-link" data-scroll-target="#sec-09-limitacoes"><span class="header-section-number">9.7</span> Limitações Reais da Interoperabilidade <code>FHIR</code></a>
+  <ul class="collapse">
+  <li><a href="#sec-09-limitacoes-identidade" id="toc-sec-09-limitacoes-identidade" class="nav-link" data-scroll-target="#sec-09-limitacoes-identidade"><span class="header-section-number">9.7.1</span> Identidade do paciente</a></li>
+  <li><a href="#sec-09-limitacoes-versioning" id="toc-sec-09-limitacoes-versioning" class="nav-link" data-scroll-target="#sec-09-limitacoes-versioning"><span class="header-section-number">9.7.2</span> Versionamento de recursos</a></li>
+  <li><a href="#sec-09-limitacoes-terminologia" id="toc-sec-09-limitacoes-terminologia" class="nav-link" data-scroll-target="#sec-09-limitacoes-terminologia"><span class="header-section-number">9.7.3</span> Conflitos de terminologia</a></li>
+  <li><a href="#sec-09-limitacoes-autorizacao" id="toc-sec-09-limitacoes-autorizacao" class="nav-link" data-scroll-target="#sec-09-limitacoes-autorizacao"><span class="header-section-number">9.7.4</span> Autorização e privacidade</a></li>
+  </ul></li>
+  <li><a href="#sec-09-exercicios" id="toc-sec-09-exercicios" class="nav-link" data-scroll-target="#sec-09-exercicios">Exercícios Propostos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">FHIR: Interoperabilidade Inter-Hospitalar</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-09-intro" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-09-intro">Introdução</h2>
+<p>O capítulo anterior construiu o vocabulário <code>FHIR</code>: o que é um <code>Resource</code>, como os identificadores funcionam, o que são tipos primitivos e compostos, o que é um <code>CodeableConcept</code>, e como o <code>Bundle</code> serve de envelope. Esse vocabulário é necessário — mas não suficiente. Saber o que é um <code>Patient</code> ou uma <code>Observation</code> não explica <em>como</em> esses recursos se ligam para modelar um fluxo clínico real, nem como essa ligação suporta a troca de informação entre instituições diferentes.</p>
+<p>Este capítulo usa o vocabulário para construir fluxos. O foco desloca-se da estrutura individual de cada recurso para a <strong>rede de relações</strong> que os liga: como um <code>Encounter</code> articula <code>Patient</code>, <code>Practitioner</code> e <code>Organization</code>; como um <code>DiagnosticReport</code> agrega <code>Observation</code>; como um <code>ImagingStudy</code> referencia imagens <code>DICOM</code> sem as duplicar. E, finalmente, como esse grafo de recursos pode ser transportado entre servidores diferentes — com as suas garantias e as suas limitações reais.</p>
+</section>
+<section id="sec-09-estrutura-fluxo" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="sec-09-estrutura-fluxo"><span class="header-section-number">9.1</span> De Estrutura a Fluxo</h2>
+<p>O ponto de partida é uma tabela de transição: o que foi aprendido no capítulo anterior e o que este capítulo acrescenta a cada conceito.</p>
+<div id="tbl-transicao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-transicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.1: Transição do capítulo 8 para o capítulo 9 — da estrutura ao fluxo.
+</figcaption>
+<div aria-describedby="tbl-transicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 25%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Conceito (Cap. 8)</th>
+<th style="text-align: left;">O que aprendemos</th>
+<th style="text-align: left;">O que este capítulo acrescenta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>Resource</code></td>
+<td style="text-align: left;">Unidade atómica de informação clínica com <code>id</code> e <code>meta</code></td>
+<td style="text-align: left;">Como se liga a outros recursos — via <code>Reference()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Identifier</code></td>
+<td style="text-align: left;">id lógico vs <em>business identifier</em> (<code>MRN</code>, <code>NIF</code>, <code>NHC</code>)</td>
+<td style="text-align: left;">O mesmo paciente tem IDs diferentes em cada sistema</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>CodeableConcept</code></td>
+<td style="text-align: left;">Código + sistema de terminologia (<code>SNOMED</code>, <code>LOINC</code>)</td>
+<td style="text-align: left;">Códigos devem ser compatíveis para integrar observações</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Bundle</code></td>
+<td style="text-align: left;">Envelope de múltiplos recursos numa só resposta</td>
+<td style="text-align: left;">Tipos <code>document</code>, <code>transaction</code>, <code>searchset</code>, <code>batch</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A ideia central deste capítulo resume-se a uma frase: a interoperabilidade não é apenas troca de mensagens — é um <strong>grafo de entidades clínicas</strong> identificadas, referenciadas e transportadas de forma padronizada. O mesmo paciente existe em múltiplos sistemas; o <code>FHIR</code> não duplica os dados, liga-os.</p>
+</section>
+<section id="sec-09-reference" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="sec-09-reference"><span class="header-section-number">9.2</span> <code>Reference()</code> — Como os Recursos se Ligam</h2>
+<section id="sec-09-reference-anatomia" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="sec-09-reference-anatomia"><span class="header-section-number">9.2.1</span> Anatomia de uma <code>Reference()</code></h3>
+<p>Uma <code>Reference()</code> é um apontador tipado para outro recurso — local, noutro servidor, ou embutido no próprio recurso. Não copia os dados; aponta para eles. O cliente que precisa dos dados resolve a referência com um <code>GET</code> ao <code>URL</code> alvo.</p>
+<p>A estrutura de uma <code>Reference()</code> tem três campos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>:</p>
+<div id="tbl-reference-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-reference-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.2: Campos de uma Reference() FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-reference-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 30%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Papel</th>
+<th style="text-align: left;">Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>reference</code></td>
+<td style="text-align: left;"><code>URL</code> do recurso alvo — relativa ou absoluta</td>
+<td style="text-align: left;"><code>"Patient/123"</code> ou <code>"https://fhir.snsh.pt/Patient/456"</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>type</code></td>
+<td style="text-align: left;">Tipo de recurso esperado — opcional mas recomendado</td>
+<td style="text-align: left;"><code>"Patient"</code>, <code>"Practitioner"</code>, <code>"Organization"</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>display</code></td>
+<td style="text-align: left;">Texto legível para humanos — não é o dado canónico</td>
+<td style="text-align: left;"><code>"Ana Ferreira"</code> — não substitui o nome no recurso <code>Patient</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>O campo <code>display</code> serve apenas para apresentação — se o sistema actualizar o nome do paciente no recurso <code>Patient</code>, o campo <code>display</code> na <code>Reference()</code> que aponta para esse paciente não é actualizado automaticamente. O dado canónico está sempre no recurso referenciado, não na referência.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"DiagnosticReport"</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>           <span class="st">"dr-hemograma-001"</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span>      <span class="st">"Patient"</span><span class="fu">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"display"</span><span class="fu">:</span>   <span class="st">"Maria Silva"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"performer"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Practitioner/pr-456"</span><span class="fu">,</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span>      <span class="st">"Practitioner"</span><span class="fu">,</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"display"</span><span class="fu">:</span>   <span class="st">"Dr. Luís Costa"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Neste <code>DiagnosticReport</code>, o campo <code>subject</code> aponta para <code>Patient/p-123</code> — o <code>Patient</code> não está copiado, está referenciado. Se um cliente precisar dos dados completos do paciente, executa <code>GET /Patient/p-123</code>.</p>
+</section>
+<section id="sec-09-reference-tipos" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="sec-09-reference-tipos"><span class="header-section-number">9.2.2</span> Tipos de referência e resolução</h3>
+<p>O <code>FHIR</code> define quatro formas de referenciar um recurso, com implicações distintas para portabilidade e dependência de rede <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>:</p>
+<p><strong>Referência relativa</strong> — a mais comum. O <code>URL</code> é relativo ao servidor base da transacção. Simples e eficiente, mas só funciona no contexto do mesmo servidor <code>FHIR</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span> <span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Referência absoluta</strong> — inclui o <code>URL</code> completo do servidor. Portátil entre servidores, mas exige que o servidor alvo esteja acessível no momento da resolução:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"https://fhir.chuporto.pt/Patient/p-123"</span> <span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Recurso embutido (<em>contained</em>)</strong> — o recurso referenciado está embutido dentro do recurso pai, sem <code>URL</code> própria. O prefixo <code>#</code> identifica a referência como interna ao recurso corrente:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"#p-local"</span> <span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Referência lógica</strong> — transporta apenas o identificador clínico (<em>business identifier</em>), sem apontar a nenhum servidor. A resolução fica a cargo de um sistema externo (ex: <em>Master Patient Index</em>):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"identifier"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://rnsnp.min-saude.pt"</span><span class="fu">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"value"</span><span class="fu">:</span>  <span class="st">"123456789"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Nota</strong> — As referências relativas são a escolha predefinida em ambientes intra-hospitalares, onde todos os recursos residem no mesmo servidor. As referências absolutas são necessárias em cenários inter-hospitalares. As referências lógicas são a solução quando não existe garantia de que o servidor alvo está acessível — o identificador clínico viaja; a resolução fica para depois.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-09-bundle-tipos" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="sec-09-bundle-tipos"><span class="header-section-number">9.3</span> <code>Bundle</code> — Tipos e Usos</h2>
+<p>O <code>Bundle</code> foi introduzido no capítulo anterior como o envelope padronizado do <code>FHIR</code>. Este capítulo clarifica a distinção entre os cinco tipos de <code>Bundle</code> e as suas semânticas:</p>
+<div id="tbl-bundle-types" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bundle-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.3: Tipos de Bundle FHIR R4 e respectivos usos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-bundle-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 25%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tipo</th>
+<th style="text-align: left;">Uso</th>
+<th style="text-align: left;">Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>document</code></td>
+<td style="text-align: left;">Documento clínico imutável, com data e assinatura</td>
+<td style="text-align: left;">Sumário de alta, relatório de episódio</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>transaction</code></td>
+<td style="text-align: left;">Conjunto de operações atómicas — tudo ou nada</td>
+<td style="text-align: left;">Criar <code>Patient</code> + <code>Encounter</code> em simultâneo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>searchset</code></td>
+<td style="text-align: left;">Resultado de uma pesquisa <code>GET</code></td>
+<td style="text-align: left;"><code>GET /Patient?family=Silva</code> → <code>Bundle</code> com resultados</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>batch</code></td>
+<td style="text-align: left;">Conjunto de pedidos independentes — sem atomicidade</td>
+<td style="text-align: left;">Actualizar vários recursos em lote</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>collection</code></td>
+<td style="text-align: left;">Agrupamento arbitrário de recursos</td>
+<td style="text-align: left;">Exportação de dados de um paciente</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A distinção mais importante para cenários de interoperabilidade é entre <code>transaction</code> e <code>batch</code>. Num <code>Bundle transaction</code>, ou todas as operações têm sucesso, ou nenhuma é persistida — garantia atómica essencial quando a consistência dos dados não pode ser parcial. Num <code>Bundle batch</code>, cada pedido é processado independentemente: um pode falhar sem afectar os restantes.</p>
+<p>O tipo <code>document</code> é estruturalmente diferente dos restantes: o primeiro elemento de <code>entry</code> é obrigatoriamente uma <code>Composition</code> (recurso que serve de cabeçalho do documento, com data, autor e secções), e o <code>Bundle</code> resultante é considerado imutável por convenção — representa um <em>snapshot</em> deliberado e assinado do estado clínico num dado momento.</p>
+</section>
+<section id="sec-09-recursos-fluxo" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="sec-09-recursos-fluxo"><span class="header-section-number">9.4</span> Recursos do Fluxo Clínico</h2>
+<p>Os recursos desta aula formam a estrutura de qualquer episódio clínico: <code>Patient</code> (quem é tratado), <code>Practitioner</code>/<code>PractitionerRole</code> (quem trata e em que papel), <code>Organization</code> (onde), <code>Encounter</code> (o episódio que os articula), <code>DiagnosticReport</code> e <code>Observation</code> (os resultados), e <code>ImagingStudy</code> (a ponte para o <code>PACS</code>).</p>
+<section id="sec-09-patient" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="sec-09-patient"><span class="header-section-number">9.4.1</span> <code>Patient</code> — o pivô central</h3>
+<p>O <code>Patient</code> é o recurso mais referenciado do <code>FHIR</code>. Todos os outros recursos clínicos — <code>Encounter</code>, <code>Observation</code>, <code>DiagnosticReport</code>, <code>MedicationRequest</code> — apontam para ele. Os campos mais relevantes em contexto de interoperabilidade:</p>
+<div id="tbl-patient-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-patient-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.4: Campos principais do recurso Patient FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-patient-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 48%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Significado</th>
+<th style="text-align: left;">Nota</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>identifier</code></td>
+<td style="text-align: left;"><em>Business identifier</em> — <code>NHC</code>, <code>NIF</code>, <code>MPI</code>, cartão de saúde</td>
+<td style="text-align: left;">Um paciente pode ter vários, um por sistema</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>name</code></td>
+<td style="text-align: left;">Nome estruturado: <code>family</code> + <code>given</code></td>
+<td style="text-align: left;"><code>HumanName</code> permite múltiplos nomes e períodos</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>birthDate</code></td>
+<td style="text-align: left;">Data de nascimento (<code>YYYY-MM-DD</code>)</td>
+<td style="text-align: left;">Usada para desambiguar identidade</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>gender</code></td>
+<td style="text-align: left;"><code>male</code> | <code>female</code> | <code>other</code> | <code>unknown</code></td>
+<td style="text-align: left;">Sexo administrativo — não clínico</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>managingOrganization</code></td>
+<td style="text-align: left;"><code>Reference(Organization)</code> — a instituição gestora</td>
+<td style="text-align: left;">Cada sistema tem o “seu” <code>Patient</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>generalPractitioner</code></td>
+<td style="text-align: left;"><code>Reference(Practitioner)</code> — médico de família</td>
+<td style="text-align: left;">Pode ser referência inter-institucional</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>O campo <code>identifier</code> é a chave da interoperabilidade: o mesmo paciente existe em vários sistemas com <code>id</code> do sistema diferentes, mas o <code>NIF</code> ou o número de utente do <code>SNS</code> são o mesmo em todos. A interoperabilidade começa por identificar correctamente o paciente em cada sistema.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"Patient"</span><span class="fu">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>           <span class="st">"p-123"</span><span class="fu">,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"identifier"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://rnsnp.min-saude.pt"</span><span class="fu">,</span>    <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"999000111"</span>       <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://chuporto.pt/processos"</span><span class="fu">,</span> <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"PROC-2024-04512"</span> <span class="fu">}</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span>        <span class="ot">[</span><span class="fu">{</span> <span class="dt">"family"</span><span class="fu">:</span> <span class="st">"Ferreira"</span><span class="fu">,</span> <span class="dt">"given"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"João"</span><span class="ot">,</span> <span class="st">"Manuel"</span><span class="ot">]</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"birthDate"</span><span class="fu">:</span>   <span class="st">"1968-03-21"</span><span class="fu">,</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"gender"</span><span class="fu">:</span>      <span class="st">"male"</span><span class="fu">,</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"managingOrganization"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-chuporto"</span> <span class="fu">}</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sec-09-practitioner" class="level3" data-number="9.4.2">
+<h3 data-number="9.4.2" class="anchored" data-anchor-id="sec-09-practitioner"><span class="header-section-number">9.4.2</span> <code>Practitioner</code> e <code>PractitionerRole</code> — identidade e papel</h3>
+<p>O <code>FHIR</code> distingue deliberadamente a <strong>identidade</strong> de um profissional de saúde do <strong>papel</strong> que desempenha num dado contexto institucional. Esta separação é necessária porque o mesmo profissional pode ter papéis diferentes em organizações diferentes: cardiologista no <code>CHUPorto</code> e consultor num hospital privado, por exemplo.</p>
+<p><strong><code>Practitioner</code> — quem é:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>identifier</code></td>
+<td style="text-align: left;">Cédula profissional, <code>NIF</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>name</code></td>
+<td style="text-align: left;">Nome completo estruturado</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>telecom</code></td>
+<td style="text-align: left;">Contacto profissional</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>qualification</code></td>
+<td style="text-align: left;">Especialidade e certificações</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>PractitionerRole</code> — onde e com que papel:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>practitioner</code></td>
+<td style="text-align: left;"><code>Reference(Practitioner)</code> — quem é</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>organization</code></td>
+<td style="text-align: left;"><code>Reference(Organization)</code> — onde trabalha</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>code</code></td>
+<td style="text-align: left;">Papel: médico, enfermeiro, farmacêutico…</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>specialty</code></td>
+<td style="text-align: left;">Especialidade: cardiologia, radiologia…</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb7"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="er">/*</span> <span class="er">Practitioner</span> <span class="er">—</span> <span class="er">a</span> <span class="er">identidade</span> <span class="er">permanente</span> <span class="er">*/</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"Practitioner"</span><span class="fu">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>           <span class="st">"pr-luiscosta"</span><span class="fu">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"identifier"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://ordemmedicos.pt"</span><span class="fu">,</span> <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"C-45231"</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span>        <span class="ot">[</span><span class="fu">{</span> <span class="dt">"family"</span><span class="fu">:</span> <span class="st">"Costa"</span><span class="fu">,</span> <span class="dt">"given"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"Luís"</span><span class="ot">]</span> <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="er">/*</span> <span class="er">PractitionerRole</span> <span class="er">—</span> <span class="er">o</span> <span class="er">papel</span> <span class="er">no</span> <span class="er">CHUPorto</span> <span class="er">*/</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span>  <span class="st">"PractitionerRole"</span><span class="fu">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>            <span class="st">"role-luiscosta-chuporto"</span><span class="fu">,</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"practitioner"</span><span class="fu">:</span>  <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Practitioner/pr-luiscosta"</span> <span class="fu">},</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"organization"</span><span class="fu">:</span>  <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-chuporto"</span> <span class="fu">},</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span>      <span class="ot">[</span><span class="fu">{</span> <span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"code"</span><span class="fu">:</span> <span class="st">"doctor"</span> <span class="fu">}</span><span class="ot">]</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"specialty"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"system"</span><span class="fu">:</span>  <span class="st">"http://snomed.info/sct"</span><span class="fu">,</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"code"</span><span class="fu">:</span>    <span class="st">"394579002"</span><span class="fu">,</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"display"</span><span class="fu">:</span> <span class="st">"Cardiologia"</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Separar identidade de papel permite que o mesmo profissional apareça com papéis diferentes em contextos diferentes sem duplicar os seus dados pessoais e credenciais.</p>
+</section>
+<section id="sec-09-organization" class="level3" data-number="9.4.3">
+<h3 data-number="9.4.3" class="anchored" data-anchor-id="sec-09-organization"><span class="header-section-number">9.4.3</span> <code>Organization</code> — a instituição como recurso</h3>
+<p>A <code>Organization</code> representa qualquer entidade formal de saúde: hospital, serviço, farmácia, seguradora. O campo <code>partOf</code> permite representar hierarquias — um serviço de cardiologia é <code>partOf</code> o centro hospitalar que o alberga:</p>
+<div id="tbl-organization-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-organization-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.5: Campos principais do recurso Organization FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-organization-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 42%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Significado</th>
+<th style="text-align: left;">Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>identifier</code></td>
+<td style="text-align: left;"><code>NIF</code>, código <code>ACSS</code>, <code>OID</code> da instituição</td>
+<td style="text-align: left;"><code>urn:oid:2.16.840.1.113883.2.4</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>name</code></td>
+<td style="text-align: left;">Nome oficial da organização</td>
+<td style="text-align: left;"><code>Centro Hospitalar Universitário do Porto</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>type</code></td>
+<td style="text-align: left;"><code>prov</code> (prestador) · <code>dept</code> (serviço) · <code>team</code> · <code>govt</code> · <code>ins</code></td>
+<td style="text-align: left;"><code>prov</code> — CHUPorto · <code>dept</code> — Cardiologia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>partOf</code></td>
+<td style="text-align: left;"><code>Reference(Organization)</code> — hierarquia</td>
+<td style="text-align: left;">Serviço de Cardiologia → <code>CHUPorto</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>endpoint</code></td>
+<td style="text-align: left;"><code>URL</code> do servidor <code>FHIR</code> da organização</td>
+<td style="text-align: left;"><code>https://fhir.chuporto.pt</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <code>Organization</code> é referenciada por: <code>Patient.managingOrganization</code>, <code>Encounter.serviceProvider</code> e <code>PractitionerRole.organization</code> — é o campo de ancoragem institucional de quase todos os outros recursos clínicos.</p>
+</section>
+<section id="sec-09-encounter" class="level3" data-number="9.4.4">
+<h3 data-number="9.4.4" class="anchored" data-anchor-id="sec-09-encounter"><span class="header-section-number">9.4.4</span> <code>Encounter</code> — o nó que articula o episódio</h3>
+<p>O <code>Encounter</code> representa um contacto entre o paciente e o sistema de saúde — uma consulta, um internamento, uma urgência, uma teleconsulta. É o recurso que articula todos os outros num episódio clínico.</p>
+<div id="tbl-encounter-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-encounter-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.6: Campos principais do recurso Encounter FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-encounter-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 39%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Valores</th>
+<th style="text-align: left;">Papel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>status</code></td>
+<td style="text-align: left;"><code>planned</code> | <code>arrived</code> | <code>in-progress</code> | <code>finished</code> | <code>cancelled</code></td>
+<td style="text-align: left;">Estado do episódio</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>class</code></td>
+<td style="text-align: left;"><code>inpatient</code> | <code>outpatient</code> | <code>emergency</code> | <code>virtual</code></td>
+<td style="text-align: left;">Tipo de contacto</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>subject</code></td>
+<td style="text-align: left;"><code>Reference(Patient)</code></td>
+<td style="text-align: left;">Quem é tratado</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>participant</code></td>
+<td style="text-align: left;"><code>Reference(Practitioner)</code></td>
+<td style="text-align: left;">Quem trata</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>serviceProvider</code></td>
+<td style="text-align: left;"><code>Reference(Organization)</code></td>
+<td style="text-align: left;">Onde ocorre</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>period</code></td>
+<td style="text-align: left;"><code>start</code> + <code>end</code></td>
+<td style="text-align: left;">Data/hora de início e fim</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>reasonCode</code></td>
+<td style="text-align: left;"><code>CodeableConcept</code></td>
+<td style="text-align: left;">Motivo da consulta/admissão</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>O <code>Encounter</code> é o <strong>nó central</strong> do grafo clínico: articula quem (<code>Patient</code>), quem trata (<code>Practitioner</code>), onde (<code>Organization</code>) e quando (<code>period</code>). Todos os resultados clínicos de um episódio — <code>Observation</code>, <code>DiagnosticReport</code>, <code>MedicationRequest</code> — referenciam o <code>Encounter</code> para situar a informação no seu contexto temporal e institucional.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"Encounter"</span><span class="fu">,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>           <span class="st">"enc-2025-04152"</span><span class="fu">,</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"status"</span><span class="fu">:</span>       <span class="st">"finished"</span><span class="fu">,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"class"</span><span class="fu">:</span>        <span class="fu">{</span> <span class="dt">"code"</span><span class="fu">:</span> <span class="st">"outpatient"</span> <span class="fu">},</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span>         <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span> <span class="fu">},</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"participant"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"individual"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Practitioner/pr-luiscosta"</span> <span class="fu">}</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"serviceProvider"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-chuporto"</span> <span class="fu">},</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"period"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"start"</span><span class="fu">:</span> <span class="st">"2025-04-15T09:00:00+01:00"</span><span class="fu">,</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"end"</span><span class="fu">:</span>   <span class="st">"2025-04-15T09:45:00+01:00"</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"reasonCode"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"system"</span><span class="fu">:</span>  <span class="st">"http://snomed.info/sct"</span><span class="fu">,</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"code"</span><span class="fu">:</span>    <span class="st">"44054006"</span><span class="fu">,</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"display"</span><span class="fu">:</span> <span class="st">"Diabetes mellitus tipo 2"</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!--
+  Diagrama: Encounter como nó central ligando Patient, Practitioner,
+  Organization, DiagnosticReport, Observation, ImagingStudy.
+  Paleta azul (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="320" rx="10" fill="#f5f8fc"></rect>
+
+  <!-- Encounter (centro) -->
+  <rect x="265" y="118" width="170" height="52" rx="8" fill="#1a3a6b"></rect>
+  <text x="350" y="139" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">Encounter</text>
+  <text x="350" y="158" text-anchor="middle" font-size="9" fill="#b8d0f0">episódio clínico</text>
+
+  <!-- Patient (esquerda) -->
+  <rect x="30" y="120" width="140" height="46" rx="6" fill="#2d6abf"></rect>
+  <text x="100" y="138" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Patient</text>
+  <text x="100" y="156" text-anchor="middle" font-size="8" fill="#d0e4ff">subject</text>
+  <line x1="170" y1="144" x2="265" y2="144" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#arr)"></line>
+
+  <!-- Organization (topo) -->
+  <rect x="255" y="26" width="190" height="46" rx="6" fill="#2d6abf"></rect>
+  <text x="350" y="45" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Organization</text>
+  <text x="350" y="62" text-anchor="middle" font-size="8" fill="#d0e4ff">serviceProvider</text>
+  <line x1="350" y1="72" x2="350" y2="118" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#arr)"></line>
+
+  <!-- Practitioner (direita) -->
+  <rect x="530" y="120" width="150" height="46" rx="6" fill="#2d6abf"></rect>
+  <text x="605" y="138" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Practitioner</text>
+  <text x="605" y="156" text-anchor="middle" font-size="8" fill="#d0e4ff">participant</text>
+  <line x1="530" y1="144" x2="435" y2="144" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#arr)"></line>
+
+  <!-- DiagnosticReport (baixo esquerda) -->
+  <rect x="30" y="236" width="170" height="50" rx="6" fill="#4a86d8"></rect>
+  <text x="115" y="256" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">DiagnosticReport</text>
+  <text x="115" y="274" text-anchor="middle" font-size="8" fill="#d0e4ff">→ Reference(Encounter)</text>
+  <line x1="265" y1="165" x2="160" y2="236" stroke="#4a86d8" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arr2)"></line>
+
+  <!-- Observation (baixo centro) -->
+  <rect x="255" y="236" width="190" height="50" rx="6" fill="#4a86d8"></rect>
+  <text x="350" y="256" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Observation</text>
+  <text x="350" y="274" text-anchor="middle" font-size="8" fill="#d0e4ff">→ Reference(Encounter)</text>
+  <line x1="350" y1="170" x2="350" y2="236" stroke="#4a86d8" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arr2)"></line>
+
+  <!-- ImagingStudy (baixo direita) -->
+  <rect x="500" y="236" width="170" height="50" rx="6" fill="#4a86d8"></rect>
+  <text x="585" y="256" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">ImagingStudy</text>
+  <text x="585" y="274" text-anchor="middle" font-size="8" fill="#d0e4ff">→ Reference(Encounter)</text>
+  <line x1="435" y1="165" x2="540" y2="236" stroke="#4a86d8" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arr2)"></line>
+
+  <text x="350" y="313" text-anchor="middle" font-size="13" fill="#64748b">
+    Figura 9.1 — Encounter como nó central do grafo clínico FHIR
+  </text>
+
+  <defs>
+    <marker id="arr" markerwidth="7" markerheight="7" refx="6" refy="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2d6abf"></path>
+    </marker>
+    <marker id="arr2" markerwidth="7" markerheight="7" refx="6" refy="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#4a86d8"></path>
+    </marker>
+  </defs>
+</svg>
+</div>
+</section>
+<section id="sec-09-diagnostic" class="level3" data-number="9.4.5">
+<h3 data-number="9.4.5" class="anchored" data-anchor-id="sec-09-diagnostic"><span class="header-section-number">9.4.5</span> <code>DiagnosticReport</code> e <code>Observation</code> — resultado estruturado</h3>
+<p>O <code>DiagnosticReport</code> agrega <code>Observation</code> individuais. Um relatório laboratorial — um hemograma, por exemplo — é um <code>DiagnosticReport</code> com uma lista de <code>Observation</code>, uma por cada valor medido.</p>
+<p><strong><code>DiagnosticReport</code> — o relatório:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>code</code></td>
+<td style="text-align: left;">Tipo de exame (<code>LOINC</code>) — ex: <code>"Hemograma"</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>status</code></td>
+<td style="text-align: left;"><code>registered</code> | <code>partial</code> | <code>final</code> | <code>amended</code> | <code>entered-in-error</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>subject</code></td>
+<td style="text-align: left;"><code>Reference(Patient)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>performer</code></td>
+<td style="text-align: left;"><code>Reference(Practitioner \| Organization)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>result</code></td>
+<td style="text-align: left;">Lista de <code>Reference(Observation)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>conclusion</code></td>
+<td style="text-align: left;">Texto narrativo da conclusão</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>Observation</code> — a medição individual:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>code</code></td>
+<td style="text-align: left;">O que foi medido (<code>LOINC</code>) — ex: <code>"Hemoglobina"</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>value[x]</code></td>
+<td style="text-align: left;">O valor: <code>valueQuantity</code>, <code>valueString</code>, <code>valueCodeableConcept</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>status</code></td>
+<td style="text-align: left;"><code>final</code> | <code>preliminary</code> | <code>amended</code> | <code>cancelled</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>subject</code></td>
+<td style="text-align: left;"><code>Reference(Patient)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>encounter</code></td>
+<td style="text-align: left;"><code>Reference(Encounter)</code> — contexto clínico</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>referenceRange</code></td>
+<td style="text-align: left;">Intervalo de referência para interpretação</td>
+</tr>
+</tbody>
+</table>
+<p>O campo <code>value[x]</code> usa a notação <code>[x]</code> para indicar polimorfismo: o tipo de valor pode ser <code>valueQuantity</code> (ex: <code>6.4 mmol/L</code>), <code>valueString</code> (ex: uma descrição textual), ou <code>valueCodeableConcept</code> (ex: <code>"positivo"</code> codificado em <code>SNOMED</code>). Apenas um dos tipos pode estar presente num dado recurso.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"DiagnosticReport"</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>           <span class="st">"dr-hemograma-2025"</span><span class="fu">,</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"status"</span><span class="fu">:</span>       <span class="st">"final"</span><span class="fu">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"system"</span><span class="fu">:</span>  <span class="st">"http://loinc.org"</span><span class="fu">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"code"</span><span class="fu">:</span>    <span class="st">"58410-2"</span><span class="fu">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"display"</span><span class="fu">:</span> <span class="st">"CBC panel - Blood by Automated count"</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"Hemograma completo"</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span>   <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span> <span class="fu">},</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"encounter"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Encounter/enc-2025-04152"</span> <span class="fu">},</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"performer"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/lab-chuporto"</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"result"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Observation/obs-hgb-001"</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Observation/obs-plt-001"</span> <span class="fu">}</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"conclusion"</span><span class="fu">:</span> <span class="st">"Hemograma dentro dos parâmetros normais."</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span>   <span class="st">"Observation"</span><span class="fu">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>             <span class="st">"obs-hgb-001"</span><span class="fu">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"status"</span><span class="fu">:</span>         <span class="st">"final"</span><span class="fu">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"system"</span><span class="fu">:</span>  <span class="st">"http://loinc.org"</span><span class="fu">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"code"</span><span class="fu">:</span>    <span class="st">"718-7"</span><span class="fu">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"display"</span><span class="fu">:</span> <span class="st">"Hemoglobin [Mass/volume] in Blood"</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"Hemoglobina"</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span>   <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span> <span class="fu">},</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"encounter"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Encounter/enc-2025-04152"</span> <span class="fu">},</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"valueQuantity"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"value"</span><span class="fu">:</span> <span class="fl">14.2</span><span class="fu">,</span> <span class="dt">"unit"</span><span class="fu">:</span> <span class="st">"g/dL"</span><span class="fu">,</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://unitsofmeasure.org"</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"referenceRange"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"low"</span><span class="fu">:</span>  <span class="fu">{</span> <span class="dt">"value"</span><span class="fu">:</span> <span class="dv">12</span><span class="fu">,</span> <span class="dt">"unit"</span><span class="fu">:</span> <span class="st">"g/dL"</span> <span class="fu">},</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"high"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"value"</span><span class="fu">:</span> <span class="dv">16</span><span class="fu">,</span> <span class="dt">"unit"</span><span class="fu">:</span> <span class="st">"g/dL"</span> <span class="fu">}</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>O campo <code>DiagnosticReport.result</code> é uma lista de referências — cada <code>Observation</code> pode ser acedida e interpretada individualmente. Esta granularidade permite que um sistema de alertas clínicos aceda directamente à <code>Observation</code> de hemoglobina sem precisar de descarregar o relatório completo.</p>
+</section>
+<section id="sec-09-imagingstudy" class="level3" data-number="9.4.6">
+<h3 data-number="9.4.6" class="anchored" data-anchor-id="sec-09-imagingstudy"><span class="header-section-number">9.4.6</span> <code>ImagingStudy</code> — a ponte <code>DICOM</code>↔︎<code>FHIR</code></h3>
+<p>O <code>ImagingStudy</code> representa um estudo <code>DICOM</code> no modelo <code>FHIR</code>, sem duplicar as imagens — estas continuam no <code>PACS</code>. O recurso serve de apontador: contém os metadados do estudo e uma referência ao servidor <code>WADO-RS</code> onde as imagens podem ser acedidas.</p>
+<div id="tbl-imagingstudy" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-imagingstudy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.7: Mapeamento entre conceitos DICOM e campos FHIR no ImagingStudy <span class="citation" data-cites="HL7_FHIR_R4 DICOM_PS318">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>; <a href="../referencias.html#ref-DICOM_PS318" role="doc-biblioref"><strong>DICOM_PS318?</strong></a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-imagingstudy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 34%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Conceito <code>DICOM</code></th>
+<th style="text-align: left;">Campo <code>FHIR</code></th>
+<th style="text-align: left;">Notas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Study UID (0020,000D)</td>
+<td style="text-align: left;"><code>identifier</code> (<code>system="urn:dicom:uid"</code>)</td>
+<td style="text-align: left;">Referência única e permanente ao estudo</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Patient ID (0010,0020)</td>
+<td style="text-align: left;"><code>subject → Reference(Patient)</code></td>
+<td style="text-align: left;">Requer resolução de identidade — não atribuição directa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Modality (0008,0060)</td>
+<td style="text-align: left;"><code>series.modality</code> (<code>CT</code>, <code>MR</code>, <code>US</code>…)</td>
+<td style="text-align: left;">Cada série tem a sua modalidade</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Series UID (0020,000E)</td>
+<td style="text-align: left;"><code>series.uid</code></td>
+<td style="text-align: left;">Uma série = conjunto de instâncias <code>DICOM</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SOP Instance UID (0008,0018)</td>
+<td style="text-align: left;"><code>series.instance.uid</code></td>
+<td style="text-align: left;">Uma instância = uma imagem <code>DICOM</code> individual</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>WADO-RS</code> URL</td>
+<td style="text-align: left;"><code>ImagingStudy.endpoint → Endpoint.address</code></td>
+<td style="text-align: left;">Protocolo <em>standard</em> para aceder imagens <code>DICOM</code> via <code>HTTP</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>O campo <code>subject</code> requer atenção especial: o <code>Patient ID</code> <code>DICOM</code> não mapeia directamente para o <code>id</code> do sistema do recurso <code>Patient FHIR</code>. Os dois sistemas usam esquemas de identificação independentes; a resolução de identidade — o processo de descobrir qual o <code>Patient FHIR</code> que corresponde a um dado <code>Patient ID DICOM</code> — é feita por algoritmos de <em>matching</em> com base no <code>NIF</code>, nome e data de nascimento, ou por um <code>MPI</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Nota</strong> — O <code>WADO-RS</code> (<em>Web Access to DICOM Objects — RESTful Services</em>) é o protocolo <code>DICOMweb</code> que expõe estudos <code>DICOM</code> através de uma <code>API HTTP</code>. Um pedido <code>GET</code> ao <code>WADO-RS</code> <code>URL</code> de um estudo devolve as imagens em formato <code>DICOM</code> ou <code>JPEG</code>. O <code>ImagingStudy</code> no <code>FHIR</code> armazena este <code>URL</code> no campo <code>endpoint</code>, permitindo que qualquer aplicação <code>FHIR</code> aceda às imagens do <code>PACS</code> sem precisar de conhecer os detalhes do protocolo <code>DICOM</code> <em>legacy</em>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-09-interop" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="sec-09-interop"><span class="header-section-number">9.5</span> Interoperabilidade Distribuída</h2>
+<section id="sec-09-interop-cross" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="sec-09-interop-cross"><span class="header-section-number">9.5.1</span> Cenário 1 — Referenciação entre instituições</h3>
+<p>O <code>Hospital B</code> (CHUSJ) cria um <code>DiagnosticReport</code> sobre um paciente registado no <code>Hospital A</code> (CHUPorto). Os dados do <code>Patient</code> não são copiados — são referenciados pelo <code>URL</code> absoluto do servidor do <code>Hospital A</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"DiagnosticReport"</span><span class="fu">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>           <span class="st">"dr-chusj-001"</span><span class="fu">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"status"</span><span class="fu">:</span>       <span class="st">"final"</span><span class="fu">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"https://fhir.chuporto.pt/Patient/p-123"</span><span class="fu">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"display"</span><span class="fu">:</span>   <span class="st">"João Ferreira"</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span>      <span class="fu">{</span> <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"TAC torácica"</span> <span class="fu">},</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"performer"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-chusj"</span> <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Quando o <code>Hospital B</code> precisa dos dados completos do paciente, resolve a referência com um <code>GET</code>:</p>
+<pre><code>GET https://fhir.chuporto.pt/Patient/p-123
+→ Hospital A responde com o recurso Patient completo</code></pre>
+<p>Esta arquitectura tem uma limitação real: se o servidor do <code>Hospital A</code> não estiver acessível no momento do pedido, a referência absoluta não pode ser resolvida. O <code>FHIR</code> não garante disponibilidade — é responsabilidade das instituições assegurar acordos de <code>SLA</code> e infra-estrutura de alta disponibilidade.</p>
+</section>
+<section id="sec-09-interop-transfer" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="sec-09-interop-transfer"><span class="header-section-number">9.5.2</span> Cenário 2 — Transferência e continuidade de cuidados</h3>
+<p>O <code>Hospital A</code> vai transferir um paciente para o <code>Hospital B</code>. O fluxo usa um <code>Bundle</code> do tipo <code>document</code>.</p>
+<p><strong>Passo 1 — O Hospital A cria o <code>Bundle(document)</code>:</strong></p>
+<p>Inclui uma <code>Composition</code> (cabeçalho obrigatório — data, autor, secções), o <code>Patient</code>, o <code>Encounter</code> de alta, o <code>DiagnosticReport</code>, e o <code>MedicationRequest</code>. O <code>Bundle document</code> é imutável por convenção — representa um <em>snapshot</em> deliberado e assinado do estado clínico no momento da alta.</p>
+<p><strong>Passo 2 — Transmissão via <code>POST</code> autenticado:</strong></p>
+<pre><code>POST https://fhir.chusj.pt/Bundle
+Authorization: Bearer &lt;token OAuth2&gt;</code></pre>
+<p>O <code>POST</code> é autenticado via <code>OAuth2</code>/<code>SMART on FHIR</code> — exigido em produção pelo <code>RGPD</code> (Regulamento (UE) 2016/679, Art.º 32.º). O <code>Bundle</code> fica armazenado em ambas as instituições: uma cópia no <code>Hospital A</code>, outra no <code>Hospital B</code>.</p>
+<p><strong>Passo 3 — O Hospital B recebe e processa:</strong></p>
+<p>O <code>Hospital B</code> armazena o <code>Bundle</code> e resolve a identidade do paciente pelo identificador partilhado (<code>NIF</code>):</p>
+<ul>
+<li>Se o paciente já existia localmente → associa sem duplicação.</li>
+<li>Se é novo → cria um <code>Patient</code> local com o <code>NIF</code> como âncora, e mantém a referência absoluta ao <code>Hospital A</code> como identificador adicional.</li>
+</ul>
+<p><strong>Passo 4 — Continuidade estabelecida:</strong></p>
+<p>O médico do <code>Hospital B</code> consulta o <code>DiagnosticReport</code> e o <code>MedicationRequest</code> do <code>Hospital A</code> sem qualquer intervenção manual. O <code>FHIR</code> funciona como a web: cada recurso tem o seu <code>URL</code>, e os outros sistemas referenciam-no pelo <code>URL</code>. O <code>Bundle(document)</code> é o equivalente a <em>guardar a página para ler offline</em> — um <em>snapshot</em> deliberado para quando não se pode depender da ligação.</p>
+</section>
+</section>
+<section id="sec-09-resolucao" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="sec-09-resolucao"><span class="header-section-number">9.6</span> Resolução de Referências — Comparação</h2>
+<!--
+  Diagrama: quatro tipos de referência FHIR com pros/cons.
+  Paleta azul (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="230" rx="10" fill="#f5f8fc"></rect>
+  <text x="350" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a3a6b">Tipos de referência FHIR — comparação</text>
+
+  <!-- Relativa -->
+  <rect x="20" y="34" width="155" height="164" rx="6" fill="#2d6abf"></rect>
+  <text x="97" y="54" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Relativa</text>
+  <text x="97" y="70" text-anchor="middle" font-size="8" fill="#d0e4ff">"Patient/123"</text>
+  <rect x="30" y="80" width="135" height="108" rx="4" fill="#1a3a6b"></rect>
+  <text x="97" y="96" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Simples</text>
+  <text x="97" y="112" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Eficiente</text>
+  <text x="97" y="128" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Local ao servidor</text>
+  <text x="97" y="144" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Não portátil</text>
+  <text x="97" y="162" text-anchor="middle" font-size="8" fill="#d0e4ff">Uso: intra-hospitalar</text>
+  <text x="97" y="178" text-anchor="middle" font-size="8" fill="#d0e4ff"> </text>
+
+  <!-- Absoluta -->
+  <rect x="185" y="34" width="155" height="164" rx="6" fill="#2d6abf"></rect>
+  <text x="262" y="54" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Absoluta</text>
+  <text x="262" y="70" text-anchor="middle" font-size="8" fill="#d0e4ff">"https://fhir.h.pt/..."</text>
+  <rect x="195" y="80" width="135" height="108" rx="4" fill="#1a3a6b"></rect>
+  <text x="262" y="96" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Portátil</text>
+  <text x="262" y="112" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Inter-hospitalar</text>
+  <text x="262" y="128" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Exige rede</text>
+  <text x="262" y="144" text-anchor="middle" font-size="8" fill="#fca5a5">✗ SLA necessário</text>
+  <text x="262" y="162" text-anchor="middle" font-size="8" fill="#d0e4ff">Uso: inter-hospitalar</text>
+  <text x="262" y="178" text-anchor="middle" font-size="8" fill="#d0e4ff"> </text>
+
+  <!-- Contained -->
+  <rect x="350" y="34" width="155" height="164" rx="6" fill="#2d6abf"></rect>
+  <text x="427" y="54" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Contained</text>
+  <text x="427" y="70" text-anchor="middle" font-size="8" fill="#d0e4ff">"#p-local"</text>
+  <rect x="360" y="80" width="135" height="108" rx="4" fill="#1a3a6b"></rect>
+  <text x="427" y="96" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Autossuficiente</text>
+  <text x="427" y="112" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Sem rede</text>
+  <text x="427" y="128" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Sem identidade</text>
+  <text x="427" y="144" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Não reutilizável</text>
+  <text x="427" y="162" text-anchor="middle" font-size="8" fill="#d0e4ff">Uso: sem servidor</text>
+  <text x="427" y="178" text-anchor="middle" font-size="8" fill="#d0e4ff">disponível</text>
+
+  <!-- Lógica -->
+  <rect x="515" y="34" width="165" height="164" rx="6" fill="#2d6abf"></rect>
+  <text x="597" y="54" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Lógica</text>
+  <text x="597" y="70" text-anchor="middle" font-size="8" fill="#d0e4ff">{ identifier: ... }</text>
+  <rect x="525" y="80" width="145" height="108" rx="4" fill="#1a3a6b"></rect>
+  <text x="597" y="96" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Portátil</text>
+  <text x="597" y="112" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Sem URL</text>
+  <text x="597" y="128" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Resolução externa</text>
+  <text x="597" y="144" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Requer MPI</text>
+  <text x="597" y="162" text-anchor="middle" font-size="8" fill="#d0e4ff">Uso: identif. clínico</text>
+  <text x="597" y="178" text-anchor="middle" font-size="8" fill="#d0e4ff">como âncora</text>
+
+  <text x="350" y="218" text-anchor="middle" font-size="13" fill="#64748b">
+    Figura 9.2 — Comparação dos quatro tipos de referência FHIR
+  </text>
+</svg>
+</div>
+</section>
+<section id="sec-09-limitacoes" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="sec-09-limitacoes"><span class="header-section-number">9.7</span> Limitações Reais da Interoperabilidade <code>FHIR</code></h2>
+<p>A interoperabilidade técnica é condição necessária — mas não suficiente. Os desafios reais da interoperabilidade <code>FHIR</code> em produção são sobretudo semânticos e organizacionais.</p>
+<section id="sec-09-limitacoes-identidade" class="level3" data-number="9.7.1">
+<h3 data-number="9.7.1" class="anchored" data-anchor-id="sec-09-limitacoes-identidade"><span class="header-section-number">9.7.1</span> Identidade do paciente</h3>
+<p>O mesmo paciente tem <code>ID</code>s de sistema diferentes em cada instituição. Sem um <code>MPI</code> (<em>Master Patient Index</em>) ou algoritmo de <em>matching</em>, as referências cruzadas não podem ser resolvidas de forma segura. Em Portugal, o número de utente do <code>SNS</code> serve como identificador nacional — mas nem todos os sistemas o registam de forma consistente. O <code>NIF</code> é alternativa, mas levanta questões de privacidade.</p>
+</section>
+<section id="sec-09-limitacoes-versioning" class="level3" data-number="9.7.2">
+<h3 data-number="9.7.2" class="anchored" data-anchor-id="sec-09-limitacoes-versioning"><span class="header-section-number">9.7.2</span> Versionamento de recursos</h3>
+<p>Uma referência aponta para a versão actual do recurso — mas os dados mudam. O campo <code>meta.versionId</code> e o <em>endpoint</em> <code>_history</code> permitem aceder a versões anteriores:</p>
+<pre><code>GET /Patient/p-123/_history/2    ← versão específica
+GET /Patient/p-123/_history      ← histórico completo</code></pre>
+<p>Estes mecanismos exigem que o servidor <code>FHIR</code> os implemente — e muitos servidores de produção não o fazem completamente.</p>
+</section>
+<section id="sec-09-limitacoes-terminologia" class="level3" data-number="9.7.3">
+<h3 data-number="9.7.3" class="anchored" data-anchor-id="sec-09-limitacoes-terminologia"><span class="header-section-number">9.7.3</span> Conflitos de terminologia</h3>
+<p>Dois sistemas podem usar terminologias diferentes para o mesmo conceito clínico. O <code>FHIR</code> recomenda — mas não impõe — o uso de <code>SNOMED CT</code>, <code>LOINC</code> e <code>ICD</code> como terminologias <em>standard</em>. O recurso <code>ConceptMap</code> permite definir mapeamentos explícitos entre dois sistemas de códigos, mas manter esses mapeamentos actualizados exige esforço organizacional contínuo.</p>
+</section>
+<section id="sec-09-limitacoes-autorizacao" class="level3" data-number="9.7.4">
+<h3 data-number="9.7.4" class="anchored" data-anchor-id="sec-09-limitacoes-autorizacao"><span class="header-section-number">9.7.4</span> Autorização e privacidade</h3>
+<p>Aceder a um recurso noutro servidor exige autenticação e autorização. <code>SMART on FHIR</code> define o fluxo <code>OAuth2</code> para aplicações clínicas — o mecanismo que permite a uma aplicação pedir autorização a um servidor <code>FHIR</code> para aceder aos dados de um paciente, com o consentimento explícito deste. O <code>IHE ATNA</code> (<em>Audit Trail and Node Authentication</em>) define como registar e auditar o acesso a dados clínicos. Sem estes mecanismos, a partilha de dados clínicos entre instituições viola o <code>RGPD</code>.</p>
+<p>A equação completa da interoperabilidade pode ser resumida assim:</p>
+<div id="tbl-interop-dims" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-interop-dims-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.8: As quatro dimensões da interoperabilidade em saúde.
+</figcaption>
+<div aria-describedby="tbl-interop-dims-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dimensão</th>
+<th style="text-align: left;">Solução</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Formato</td>
+<td style="text-align: left;"><code>FHIR</code> R4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Semântica</td>
+<td style="text-align: left;"><code>SNOMED CT</code> · <code>LOINC</code> · <code>ICD</code> · <code>ConceptMap</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Identidade</td>
+<td style="text-align: left;"><code>MPI</code> · <code>NIF</code> · número de utente <code>SNS</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Segurança</td>
+<td style="text-align: left;"><code>SMART on FHIR</code> · <code>IHE ATNA</code> · <code>RGPD</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-09-exercicios" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-09-exercicios">Exercícios Propostos</h2>
+<p><strong>1.</strong> Um laboratório privado recebe uma amostra de sangue com o <code>NIF</code> do paciente mas sem acesso ao servidor <code>FHIR</code> do hospital onde o paciente está registado.</p>
+<ol type="a">
+<li>Que mecanismo <code>FHIR</code> permite ao laboratório incluir informação mínima do paciente no resultado sem precisar de uma referência resolvível?</li>
+<li>Que tipo de referência usa o laboratório no campo <code>subject</code> da <code>Observation</code>?</li>
+<li>Quando o resultado chegar ao servidor hospitalar, como é que o hospital associa a <code>Observation</code> ao <code>Patient</code> correcto?</li>
+</ol>
+<p><strong>2.</strong> Analise o seguinte fragmento de um <code>Encounter</code>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"Encounter"</span><span class="fu">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>     <span class="st">"enc-urgencia-001"</span><span class="fu">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"in-progress"</span><span class="fu">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"class"</span><span class="fu">:</span>  <span class="fu">{</span> <span class="dt">"code"</span><span class="fu">:</span> <span class="st">"emergency"</span> <span class="fu">},</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span>         <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-789"</span> <span class="fu">},</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"participant"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"individual"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Practitioner/pr-234"</span> <span class="fu">}</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"serviceProvider"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-hgv"</span> <span class="fu">},</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"period"</span><span class="fu">:</span>          <span class="fu">{</span> <span class="dt">"start"</span><span class="fu">:</span> <span class="st">"2025-11-03T02:15:00+00:00"</span> <span class="fu">}</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="a">
+<li>O episódio está em que estado? Que tipo de contacto representa?</li>
+<li>O campo <code>period</code> não tem <code>end</code>. O que significa clinicamente?</li>
+<li>Qual seria o <code>URL</code> para aceder ao <code>Practitioner</code> que está a tratar o paciente?</li>
+<li>Se uma <code>Observation</code> de tensão arterial for registada durante este episódio, que referência deve ter no campo <code>encounter</code>?</li>
+</ol>
+<p><strong>3.</strong> Explique a diferença entre <code>Practitioner</code> e <code>PractitionerRole</code> e justifique por que razão o <code>FHIR</code> separa os dois conceitos em recursos distintos. Dê um exemplo com um profissional que trabalha em dois contextos diferentes.</p>
+<p><strong>4.</strong> Um hospital português prepara um <code>Bundle</code> do tipo <code>document</code> para enviar o processo clínico de um paciente para uma clínica privada.</p>
+<ol type="a">
+<li>Que recurso deve ser a primeira entrada (<code>entry</code>) do <code>Bundle document</code>? Qual é o seu papel?</li>
+<li>O <code>POST</code> do <code>Bundle</code> é feito sem autenticação. Que regulamento europeu é potencialmente violado?</li>
+<li>Após receber o <code>Bundle</code>, a clínica verifica que o paciente já existe localmente com um <code>id</code> diferente. Que campo do <code>Patient</code> deve ser usado para confirmar que se trata da mesma pessoa?</li>
+<li>Que propriedade do <code>Bundle document</code> garante que os dados recebidos não podem ser alterados retroactivamente?</li>
+</ol>
+<p><strong>5.</strong> Considere dois sistemas que comunicam via <code>FHIR</code>. O sistema A usa <code>SNOMED CT</code> para codificar diagnósticos; o sistema B usa <code>ICD-10-CM</code>.</p>
+<ol type="a">
+<li>Que tipo de recurso <code>FHIR</code> permite definir o mapeamento entre os dois sistemas de códigos?</li>
+<li>O campo <code>code</code> de uma <code>Condition</code> tem <em>binding</em> <code>required</code> a um <code>ValueSet</code> de <code>ICD-10</code>. O sistema A tenta enviar um diagnóstico codificado apenas em <code>SNOMED CT</code>. O que acontece na validação?</li>
+<li>Que estrutura <code>FHIR</code> permitiria transportar o diagnóstico em ambas as terminologias simultaneamente?</li>
+</ol>
+<p><strong>6.</strong> Uma referência num <code>Encounter</code> aponta para <code>"https://fhir.chuporto.pt/Patient/p-123"</code>. O servidor do <code>CHUPorto</code> está temporariamente indisponível.</p>
+<ol type="a">
+<li>Que tipo de referência é esta?</li>
+<li>Que impacto tem a indisponibilidade do servidor na capacidade de processar o <code>Encounter</code>?</li>
+<li>Que tipo de referência alternativa poderia tornar o <code>Encounter</code> processável mesmo sem ligação ao <code>CHUPorto</code>? Quais seriam as suas limitações?</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/cap08.html" class="pagination-link" aria-label="FHIR: Modelo de Recursos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">FHIR: Modelo de Recursos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../referencias.html" class="pagination-link" aria-label="Referências">
+        <span class="nav-page-text">Referências</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Informática Médica — Mestrado em Engenharia Biomédica · UTAD</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><a href="https://joaoagostinhopavao.github.io/sebenta-im/en/">🇬🇧 English</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
