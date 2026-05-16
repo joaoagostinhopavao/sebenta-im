@@ -26,6 +26,7 @@ book:
     - capitulos/cap07.qmd
     - capitulos/cap08.qmd
     - capitulos/cap09.qmd
+    - capitulos/cap10.qmd
     - referencias.qmd
 
   sidebar:
