@@ -1,0 +1,836 @@
+---
+title: "FHIR: Inter-Hospital Interoperability"
+lang: en-GB
+---
+
+## Introduction {#sec-09en-intro .unnumbered}
+
+The previous chapter built the `FHIR` vocabulary: what a `Resource` is, how
+identifiers work, what primitive and composite types are, what a
+`CodeableConcept` is, and how a `Bundle` acts as an envelope. That vocabulary
+is necessary — but not sufficient. Knowing what a `Patient` or an
+`Observation` is does not explain *how* those resources connect to model a
+real clinical workflow, nor how that connection supports the exchange of
+information between different institutions.
+
+This chapter uses the vocabulary to build workflows. The focus shifts from
+the individual structure of each resource to the **network of relationships**
+that links them: how an `Encounter` articulates `Patient`, `Practitioner` and
+`Organization`; how a `DiagnosticReport` aggregates `Observation`; how an
+`ImagingStudy` references `DICOM` images without duplicating them. And,
+finally, how that graph of resources can be transported between different
+servers — with its guarantees and its real limitations.
+
+## From Structure to Flow {#sec-09en-estrutura-fluxo}
+
+The starting point is a transition table: what was covered in the previous
+chapter and what this chapter adds to each concept.
+
+| Concept (Lecture 8) | What we learned | What this lecture adds |
+|:--------------------|:----------------|:-----------------------|
+| `Resource` | Atomic unit of clinical information with `id` and `meta` | How it connects to other resources — via `Reference()` |
+| `Identifier` | Logical id vs business identifier (`MRN`, `NIF`, `NHC`) | The same patient has different IDs in each system |
+| `CodeableConcept` | Code + terminology system (`SNOMED`, `LOINC`) | Codes must be compatible to integrate observations |
+| `Bundle` | Envelope of multiple resources in a single response | Types `document`, `transaction`, `searchset`, `batch` |
+
+: Transition from Lecture 8 to Lecture 9 — from structure to flow. {#tbl-09en-transicao}
+
+The central idea of this chapter can be summarised in one sentence:
+interoperability is not merely message exchange — it is a **graph of
+identified, referenced and standardised clinical entities**. The same patient
+exists in multiple systems; `FHIR` does not duplicate the data, it links them.
+
+## `Reference()` — How Resources Connect {#sec-09en-reference}
+
+### Anatomy of a `Reference()` {#sec-09en-reference-anatomy}
+
+A `Reference()` is a typed pointer to another resource — local, on another
+server, or embedded within the resource itself. It does not copy the data; it
+points to it. The client that needs the data resolves the reference with a
+`GET` to the target `URL`.
+
+A `Reference()` has three fields [@HL7_FHIR_R4]:
+
+| Field | Role | Example |
+|:------|:-----|:--------|
+| `reference` | `URL` of the target resource — relative or absolute | `"Patient/123"` or `"https://fhir.snsh.pt/Patient/456"` |
+| `type` | Expected resource type — optional but recommended | `"Patient"`, `"Practitioner"`, `"Organization"` |
+| `display` | Human-readable text — not the canonical data | `"Ana Ferreira"` — does not replace the name in the `Patient` resource |
+
+: Fields of a FHIR R4 Reference() [@HL7_FHIR_R4]. {#tbl-09en-reference-fields}
+
+The `display` field is for presentation only — if the system updates the
+patient's name in the `Patient` resource, the `display` field in any
+`Reference()` pointing to that patient is not updated automatically. The
+canonical data always resides in the referenced resource, not in the reference.
+
+```json
+{
+  "resourceType": "DiagnosticReport",
+  "id":           "report-987",
+  "status":       "final",
+  "code":         { "text": "Full blood count" },
+  "subject": {
+    "reference": "Patient/123",
+    "type":      "Patient",
+    "display":   "Ana Ferreira"
+  },
+  "performer": [{
+    "reference": "Practitioner/dr-costa",
+    "type":      "Practitioner",
+    "display":   "Dr. Luís Costa"
+  }],
+  "result": [
+    { "reference": "Observation/obs-1" },
+    { "reference": "Observation/obs-2" }
+  ]
+}
+```
+
+In this `DiagnosticReport`, the `subject` field points to `Patient/123` — the
+`Patient` is not copied, it is referenced. If a client needs the complete
+patient data, it issues `GET /Patient/123`.
+
+### Reference Types and Resolution {#sec-09en-reference-types}
+
+`FHIR` defines four ways to reference a resource, with distinct implications
+for portability and network dependency [@HL7_FHIR_R4]:
+
+**Absolute reference** — includes the full server `URL`. Portable across
+servers, but requires the target server to be accessible at resolution time:
+
+```json
+"subject": { "reference": "https://fhir.chuporto.pt/Patient/123" }
+```
+
+**Relative reference** — the most common. The `URL` is relative to the
+base server of the transaction. Simple and efficient, but only works within
+the context of the same `FHIR` server:
+
+```json
+"subject": { "reference": "Patient/123" }
+```
+
+**Contained resource** — the referenced resource is embedded within the parent
+resource, with no `URL` of its own. The `#` prefix identifies the reference
+as internal to the current resource:
+
+```json
+"subject": { "reference": "#patient-inline" }
+```
+
+**Logical reference** — carries only the clinical identifier (*business
+identifier*), without pointing to any server. Resolution is left to an
+external system (e.g. a *Master Patient Index*):
+
+```json
+"subject": {
+  "identifier": {
+    "system": "http://rnsnp.min-saude.pt",
+    "value":  "123456789"
+  }
+}
+```
+
+::: {.callout-note}
+**Note** — Relative references are the default choice in intra-hospital
+environments where all resources reside on the same server. Absolute references
+are necessary in inter-hospital scenarios. Logical references are the solution
+when there is no guarantee that the target server is accessible — the clinical
+identifier travels; resolution comes later.
+:::
+
+## `Bundle` — Types and Uses {#sec-09en-bundle-types}
+
+The `Bundle` is the `FHIR` standardised envelope. It allows a set of resources
+to be transported as a coherent unit. The five `Bundle` types have distinct
+semantics:
+
+| Type | Use | Example |
+|:-----|:----|:--------|
+| `document` | Immutable clinical document, with date and signature | Discharge summary, episode report |
+| `transaction` | Set of atomic operations — all or nothing | Create `Patient` + `Encounter` simultaneously |
+| `searchset` | Result of a `GET` search | `GET /Patient?family=Silva` → `Bundle` with results |
+| `batch` | Set of independent requests — without atomicity | Update multiple resources in batch |
+| `collection` | Arbitrary grouping of resources | Patient data export |
+
+: FHIR R4 Bundle types and their uses [@HL7_FHIR_R4]. {#tbl-09en-bundle-types}
+
+The most important distinction for interoperability scenarios is between
+`transaction` and `batch`. In a `Bundle transaction`, either all operations
+succeed or none is persisted — an atomic guarantee essential when data
+consistency cannot be partial. In a `Bundle batch`, each request is processed
+independently: one may fail without affecting the rest.
+
+The `document` type is structurally different from the others: the first
+`entry` element must be a `Composition` (the document header resource, with
+date, author and sections), and the resulting `Bundle` is considered immutable
+by convention — it represents a deliberate, signed snapshot of the clinical
+state at a given moment.
+
+## Clinical Workflow Resources {#sec-09en-recursos-fluxo}
+
+The resources covered in this chapter form the backbone of any clinical
+episode: `Patient` (who is treated), `Practitioner`/`PractitionerRole` (who
+treats and in what role), `Organization` (where), `Encounter` (the episode
+that articulates them all), `DiagnosticReport` and `Observation` (the results),
+and `ImagingStudy` (the bridge to the `PACS`).
+
+### `Patient` — the Subject of All Care {#sec-09en-patient}
+
+`Patient` is the most referenced `FHIR` resource. All other clinical resources
+— `Encounter`, `Observation`, `DiagnosticReport`, `MedicationRequest` — point
+to it. The fields most relevant to interoperability:
+
+| Field | Meaning | Note |
+|:------|:--------|:-----|
+| `identifier` | Business identifier — `NHC`, `NIF`, `MPI`, health card | A patient may have several, one per system |
+| `name` | Structured name: `family` + `given` | `HumanName` allows multiple names and periods |
+| `birthDate` | Date of birth (`YYYY-MM-DD`) | Used to disambiguate identity |
+| `gender` | `male` \| `female` \| `other` \| `unknown` | Administrative sex — not clinical |
+| `managingOrganization` | `Reference(Organization)` — the managing institution | Each system has its "own" `Patient` |
+| `generalPractitioner` | `Reference(Practitioner)` — general practitioner | May be an inter-institutional reference |
+
+: Main fields of the FHIR R4 Patient resource [@HL7_FHIR_R4]. {#tbl-09en-patient-fields}
+
+The `identifier` field is the key to interoperability: the same patient exists
+in multiple systems with different system `id`s, but the national health
+number or the `NIF` is the same in all. Interoperability begins by correctly
+identifying the patient in each system.
+
+```json
+{
+  "resourceType": "Patient",
+  "id":           "p-123",
+  "identifier": [
+    { "system": "http://rnsnp.min-saude.pt",    "value": "999000111"       },
+    { "system": "http://chuporto.pt/processos", "value": "PROC-2024-04512" }
+  ],
+  "name":        [{ "family": "Ferreira", "given": ["Ana"] }],
+  "birthDate":   "1978-04-12",
+  "gender":      "female",
+  "managingOrganization": { "reference": "Organization/org-chuporto" }
+}
+```
+
+### `Practitioner` and `PractitionerRole` — Identity and Role {#sec-09en-practitioner}
+
+`FHIR` deliberately separates the **identity** of a healthcare professional
+from the **role** they perform in a given institutional context. This
+separation is necessary because the same professional may hold different roles
+in different organisations: a cardiologist at CHUPorto and a consultant at a
+private hospital, for example.
+
+**`Practitioner` — who they are:**
+
+| Field | Content |
+|:------|:--------|
+| `identifier` | Professional registration number, `NIF` |
+| `name` | Full structured name |
+| `telecom` | Professional contact |
+| `qualification` | Specialty and certifications |
+
+**`PractitionerRole` — where and in what role:**
+
+| Field | Content |
+|:------|:--------|
+| `practitioner` | `Reference(Practitioner)` — who they are |
+| `organization` | `Reference(Organization)` — where they work |
+| `code` | Role: physician, nurse, pharmacist… |
+| `specialty` | Specialty: cardiology, radiology… |
+
+```json
+/* Practitioner — the permanent identity */
+{
+  "resourceType": "Practitioner",
+  "id":           "pr-luiscosta",
+  "identifier": [{ "system": "http://ordemmedicos.pt", "value": "C-45231" }],
+  "name":        [{ "family": "Costa", "given": ["Luís"] }]
+}
+```
+
+```json
+/* PractitionerRole — the role at CHUPorto */
+{
+  "resourceType":  "PractitionerRole",
+  "id":            "role-luiscosta-chuporto",
+  "practitioner":  { "reference": "Practitioner/pr-luiscosta" },
+  "organization":  { "reference": "Organization/org-chuporto" },
+  "code":      [{ "coding": [{ "code": "doctor" }] }],
+  "specialty": [{
+    "coding": [{
+      "system":  "http://snomed.info/sct",
+      "code":    "394579002",
+      "display": "Cardiology"
+    }]
+  }]
+}
+```
+
+Separating identity from role allows the same professional to appear with
+different roles in different contexts without duplicating their personal data
+and credentials. Dr. Luís Costa is a Cardiologist (`specialty`) at CHUPorto
+(`organization`) — `PractitionerRole` links all three.
+
+### `Organization` — the Institution as a Resource {#sec-09en-organization}
+
+`Organization` represents any formal healthcare entity: hospital, department,
+pharmacy, insurer. The `partOf` field allows hierarchies to be represented —
+a cardiology department is `partOf` the hospital that houses it:
+
+| Field | Meaning | Example |
+|:------|:--------|:--------|
+| `identifier` | `NIF`, ACSS code, institution `OID` | `urn:oid:2.16.840.1.113883.2.4` |
+| `name` | Official organisation name | `Centro Hospitalar Universitário do Porto` |
+| `type` | `prov` (provider) · `dept` (department) · `team` · `govt` · `ins` | `prov` — CHUPorto · `dept` — Cardiology Dept |
+| `partOf` | `Reference(Organization)` — hierarchy | Cardiology Department → CHUPorto |
+| `endpoint` | `URL` of the organisation's `FHIR` server | `https://fhir.chuporto.pt` |
+
+: Main fields of the FHIR R4 Organization resource [@HL7_FHIR_R4]. {#tbl-09en-organization-fields}
+
+`Organization` is referenced by `Patient.managingOrganization`,
+`Encounter.serviceProvider` and `PractitionerRole.organization` — it is the
+institutional anchor field of almost all other clinical resources.
+
+### `Encounter` — the Clinical Episode as a Linking Node {#sec-09en-encounter}
+
+`Encounter` represents a contact between the patient and the healthcare system
+— a consultation, an inpatient admission, an emergency visit, a teleconsultation.
+It is the resource that articulates all others in a clinical episode.
+
+| Field | Values | Role |
+|:------|:-------|:-----|
+| `status` | `planned` \| `arrived` \| `in-progress` \| `finished` \| `cancelled` | Episode state |
+| `class` | `inpatient` \| `outpatient` \| `emergency` \| `virtual` | Contact type |
+| `subject` | `Reference(Patient)` | Who is treated |
+| `participant` | `Reference(Practitioner)` | Who provides care |
+| `serviceProvider` | `Reference(Organization)` | Where it occurs |
+| `period` | `start` + `end` | Start and end date/time |
+| `reasonCode` | `CodeableConcept` | Reason for visit/admission |
+
+: Main fields of the FHIR R4 Encounter resource [@HL7_FHIR_R4]. {#tbl-09en-encounter-fields}
+
+`Encounter` is the **central node** of the clinical graph: it articulates who
+(`Patient`), who treats (`Practitioner`), where (`Organization`) and when
+(`period`). All clinical results of an episode — `Observation`,
+`DiagnosticReport`, `MedicationRequest` — reference the `Encounter` to place
+the information in its temporal and institutional context.
+
+```json
+{
+  "resourceType": "Encounter",
+  "id":           "enc-2025-04152",
+  "status":       "finished",
+  "class":        { "code": "outpatient" },
+  "subject":         { "reference": "Patient/p-123" },
+  "participant": [{ "individual": { "reference": "Practitioner/pr-luiscosta" } }],
+  "serviceProvider": { "reference": "Organization/org-chuporto" },
+  "period": {
+    "start": "2025-04-15T09:00:00+01:00",
+    "end":   "2025-04-15T09:45:00+01:00"
+  },
+  "reasonCode": [{
+    "coding": [{
+      "system":  "http://snomed.info/sct",
+      "code":    "44054006",
+      "display": "Type 2 diabetes mellitus"
+    }]
+  }]
+}
+```
+
+```{=html}
+<!--
+  Diagram: Encounter as central node linking Patient, Practitioner,
+  Organization, DiagnosticReport, Observation, ImagingStudy.
+  Blue palette (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="320" rx="10" fill="#f5f8fc"/>
+
+  <!-- Encounter (centre) -->
+  <rect x="265" y="118" width="170" height="52" rx="8" fill="#1a3a6b"/>
+  <text x="350" y="139" text-anchor="middle" font-size="13"
+        font-weight="bold" fill="#fff">Encounter</text>
+  <text x="350" y="158" text-anchor="middle" font-size="9"
+        fill="#b8d0f0">clinical episode</text>
+
+  <!-- Patient (left) -->
+  <rect x="30" y="120" width="140" height="46" rx="6" fill="#2d6abf"/>
+  <text x="100" y="138" text-anchor="middle" font-size="11"
+        font-weight="bold" fill="#fff">Patient</text>
+  <text x="100" y="156" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">subject</text>
+  <line x1="170" y1="144" x2="265" y2="144" stroke="#2d6abf" stroke-width="1.5"
+        marker-end="url(#ar1)"/>
+
+  <!-- Organization (top) -->
+  <rect x="255" y="26" width="190" height="46" rx="6" fill="#2d6abf"/>
+  <text x="350" y="45" text-anchor="middle" font-size="11"
+        font-weight="bold" fill="#fff">Organization</text>
+  <text x="350" y="62" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">serviceProvider</text>
+  <line x1="350" y1="72" x2="350" y2="118" stroke="#2d6abf" stroke-width="1.5"
+        marker-end="url(#ar1)"/>
+
+  <!-- Practitioner (right) -->
+  <rect x="530" y="120" width="150" height="46" rx="6" fill="#2d6abf"/>
+  <text x="605" y="138" text-anchor="middle" font-size="11"
+        font-weight="bold" fill="#fff">Practitioner</text>
+  <text x="605" y="156" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">participant</text>
+  <line x1="530" y1="144" x2="435" y2="144" stroke="#2d6abf" stroke-width="1.5"
+        marker-end="url(#ar1)"/>
+
+  <!-- DiagnosticReport (bottom left) -->
+  <rect x="30" y="236" width="170" height="50" rx="6" fill="#4a86d8"/>
+  <text x="115" y="256" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">DiagnosticReport</text>
+  <text x="115" y="274" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">→ Reference(Encounter)</text>
+  <line x1="265" y1="165" x2="160" y2="236" stroke="#4a86d8" stroke-width="1.5"
+        stroke-dasharray="4" marker-end="url(#ar2)"/>
+
+  <!-- Observation (bottom centre) -->
+  <rect x="255" y="236" width="190" height="50" rx="6" fill="#4a86d8"/>
+  <text x="350" y="256" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Observation</text>
+  <text x="350" y="274" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">→ Reference(Encounter)</text>
+  <line x1="350" y1="170" x2="350" y2="236" stroke="#4a86d8" stroke-width="1.5"
+        stroke-dasharray="4" marker-end="url(#ar2)"/>
+
+  <!-- ImagingStudy (bottom right) -->
+  <rect x="500" y="236" width="170" height="50" rx="6" fill="#4a86d8"/>
+  <text x="585" y="256" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">ImagingStudy</text>
+  <text x="585" y="274" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">→ Reference(Encounter)</text>
+  <line x1="435" y1="165" x2="540" y2="236" stroke="#4a86d8" stroke-width="1.5"
+        stroke-dasharray="4" marker-end="url(#ar2)"/>
+
+  <text x="350" y="313" text-anchor="middle" font-size="13" fill="#64748b">
+    Figure 9.1 — Encounter as the central node of the FHIR clinical graph
+  </text>
+
+  <defs>
+    <marker id="ar1" markerWidth="7" markerHeight="7"
+            refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2d6abf"/>
+    </marker>
+    <marker id="ar2" markerWidth="7" markerHeight="7"
+            refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#4a86d8"/>
+    </marker>
+  </defs>
+</svg>
+</div>
+```
+
+### `DiagnosticReport` and `Observation` — Structured Clinical Result {#sec-09en-diagnostic}
+
+`DiagnosticReport` aggregates individual `Observation`s. A laboratory report
+— a full blood count, for example — is a `DiagnosticReport` with a list of
+`Observation`s, one per measured value.
+
+**`DiagnosticReport` — the report:**
+
+| Field | Content |
+|:------|:--------|
+| `code` | Exam type (`LOINC`) — e.g. `"Full blood count"` |
+| `status` | `registered` \| `partial` \| `final` \| `amended` \| `entered-in-error` |
+| `subject` | `Reference(Patient)` |
+| `performer` | `Reference(Practitioner \| Organization)` |
+| `result` | List of `Reference(Observation)` |
+| `conclusion` | Narrative conclusion text |
+
+**`Observation` — the individual measurement:**
+
+| Field | Content |
+|:------|:--------|
+| `code` | What was measured (`LOINC`) — e.g. `"Haemoglobin"` |
+| `value[x]` | The value: `valueQuantity`, `valueString`, `valueCodeableConcept` |
+| `status` | `final` \| `preliminary` \| `amended` \| `cancelled` |
+| `subject` | `Reference(Patient)` |
+| `encounter` | `Reference(Encounter)` — clinical context |
+| `referenceRange` | Reference range for interpretation |
+
+The `value[x]` field uses the `[x]` notation to indicate polymorphism: the
+value type may be `valueQuantity` (e.g. `6.4 mmol/L`), `valueString` (e.g.
+a textual description), or `valueCodeableConcept` (e.g. `"positive"` coded in
+`SNOMED`). Only one type may be present in a given resource.
+
+```json
+{
+  "resourceType": "DiagnosticReport",
+  "id":           "dr-fbc-2025",
+  "status":       "final",
+  "code": {
+    "coding": [{
+      "system":  "http://loinc.org",
+      "code":    "58410-2",
+      "display": "CBC panel - Blood by Automated count"
+    }],
+    "text": "Full blood count"
+  },
+  "subject":   { "reference": "Patient/p-123" },
+  "encounter": { "reference": "Encounter/enc-2025-04152" },
+  "performer": [{ "reference": "Organization/lab-chuporto" }],
+  "result": [
+    { "reference": "Observation/obs-hgb-001" },
+    { "reference": "Observation/obs-plt-001" }
+  ],
+  "conclusion": "Full blood count within normal parameters."
+}
+```
+
+```json
+{
+  "resourceType":   "Observation",
+  "id":             "obs-hgb-001",
+  "status":         "final",
+  "code": {
+    "coding": [{
+      "system":  "http://loinc.org",
+      "code":    "718-7",
+      "display": "Hemoglobin [Mass/volume] in Blood"
+    }],
+    "text": "Haemoglobin"
+  },
+  "subject":   { "reference": "Patient/p-123" },
+  "encounter": { "reference": "Encounter/enc-2025-04152" },
+  "valueQuantity": {
+    "value": 13.8, "unit": "g/dL",
+    "system": "http://unitsofmeasure.org"
+  },
+  "referenceRange": [{
+    "low":  { "value": 12, "unit": "g/dL" },
+    "high": { "value": 16, "unit": "g/dL" }
+  }]
+}
+```
+
+The `DiagnosticReport.result` field is a list of references — each
+`Observation` can be accessed and interpreted individually. This granularity
+allows a clinical alerting system to access the haemoglobin `Observation`
+directly without downloading the complete report.
+
+### `ImagingStudy` — the `DICOM`↔`FHIR` Bridge {#sec-09en-imagingstudy}
+
+`ImagingStudy` represents a `DICOM` study in the `FHIR` model without
+duplicating the images — these remain in the `PACS`. The resource acts as
+a pointer: it contains the study metadata and a reference to the `WADO-RS`
+server where the images can be accessed.
+
+| `DICOM` Concept | `FHIR` Field | Notes |
+|:----------------|:------------|:------|
+| Study UID (0020,000D) | `identifier` (`system="urn:dicom:uid"`) | Unique and permanent reference to the study |
+| Patient ID (0010,0020) | `subject → Reference(Patient)` | Identity resolution required — not direct mapping |
+| Modality (0008,0060) | `series.modality` (`CT`, `MR`, `US`…) | Each series has its own modality |
+| Series UID (0020,000E) | `series.uid` | A series = set of `DICOM` instances |
+| SOP Instance UID (0008,0018) | `series.instance.uid` | An instance = an individual `DICOM` image |
+| `WADO-RS` URL | `ImagingStudy.endpoint → Endpoint.address` | Standard protocol for accessing `DICOM` images via `HTTP` |
+
+: Mapping between DICOM concepts and FHIR fields in ImagingStudy [@HL7_FHIR_R4; @DICOM_PS318]. {#tbl-09en-imagingstudy}
+
+The `subject` field requires particular attention: the `DICOM` Patient ID does
+not map directly to the system `id` of a `FHIR` `Patient` resource. The two
+systems use independent identification schemes; identity resolution — the
+process of determining which `FHIR` `Patient` corresponds to a given `DICOM`
+Patient ID — is performed using matching algorithms based on `NIF`, name and
+date of birth, or by an `MPI`.
+
+::: {.callout-note}
+**Note** — `WADO-RS` (*Web Access to DICOM Objects — RESTful Services*) is
+the `DICOMweb` protocol that exposes `DICOM` studies via an `HTTP` `API`. A
+`GET` request to the `WADO-RS` `URL` of a study returns the images in `DICOM`
+or `JPEG` format. `ImagingStudy` in `FHIR` stores this `URL` in the `endpoint`
+field, allowing any `FHIR` application to access `PACS` images without
+needing to know the details of the legacy `DICOM` protocol.
+:::
+
+## Distributed Interoperability {#sec-09en-interop}
+
+### Scenario 1 — Referencing Across Institutions {#sec-09en-interop-cross}
+
+Hospital B (CHUSJ) creates a `DiagnosticReport` for a patient registered at
+Hospital A (CHUPorto). The `Patient` data is not copied — it is referenced by
+the absolute `URL` of Hospital A's server:
+
+```json
+{
+  "resourceType": "DiagnosticReport",
+  "id":           "dr-chusj-001",
+  "status":       "final",
+  "subject": {
+    "reference": "https://fhir.chuporto.pt/Patient/123",
+    "display":   "Ana Ferreira"
+  },
+  "code":      { "text": "Chest CT" },
+  "performer": [{ "reference": "Organization/org-chusj" }]
+}
+```
+
+When Hospital B needs the complete patient data, it resolves the reference
+with a `GET`:
+
+```
+GET https://fhir.chuporto.pt/Patient/123
+→ Hospital A responds with the complete Patient resource
+```
+
+This architecture has a real limitation: if Hospital A's server is not
+accessible at the time of the request, the absolute reference cannot be
+resolved. `FHIR` does not guarantee availability — it is the responsibility
+of the institutions to ensure SLA agreements and high-availability
+infrastructure.
+
+### Scenario 2 — Transfer and Continuity of Care {#sec-09en-interop-transfer}
+
+Hospital A will transfer a patient to Hospital B. The flow uses a `Bundle` of
+type `document`.
+
+**Step 1 — Hospital A creates the `Bundle(document)`:**
+
+It includes a `Composition` (mandatory header — date, author, sections), the
+`Patient`, the discharge `Encounter`, the `DiagnosticReport`, and the
+`MedicationRequest`. The `Bundle document` is immutable by convention — it
+represents a deliberate, signed snapshot of the clinical state at the moment
+of discharge.
+
+**Step 2 — Transmission via authenticated `POST`:**
+
+```
+POST https://fhir.chusj.pt/Bundle
+Authorization: Bearer <token OAuth2>
+```
+
+The `POST` is authenticated via `OAuth2`/`SMART on FHIR` — required in
+production by the `GDPR` (Regulation (EU) 2016/679, Art. 32). The `Bundle`
+is stored at both institutions: one copy at Hospital A, another at Hospital B.
+
+**Step 3 — Hospital B receives and processes:**
+
+Hospital B stores the `Bundle` and resolves the patient identity using the
+shared identifier (`NIF`):
+
+- If the patient already existed locally → associates without duplication.
+- If new → creates a local `Patient` with the `NIF` as anchor, and retains
+  the absolute reference to Hospital A as an additional identifier.
+
+**Step 4 — Continuity established:**
+
+The physician at Hospital B consults the `DiagnosticReport` and the
+`MedicationRequest` from Hospital A without any manual intervention. `FHIR`
+works like the web: each resource has its `URL`, and other systems reference
+it by `URL`. The `Bundle(document)` is the equivalent of *saving the page to
+read offline* — a deliberate snapshot for when the connection cannot be
+relied upon.
+
+## Reference Resolution — Comparison {#sec-09en-resolucao}
+
+```{=html}
+<!--
+  Diagram: four FHIR reference types with pros/cons.
+  Blue palette (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="230" rx="10" fill="#f5f8fc"/>
+  <text x="350" y="22" text-anchor="middle" font-size="12"
+        font-weight="bold" fill="#1a3a6b">FHIR reference types — comparison</text>
+
+  <!-- Relative -->
+  <rect x="20" y="34" width="155" height="164" rx="6" fill="#2d6abf"/>
+  <text x="97" y="54" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Relative</text>
+  <text x="97" y="70" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">"Patient/123"</text>
+  <rect x="30" y="80" width="135" height="108" rx="4" fill="#1a3a6b"/>
+  <text x="97" y="96"  text-anchor="middle" font-size="8" fill="#90b8e8">✓ Simple</text>
+  <text x="97" y="112" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Efficient</text>
+  <text x="97" y="128" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Local to server</text>
+  <text x="97" y="144" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Not portable</text>
+  <text x="97" y="162" text-anchor="middle" font-size="8" fill="#d0e4ff">Use: intra-hospital</text>
+  <text x="97" y="178" text-anchor="middle" font-size="8" fill="#d0e4ff"> </text>
+
+  <!-- Absolute -->
+  <rect x="185" y="34" width="155" height="164" rx="6" fill="#2d6abf"/>
+  <text x="262" y="54" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Absolute</text>
+  <text x="262" y="70" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">"https://fhir.h.pt/..."</text>
+  <rect x="195" y="80" width="135" height="108" rx="4" fill="#1a3a6b"/>
+  <text x="262" y="96"  text-anchor="middle" font-size="8" fill="#90b8e8">✓ Portable</text>
+  <text x="262" y="112" text-anchor="middle" font-size="8" fill="#90b8e8">✓ Inter-hospital</text>
+  <text x="262" y="128" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Requires network</text>
+  <text x="262" y="144" text-anchor="middle" font-size="8" fill="#fca5a5">✗ SLA needed</text>
+  <text x="262" y="162" text-anchor="middle" font-size="8" fill="#d0e4ff">Use: inter-hospital</text>
+  <text x="262" y="178" text-anchor="middle" font-size="8" fill="#d0e4ff"> </text>
+
+  <!-- Contained -->
+  <rect x="350" y="34" width="155" height="164" rx="6" fill="#2d6abf"/>
+  <text x="427" y="54" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Contained</text>
+  <text x="427" y="70" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">"#patient-inline"</text>
+  <rect x="360" y="80" width="135" height="108" rx="4" fill="#1a3a6b"/>
+  <text x="427" y="96"  text-anchor="middle" font-size="8" fill="#90b8e8">✓ Self-sufficient</text>
+  <text x="427" y="112" text-anchor="middle" font-size="8" fill="#90b8e8">✓ No network needed</text>
+  <text x="427" y="128" text-anchor="middle" font-size="8" fill="#fca5a5">✗ No identity</text>
+  <text x="427" y="144" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Not reusable</text>
+  <text x="427" y="162" text-anchor="middle" font-size="8" fill="#d0e4ff">Use: no server</text>
+  <text x="427" y="178" text-anchor="middle" font-size="8" fill="#d0e4ff">available</text>
+
+  <!-- Logical -->
+  <rect x="515" y="34" width="165" height="164" rx="6" fill="#2d6abf"/>
+  <text x="597" y="54" text-anchor="middle" font-size="10"
+        font-weight="bold" fill="#fff">Logical</text>
+  <text x="597" y="70" text-anchor="middle" font-size="8"
+        fill="#d0e4ff">{ identifier: ... }</text>
+  <rect x="525" y="80" width="145" height="108" rx="4" fill="#1a3a6b"/>
+  <text x="597" y="96"  text-anchor="middle" font-size="8" fill="#90b8e8">✓ Portable</text>
+  <text x="597" y="112" text-anchor="middle" font-size="8" fill="#90b8e8">✓ No URL needed</text>
+  <text x="597" y="128" text-anchor="middle" font-size="8" fill="#fca5a5">✗ External resolution</text>
+  <text x="597" y="144" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Requires MPI</text>
+  <text x="597" y="162" text-anchor="middle" font-size="8" fill="#d0e4ff">Use: clinical ID</text>
+  <text x="597" y="178" text-anchor="middle" font-size="8" fill="#d0e4ff">as anchor</text>
+
+  <text x="350" y="218" text-anchor="middle" font-size="13" fill="#64748b">
+    Figure 9.2 — Comparison of the four FHIR reference types
+  </text>
+</svg>
+</div>
+```
+
+## Real Limitations of `FHIR` Interoperability {#sec-09en-limitations}
+
+Technical interoperability is a necessary condition — but not sufficient.
+The real challenges of `FHIR` interoperability in production are primarily
+semantic and organisational.
+
+### Patient Identity {#sec-09en-limitations-identity}
+
+The same patient has different `ID`s at each institution. Without an `MPI`
+(*Master Patient Index*) or a matching algorithm, cross-references cannot be
+safely resolved. In Portugal, the national health number (`SNS`) serves as
+the national identifier — but not all systems record it consistently. The
+`NIF` is an alternative, but raises privacy concerns.
+
+### Resource Versioning {#sec-09en-limitations-versioning}
+
+A reference points to the current version of the resource — but data changes.
+The `meta.versionId` field and the `_history` endpoint allow access to
+previous versions:
+
+```
+GET /Patient/p-123/_history/2    ← specific version
+GET /Patient/p-123/_history      ← complete history
+```
+
+These mechanisms require the `FHIR` server to implement them — and many
+production servers do not do so completely.
+
+### Terminology Conflicts {#sec-09en-limitations-terminology}
+
+Two systems may use different terminologies for the same clinical concept.
+`FHIR` recommends — but does not mandate — the use of `SNOMED CT`, `LOINC`
+and `ICD` as standard terminologies. The `ConceptMap` resource allows explicit
+mappings to be defined between two code systems, but keeping those mappings
+up to date requires continuous organisational effort.
+
+### Authorisation and Privacy {#sec-09en-limitations-authorisation}
+
+Accessing a resource on another server requires authentication and
+authorisation. `SMART on FHIR` defines the `OAuth2` flow for clinical
+applications — the mechanism that allows an application to request
+authorisation from a `FHIR` server to access a patient's data, with the
+patient's explicit consent. `IHE ATNA` (*Audit Trail and Node Authentication*)
+defines how access to clinical data is logged and audited. Without these
+mechanisms, sharing clinical data between institutions violates the `GDPR`.
+
+The complete interoperability equation can be summarised as:
+
+| Dimension | Solution |
+|:----------|:---------|
+| Format | `FHIR` R4 |
+| Semantics | `SNOMED CT` · `LOINC` · `ICD` · `ConceptMap` |
+| Identity | `MPI` · `NIF` · national health number |
+| Security | `SMART on FHIR` · `IHE ATNA` · `GDPR` |
+
+: The four dimensions of healthcare interoperability. {#tbl-09en-interop-dims}
+
+## Exercises {#sec-09en-exercicios .unnumbered}
+
+**1.** A private laboratory receives a blood sample with the patient's `NIF`
+but without access to the hospital's `FHIR` server where the patient is
+registered.
+
+(a) Which `FHIR` mechanism allows the laboratory to include minimal patient
+    information in the result without needing a resolvable reference?
+(b) Which reference type does the laboratory use in the `subject` field of
+    the `Observation`?
+(c) When the result reaches the hospital server, how does the hospital
+    associate the `Observation` with the correct `Patient`?
+
+**2.** Analyse the following `Encounter` fragment:
+
+```json
+{
+  "resourceType": "Encounter",
+  "id":     "enc-emergency-001",
+  "status": "in-progress",
+  "class":  { "code": "emergency" },
+  "subject":         { "reference": "Patient/p-789" },
+  "participant": [{ "individual": { "reference": "Practitioner/pr-234" } }],
+  "serviceProvider": { "reference": "Organization/org-hgv" },
+  "period":          { "start": "2025-11-03T02:15:00+00:00" }
+}
+```
+
+(a) What state is the episode in? What type of contact does it represent?
+(b) The `period` field has no `end`. What does this mean clinically?
+(c) What would be the `URL` to retrieve the `Practitioner` treating the patient?
+(d) If a blood pressure `Observation` is recorded during this episode, what
+    reference must it have in the `encounter` field?
+
+**3.** Explain the difference between `Practitioner` and `PractitionerRole`
+and justify why `FHIR` separates the two concepts into distinct resources.
+Give an example with a professional working in two different contexts.
+
+**4.** A Portuguese hospital prepares a `Bundle` of type `document` to send
+a patient's clinical record to a private clinic.
+
+(a) Which resource must be the first `entry` in the `Bundle document`? What
+    is its role?
+(b) The `Bundle` is `POST`ed without authentication. Which European regulation
+    is potentially violated?
+(c) After receiving the `Bundle`, the clinic finds that the patient already
+    exists locally with a different `id`. Which `Patient` field should be used
+    to confirm they are the same person?
+(d) Which property of the `Bundle document` ensures that the received data
+    cannot be altered retroactively?
+
+**5.** Consider two systems communicating via `FHIR`. System A uses
+`SNOMED CT` to code diagnoses; System B uses `ICD-10-CM`.
+
+(a) Which `FHIR` resource type allows the mapping between the two code systems
+    to be defined?
+(b) The `code` field of a `Condition` has a `required` binding to an
+    `ICD-10` `ValueSet`. System A attempts to send a diagnosis coded only in
+    `SNOMED CT`. What happens during validation?
+(c) Which `FHIR` structure would allow the diagnosis to be carried in both
+    terminologies simultaneously?
+
+**6.** A reference in an `Encounter` points to
+`"https://fhir.chuporto.pt/Patient/p-123"`. The CHUPorto server is temporarily
+unavailable.
+
+(a) What type of reference is this?
+(b) What impact does the server's unavailability have on the ability to
+    process the `Encounter`?
+(c) Which alternative reference type could make the `Encounter` processable
+    even without a connection to CHUPorto? What would its limitations be?

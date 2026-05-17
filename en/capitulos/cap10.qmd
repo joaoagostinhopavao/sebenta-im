@@ -1,0 +1,820 @@
+---
+title: "IHE: Integration Profiles in Healthcare"
+lang: en-GB
+---
+
+## Introduction {#sec-10en-intro .unnumbered}
+
+The previous chapter demonstrated how `FHIR` models clinical entities and
+transports them between servers: `Reference()` to link resources, `Bundle`
+to package workflows, and `SMART on FHIR` to authorise access. That framework
+answers the question of *what to transport* and *in what format*. It does not
+answer the question of *how to coordinate*: who sends what, to whom, when, in
+what order, and with what conformance guarantees.
+
+This is the function of **IHE** — *Integrating the Healthcare Enterprise*. IHE
+does not define new data formats: it uses existing standards (`HL7`, `DICOM`,
+`FHIR`) and specifies *integration profiles* — concrete scripts that determine
+which systems are involved, which messages they exchange, and in what sequence.
+An IHE profile transforms a generic standard into a testable operational
+protocol.
+
+Standards define the vocabulary; IHE defines how to use that vocabulary in a
+concrete clinical workflow. Without integration profiles, two systems that
+"speak `DICOM`" may still be unable to work together — the workflow agreement
+is missing.
+
+This chapter covers the IHE profiles most relevant to clinical information
+systems: the Scheduled Workflow (SWF) as the canonical radiology workflow model,
+XDS.b for cross-enterprise document sharing, PIX and PDQ for patient identity
+management, ATNA for security and audit, and the mobile profiles that bring
+those mechanisms to the `FHIR` ecosystem.
+
+## From Standard to Integration Profile {#sec-10en-norma-perfil}
+
+### The problem of a standard without a profile {#sec-10en-norma-sem-perfil}
+
+A standard such as `HL7` v2.x defines the structure of an examination request
+message — but does not define who sends it, to whom, under what conditions,
+or in what sequence relative to other messages. Each vendor implements the
+standard in their own way; the result is systems that speak the same language
+but cannot understand each other in practice.
+
+The problem is best illustrated by contrast. In a radiology department without
+IHE, the flow of an urgent CT examination may work like this:
+
+| Without IHE — the radiology technician | With IHE Scheduled Workflow |
+|:----------------------------------------|:---------------------------|
+| The physician writes the order on paper or in a free-text field | Physician creates order in HIS → automatic HL7 message to Radiology RIS |
+| The technician reads the order and manually enters name, date of birth, patient number and exam type at the CT console | RIS schedules and sends DICOM worklist to the modality |
+| Typing error → exam associated to the wrong patient | Technician confirms the patient on screen — no manual entry |
+| The radiologist is unaware that the exam is ready — calls the technician | Images stored in PACS with correct patient identity |
+| The report is dictated, transcribed, printed and sent by fax | Radiologist receives automatic notification — digital report |
+
+: Comparison between an ad-hoc workflow and an IHE SWF workflow. {#tbl-10en-swf-comparacao}
+
+The scenario "without IHE" works — but requires manual intervention at each
+step. Replacing any system with a product from a different vendor breaks the
+manual integrations. The scenario "with SWF" is testable, auditable and
+replaceable: any system that implements the SWF actors and transactions can
+be integrated without manual reconfiguration.
+
+### The IHE logic {#sec-10en-logica-ihe}
+
+IHE starts from a real clinical problem and defines a profile that addresses
+it using only existing standards. IHE does not invent protocols: it selects,
+combines and specifies. The process follows four steps:
+
+1. **Identify the clinical problem** — a real workflow with real stakeholders.
+2. **Define the Actors** — the systems that participate in the workflow, with
+   their specific roles.
+3. **Specify the Transactions** — the numbered messages the Actors exchange,
+   using existing standards (`HL7`, `DICOM`, `FHIR`).
+4. **Publish the Profile** — the complete script, with test cases for the
+   Connectathon.
+
+## The IHE Triad: Actor, Transaction, Profile {#sec-10en-triade}
+
+The IHE vocabulary rests on three fundamental concepts: **Actor**,
+**Transaction** and **Integration Profile**. Understanding these three concepts
+is a prerequisite for reading any IHE Technical Framework document.
+
+### Actor {#sec-10en-actor}
+
+An Actor is a system or system component with a well-defined role in an IHE
+profile. An Actor is not a product — it is a *role* that a product may
+implement. The same product may implement multiple Actors from multiple profiles,
+declaring each combination in its **Integration Statement**.
+
+| Actor (SWF) | Role | Typical system |
+|:------------|:-----|:---------------|
+| Order Placer | Creates and manages examination orders | HIS (hospital information system) |
+| Order Filler / DSS | Receives orders, schedules exams, maintains the worklist | RIS (radiology information system) |
+| Acquisition Modality | Acquires the images | CT, MRI, US, X-ray |
+| Image Manager / Archive | Stores, indexes and makes images available | PACS |
+| Image Display | Displays images for diagnostic interpretation | Radiologist workstation |
+| Report Creator *(optional)* | Creates and stores the structured report | RIS or dictation system |
+
+: SWF Actors and the systems that typically implement them. {#tbl-10en-swf-actors}
+
+The separation between Actor and product is deliberate: it allows the same
+RIS to implement both the Order Filler and Report Creator roles simultaneously,
+or for a product to be replaced by another without disrupting the rest of the
+workflow, provided the new product implements the same Actors.
+
+### Transaction {#sec-10en-transaction}
+
+A Transaction is a numbered, normative message exchange between two Actors.
+Each Transaction has:
+
+- A **code identifier** (e.g. `RAD-1`, `ITI-18`, `ITI-41`)
+- An **initiating Actor** and a **responding Actor**
+- A **base standard** (`HL7` v2.x, `DICOM`, `FHIR` REST)
+- A **precise semantics** — what the message contains, what it triggers, and
+  what is expected in response
+
+Transaction codes are unique within a Technical Framework domain. Transaction
+`RAD-1` (Placer Order Management) is always the same — any vendor implementing
+the Order Placer Actor of SWF must support `RAD-1` with the same semantics.
+Each transaction is specified down to the byte level: which `HL7` field, which
+`DICOM` tag, which expected return code.
+
+### Integration Profile {#sec-10en-profile}
+
+An Integration Profile is a set of Actors and Transactions that addresses a
+specific clinical problem. The Profile specifies:
+
+- Which Actors exist and which are mandatory vs. optional
+- Which Transactions are exchanged between which Actors, and in what order
+- Which options and extensions are permitted
+- Which test cases must be passed at the Connectathon
+
+A system declaring conformance with an IHE Profile guarantees — verified by
+independent testing — that it implements all the mandatory Actors and
+Transactions of that Profile.
+
+## Technical Framework {#sec-10en-tf}
+
+### Domains and volumes {#sec-10en-tf-domains}
+
+IHE organises its Profiles by clinical and technological domain. The six main
+domains are:
+
+| Domain | Code | Representative profiles |
+|:-------|:-----|:------------------------|
+| Radiology | `RAD` | SWF, Post-Processing Workflow, Mammography |
+| IT Infrastructure | `ITI` | XDS.b, PIX, PDQ, ATNA, MHD, IUA |
+| Patient Care Coordination | `PCC` | XDS-MS, XPHR, EDR, APS |
+| Cardiology | `CARD` | Cath Report, Echo, Stress Testing |
+| Laboratory | `LAB` | LTW, LCSD, LPOCT |
+| Pharmacy | `PHARM` | MTP, DIS, CMPD |
+
+: IHE Technical Framework domains and representative profiles. {#tbl-10en-tf-domains}
+
+Each domain publishes a *Technical Framework* comprising four volumes with
+distinct purposes:
+
+| Volume | Content |
+|:-------|:--------|
+| Volume 1 | Profile descriptions — use cases, actors, options and transactions |
+| Volume 2 | Transaction specifications — messages, encoding, detailed semantics |
+| Volume 3 | Document content — CDA templates, FHIR document formats |
+| Volume 4 | National extensions — country-specific adaptations |
+
+: Structure of the IHE Technical Framework by volume. {#tbl-10en-tf-volumes}
+
+Volume 1 is the entry point for any implementer: it describes the *why* and
+the *how* of each Profile in accessible language, before referring to Volume
+2 for the normative details. The Radiology TF and the IT Infrastructure TF are
+the two most relevant domains for integrated hospital information systems.
+
+### Conformance and Connectathon {#sec-10en-connectathon}
+
+Conformance with an IHE Profile is not self-declared — it is tested at annual
+events called **Connectathons**. At a Connectathon:
+
+1. Vendors install their systems in a controlled network environment.
+2. Each system declares the Actors and Profiles it implements.
+3. An automated testing engine — **Gazelle** — executes the test cases defined
+   in the Technical Framework and records the results.
+4. Vendors whose systems pass the tests receive *IHE Certified* status.
+
+The results are publicly documented at `gazelle.ihe.net`: hospitals can check
+whether system X and system Y tested transaction T together — and with what
+outcome — before procurement decisions.
+
+::: {.callout-note}
+**Note** — IHE conformance is not regulatory certification (CE marking or
+FDA). It is a technical interoperability commitment between vendors that
+complements — but does not replace — medical device certifications. IHE
+conformance means "we tested together at the Connectathon and it worked."
+:::
+
+## Scheduled Workflow — The Canonical Profile {#sec-10en-swf}
+
+The SWF (*Scheduled Workflow*) is the reference IHE profile for medical imaging
+workflows. It defines the complete lifecycle of a radiology examination, from
+the medical order through to the archived report. It is the most widely
+implemented IHE profile and the starting point for understanding IHE logic.
+
+### SWF — the problem it solves {#sec-10en-swf-problem}
+
+Without SWF, a radiology department faces six systematic failure points:
+
+| Failure point | Without SWF |
+|:--------------|:-----------|
+| **Order** | Free text or paper — no structure, no LOINC code |
+| **Worklist** | Technician manually enters patient data at the console |
+| **Identity** | Typing error creates "orphaned" studies or misidentified exams |
+| **Storage** | Images stored with inconsistent metadata or outside PACS |
+| **Notification** | Radiologist learns by phone that the exam is available |
+| **Report** | Paper, fax or unstructured PDF — no link to the clinical episode |
+
+: Failure points in a radiology workflow without IHE SWF. {#tbl-10en-swf-failures}
+
+SWF addresses each of these points with standardised actors and transactions
+— without changing what existing systems do, only coordinating how they
+communicate.
+
+### The eight SWF Transactions {#sec-10en-swf-transactions}
+
+The SWF defines eight numbered Transactions in the `RAD` domain:
+
+| Transaction | Name | Sender → Receiver | Base standard | What happens |
+|:------------|:-----|:-----------------|:--------------|:-------------|
+| `RAD-1` | Placer Order Management | Order Placer → Order Filler | HL7 ORM^O01 | HIS sends examination order to RIS |
+| `RAD-4` | Procedure Scheduled | Order Filler → Modality (via MWL) | HL7 ORM^O01 | RIS creates worklist entry for the modality |
+| `RAD-5` | Query Modality Worklist | Modality → Order Filler | DICOM C-FIND | CT/MRI queries worklist from RIS |
+| `RAD-6` | Modality Procedure Step | Modality → Image Manager | DICOM MPPS | Modality notifies start of procedure |
+| `RAD-8` | Modality Images Stored | Modality → Image Manager | DICOM C-STORE | Images sent to PACS |
+| `RAD-9` | Instance Availability | Image Manager → Image Display | DICOM C-FIND | PACS notifies that images are available |
+| `RAD-23` | Retrieve Images | Image Display → Image Manager | DICOM C-MOVE / WADO | Workstation retrieves images from PACS |
+| `RAD-27` | Report Issued | Report Creator → Order Filler | HL7 ORU^R01 | Signed report sent to RIS/HIS |
+
+: The eight SWF transactions with their base standards. {#tbl-10en-swf-transactions}
+
+### End-to-end example — Ana Ferreira {#sec-10en-swf-example}
+
+Ana Ferreira, 46 years old, presents at CHUPorto Emergency with acute chest
+pain. The physician orders a chest CT with contrast. The SWF workflow proceeds
+as follows:
+
+**Step 1 — HIS → RIS (`RAD-1`):**
+SAM registers the order: "Chest CT with contrast, urgent". An HL7 ORM message
+is automatically sent to the Radiology RIS. Accession number generated:
+`CHU-2026-TC-00847`.
+
+**Step 2 — RIS → Worklist (`RAD-4` / `RAD-5`):**
+The RIS schedules the exam on CT-1 (Siemens SOMATOM Definition). The worklist
+is updated: `"Ferreira, Ana · 1978-04-12 · Chest CT · CHU-2026-TC-00847"`.
+The technician opens the worklist on the CT console — sees the name and
+confirms. No manual entry.
+
+**Step 3 — CT acquires and stores (`RAD-6` + `RAD-8`):**
+MPPS "In Progress" sent to PACS at the start of acquisition. 320 images
+acquired in 3 minutes with correct DICOM metadata. Images sent via C-STORE.
+MPPS "Completed" sent at the end. PACS confirms receipt and indexes by
+Patient/Study/Series/Instance.
+
+**Step 4 — Radiologist reads (`RAD-9`):**
+Automatic notification on the radiologist workstation. The study appears in
+the worklist. The radiologist opens the images, dictates and validates the
+report.
+
+**Step 5 — Report issued (`RAD-27`):**
+HL7 ORU message sent to RIS. Report visible in SAM within less than 1 hour
+of the start of acquisition. From order to report with zero manual data entry.
+
+```{=html}
+<!--
+  Diagram: SWF — 6 actors and main transactions.
+  Blue palette (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 720 310" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:720px;font-family:sans-serif;">
+  <rect width="720" height="310" rx="10" fill="#f5f8fc"/>
+
+  <!-- Top row: Order Placer | Order Filler | Acquisition Modality -->
+  <rect x="20"  y="40" width="140" height="46" rx="6" fill="#1a3a6b"/>
+  <text x="90"  y="58" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Order Placer</text>
+  <text x="90"  y="74" text-anchor="middle" font-size="8"  fill="#b8d0f0">HIS</text>
+
+  <rect x="285" y="40" width="150" height="46" rx="6" fill="#1a3a6b"/>
+  <text x="360" y="58" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Order Filler / DSS</text>
+  <text x="360" y="74" text-anchor="middle" font-size="8"  fill="#b8d0f0">RIS</text>
+
+  <rect x="560" y="40" width="140" height="46" rx="6" fill="#2d6abf"/>
+  <text x="630" y="58" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Acquisition</text>
+  <text x="630" y="74" text-anchor="middle" font-size="8"  fill="#d0e4ff">Modality</text>
+
+  <!-- RAD-1 -->
+  <line x1="160" y1="60" x2="285" y2="60" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#sw1e)"/>
+  <text x="222" y="52" text-anchor="middle" font-size="8" fill="#2d6abf">RAD-1 (HL7 ORM)</text>
+
+  <!-- RAD-4 -->
+  <line x1="435" y1="60" x2="560" y2="60" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#sw1e)"/>
+  <text x="497" y="52" text-anchor="middle" font-size="8" fill="#2d6abf">RAD-4 (DICOM MWL)</text>
+
+  <!-- Bottom row: Report Creator | Image Manager | Image Display -->
+  <rect x="20"  y="190" width="140" height="46" rx="6" fill="#2d6abf"/>
+  <text x="90"  y="208" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Report Creator</text>
+  <text x="90"  y="224" text-anchor="middle" font-size="8"  fill="#d0e4ff">Dictation system</text>
+
+  <rect x="285" y="190" width="150" height="46" rx="6" fill="#1a3a6b"/>
+  <text x="360" y="208" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Image Manager</text>
+  <text x="360" y="224" text-anchor="middle" font-size="8"  fill="#b8d0f0">PACS</text>
+
+  <rect x="560" y="190" width="140" height="46" rx="6" fill="#2d6abf"/>
+  <text x="630" y="208" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Image Display</text>
+  <text x="630" y="224" text-anchor="middle" font-size="8"  fill="#d0e4ff">Workstation</text>
+
+  <!-- RAD-6 / RAD-8: Modality → PACS -->
+  <line x1="630" y1="86" x2="630" y2="150" stroke="#4a86d8" stroke-width="1.5"/>
+  <line x1="630" y1="150" x2="435" y2="190" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#sw2e)"/>
+  <text x="565" y="145" text-anchor="middle" font-size="8" fill="#4a86d8">RAD-6/8 (MPPS/C-STORE)</text>
+
+  <!-- RAD-23: PACS → Image Display -->
+  <line x1="435" y1="213" x2="560" y2="213" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#sw2e)"/>
+  <text x="497" y="205" text-anchor="middle" font-size="8" fill="#4a86d8">RAD-23 (WADO)</text>
+
+  <!-- RAD-27: Report Creator → Order Filler -->
+  <line x1="160" y1="213" x2="285" y2="213" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#sw2e)"/>
+  <text x="222" y="205" text-anchor="middle" font-size="8" fill="#4a86d8">RAD-27 (HL7 ORU)</text>
+
+  <!-- Result back to HIS (dashed) -->
+  <line x1="360" y1="190" x2="360" y2="130" stroke="#1a3a6b" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="360" y1="130" x2="90"  y2="86"  stroke="#1a3a6b" stroke-width="1" stroke-dasharray="4" marker-end="url(#sw3e)"/>
+  <text x="210" y="122" text-anchor="middle" font-size="8" fill="#1a3a6b">report → HIS</text>
+
+  <text x="360" y="298" text-anchor="middle" font-size="13" fill="#64748b">
+    Figure 10.1 — SWF Actors and Transactions
+  </text>
+
+  <defs>
+    <marker id="sw1e" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2d6abf"/>
+    </marker>
+    <marker id="sw2e" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#4a86d8"/>
+    </marker>
+    <marker id="sw3e" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#1a3a6b"/>
+    </marker>
+  </defs>
+</svg>
+</div>
+```
+
+## Document Sharing — XDS.b {#sec-10en-xds}
+
+The XDS.b (*Cross-Enterprise Document Sharing*) profile addresses a different
+problem from SWF: not the intra-hospital flow of images, but the sharing of
+clinical documents between different institutions. A discharge summary, a
+pathology report, or an electronic prescription can be shared via XDS.b by
+any institution participating in an *Affinity Domain* — a trust network that
+has agreed to use the same central repository.
+
+Consider the example from the slides: the GP at Gaia Health Centre wants to
+access the CT report produced at CHUPorto.
+
+### The four XDS.b Actors {#sec-10en-xds-actors}
+
+| Actor | Role | Analogy |
+|:------|:-----|:--------|
+| **Document Source** | Publishes documents to the repository | Author depositing a paper |
+| **Document Repository** | Stores the documents (bytes) | File server |
+| **Document Registry** | Indexes document metadata | Library catalogue |
+| **Document Consumer** | Queries and downloads documents | Reader consulting the catalogue |
+
+: The four XDS.b Actors and their functions. {#tbl-10en-xds-actors}
+
+The separation between *Repository* and *Registry* is a deliberate
+architectural decision: the *Registry* contains only metadata — document type,
+date, patient identifier, source institution — enabling fast searches without
+transferring documents. The *Repository* stores the actual documents and is
+only consulted after the *Consumer* has identified the document it requires.
+XDS.b separates storage (Repository) from the index (Registry) — each hospital
+keeps its own data; the Registry knows where to find it.
+
+### The XDS.b flow in three steps {#sec-10en-xds-flow}
+
+**Step 1 — Publication (Document Source → Repository and Registry):**
+
+CHUPorto's PACS/RIS (Document Source) publishes the CT report. It sends the
+document to the Repository (`ITI-41`: Provide and Register Document Set) and
+registers the metadata in the Registry (`ITI-42`: Register Document Set).
+
+```
+ITI-41: document (CDA or FHIR Document) → Document Repository
+ITI-42: metadata (type, date, patient ID, confidentiality) → Document Registry
+```
+
+**Step 2 — Discovery (Document Consumer → Registry):**
+
+The GP at Gaia Health Centre queries the Registry to discover available
+documents for the patient (`ITI-18`: Registry Stored Query). The Registry
+returns a list of metadata entries with unique identifiers — the document
+itself is not transferred at this step.
+
+```
+ITI-18: Registry Stored Query
+  patientId=urn:oid:1.2.840.10008&typeCode=18748-4  ← LOINC: Diagnostic imaging study
+→ List of DocumentEntry with EntryUUID
+```
+
+**Step 3 — Retrieval (Document Consumer → Repository):**
+
+The Consumer retrieves the document by its `EntryUUID` obtained in Step 2
+(`ITI-43`: Retrieve Document Set). The Repository returns the complete
+document.
+
+```
+ITI-43: Retrieve Document Set
+  documentUniqueId=<EntryUUID>
+→ Complete CDA or FHIR Document
+```
+
+```{=html}
+<!--
+  Diagram: XDS.b — 4 actors and 3-step flow.
+  Blue palette (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="290" rx="10" fill="#f5f8fc"/>
+  <text x="350" y="22" text-anchor="middle" font-size="12"
+        font-weight="bold" fill="#1a3a6b">XDS.b — Cross-Enterprise Document Sharing</text>
+
+  <!-- Document Source (left, centre) -->
+  <rect x="20" y="100" width="140" height="52" rx="6" fill="#1a3a6b"/>
+  <text x="90" y="121" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Source</text>
+  <text x="90" y="139" text-anchor="middle" font-size="8"  fill="#b8d0f0">CHUPorto PACS / RIS</text>
+
+  <!-- Document Repository (centre, top) -->
+  <rect x="270" y="36" width="160" height="52" rx="6" fill="#2d6abf"/>
+  <text x="350" y="57" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Repository</text>
+  <text x="350" y="75" text-anchor="middle" font-size="8"  fill="#d0e4ff">stores documents</text>
+
+  <!-- Document Registry (centre, bottom) -->
+  <rect x="270" y="162" width="160" height="52" rx="6" fill="#2d6abf"/>
+  <text x="350" y="183" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Registry</text>
+  <text x="350" y="201" text-anchor="middle" font-size="8"  fill="#d0e4ff">indexes metadata</text>
+
+  <!-- Document Consumer (right, centre) -->
+  <rect x="540" y="100" width="140" height="52" rx="6" fill="#1a3a6b"/>
+  <text x="610" y="121" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Consumer</text>
+  <text x="610" y="139" text-anchor="middle" font-size="8"  fill="#b8d0f0">Gaia Health Centre</text>
+
+  <!-- Source → Repository: ITI-41 -->
+  <line x1="160" y1="112" x2="270" y2="68" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#xe1)"/>
+  <text x="202" y="84"  text-anchor="middle" font-size="8" fill="#2d6abf">① ITI-41</text>
+  <text x="202" y="96"  text-anchor="middle" font-size="7" fill="#2d6abf">document</text>
+
+  <!-- Source → Registry: ITI-42 -->
+  <line x1="160" y1="136" x2="270" y2="182" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#xe1)"/>
+  <text x="202" y="172" text-anchor="middle" font-size="8" fill="#2d6abf">① ITI-42</text>
+  <text x="202" y="184" text-anchor="middle" font-size="7" fill="#2d6abf">metadata</text>
+
+  <!-- Consumer → Registry: ITI-18 -->
+  <line x1="540" y1="148" x2="430" y2="182" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#xe2)"/>
+  <text x="500" y="180" text-anchor="middle" font-size="8" fill="#4a86d8">② ITI-18</text>
+  <text x="500" y="192" text-anchor="middle" font-size="7" fill="#4a86d8">discover</text>
+
+  <!-- Consumer → Repository: ITI-43 -->
+  <line x1="540" y1="114" x2="430" y2="72" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#xe2)"/>
+  <text x="500" y="86"  text-anchor="middle" font-size="8" fill="#4a86d8">③ ITI-43</text>
+  <text x="500" y="98"  text-anchor="middle" font-size="7" fill="#4a86d8">retrieve</text>
+
+  <text x="350" y="248" text-anchor="middle" font-size="9" fill="#1a3a6b">
+    ① Publish (ITI-41 + ITI-42)   ②  Discover (ITI-18)   ③  Retrieve (ITI-43)
+  </text>
+
+  <text x="350" y="278" text-anchor="middle" font-size="13" fill="#64748b">
+    Figure 10.2 — XDS.b Actors and Transaction flow
+  </text>
+
+  <defs>
+    <marker id="xe1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2d6abf"/>
+    </marker>
+    <marker id="xe2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#4a86d8"/>
+    </marker>
+  </defs>
+</svg>
+</div>
+```
+
+## Patient Identity — PIX and PDQ {#sec-10en-pix-pdq}
+
+Patient identity is one of the hardest problems in healthcare interoperability.
+The same patient has different identifiers in each system: a record number at
+CHUPorto, another at CHUSJ, the national health number, the tax number (NIF).
+Without a correlation mechanism, any attempt to share data between systems
+risks associating records with the wrong patient.
+
+Ana Ferreira has different IDs at CHUPorto (`CHU-001`) and CHUSJ (`CHUSJ-456`).
+How does the CHUSJ physician know they are the same patient?
+
+### PIX — Patient Identifier Cross-Referencing {#sec-10en-pix}
+
+The PIX profile defines a central component — the **PIX Manager** — that
+maintains a cross-reference table between identifiers for the same patient
+across different domains.
+
+The PIX flow:
+
+**Registration:** When a patient is admitted at CHUPorto, the HIS sends their
+local identifier (`CHU-001`) to the PIX Manager (`ITI-8`). When the same
+patient appears at CHUSJ as `CHUSJ-456`, the CHUSJ HIS also notifies the
+PIX Manager. The table is fed by admission feeds from each system.
+
+**Query:** When CHUSJ needs to know who `CHU-001` is in their system, it
+queries the PIX Manager (`ITI-9`):
+
+```
+PIX Query: "Who is CHU-001?"
+PIX responds: "CHUSJ-456, NIF 123456789"
+Instant resolution with no data duplication.
+```
+
+| Domain | Identifier |
+|:-------|:-----------|
+| CHUPorto | `CHU-001` |
+| CHUSJ | `CHUSJ-456` |
+| NHS / NIF | `123456789` |
+| NHS number | `NHS 00000001` |
+
+: PIX cross-reference table for the same patient. {#tbl-10en-pix-table}
+
+### PDQ — Patient Demographics Query {#sec-10en-pdq}
+
+PDQ addresses a different problem: the patient's identifier is unknown — only
+the name and date of birth are available. PDQ allows the patient to be
+searched by demographic data in a central server:
+
+```
+PDQ Query: "Is there a patient: family=Ferreira, given=Ana, birthDate=1978-04-12?"
+→ Returns a list of candidates with their identifiers.
+```
+
+If multiple results are returned, the user confirms the correct patient from
+the demographic data displayed (address, NIF, date of birth).
+
+::: {.callout-note}
+**Note** — PIX resolves "who is this ID in another system". PDQ resolves
+"does this patient exist and what is their ID". In production environments,
+the two profiles are used together: PDQ locates the patient when the
+identifier is unknown; PIX confirms and cross-references when the identifier
+exists but belongs to a different domain.
+:::
+
+## Security and Audit — ATNA {#sec-10en-atna}
+
+The ATNA (*Audit Trail and Node Authentication*) profile defines the security
+mechanisms that are cross-cutting to all other IHE profiles. Any system
+participating in an XDS.b Affinity Domain or SWF deployment must implement
+ATNA. ATNA is not optional in production — it is a legal requirement under
+the GDPR and is required by all IHE profiles involving health data.
+
+### Secure Node — mutual TLS authentication {#sec-10en-atna-tls}
+
+ATNA requires that all communication between IHE Actors be encrypted with
+mutual TLS (*Transport Layer Security*): both the client and the server present
+and validate an X.509 certificate. Any system — PACS, HIS, workstation —
+that accesses clinical data is required to use mutual TLS for all connections.
+
+This is distinct from the unilateral TLS used in standard HTTPS: in ATNA,
+both ends authenticate each other. Auditable events include login, resource
+access, export, print and failure.
+
+### Audit Repository {#sec-10en-atna-audit}
+
+ATNA requires each Actor to log an audit entry after each relevant event. The
+format is the DICOM Audit Message Schema (RFC 3881 / DICOM Sup 95); entries
+are sent to a central **Audit Repository** via Syslog over TLS.
+
+Each entry records: **who** (user), **what** (resource), **when** (timestamp),
+**where** (network node), and **why** (event type).
+
+| Field | Content | Example |
+|:------|:--------|:--------|
+| `EventID` | Type of action | `Query`, `Import`, `Export`, `Delete` |
+| `EventDateTime` | Date and time in UTC | `2025-11-04T09:14:32Z` |
+| `ActiveParticipant` | System that performed the action | HIS at CHUSJ, IP `10.1.2.3` |
+| `PatientID` | Identifier of the accessed patient | `CHU-001` |
+| `AuditSourceID` | System that generated the record | `HIS-CHUSJ-v3.2` |
+
+: Mandatory fields of an ATNA audit entry (DICOM Audit Message). {#tbl-10en-atna-fields}
+
+Example: `"Dr. Costa · Patient/CHU-001 · 14:32 · CT-Workstation-01 · read"`.
+
+### ATNA and the GDPR {#sec-10en-atna-gdpr}
+
+| GDPR Article | Obligation | ATNA mechanism |
+|:-------------|:-----------|:---------------|
+| Art. 32 | Appropriate technical measures, including confidentiality and integrity | Mutual TLS X.509, encryption in transit and at rest |
+| Art. 30 | Records of processing activities — log of who accessed what and when | Audit Repository with configurable retention |
+| Art. 33–34 | Notification of data breaches | Audit trail allows the incident to be reconstructed |
+
+: GDPR obligations and their ATNA technical implementation. {#tbl-10en-atna-gdpr}
+
+ATNA is the technical implementation of the GDPR requirements in DICOM/HL7/FHIR
+environments. However, it addresses technical measures only — GDPR obligations
+around consent (Art. 6–9), data minimisation and international transfers
+(Chapter V) require organisational and legal measures beyond ATNA's scope.
+
+## IHE and FHIR — Mobile Profiles {#sec-10en-ihe-fhir}
+
+IHE recognised that REST/FHIR was becoming dominant and created "mobile"
+equivalents of its classic profiles — the same logic, over HTTP/FHIR. The
+"m" profiles do not replace the classics — they coexist and are bridged by
+XDS-on-FHIR adapters.
+
+### The main mobile profiles {#sec-10en-mobile-profiles}
+
+| Mobile profile | Classic equivalent | Standard | Function |
+|:---------------|:-------------------|:---------|:---------|
+| `MHD` | XDS.b | FHIR REST | Document sharing via FHIR |
+| `PDQm` | PDQ | FHIR REST | Patient demographic query — `GET /Patient?family=Ferreira&birthdate=1978-04-12` |
+| `PIXm` | PIX | FHIR REST | Patient identifier cross-referencing — returns FHIR Parameters |
+| `IUA` | ATNA (authentication) | OAuth2 / SMART | Cross-institutional FHIR resource access authorisation |
+| `QEDm` | HL7 CCD | FHIR REST | Query for structured clinical data (Observation, Condition, MedicationRequest) |
+| `mCSD` | HPD | FHIR REST | Directory of professionals and organisations — replaces classic LDAP |
+
+: IHE mobile profiles and their classic equivalents. {#tbl-10en-mobile-profiles}
+
+### MHD — Mobile access to Health Documents {#sec-10en-mhd}
+
+MHD transposes XDS.b to FHIR REST, preserving the same four-Actor architecture
+but replacing SOAP/ebXML with native FHIR operations.
+
+The practical difference is illustrated by the MHD in action example: Ana
+Ferreira uses a smartphone app to view her reports. The app implements the MHD
+Document Consumer actor.
+
+| Classic XDS.b | MHD equivalent |
+|:--------------|:---------------|
+| SOAP/ebXML — `AdhocQueryRequest` via `SOAPEnvelope` | HTTP GET — `GET /DocumentReference?patient=Patient/123&status=current&type=http://loinc.org\|18748-4` |
+| Heavy SOAP library, complex XML — impractical for mobile | Any HTTP client — including native app or browser |
+
+MHD does not change what the server stores — it adds a REST/FHIR interface
+to the existing XDS via an adapter. The transaction equivalence:
+
+| XDS.b Transaction | IHE code | MHD equivalent | IHE code |
+|:------------------|:---------|:---------------|:---------|
+| Provide and Register | `ITI-41` | Provide Document Bundle | `ITI-65` |
+| Registry Stored Query | `ITI-18` | Find Document References | `ITI-67` |
+| Retrieve Document Set | `ITI-43` | Retrieve Document | `ITI-68` |
+
+: Transaction equivalence between XDS.b and MHD. {#tbl-10en-mhd-mapping}
+
+In MHD, the document is published as a FHIR `Bundle` containing a
+`DocumentReference` (metadata), a `Binary` (the document — PDF, CDA or FHIR
+Document), and a `List` (manifest). The `DocumentReference` resource replaces
+the ebXML metadata of the classic XDS.b Document Entry.
+
+### IUA — Internet User Authorization {#sec-10en-iua}
+
+IUA defines OAuth2/SMART on FHIR authorisation for cross-institutional FHIR
+resource access. It defines scopes such as `patient/*.read` and
+`user/Observation.write`. The authorisation server issues a JWT access token;
+each FHIR request carries it in the `Authorization: Bearer <token>` header.
+
+## Integrated Scenario — Ana Ferreira, CHUPorto to CHUSJ {#sec-10en-cenario}
+
+An urgent chest CT at CHUPorto. The report is accessed by the GP at CHUSJ
+three days later. Each step uses an IHE profile. One clinical episode — six
+IHE profiles working together, transparently to the clinician.
+
+### SWF — Order to PACS {#sec-10en-cenario-swf1}
+
+HIS (SAM) → RIS → CT → PACS. DICOM worklist sent, C-STORE executed, MPPS
+confirmed. Images with correct metadata stored in CHUPorto's PACS.
+
+### SWF — Report to HIS {#sec-10en-cenario-swf2}
+
+The radiologist validates the report. HL7 ORU sent to HIS. A FHIR
+`ImagingStudy` resource is created by the PACS, referencing the DICOM images
+without moving them.
+
+### XDS.b — Report published to regional network {#sec-10en-cenario-xds}
+
+CHUPorto (Document Source) publishes the report (CDA or FHIR Document) to
+the regional Repository. A `DocumentReference` is registered in the regional
+Registry with metadata including patient ID, document type (`18748-4` — CT
+report), date and confidentiality level.
+
+### PIXm — Identity reconciled {#sec-10en-cenario-pix}
+
+CHUSJ queries PIXm: "Who is CHU-001 in my system?"
+Answer: `CHUSJ-456`. The CHUSJ physician sees the correct patient in their
+local system without any manual reconciliation.
+
+### MHD — GP retrieves the report {#sec-10en-cenario-mhd}
+
+```
+GET /DocumentReference
+    ?patient=Patient/CHUSJ-456
+    &type=18748-4
+```
+
+The Registry returns the document reference. The GP downloads and reads the
+CHUPorto CT report directly from their FHIR-native system.
+
+### ATNA — All accesses audited {#sec-10en-cenario-atna}
+
+Every access — publication, query, download — generates an audit entry in the
+Audit Repository. GDPR Art. 30 and 32 obligations are met automatically.
+
+| Phase | IHE Profile | Main Transaction |
+|:------|:------------|:----------------|
+| Imaging | SWF | `RAD-1`, `RAD-4`, `RAD-6`, `RAD-8`, `RAD-23`, `RAD-27` |
+| Report to HIS | SWF | `RAD-27` |
+| Publish report | XDS.b | `ITI-41`, `ITI-42` |
+| Reconcile identity | PIXm | FHIR GET with `$ihe-pix` operation |
+| Retrieve report | MHD | `ITI-67`, `ITI-68` |
+| Audit | ATNA | Syslog over TLS → Audit Repository |
+
+: IHE profiles in the integrated Ana Ferreira scenario. {#tbl-10en-cenario-resumo}
+
+## Synthesis — FHIR and IHE as Complementary Layers {#sec-10en-sintese}
+
+`FHIR` and IHE are not alternatives: they are complementary layers of the
+same interoperability stack. `FHIR` defines the *vocabulary* and the
+*transport*; IHE defines the *scripts*.
+
+| Dimension | FHIR | IHE |
+|:----------|:-----|:----|
+| What it defines | Clinical resource format + REST API | Integration profiles — Actors, Transactions, sequences |
+| Directed at | Clinical API developers | Hospital systems integrators |
+| Level of abstraction | Format and transport | Process and workflow |
+| How it is tested | FHIR validators (Inferno, Touchstone) | Connectathon + Gazelle |
+| Where they overlap | MHD, PIXm, PDQm, IUA, QEDm, mCSD | Mobile profiles use FHIR REST |
+
+: FHIR and IHE as interoperability layers. {#tbl-10en-fhir-ihe}
+
+DICOM and HL7 define the vocabulary. IHE defines how to use that vocabulary
+in a concrete workflow. The "m" profiles bring REST/FHIR to IHE architecture.
+XDS, PIX and ATNA remain active — MHD, PDQm and IUA complement them. A modern
+system can be FHIR-native and IHE-compliant simultaneously.
+
+## Exercises {#sec-10en-exercicios .unnumbered}
+
+**1.** A hospital plans to implement the IHE Scheduled Workflow (SWF) in its
+radiology department.
+
+(a) List the six SWF Actors and the type of system that typically implements
+    each one.
+(b) Which Transaction ensures that the modality automatically receives patient
+    and examination data before starting acquisition?
+(c) What base standard is used by Transaction `RAD-8`?
+(d) A radiology technician argues the system works without IHE because "exams
+    always end up in the PACS". Explain why this argument is insufficient from
+    a systems integration perspective.
+
+**2.** An XDS.b Affinity Domain includes CHUPorto and CHUSJ. CHUPorto
+publishes a discharge summary; CHUSJ needs to retrieve it.
+
+(a) Identify the four Actors involved and the role of each.
+(b) Why are the Document Registry and Document Repository two distinct
+    components rather than one?
+(c) Which Transaction does the Consumer use to search for metadata? Which
+    Transaction does it use to retrieve the document?
+(d) CHUSJ has its own Document Registry. CHUPorto has its own. How must the
+    Affinity Domain be configured for the two hospitals to share documents?
+
+**3.** The CHUSJ admission system receives a patient who says their name is
+"António Ferreira", but has no health card. The system finds no local record
+with that exact name.
+
+(a) Which IHE profile allows the patient to be searched by demographic data
+    in a central database?
+(b) Which Transaction is used for this search?
+(c) After identifying the patient, the system needs to know whether they have
+    records at CHUPorto. Which IHE profile allows identifiers from the two
+    domains to be cross-referenced?
+(d) What is the fundamental difference between PIX and PDQ?
+
+**4.** Analyse the following ATNA audit entry:
+
+```
+EventID:            E_PatientRecord
+EventDateTime:      2025-11-04T09:14:32Z
+EventAction:        R  (Read)
+ActiveParticipant:
+  UserID:           dr.costa@chusj.pt
+  NetworkAccessPointID: 10.1.2.3
+PatientID:          CHUSJ-456@urn:oid:2.16.840.1.113883.3.239
+```
+
+(a) What clinical action does this record represent?
+(b) What is the purpose of the `NetworkAccessPointID` field in a security audit?
+(c) Which GDPR article requires this record to exist?
+(d) The hospital has not implemented mutual TLS between the HIS and the Audit
+    Repository. What specific security risk does this create?
+
+**5.** A hospital's IT department is evaluating the adoption of MHD to replace
+XDS.b.
+
+(a) Which MHD Transaction is equivalent to XDS.b's `ITI-41`?
+(b) Which FHIR resource type replaces the XDS.b Document Entry metadata?
+(c) What is the main advantage of MHD for modern development?
+(d) The hospital has partners that still use classic XDS.b. What infrastructure
+    component may be necessary to ensure interoperability between both worlds?
+
+**6.** Consider the integrated scenario with Ana Ferreira described in this
+chapter.
+
+(a) Which IHE profile confirms that the "Ana Ferreira" admitted at CHUSJ is
+    the same person registered at CHUPorto?
+(b) The GP at CHUSJ retrieves the previous CT report. Which pair of
+    Transactions (discover + retrieve) is required in classic XDS.b? And in
+    MHD?
+(c) The CT report is published with MHD. CHUPorto uses classic XDS.b. Can the
+    CHUPorto physician access the report? What architectural component makes
+    this possible?
+(d) The CHUSJ DPO wants to know who accessed Ana Ferreira's data during her
+    stay. Which IHE profile allows this history to be reconstructed?
