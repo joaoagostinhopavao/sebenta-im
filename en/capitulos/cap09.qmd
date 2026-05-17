@@ -218,8 +218,9 @@ identifying the patient in each system.
 `FHIR` deliberately separates the **identity** of a healthcare professional
 from the **role** they perform in a given institutional context. This
 separation is necessary because the same professional may hold different roles
-in different organisations: a cardiologist at ULSTMAD and a consultant at a
-private hospital, for example.
+in different organisations: a cardiologist at the Unidade Local de Saúde de
+Trás-os-Montes e Alto Douro (ULSTMAD) and a consultant at a private hospital,
+for example.
 
 **`Practitioner` — who they are:**
 
@@ -554,6 +555,10 @@ needing to know the details of the legacy `DICOM` protocol.
 ## Distributed Interoperability {#sec-09en-interop}
 
 ### Scenario 1 — Referencing Across Institutions {#sec-09en-interop-cross}
+
+In this scenario, Hospital A is the Unidade Local de Saúde de Trás-os-Montes e
+Alto Douro (ULSTMAD) and Hospital B is the Centro Hospitalar Universitário de
+São João (CHUSJ).
 
 Hospital B (CHUSJ) creates a `DiagnosticReport` for a patient registered at
 Hospital A (ULSTMAD). The `Patient` data is not copied — it is referenced by

@@ -700,7 +700,7 @@ Table&nbsp;10.6: The eight SWF transactions with their base standards.
 </section>
 <section id="sec-10en-swf-example" class="level3" data-number="10.4.3">
 <h3 data-number="10.4.3" class="anchored" data-anchor-id="sec-10en-swf-example"><span class="header-section-number">10.4.3</span> End-to-end example — Ana Ferreira</h3>
-<p>Ana Ferreira, 46 years old, presents at ULSTMAD Emergency with acute chest pain. The physician orders a chest CT with contrast. The SWF workflow proceeds as follows:</p>
+<p>Ana Ferreira, 46 years old, presents at the emergency department of the Unidade Local de Saúde de Trás-os-Montes e Alto Douro (ULSTMAD) with acute chest pain. The physician orders a chest CT with contrast. The SWF workflow proceeds as follows:</p>
 <p><strong>Step 1 — HIS → RIS (<code>RAD-1</code>):</strong> SAM registers the order: “Chest CT with contrast, urgent”. An HL7 ORM message is automatically sent to the Radiology RIS. Accession number generated: <code>ULST-2026-TC-00847</code>.</p>
 <p><strong>Step 2 — RIS → Worklist (<code>RAD-4</code> / <code>RAD-5</code>):</strong> The RIS schedules the exam on CT-1 (Siemens SOMATOM Definition). The worklist is updated: <code>"Ferreira, Ana · 1978-04-12 · Chest CT · ULST-2026-TC-00847"</code>. The technician opens the worklist on the CT console — sees the name and confirms. No manual entry.</p>
 <p><strong>Step 3 — CT acquires and stores (<code>RAD-6</code> + <code>RAD-8</code>):</strong> MPPS “In Progress” sent to PACS at the start of acquisition. 320 images acquired in 3 minutes with correct DICOM metadata. Images sent via C-STORE. MPPS “Completed” sent at the end. PACS confirms receipt and indexes by Patient/Study/Series/Instance.</p>
@@ -1032,7 +1032,7 @@ Note
 </section>
 <section id="sec-10en-pix-pdq" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="sec-10en-pix-pdq"><span class="header-section-number">10.6</span> Patient Identity — PIX and PDQ</h2>
-<p>Patient identity is one of the hardest problems in healthcare interoperability. The same patient has different identifiers in each system: a record number at ULSTMAD, another at CHUSJ, the national health number, the tax number (NIF). Without a correlation mechanism, any attempt to share data between systems risks associating records with the wrong patient.</p>
+<p>Patient identity is one of the hardest problems in healthcare interoperability. The same patient has different identifiers in each system: a record number at ULSTMAD, another at the Centro Hospitalar Universitário de São João (CHUSJ), the national health number, the tax number (NIF). Without a correlation mechanism, any attempt to share data between systems risks associating records with the wrong patient.</p>
 <p>Ana Ferreira has different IDs at ULSTMAD (<code>ULST-001</code>) and CHUSJ (<code>CHUSJ-456</code>). How does the CHUSJ physician know they are the same patient?</p>
 <section id="sec-10en-pix" class="level3" data-number="10.6.1">
 <h3 data-number="10.6.1" class="anchored" data-anchor-id="sec-10en-pix"><span class="header-section-number">10.6.1</span> PIX — Patient Identifier Cross-Referencing</h3>

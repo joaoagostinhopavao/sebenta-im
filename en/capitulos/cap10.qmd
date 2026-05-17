@@ -235,8 +235,9 @@ The SWF defines eight numbered Transactions in the `RAD` domain:
 
 ### End-to-end example — Ana Ferreira {#sec-10en-swf-example}
 
-Ana Ferreira, 46 years old, presents at ULSTMAD Emergency with acute chest
-pain. The physician orders a chest CT with contrast. The SWF workflow proceeds
+Ana Ferreira, 46 years old, presents at the emergency department of the
+Unidade Local de Saúde de Trás-os-Montes e Alto Douro (ULSTMAD) with acute
+chest pain. The physician orders a chest CT with contrast. The SWF workflow proceeds
 as follows:
 
 **Step 1 — HIS → RIS (`RAD-1`):**
@@ -546,7 +547,8 @@ members.
 
 Patient identity is one of the hardest problems in healthcare interoperability.
 The same patient has different identifiers in each system: a record number at
-ULSTMAD, another at CHUSJ, the national health number, the tax number (NIF).
+ULSTMAD, another at the Centro Hospitalar Universitário de São João (CHUSJ),
+the national health number, the tax number (NIF).
 Without a correlation mechanism, any attempt to share data between systems
 risks associating records with the wrong patient.
 

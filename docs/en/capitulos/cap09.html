@@ -593,7 +593,7 @@ Table&nbsp;9.4: Main fields of the FHIR R4 Patient resource <span class="citatio
 </section>
 <section id="sec-09en-practitioner" class="level3" data-number="9.4.2">
 <h3 data-number="9.4.2" class="anchored" data-anchor-id="sec-09en-practitioner"><span class="header-section-number">9.4.2</span> <code>Practitioner</code> and <code>PractitionerRole</code> — Identity and Role</h3>
-<p><code>FHIR</code> deliberately separates the <strong>identity</strong> of a healthcare professional from the <strong>role</strong> they perform in a given institutional context. This separation is necessary because the same professional may hold different roles in different organisations: a cardiologist at ULSTMAD and a consultant at a private hospital, for example.</p>
+<p><code>FHIR</code> deliberately separates the <strong>identity</strong> of a healthcare professional from the <strong>role</strong> they perform in a given institutional context. This separation is necessary because the same professional may hold different roles in different organisations: a cardiologist at the Unidade Local de Saúde de Trás-os-Montes e Alto Douro (ULSTMAD) and a consultant at a private hospital, for example.</p>
 <p><strong><code>Practitioner</code> — who they are:</strong></p>
 <table class="caption-top table">
 <thead>
@@ -1082,6 +1082,7 @@ Note
 <h2 data-number="9.5" class="anchored" data-anchor-id="sec-09en-interop"><span class="header-section-number">9.5</span> Distributed Interoperability</h2>
 <section id="sec-09en-interop-cross" class="level3" data-number="9.5.1">
 <h3 data-number="9.5.1" class="anchored" data-anchor-id="sec-09en-interop-cross"><span class="header-section-number">9.5.1</span> Scenario 1 — Referencing Across Institutions</h3>
+<p>In this scenario, Hospital A is the Unidade Local de Saúde de Trás-os-Montes e Alto Douro (ULSTMAD) and Hospital B is the Centro Hospitalar Universitário de São João (CHUSJ).</p>
 <p>Hospital B (CHUSJ) creates a <code>DiagnosticReport</code> for a patient registered at Hospital A (ULSTMAD). The <code>Patient</code> data is not copied — it is referenced by the absolute <code>URL</code> of Hospital A’s server:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"DiagnosticReport"</span><span class="fu">,</span></span>

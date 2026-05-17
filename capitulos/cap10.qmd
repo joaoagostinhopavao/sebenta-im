@@ -343,6 +343,10 @@ documento que pretende.
 
 ### O fluxo XDS.b em três passos {#sec-10-xds-fluxo}
 
+Nos exemplos seguintes, as duas instituições participantes são a **Unidade Local
+de Saúde de Trás-os-Montes e Alto Douro** (ULSTMAD) e o **Centro Hospitalar
+Universitário de São João** (CHUSJ).
+
 **Passo 1 — Publicação (Document Source → Repository e Registry):**
 
 O *Document Source* (ex: o HIS do ULSTMAD) publica um sumário de alta.
