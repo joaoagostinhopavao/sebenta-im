@@ -102,7 +102,7 @@ servidores, mas exige que o servidor alvo esteja acessível no momento da
 resolução:
 
 ```json
-"subject": { "reference": "https://fhir.chuporto.pt/Patient/p-123" }
+"subject": { "reference": "https://fhir.ulstmad.pt/Patient/p-123" }
 ```
 
 **Recurso embutido (*contained*)** — o recurso referenciado está embutido
@@ -199,12 +199,12 @@ correctamente o paciente em cada sistema.
   "id":           "p-123",
   "identifier": [
     { "system": "http://rnsnp.min-saude.pt",    "value": "999000111"       },
-    { "system": "http://chuporto.pt/processos", "value": "PROC-2024-04512" }
+    { "system": "http://ulstmad.pt/processos", "value": "PROC-2024-04512" }
   ],
   "name":        [{ "family": "Ferreira", "given": ["João", "Manuel"] }],
   "birthDate":   "1968-03-21",
   "gender":      "male",
-  "managingOrganization": { "reference": "Organization/org-chuporto" }
+  "managingOrganization": { "reference": "Organization/org-ulstmad" }
 }
 ```
 
@@ -213,7 +213,7 @@ correctamente o paciente em cada sistema.
 O `FHIR` distingue deliberadamente a **identidade** de um profissional de saúde
 do **papel** que desempenha num dado contexto institucional. Esta separação é
 necessária porque o mesmo profissional pode ter papéis diferentes em
-organizações diferentes: cardiologista no `CHUPorto` e consultor num hospital
+organizações diferentes: cardiologista no `ULSTMAD` e consultor num hospital
 privado, por exemplo.
 
 **`Practitioner` — quem é:**
@@ -245,12 +245,12 @@ privado, por exemplo.
 ```
 
 ```json
-/* PractitionerRole — o papel no CHUPorto */
+/* PractitionerRole — o papel no ULSTMAD */
 {
   "resourceType":  "PractitionerRole",
-  "id":            "role-luiscosta-chuporto",
+  "id":            "role-luiscosta-ulstmad",
   "practitioner":  { "reference": "Practitioner/pr-luiscosta" },
-  "organization":  { "reference": "Organization/org-chuporto" },
+  "organization":  { "reference": "Organization/org-ulstmad" },
   "code":      [{ "coding": [{ "code": "doctor" }] }],
   "specialty": [{
     "coding": [{
@@ -275,10 +275,10 @@ serviço, farmácia, seguradora. O campo `partOf` permite representar hierarquia
 | Campo | Significado | Exemplo |
 |:------|:-----------|:--------|
 | `identifier` | `NIF`, código `ACSS`, `OID` da instituição | `urn:oid:2.16.840.1.113883.2.4` |
-| `name` | Nome oficial da organização | `Centro Hospitalar Universitário do Porto` |
-| `type` | `prov` (prestador) · `dept` (serviço) · `team` · `govt` · `ins` | `prov` — CHUPorto · `dept` — Cardiologia |
-| `partOf` | `Reference(Organization)` — hierarquia | Serviço de Cardiologia → `CHUPorto` |
-| `endpoint` | `URL` do servidor `FHIR` da organização | `https://fhir.chuporto.pt` |
+| `name` | Nome oficial da organização | `Unidade Local de Saúde de Trás-os-Montes e Alto Douro` |
+| `type` | `prov` (prestador) · `dept` (serviço) · `team` · `govt` · `ins` | `prov` — ULSTMAD · `dept` — Cardiologia |
+| `partOf` | `Reference(Organization)` — hierarquia | Serviço de Cardiologia → `ULSTMAD` |
+| `endpoint` | `URL` do servidor `FHIR` da organização | `https://fhir.ulstmad.pt` |
 
 : Campos principais do recurso Organization FHIR R4 [@HL7_FHIR_R4]. {#tbl-organization-fields}
 
@@ -318,7 +318,7 @@ seu contexto temporal e institucional.
   "class":        { "code": "outpatient" },
   "subject":         { "reference": "Patient/p-123" },
   "participant": [{ "individual": { "reference": "Practitioner/pr-luiscosta" } }],
-  "serviceProvider": { "reference": "Organization/org-chuporto" },
+  "serviceProvider": { "reference": "Organization/org-ulstmad" },
   "period": {
     "start": "2025-04-15T09:00:00+01:00",
     "end":   "2025-04-15T09:45:00+01:00"
@@ -471,7 +471,7 @@ descrição textual), ou `valueCodeableConcept` (ex: `"positivo"` codificado em
   },
   "subject":   { "reference": "Patient/p-123" },
   "encounter": { "reference": "Encounter/enc-2025-04152" },
-  "performer": [{ "reference": "Organization/lab-chuporto" }],
+  "performer": [{ "reference": "Organization/lab-ulstmad" }],
   "result": [
     { "reference": "Observation/obs-hgb-001" },
     { "reference": "Observation/obs-plt-001" }
@@ -550,7 +550,7 @@ sem precisar de conhecer os detalhes do protocolo `DICOM` *legacy*.
 ### Cenário 1 — Referenciação entre instituições {#sec-09-interop-cross}
 
 O `Hospital B` (CHUSJ) cria um `DiagnosticReport` sobre um paciente registado
-no `Hospital A` (CHUPorto). Os dados do `Patient` não são copiados — são
+no `Hospital A` (ULSTMAD). Os dados do `Patient` não são copiados — são
 referenciados pelo `URL` absoluto do servidor do `Hospital A`:
 
 ```json
@@ -559,7 +559,7 @@ referenciados pelo `URL` absoluto do servidor do `Hospital A`:
   "id":           "dr-chusj-001",
   "status":       "final",
   "subject": {
-    "reference": "https://fhir.chuporto.pt/Patient/p-123",
+    "reference": "https://fhir.ulstmad.pt/Patient/p-123",
     "display":   "João Ferreira"
   },
   "code":      { "text": "TAC torácica" },
@@ -571,7 +571,7 @@ Quando o `Hospital B` precisa dos dados completos do paciente, resolve a
 referência com um `GET`:
 
 ```
-GET https://fhir.chuporto.pt/Patient/p-123
+GET https://fhir.ulstmad.pt/Patient/p-123
 → Hospital A responde com o recurso Patient completo
 ```
 
@@ -818,11 +818,11 @@ enviar o processo clínico de um paciente para uma clínica privada.
     terminologias simultaneamente?
 
 **6.** Uma referência num `Encounter` aponta para
-`"https://fhir.chuporto.pt/Patient/p-123"`. O servidor do `CHUPorto` está
+`"https://fhir.ulstmad.pt/Patient/p-123"`. O servidor do `ULSTMAD` está
 temporariamente indisponível.
 
 (a) Que tipo de referência é esta?
 (b) Que impacto tem a indisponibilidade do servidor na capacidade de processar
     o `Encounter`?
 (c) Que tipo de referência alternativa poderia tornar o `Encounter` processável
-    mesmo sem ligação ao `CHUPorto`? Quais seriam as suas limitações?
+    mesmo sem ligação ao `ULSTMAD`? Quais seriam as suas limitações?

@@ -255,6 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#sec-10-xds-actores" id="toc-sec-10-xds-actores" class="nav-link" data-scroll-target="#sec-10-xds-actores"><span class="header-section-number">10.5.1</span> Os quatro Actores do XDS.b</a></li>
   <li><a href="#sec-10-xds-fluxo" id="toc-sec-10-xds-fluxo" class="nav-link" data-scroll-target="#sec-10-xds-fluxo"><span class="header-section-number">10.5.2</span> O fluxo XDS.b em três passos</a></li>
+  <li><a href="#sec-10-xds-affinity" id="toc-sec-10-xds-affinity" class="nav-link" data-scroll-target="#sec-10-xds-affinity"><span class="header-section-number">10.5.3</span> Arquitectura da Affinity Domain</a></li>
   </ul></li>
   <li><a href="#sec-10-pix-pdq" id="toc-sec-10-pix-pdq" class="nav-link" data-scroll-target="#sec-10-pix-pdq"><span class="header-section-number">10.6</span> Identidade do Paciente — PIX e PDQ</a>
   <ul class="collapse">
@@ -814,7 +815,7 @@ Tabela&nbsp;10.6: Os quatro Actores do perfil XDS.b e as suas funções.
 <section id="sec-10-xds-fluxo" class="level3" data-number="10.5.2">
 <h3 data-number="10.5.2" class="anchored" data-anchor-id="sec-10-xds-fluxo"><span class="header-section-number">10.5.2</span> O fluxo XDS.b em três passos</h3>
 <p><strong>Passo 1 — Publicação (Document Source → Repository e Registry):</strong></p>
-<p>O <em>Document Source</em> (ex: o HIS do CHUPorto) publica um sumário de alta. Envia o documento ao <em>Repository</em> (<code>ITI-41</code>: Provide and Register Document Set) e regista os metadados no <em>Registry</em> (<code>ITI-42</code>: Register Document Set).</p>
+<p>O <em>Document Source</em> (ex: o HIS do ULSTMAD) publica um sumário de alta. Envia o documento ao <em>Repository</em> (<code>ITI-41</code>: Provide and Register Document Set) e regista os metadados no <em>Registry</em> (<code>ITI-42</code>: Register Document Set).</p>
 <pre><code>POST [Repository]/iti/xds
 Transacção: ITI-41
 Conteúdo: documento CDA + metadados XDS (tipo, data, paciente, confidencialidade)</code></pre>
@@ -842,7 +843,7 @@ Conteúdo: documento CDA + metadados XDS (tipo, data, paciente, confidencialidad
   <!-- Document Source (esquerda, centro) -->
   <rect x="20" y="100" width="140" height="52" rx="6" fill="#1a3a6b"></rect>
   <text x="90" y="121" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Source</text>
-  <text x="90" y="139" text-anchor="middle" font-size="8" fill="#b8d0f0">CHUPorto HIS</text>
+  <text x="90" y="139" text-anchor="middle" font-size="8" fill="#b8d0f0">ULSTMAD HIS</text>
 
   <!-- Document Repository (centro, topo) -->
   <rect x="270" y="36" width="160" height="52" rx="6" fill="#2d6abf"></rect>
@@ -899,26 +900,133 @@ Conteúdo: documento CDA + metadados XDS (tipo, data, paciente, confidencialidad
 </svg>
 </div>
 </section>
+<section id="sec-10-xds-affinity" class="level3" data-number="10.5.3">
+<h3 data-number="10.5.3" class="anchored" data-anchor-id="sec-10-xds-affinity"><span class="header-section-number">10.5.3</span> Arquitectura da Affinity Domain</h3>
+<p>Uma <em>Affinity Domain</em> é simultaneamente um acordo técnico e um acordo de governação. Do ponto de vista de implantação, os componentes IHE dividem-se em dois grupos com natureza muito diferente.</p>
+<p><strong>Componentes partilhados — pertencem à <em>Affinity Domain</em>, não a nenhuma instituição:</strong></p>
+<div id="tbl-affinity-shared" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-affinity-shared-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;10.7: Componentes partilhados da Affinity Domain.
+</figcaption>
+<div aria-describedby="tbl-affinity-shared-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 32%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Componente</th>
+<th style="text-align: left;">Localização</th>
+<th style="text-align: left;">Operado por</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Document Registry</td>
+<td style="text-align: left;">Infraestrutura central única</td>
+<td style="text-align: left;">Autoridade regional / SPMS / entidade neutra</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PIX Manager</td>
+<td style="text-align: left;">Infraestrutura central única</td>
+<td style="text-align: left;">Idem</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PDQ Supplier</td>
+<td style="text-align: left;">Tipicamente co-localizado com o PIX Manager</td>
+<td style="text-align: left;">Idem</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Audit Repository (ATNA)</td>
+<td style="text-align: left;">Infraestrutura central partilhada</td>
+<td style="text-align: left;">Idem</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>Componentes locais — pertencem a cada instituição membro:</strong></p>
+<div id="tbl-affinity-local" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-affinity-local-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;10.8: Componentes locais de cada membro da Affinity Domain.
+</figcaption>
+<div aria-describedby="tbl-affinity-local-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 32%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Componente</th>
+<th style="text-align: left;">Localização</th>
+<th style="text-align: left;">Operado por</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Document Repository</td>
+<td style="text-align: left;">Dentro da instituição</td>
+<td style="text-align: left;">A própria instituição (PACS / RIS / HIS)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Document Source</td>
+<td style="text-align: left;">Dentro da instituição</td>
+<td style="text-align: left;">Idem</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Document Consumer</td>
+<td style="text-align: left;">Dentro da instituição</td>
+<td style="text-align: left;">Idem</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A distinção essencial é esta: o <em>Registry</em> guarda apenas metadados — sabe <em>o que existe e onde</em> — mas os documentos permanecem no <em>Repository</em> local de cada instituição. Cada hospital mantém os seus dados; o <em>Registry</em> sabe onde os encontrar.</p>
+<p>O PIX Manager é <strong>externo a todas as instituições</strong>. Recebe <em>feeds</em> de admissão de cada membro (<code>ITI-8</code>), constrói a tabela de correlação de identidades, e responde a consultas de <em>cross-reference</em> (<code>ITI-9</code>). Nenhuma instituição tem acesso privilegiado — todas são clientes do mesmo serviço central. Em termos práticos, o PIX Manager não está “dentro” de nenhum hospital da rede: está numa infraestrutura partilhada acima de todos eles.</p>
+<p>Em Portugal, a <strong>SPMS</strong> (<em>Serviços Partilhados do Ministério da Saúde</em>) opera a infraestrutura central da RSE (<em>Rede de Saúde Electrónica</em>), que inclui o <em>Registry</em> nacional e os serviços de identidade. As instituições hospitalares ligam-se via VPN/MPLS à rede SNS e mantêm os seus <em>Repositories</em> localmente. Uma <em>Affinity Domain</em> regional — como a coordenada pela ARS Norte — pode ter a sua própria infraestrutura central para as instituições da sua área geográfica.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Nota</strong> — A separação entre infraestrutura central e local tem implicação directa na governação: a <em>Affinity Domain</em> define quem opera o <em>Registry</em> e o PIX Manager, quais as políticas de confidencialidade, e o <em>Patient ID Domain</em> partilhado que serve de âncora de identidade para todos os membros.</p>
+</div>
+</div>
+</section>
 </section>
 <section id="sec-10-pix-pdq" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="sec-10-pix-pdq"><span class="header-section-number">10.6</span> Identidade do Paciente — PIX e PDQ</h2>
-<p>A identidade do paciente é um dos problemas mais difíceis da interoperabilidade em saúde. O mesmo paciente tem identificadores diferentes em cada sistema: um número de processo no CHUPorto, outro no CHUSJ, o número de utente do SNS, o NIF. Sem um mecanismo de correlação, qualquer partilha de dados entre sistemas arrisca-se a associar registos ao paciente errado.</p>
+<p>A identidade do paciente é um dos problemas mais difíceis da interoperabilidade em saúde. O mesmo paciente tem identificadores diferentes em cada sistema: um número de processo no ULSTMAD, outro no CHUSJ, o número de utente do SNS, o NIF. Sem um mecanismo de correlação, qualquer partilha de dados entre sistemas arrisca-se a associar registos ao paciente errado.</p>
 <section id="sec-10-pix" class="level3" data-number="10.6.1">
 <h3 data-number="10.6.1" class="anchored" data-anchor-id="sec-10-pix"><span class="header-section-number">10.6.1</span> PIX — Patient Identifier Cross-Reference</h3>
 <p>O perfil PIX define um componente central — o <strong>PIX Manager</strong> — que mantém uma tabela de correlação entre identificadores do mesmo paciente em domínios diferentes.</p>
 <p>O fluxo PIX em dois passos:</p>
-<p><strong>Registo:</strong> Quando um paciente é admitido no CHUPorto, o HIS envia o seu identificador local (<code>CHU-001</code>) ao PIX Manager (<code>ITI-8</code>). Quando o mesmo paciente aparece no CHUSJ como <code>CHUSJ-456</code>, o HIS do CHUSJ notifica também o PIX Manager.</p>
-<p><strong>Consulta:</strong> Quando o CHUSJ precisa de saber se o paciente <code>CHUSJ-456</code> existe no CHUPorto, consulta o PIX Manager (<code>ITI-9</code>). O PIX Manager devolve <code>CHU-001</code> — o identificador correspondente no domínio do CHUPorto.</p>
+<p><strong>Registo:</strong> Quando um paciente é admitido no ULSTMAD, o HIS envia o seu identificador local (<code>ULST-001</code>) ao PIX Manager (<code>ITI-8</code>). Quando o mesmo paciente aparece no CHUSJ como <code>CHUSJ-456</code>, o HIS do CHUSJ notifica também o PIX Manager.</p>
+<p><strong>Consulta:</strong> Quando o CHUSJ precisa de saber se o paciente <code>CHUSJ-456</code> existe no ULSTMAD, consulta o PIX Manager (<code>ITI-9</code>). O PIX Manager devolve <code>ULST-001</code> — o identificador correspondente no domínio do ULSTMAD.</p>
 <pre><code>/* ITI-9: PIX Query */
 pedido:  patientId=CHUSJ-456 @ urn:oid:2.16.840.1.113883.3.239
 resposta:
-  CHU-001     @ urn:oid:2.16.840.1.113883.3.237
+  ULST-001     @ urn:oid:2.16.840.1.113883.3.237
   NHC_SNS=999000111 @ urn:oid:1.3.6.1.4.1.12559.11.1.4.1</code></pre>
 <p>A tabela do PIX Manager para o paciente Ana Ferreira pode ser assim:</p>
 <div id="tbl-pix-table" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pix-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;10.7: Exemplo de tabela de correlação PIX para um mesmo paciente.
+Tabela&nbsp;10.9: Exemplo de tabela de correlação PIX para um mesmo paciente.
 </figcaption>
 <div aria-describedby="tbl-pix-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -930,8 +1038,8 @@ Tabela&nbsp;10.7: Exemplo de tabela de correlação PIX para um mesmo paciente.
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">CHUPorto</td>
-<td style="text-align: left;"><code>CHU-001</code></td>
+<td style="text-align: left;">ULSTMAD</td>
+<td style="text-align: left;"><code>ULST-001</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">CHUSJ</td>
@@ -989,7 +1097,7 @@ Nota
 <div id="tbl-atna-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-atna-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;10.8: Campos obrigatórios de uma entrada de auditoria ATNA (DICOM Audit Message).
+Tabela&nbsp;10.10: Campos obrigatórios de uma entrada de auditoria ATNA (DICOM Audit Message).
 </figcaption>
 <div aria-describedby="tbl-atna-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1043,7 +1151,7 @@ Tabela&nbsp;10.8: Campos obrigatórios de uma entrada de auditoria ATNA (DICOM A
 <div id="tbl-atna-rgpd" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-atna-rgpd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;10.9: Correspondência entre obrigações RGPD e mecanismos ATNA.
+Tabela&nbsp;10.11: Correspondência entre obrigações RGPD e mecanismos ATNA.
 </figcaption>
 <div aria-describedby="tbl-atna-rgpd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1103,7 +1211,7 @@ Aviso
 <div id="tbl-mobile-profiles" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mobile-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;10.10: Perfis IHE móveis e os seus equivalentes clássicos.
+Tabela&nbsp;10.12: Perfis IHE móveis e os seus equivalentes clássicos.
 </figcaption>
 <div aria-describedby="tbl-mobile-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1171,7 +1279,7 @@ Tabela&nbsp;10.10: Perfis IHE móveis e os seus equivalentes clássicos.
 <div id="tbl-mhd-mapping" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mhd-mapping-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;10.11: Equivalência entre transacções XDS.b e MHD.
+Tabela&nbsp;10.13: Equivalência entre transacções XDS.b e MHD.
 </figcaption>
 <div aria-describedby="tbl-mhd-mapping-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1264,16 +1372,16 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</code></pre>
 </section>
 <section id="sec-10-cenario" class="level2" data-number="10.9">
 <h2 data-number="10.9" class="anchored" data-anchor-id="sec-10-cenario"><span class="header-section-number">10.9</span> Cenário Integrado — Do Pedido ao Relatório</h2>
-<p>Para ilustrar como os perfis IHE funcionam em conjunto, considera-se o seguinte cenário: a doente Ana Ferreira, seguida no CHUPorto, é transferida para o CHUSJ para realizar uma TC de urgência e receber cuidados especializados.</p>
+<p>Para ilustrar como os perfis IHE funcionam em conjunto, considera-se o seguinte cenário: a doente Ana Ferreira, seguida no ULSTMAD, é transferida para o CHUSJ para realizar uma TC de urgência e receber cuidados especializados.</p>
 <section id="sec-10-cenario-identidade" class="level3" data-number="10.9.1">
 <h3 data-number="10.9.1" class="anchored" data-anchor-id="sec-10-cenario-identidade"><span class="header-section-number">10.9.1</span> Fase 1 — Identidade confirmada com PIX</h3>
 <p>O CHUSJ não conhece Ana Ferreira. O sistema de admissão consulta o PIX Manager (<code>ITI-9</code>) com o NIF <code>123456789</code>:</p>
-<pre><code>PIX Query → CHUSJ-456 @ CHUSJ,  CHU-001 @ CHUPorto</code></pre>
+<pre><code>PIX Query → CHUSJ-456 @ CHUSJ,  ULST-001 @ ULSTMAD</code></pre>
 <p>A identidade está confirmada. O CHUSJ cria um <code>Patient</code> local (<code>CHUSJ-456</code>) com o número de utente do SNS como âncora partilhada.</p>
 </section>
 <section id="sec-10-cenario-historial" class="level3" data-number="10.9.2">
 <h3 data-number="10.9.2" class="anchored" data-anchor-id="sec-10-cenario-historial"><span class="header-section-number">10.9.2</span> Fase 2 — Historial recuperado com XDS.b/MHD</h3>
-<p>O médico de urgência pesquisa documentos anteriores de Ana Ferreira no <em>Document Registry</em> (<code>ITI-18</code> / MHD <code>ITI-67</code>). O <em>Registry</em> devolve dois documentos do CHUPorto: o sumário de alta do internamento anterior e o último relatório de ecocardiograma. O médico recupera-os (<code>ITI-43</code> / MHD <code>ITI-68</code>) e confirma que a doente tem antecedentes de cardiopatia — informação crítica antes de administrar contraste para a TC.</p>
+<p>O médico de urgência pesquisa documentos anteriores de Ana Ferreira no <em>Document Registry</em> (<code>ITI-18</code> / MHD <code>ITI-67</code>). O <em>Registry</em> devolve dois documentos do ULSTMAD: o sumário de alta do internamento anterior e o último relatório de ecocardiograma. O médico recupera-os (<code>ITI-43</code> / MHD <code>ITI-68</code>) e confirma que a doente tem antecedentes de cardiopatia — informação crítica antes de administrar contraste para a TC.</p>
 </section>
 <section id="sec-10-cenario-swf" class="level3" data-number="10.9.3">
 <h3 data-number="10.9.3" class="anchored" data-anchor-id="sec-10-cenario-swf"><span class="header-section-number">10.9.3</span> Fase 3 — TC realizada com SWF</h3>
@@ -1289,7 +1397,7 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</code></pre>
 </section>
 <section id="sec-10-cenario-relatorio" class="level3" data-number="10.9.4">
 <h3 data-number="10.9.4" class="anchored" data-anchor-id="sec-10-cenario-relatorio"><span class="header-section-number">10.9.4</span> Fase 4 — Relatório partilhado com MHD</h3>
-<p>O relatório da TC é publicado no <em>Document Repository</em> via MHD (<code>ITI-65</code>), com os metadados registados no <em>Document Registry</em> (<code>ITI-42</code>). O médico do CHUPorto acede ao relatório remotamente — sem telefonemas, sem fax, sem PDF por email.</p>
+<p>O relatório da TC é publicado no <em>Document Repository</em> via MHD (<code>ITI-65</code>), com os metadados registados no <em>Document Registry</em> (<code>ITI-42</code>). O médico do ULSTMAD acede ao relatório remotamente — sem telefonemas, sem PDF por email.</p>
 </section>
 <section id="sec-10-cenario-atna" class="level3" data-number="10.9.5">
 <h3 data-number="10.9.5" class="anchored" data-anchor-id="sec-10-cenario-atna"><span class="header-section-number">10.9.5</span> Fase 5 — Auditoria com ATNA</h3>
@@ -1297,7 +1405,7 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</code></pre>
 <div id="tbl-cenario-resumo" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cenario-resumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;10.12: Resumo dos perfis IHE activados no cenário integrado de Ana Ferreira.
+Tabela&nbsp;10.14: Resumo dos perfis IHE activados no cenário integrado de Ana Ferreira.
 </figcaption>
 <div aria-describedby="tbl-cenario-resumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1352,7 +1460,7 @@ Tabela&nbsp;10.12: Resumo dos perfis IHE activados no cenário integrado de Ana 
 <div id="tbl-fhir-ihe" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fhir-ihe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;10.13: Comparação entre FHIR e IHE como camadas de interoperabilidade.
+Tabela&nbsp;10.15: Comparação entre FHIR e IHE como camadas de interoperabilidade.
 </figcaption>
 <div aria-describedby="tbl-fhir-ihe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1410,18 +1518,18 @@ Tabela&nbsp;10.13: Comparação entre FHIR e IHE como camadas de interoperabilid
 <li>Que standard de base é usado na Transacção <code>RAD-8</code>?</li>
 <li>O técnico de radiologia afirma que o sistema funciona sem IHE porque “os exames acabam todos por aparecer no PACS”. Explique por que razão esta afirmação é insuficiente do ponto de vista de integração de sistemas.</li>
 </ol>
-<p><strong>2.</strong> Uma <em>Affinity Domain</em> XDS.b inclui o CHUPorto e o CHUSJ. O CHUPorto publica um sumário de alta; o CHUSJ precisa de o recuperar.</p>
+<p><strong>2.</strong> Uma <em>Affinity Domain</em> XDS.b inclui o ULSTMAD e o CHUSJ. O ULSTMAD publica um sumário de alta; o CHUSJ precisa de o recuperar.</p>
 <ol type="a">
 <li>Identifique os quatro Actores envolvidos neste cenário e o papel de cada um.</li>
 <li>Por que razão o Document Registry e o Document Repository são dois componentes distintos e não um só?</li>
 <li>Que Transacção usa o Consumer para pesquisar os metadados? Que Transacção usa para recuperar o documento?</li>
-<li>O CHUSJ tem o seu próprio Document Registry. O CHUPorto tem o seu. Para que os dois hospitais partilhem documentos, como deve ser configurada a <em>Affinity Domain</em>?</li>
+<li>O CHUSJ tem o seu próprio Document Registry. O ULSTMAD tem o seu. Para que os dois hospitais partilhem documentos, como deve ser configurada a <em>Affinity Domain</em>?</li>
 </ol>
 <p><strong>3.</strong> O sistema de admissão do CHUSJ recebe um doente que diz chamar-se “António Ferreira”, mas não traz o cartão de saúde. O sistema não encontra nenhum registo local com esse nome exacto.</p>
 <ol type="a">
 <li>Que perfil IHE permite pesquisar o paciente por dados demográficos numa base centralizada?</li>
 <li>Que Transacção é usada para esta pesquisa?</li>
-<li>Após identificar o paciente, o sistema quer saber se ele tem registos no CHUPorto. Que perfil IHE permite correlacionar os identificadores dos dois domínios?</li>
+<li>Após identificar o paciente, o sistema quer saber se ele tem registos no ULSTMAD. Que perfil IHE permite correlacionar os identificadores dos dois domínios?</li>
 <li>Qual é a diferença fundamental entre PIX e PDQ?</li>
 </ol>
 <p><strong>4.</strong> Analise o seguinte fragmento de uma mensagem ATNA:</p>
@@ -1447,9 +1555,9 @@ PatientID:          CHUSJ-456@urn:oid:2.16.840.1.113883.3.239</code></pre>
 </ol>
 <p><strong>6.</strong> Considere o cenário integrado de Ana Ferreira descrito neste capítulo.</p>
 <ol type="a">
-<li>Que perfil IHE confirma que a “Ana Ferreira” admitida no CHUSJ é a mesma que está registada no CHUPorto?</li>
+<li>Que perfil IHE confirma que a “Ana Ferreira” admitida no CHUSJ é a mesma que está registada no ULSTMAD?</li>
 <li>O médico de urgência do CHUSJ recupera o ecocardiograma anterior. Que par de Transacções (pesquisa + recuperação) é necessário no XDS.b clássico? E no MHD?</li>
-<li>O relatório da TC é publicado com MHD. O CHUPorto usa XDS.b. O médico do CHUPorto consegue aceder ao relatório? Que componente arquitectural torna isso possível?</li>
+<li>O relatório da TC é publicado com MHD. O ULSTMAD usa XDS.b. O médico do ULSTMAD consegue aceder ao relatório? Que componente arquitectural torna isso possível?</li>
 <li>O DPO do CHUSJ quer saber quem acedeu aos dados de Ana Ferreira durante a sua estadia. Que perfil IHE permite reconstituir esse histórico?</li>
 </ol>
 

@@ -345,7 +345,7 @@ documento que pretende.
 
 **Passo 1 — Publicação (Document Source → Repository e Registry):**
 
-O *Document Source* (ex: o HIS do CHUPorto) publica um sumário de alta.
+O *Document Source* (ex: o HIS do ULSTMAD) publica um sumário de alta.
 Envia o documento ao *Repository* (`ITI-41`: Provide and Register Document Set)
 e regista os metadados no *Registry* (`ITI-42`: Register Document Set).
 
@@ -396,7 +396,7 @@ ITI-43: Retrieve Document Set
   <!-- Document Source (esquerda, centro) -->
   <rect x="20" y="100" width="140" height="52" rx="6" fill="#1a3a6b"/>
   <text x="90" y="121" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Source</text>
-  <text x="90" y="139" text-anchor="middle" font-size="8"  fill="#b8d0f0">CHUPorto HIS</text>
+  <text x="90" y="139" text-anchor="middle" font-size="8"  fill="#b8d0f0">ULSTMAD HIS</text>
 
   <!-- Document Repository (centro, topo) -->
   <rect x="270" y="36" width="160" height="52" rx="6" fill="#2d6abf"/>
@@ -454,11 +454,65 @@ ITI-43: Retrieve Document Set
 </div>
 ```
 
+### Arquitectura da Affinity Domain {#sec-10-xds-affinity}
+
+Uma *Affinity Domain* é simultaneamente um acordo técnico e um acordo de
+governação. Do ponto de vista de implantação, os componentes IHE dividem-se
+em dois grupos com natureza muito diferente.
+
+**Componentes partilhados — pertencem à *Affinity Domain*, não a nenhuma instituição:**
+
+| Componente | Localização | Operado por |
+|:-----------|:-----------|:------------|
+| Document Registry | Infraestrutura central única | Autoridade regional / SPMS / entidade neutra |
+| PIX Manager | Infraestrutura central única | Idem |
+| PDQ Supplier | Tipicamente co-localizado com o PIX Manager | Idem |
+| Audit Repository (ATNA) | Infraestrutura central partilhada | Idem |
+
+: Componentes partilhados da Affinity Domain. {#tbl-affinity-shared}
+
+**Componentes locais — pertencem a cada instituição membro:**
+
+| Componente | Localização | Operado por |
+|:-----------|:-----------|:------------|
+| Document Repository | Dentro da instituição | A própria instituição (PACS / RIS / HIS) |
+| Document Source | Dentro da instituição | Idem |
+| Document Consumer | Dentro da instituição | Idem |
+
+: Componentes locais de cada membro da Affinity Domain. {#tbl-affinity-local}
+
+A distinção essencial é esta: o *Registry* guarda apenas metadados — sabe
+*o que existe e onde* — mas os documentos permanecem no *Repository* local
+de cada instituição. Cada hospital mantém os seus dados; o *Registry* sabe
+onde os encontrar.
+
+O PIX Manager é **externo a todas as instituições**. Recebe *feeds* de
+admissão de cada membro (`ITI-8`), constrói a tabela de correlação de
+identidades, e responde a consultas de *cross-reference* (`ITI-9`). Nenhuma
+instituição tem acesso privilegiado — todas são clientes do mesmo serviço
+central. Em termos práticos, o PIX Manager não está "dentro" de nenhum
+hospital da rede: está numa infraestrutura partilhada acima de todos eles.
+
+Em Portugal, a **SPMS** (*Serviços Partilhados do Ministério da Saúde*)
+opera a infraestrutura central da RSE (*Rede de Saúde Electrónica*), que
+inclui o *Registry* nacional e os serviços de identidade. As instituições
+hospitalares ligam-se via VPN/MPLS à rede SNS e mantêm os seus *Repositories*
+localmente. Uma *Affinity Domain* regional — como a coordenada pela ARS
+Norte — pode ter a sua própria infraestrutura central para as instituições
+da sua área geográfica.
+
+::: {.callout-note}
+**Nota** — A separação entre infraestrutura central e local tem implicação
+directa na governação: a *Affinity Domain* define quem opera o *Registry* e
+o PIX Manager, quais as políticas de confidencialidade, e o *Patient ID Domain*
+partilhado que serve de âncora de identidade para todos os membros.
+:::
+
 ## Identidade do Paciente — PIX e PDQ {#sec-10-pix-pdq}
 
 A identidade do paciente é um dos problemas mais difíceis da interoperabilidade
 em saúde. O mesmo paciente tem identificadores diferentes em cada sistema:
-um número de processo no CHUPorto, outro no CHUSJ, o número de utente do SNS,
+um número de processo no ULSTMAD, outro no CHUSJ, o número de utente do SNS,
 o NIF. Sem um mecanismo de correlação, qualquer partilha de dados entre sistemas
 arrisca-se a associar registos ao paciente errado.
 
@@ -470,20 +524,20 @@ diferentes.
 
 O fluxo PIX em dois passos:
 
-**Registo:** Quando um paciente é admitido no CHUPorto, o HIS envia o seu
-identificador local (`CHU-001`) ao PIX Manager (`ITI-8`). Quando o mesmo
+**Registo:** Quando um paciente é admitido no ULSTMAD, o HIS envia o seu
+identificador local (`ULST-001`) ao PIX Manager (`ITI-8`). Quando o mesmo
 paciente aparece no CHUSJ como `CHUSJ-456`, o HIS do CHUSJ notifica também
 o PIX Manager.
 
 **Consulta:** Quando o CHUSJ precisa de saber se o paciente `CHUSJ-456` existe
-no CHUPorto, consulta o PIX Manager (`ITI-9`). O PIX Manager devolve `CHU-001`
-— o identificador correspondente no domínio do CHUPorto.
+no ULSTMAD, consulta o PIX Manager (`ITI-9`). O PIX Manager devolve `ULST-001`
+— o identificador correspondente no domínio do ULSTMAD.
 
 ```
 /* ITI-9: PIX Query */
 pedido:  patientId=CHUSJ-456 @ urn:oid:2.16.840.1.113883.3.239
 resposta:
-  CHU-001     @ urn:oid:2.16.840.1.113883.3.237
+  ULST-001     @ urn:oid:2.16.840.1.113883.3.237
   NHC_SNS=999000111 @ urn:oid:1.3.6.1.4.1.12559.11.1.4.1
 ```
 
@@ -491,7 +545,7 @@ A tabela do PIX Manager para o paciente Ana Ferreira pode ser assim:
 
 | Domínio | Identificador |
 |:--------|:-------------|
-| CHUPorto | `CHU-001` |
+| ULSTMAD | `ULST-001` |
 | CHUSJ | `CHUSJ-456` |
 | SNS / NIF | `123456789` |
 
@@ -681,7 +735,7 @@ válido, o pedido é rejeitado com `HTTP 401 Unauthorized`.
 ## Cenário Integrado — Do Pedido ao Relatório {#sec-10-cenario}
 
 Para ilustrar como os perfis IHE funcionam em conjunto, considera-se o seguinte
-cenário: a doente Ana Ferreira, seguida no CHUPorto, é transferida para o CHUSJ
+cenário: a doente Ana Ferreira, seguida no ULSTMAD, é transferida para o CHUSJ
 para realizar uma TC de urgência e receber cuidados especializados.
 
 ### Fase 1 — Identidade confirmada com PIX {#sec-10-cenario-identidade}
@@ -690,7 +744,7 @@ O CHUSJ não conhece Ana Ferreira. O sistema de admissão consulta o PIX Manager
 (`ITI-9`) com o NIF `123456789`:
 
 ```
-PIX Query → CHUSJ-456 @ CHUSJ,  CHU-001 @ CHUPorto
+PIX Query → CHUSJ-456 @ CHUSJ,  ULST-001 @ ULSTMAD
 ```
 
 A identidade está confirmada. O CHUSJ cria um `Patient` local (`CHUSJ-456`)
@@ -700,7 +754,7 @@ com o número de utente do SNS como âncora partilhada.
 
 O médico de urgência pesquisa documentos anteriores de Ana Ferreira no *Document
 Registry* (`ITI-18` / MHD `ITI-67`). O *Registry* devolve dois documentos do
-CHUPorto: o sumário de alta do internamento anterior e o último relatório de
+ULSTMAD: o sumário de alta do internamento anterior e o último relatório de
 ecocardiograma. O médico recupera-os (`ITI-43` / MHD `ITI-68`) e confirma que
 a doente tem antecedentes de cardiopatia — informação crítica antes de
 administrar contraste para a TC.
@@ -720,8 +774,8 @@ automaticamente:
 ### Fase 4 — Relatório partilhado com MHD {#sec-10-cenario-relatorio}
 
 O relatório da TC é publicado no *Document Repository* via MHD (`ITI-65`), com
-os metadados registados no *Document Registry* (`ITI-42`). O médico do CHUPorto
-acede ao relatório remotamente — sem telefonemas, sem fax, sem PDF por email.
+os metadados registados no *Document Registry* (`ITI-42`). O médico do ULSTMAD
+acede ao relatório remotamente — sem telefonemas, sem PDF por email.
 
 ### Fase 5 — Auditoria com ATNA {#sec-10-cenario-atna}
 
@@ -777,7 +831,7 @@ seu departamento de radiologia.
     "os exames acabam todos por aparecer no PACS". Explique por que razão
     esta afirmação é insuficiente do ponto de vista de integração de sistemas.
 
-**2.** Uma *Affinity Domain* XDS.b inclui o CHUPorto e o CHUSJ. O CHUPorto
+**2.** Uma *Affinity Domain* XDS.b inclui o ULSTMAD e o CHUSJ. O ULSTMAD
 publica um sumário de alta; o CHUSJ precisa de o recuperar.
 
 (a) Identifique os quatro Actores envolvidos neste cenário e o papel de cada um.
@@ -785,7 +839,7 @@ publica um sumário de alta; o CHUSJ precisa de o recuperar.
     componentes distintos e não um só?
 (c) Que Transacção usa o Consumer para pesquisar os metadados? Que Transacção
     usa para recuperar o documento?
-(d) O CHUSJ tem o seu próprio Document Registry. O CHUPorto tem o seu. Para
+(d) O CHUSJ tem o seu próprio Document Registry. O ULSTMAD tem o seu. Para
     que os dois hospitais partilhem documentos, como deve ser configurada a
     *Affinity Domain*?
 
@@ -797,7 +851,7 @@ nenhum registo local com esse nome exacto.
     base centralizada?
 (b) Que Transacção é usada para esta pesquisa?
 (c) Após identificar o paciente, o sistema quer saber se ele tem registos no
-    CHUPorto. Que perfil IHE permite correlacionar os identificadores dos dois
+    ULSTMAD. Que perfil IHE permite correlacionar os identificadores dos dois
     domínios?
 (d) Qual é a diferença fundamental entre PIX e PDQ?
 
@@ -832,12 +886,12 @@ em substituição do XDS.b.
 **6.** Considere o cenário integrado de Ana Ferreira descrito neste capítulo.
 
 (a) Que perfil IHE confirma que a "Ana Ferreira" admitida no CHUSJ é a mesma
-    que está registada no CHUPorto?
+    que está registada no ULSTMAD?
 (b) O médico de urgência do CHUSJ recupera o ecocardiograma anterior. Que par
     de Transacções (pesquisa + recuperação) é necessário no XDS.b clássico?
     E no MHD?
-(c) O relatório da TC é publicado com MHD. O CHUPorto usa XDS.b. O médico do
-    CHUPorto consegue aceder ao relatório? Que componente arquitectural torna
+(c) O relatório da TC é publicado com MHD. O ULSTMAD usa XDS.b. O médico do
+    ULSTMAD consegue aceder ao relatório? Que componente arquitectural torna
     isso possível?
 (d) O DPO do CHUSJ quer saber quem acedeu aos dados de Ana Ferreira durante
     a sua estadia. Que perfil IHE permite reconstituir esse histórico?

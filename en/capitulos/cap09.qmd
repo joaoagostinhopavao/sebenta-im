@@ -100,7 +100,7 @@ for portability and network dependency [@HL7_FHIR_R4]:
 servers, but requires the target server to be accessible at resolution time:
 
 ```json
-"subject": { "reference": "https://fhir.chuporto.pt/Patient/123" }
+"subject": { "reference": "https://fhir.ulstmad.pt/Patient/123" }
 ```
 
 **Relative reference** — the most common. The `URL` is relative to the
@@ -204,12 +204,12 @@ identifying the patient in each system.
   "id":           "p-123",
   "identifier": [
     { "system": "http://rnsnp.min-saude.pt",    "value": "999000111"       },
-    { "system": "http://chuporto.pt/processos", "value": "PROC-2024-04512" }
+    { "system": "http://ulstmad.pt/processos", "value": "PROC-2024-04512" }
   ],
   "name":        [{ "family": "Ferreira", "given": ["Ana"] }],
   "birthDate":   "1978-04-12",
   "gender":      "female",
-  "managingOrganization": { "reference": "Organization/org-chuporto" }
+  "managingOrganization": { "reference": "Organization/org-ulstmad" }
 }
 ```
 
@@ -218,7 +218,7 @@ identifying the patient in each system.
 `FHIR` deliberately separates the **identity** of a healthcare professional
 from the **role** they perform in a given institutional context. This
 separation is necessary because the same professional may hold different roles
-in different organisations: a cardiologist at CHUPorto and a consultant at a
+in different organisations: a cardiologist at ULSTMAD and a consultant at a
 private hospital, for example.
 
 **`Practitioner` — who they are:**
@@ -250,12 +250,12 @@ private hospital, for example.
 ```
 
 ```json
-/* PractitionerRole — the role at CHUPorto */
+/* PractitionerRole — the role at ULSTMAD */
 {
   "resourceType":  "PractitionerRole",
-  "id":            "role-luiscosta-chuporto",
+  "id":            "role-luiscosta-ulstmad",
   "practitioner":  { "reference": "Practitioner/pr-luiscosta" },
-  "organization":  { "reference": "Organization/org-chuporto" },
+  "organization":  { "reference": "Organization/org-ulstmad" },
   "code":      [{ "coding": [{ "code": "doctor" }] }],
   "specialty": [{
     "coding": [{
@@ -269,7 +269,7 @@ private hospital, for example.
 
 Separating identity from role allows the same professional to appear with
 different roles in different contexts without duplicating their personal data
-and credentials. Dr. Luís Costa is a Cardiologist (`specialty`) at CHUPorto
+and credentials. Dr. Luís Costa is a Cardiologist (`specialty`) at ULSTMAD
 (`organization`) — `PractitionerRole` links all three.
 
 ### `Organization` — the Institution as a Resource {#sec-09en-organization}
@@ -281,10 +281,10 @@ a cardiology department is `partOf` the hospital that houses it:
 | Field | Meaning | Example |
 |:------|:--------|:--------|
 | `identifier` | `NIF`, ACSS code, institution `OID` | `urn:oid:2.16.840.1.113883.2.4` |
-| `name` | Official organisation name | `Centro Hospitalar Universitário do Porto` |
-| `type` | `prov` (provider) · `dept` (department) · `team` · `govt` · `ins` | `prov` — CHUPorto · `dept` — Cardiology Dept |
-| `partOf` | `Reference(Organization)` — hierarchy | Cardiology Department → CHUPorto |
-| `endpoint` | `URL` of the organisation's `FHIR` server | `https://fhir.chuporto.pt` |
+| `name` | Official organisation name | `Unidade Local de Saúde de Trás-os-Montes e Alto Douro` |
+| `type` | `prov` (provider) · `dept` (department) · `team` · `govt` · `ins` | `prov` — ULSTMAD · `dept` — Cardiology Dept |
+| `partOf` | `Reference(Organization)` — hierarchy | Cardiology Department → ULSTMAD |
+| `endpoint` | `URL` of the organisation's `FHIR` server | `https://fhir.ulstmad.pt` |
 
 : Main fields of the FHIR R4 Organization resource [@HL7_FHIR_R4]. {#tbl-09en-organization-fields}
 
@@ -324,7 +324,7 @@ the information in its temporal and institutional context.
   "class":        { "code": "outpatient" },
   "subject":         { "reference": "Patient/p-123" },
   "participant": [{ "individual": { "reference": "Practitioner/pr-luiscosta" } }],
-  "serviceProvider": { "reference": "Organization/org-chuporto" },
+  "serviceProvider": { "reference": "Organization/org-ulstmad" },
   "period": {
     "start": "2025-04-15T09:00:00+01:00",
     "end":   "2025-04-15T09:45:00+01:00"
@@ -477,7 +477,7 @@ a textual description), or `valueCodeableConcept` (e.g. `"positive"` coded in
   },
   "subject":   { "reference": "Patient/p-123" },
   "encounter": { "reference": "Encounter/enc-2025-04152" },
-  "performer": [{ "reference": "Organization/lab-chuporto" }],
+  "performer": [{ "reference": "Organization/lab-ulstmad" }],
   "result": [
     { "reference": "Observation/obs-hgb-001" },
     { "reference": "Observation/obs-plt-001" }
@@ -556,7 +556,7 @@ needing to know the details of the legacy `DICOM` protocol.
 ### Scenario 1 — Referencing Across Institutions {#sec-09en-interop-cross}
 
 Hospital B (CHUSJ) creates a `DiagnosticReport` for a patient registered at
-Hospital A (CHUPorto). The `Patient` data is not copied — it is referenced by
+Hospital A (ULSTMAD). The `Patient` data is not copied — it is referenced by
 the absolute `URL` of Hospital A's server:
 
 ```json
@@ -565,7 +565,7 @@ the absolute `URL` of Hospital A's server:
   "id":           "dr-chusj-001",
   "status":       "final",
   "subject": {
-    "reference": "https://fhir.chuporto.pt/Patient/123",
+    "reference": "https://fhir.ulstmad.pt/Patient/123",
     "display":   "Ana Ferreira"
   },
   "code":      { "text": "Chest CT" },
@@ -577,7 +577,7 @@ When Hospital B needs the complete patient data, it resolves the reference
 with a `GET`:
 
 ```
-GET https://fhir.chuporto.pt/Patient/123
+GET https://fhir.ulstmad.pt/Patient/123
 → Hospital A responds with the complete Patient resource
 ```
 
@@ -826,11 +826,11 @@ a patient's clinical record to a private clinic.
     terminologies simultaneously?
 
 **6.** A reference in an `Encounter` points to
-`"https://fhir.chuporto.pt/Patient/p-123"`. The CHUPorto server is temporarily
+`"https://fhir.ulstmad.pt/Patient/p-123"`. The ULSTMAD server is temporarily
 unavailable.
 
 (a) What type of reference is this?
 (b) What impact does the server's unavailability have on the ability to
     process the `Encounter`?
 (c) Which alternative reference type could make the `Encounter` processable
-    even without a connection to CHUPorto? What would its limitations be?
+    even without a connection to ULSTMAD? What would its limitations be?

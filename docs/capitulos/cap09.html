@@ -409,7 +409,7 @@ Tabela&nbsp;9.2: Campos de uma Reference() FHIR R4 <span class="citation" data-c
 <p><strong>Referência relativa</strong> — a mais comum. O <code>URL</code> é relativo ao servidor base da transacção. Simples e eficiente, mas só funciona no contexto do mesmo servidor <code>FHIR</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span> <span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Referência absoluta</strong> — inclui o <code>URL</code> completo do servidor. Portátil entre servidores, mas exige que o servidor alvo esteja acessível no momento da resolução:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"https://fhir.chuporto.pt/Patient/p-123"</span> <span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"https://fhir.ulstmad.pt/Patient/p-123"</span> <span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Recurso embutido (<em>contained</em>)</strong> — o recurso referenciado está embutido dentro do recurso pai, sem <code>URL</code> própria. O prefixo <code>#</code> identifica a referência como interna ao recurso corrente:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"#p-local"</span> <span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Referência lógica</strong> — transporta apenas o identificador clínico (<em>business identifier</em>), sem apontar a nenhum servidor. A resolução fica a cargo de um sistema externo (ex: <em>Master Patient Index</em>):</p>
@@ -557,17 +557,17 @@ Tabela&nbsp;9.4: Campos principais do recurso Patient FHIR R4 <span class="citat
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>           <span class="st">"p-123"</span><span class="fu">,</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"identifier"</span><span class="fu">:</span> <span class="ot">[</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://rnsnp.min-saude.pt"</span><span class="fu">,</span>    <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"999000111"</span>       <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://chuporto.pt/processos"</span><span class="fu">,</span> <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"PROC-2024-04512"</span> <span class="fu">}</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://ulstmad.pt/processos"</span><span class="fu">,</span> <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"PROC-2024-04512"</span> <span class="fu">}</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span>        <span class="ot">[</span><span class="fu">{</span> <span class="dt">"family"</span><span class="fu">:</span> <span class="st">"Ferreira"</span><span class="fu">,</span> <span class="dt">"given"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"João"</span><span class="ot">,</span> <span class="st">"Manuel"</span><span class="ot">]</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"birthDate"</span><span class="fu">:</span>   <span class="st">"1968-03-21"</span><span class="fu">,</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"gender"</span><span class="fu">:</span>      <span class="st">"male"</span><span class="fu">,</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"managingOrganization"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-chuporto"</span> <span class="fu">}</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"managingOrganization"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-ulstmad"</span> <span class="fu">}</span></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="sec-09-practitioner" class="level3" data-number="9.4.2">
 <h3 data-number="9.4.2" class="anchored" data-anchor-id="sec-09-practitioner"><span class="header-section-number">9.4.2</span> <code>Practitioner</code> e <code>PractitionerRole</code> — identidade e papel</h3>
-<p>O <code>FHIR</code> distingue deliberadamente a <strong>identidade</strong> de um profissional de saúde do <strong>papel</strong> que desempenha num dado contexto institucional. Esta separação é necessária porque o mesmo profissional pode ter papéis diferentes em organizações diferentes: cardiologista no <code>CHUPorto</code> e consultor num hospital privado, por exemplo.</p>
+<p>O <code>FHIR</code> distingue deliberadamente a <strong>identidade</strong> de um profissional de saúde do <strong>papel</strong> que desempenha num dado contexto institucional. Esta separação é necessária porque o mesmo profissional pode ter papéis diferentes em organizações diferentes: cardiologista no <code>ULSTMAD</code> e consultor num hospital privado, por exemplo.</p>
 <p><strong><code>Practitioner</code> — quem é:</strong></p>
 <table class="caption-top table">
 <thead>
@@ -629,12 +629,12 @@ Tabela&nbsp;9.4: Campos principais do recurso Patient FHIR R4 <span class="citat
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"identifier"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://ordemmedicos.pt"</span><span class="fu">,</span> <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"C-45231"</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span>        <span class="ot">[</span><span class="fu">{</span> <span class="dt">"family"</span><span class="fu">:</span> <span class="st">"Costa"</span><span class="fu">,</span> <span class="dt">"given"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"Luís"</span><span class="ot">]</span> <span class="fu">}</span><span class="ot">]</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="er">/*</span> <span class="er">PractitionerRole</span> <span class="er">—</span> <span class="er">o</span> <span class="er">papel</span> <span class="er">no</span> <span class="er">CHUPorto</span> <span class="er">*/</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="er">/*</span> <span class="er">PractitionerRole</span> <span class="er">—</span> <span class="er">o</span> <span class="er">papel</span> <span class="er">no</span> <span class="er">ULSTMAD</span> <span class="er">*/</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span>  <span class="st">"PractitionerRole"</span><span class="fu">,</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>            <span class="st">"role-luiscosta-chuporto"</span><span class="fu">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>            <span class="st">"role-luiscosta-ulstmad"</span><span class="fu">,</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"practitioner"</span><span class="fu">:</span>  <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Practitioner/pr-luiscosta"</span> <span class="fu">},</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"organization"</span><span class="fu">:</span>  <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-chuporto"</span> <span class="fu">},</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"organization"</span><span class="fu">:</span>  <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-ulstmad"</span> <span class="fu">},</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span>      <span class="ot">[</span><span class="fu">{</span> <span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"code"</span><span class="fu">:</span> <span class="st">"doctor"</span> <span class="fu">}</span><span class="ot">]</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"specialty"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
@@ -677,22 +677,22 @@ Tabela&nbsp;9.5: Campos principais do recurso Organization FHIR R4 <span class="
 <tr class="even">
 <td style="text-align: left;"><code>name</code></td>
 <td style="text-align: left;">Nome oficial da organização</td>
-<td style="text-align: left;"><code>Centro Hospitalar Universitário do Porto</code></td>
+<td style="text-align: left;"><code>Unidade Local de Saúde de Trás-os-Montes e Alto Douro</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>type</code></td>
 <td style="text-align: left;"><code>prov</code> (prestador) · <code>dept</code> (serviço) · <code>team</code> · <code>govt</code> · <code>ins</code></td>
-<td style="text-align: left;"><code>prov</code> — CHUPorto · <code>dept</code> — Cardiologia</td>
+<td style="text-align: left;"><code>prov</code> — ULSTMAD · <code>dept</code> — Cardiologia</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>partOf</code></td>
 <td style="text-align: left;"><code>Reference(Organization)</code> — hierarquia</td>
-<td style="text-align: left;">Serviço de Cardiologia → <code>CHUPorto</code></td>
+<td style="text-align: left;">Serviço de Cardiologia → <code>ULSTMAD</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>endpoint</code></td>
 <td style="text-align: left;"><code>URL</code> do servidor <code>FHIR</code> da organização</td>
-<td style="text-align: left;"><code>https://fhir.chuporto.pt</code></td>
+<td style="text-align: left;"><code>https://fhir.ulstmad.pt</code></td>
 </tr>
 </tbody>
 </table>
@@ -772,7 +772,7 @@ Tabela&nbsp;9.6: Campos principais do recurso Encounter FHIR R4 <span class="cit
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"class"</span><span class="fu">:</span>        <span class="fu">{</span> <span class="dt">"code"</span><span class="fu">:</span> <span class="st">"outpatient"</span> <span class="fu">},</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span>         <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span> <span class="fu">},</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"participant"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"individual"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Practitioner/pr-luiscosta"</span> <span class="fu">}</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"serviceProvider"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-chuporto"</span> <span class="fu">},</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"serviceProvider"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-ulstmad"</span> <span class="fu">},</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"period"</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"start"</span><span class="fu">:</span> <span class="st">"2025-04-15T09:00:00+01:00"</span><span class="fu">,</span></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"end"</span><span class="fu">:</span>   <span class="st">"2025-04-15T09:45:00+01:00"</span></span>
@@ -946,7 +946,7 @@ Tabela&nbsp;9.6: Campos principais do recurso Encounter FHIR R4 <span class="cit
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span>   <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span> <span class="fu">},</span></span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"encounter"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Encounter/enc-2025-04152"</span> <span class="fu">},</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"performer"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/lab-chuporto"</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"performer"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/lab-ulstmad"</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"result"</span><span class="fu">:</span> <span class="ot">[</span></span>
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Observation/obs-hgb-001"</span> <span class="fu">}</span><span class="ot">,</span></span>
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Observation/obs-plt-001"</span> <span class="fu">}</span></span>
@@ -1056,20 +1056,20 @@ Nota
 <h2 data-number="9.5" class="anchored" data-anchor-id="sec-09-interop"><span class="header-section-number">9.5</span> Interoperabilidade Distribuída</h2>
 <section id="sec-09-interop-cross" class="level3" data-number="9.5.1">
 <h3 data-number="9.5.1" class="anchored" data-anchor-id="sec-09-interop-cross"><span class="header-section-number">9.5.1</span> Cenário 1 — Referenciação entre instituições</h3>
-<p>O <code>Hospital B</code> (CHUSJ) cria um <code>DiagnosticReport</code> sobre um paciente registado no <code>Hospital A</code> (CHUPorto). Os dados do <code>Patient</code> não são copiados — são referenciados pelo <code>URL</code> absoluto do servidor do <code>Hospital A</code>:</p>
+<p>O <code>Hospital B</code> (CHUSJ) cria um <code>DiagnosticReport</code> sobre um paciente registado no <code>Hospital A</code> (ULSTMAD). Os dados do <code>Patient</code> não são copiados — são referenciados pelo <code>URL</code> absoluto do servidor do <code>Hospital A</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"DiagnosticReport"</span><span class="fu">,</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span>           <span class="st">"dr-chusj-001"</span><span class="fu">,</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"status"</span><span class="fu">:</span>       <span class="st">"final"</span><span class="fu">,</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"subject"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"https://fhir.chuporto.pt/Patient/p-123"</span><span class="fu">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"https://fhir.ulstmad.pt/Patient/p-123"</span><span class="fu">,</span></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"display"</span><span class="fu">:</span>   <span class="st">"João Ferreira"</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span>      <span class="fu">{</span> <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"TAC torácica"</span> <span class="fu">},</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"performer"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/org-chusj"</span> <span class="fu">}</span><span class="ot">]</span></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Quando o <code>Hospital B</code> precisa dos dados completos do paciente, resolve a referência com um <code>GET</code>:</p>
-<pre><code>GET https://fhir.chuporto.pt/Patient/p-123
+<pre><code>GET https://fhir.ulstmad.pt/Patient/p-123
 → Hospital A responde com o recurso Patient completo</code></pre>
 <p>Esta arquitectura tem uma limitação real: se o servidor do <code>Hospital A</code> não estiver acessível no momento do pedido, a referência absoluta não pode ser resolvida. O <code>FHIR</code> não garante disponibilidade — é responsabilidade das instituições assegurar acordos de <code>SLA</code> e infra-estrutura de alta disponibilidade.</p>
 </section>
@@ -1255,11 +1255,11 @@ Tabela&nbsp;9.8: As quatro dimensões da interoperabilidade em saúde.
 <li>O campo <code>code</code> de uma <code>Condition</code> tem <em>binding</em> <code>required</code> a um <code>ValueSet</code> de <code>ICD-10</code>. O sistema A tenta enviar um diagnóstico codificado apenas em <code>SNOMED CT</code>. O que acontece na validação?</li>
 <li>Que estrutura <code>FHIR</code> permitiria transportar o diagnóstico em ambas as terminologias simultaneamente?</li>
 </ol>
-<p><strong>6.</strong> Uma referência num <code>Encounter</code> aponta para <code>"https://fhir.chuporto.pt/Patient/p-123"</code>. O servidor do <code>CHUPorto</code> está temporariamente indisponível.</p>
+<p><strong>6.</strong> Uma referência num <code>Encounter</code> aponta para <code>"https://fhir.ulstmad.pt/Patient/p-123"</code>. O servidor do <code>ULSTMAD</code> está temporariamente indisponível.</p>
 <ol type="a">
 <li>Que tipo de referência é esta?</li>
 <li>Que impacto tem a indisponibilidade do servidor na capacidade de processar o <code>Encounter</code>?</li>
-<li>Que tipo de referência alternativa poderia tornar o <code>Encounter</code> processável mesmo sem ligação ao <code>CHUPorto</code>? Quais seriam as suas limitações?</li>
+<li>Que tipo de referência alternativa poderia tornar o <code>Encounter</code> processável mesmo sem ligação ao <code>ULSTMAD</code>? Quais seriam as suas limitações?</li>
 </ol>
 
 
