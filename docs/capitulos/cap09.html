@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -345,11 +365,11 @@ Tabela&nbsp;9.1: Transição do capítulo 8 para o capítulo 9 — da estrutura 
 <section id="sec-09-reference-anatomia" class="level3" data-number="9.2.1">
 <h3 data-number="9.2.1" class="anchored" data-anchor-id="sec-09-reference-anatomia"><span class="header-section-number">9.2.1</span> Anatomia de uma <code>Reference()</code></h3>
 <p>Uma <code>Reference()</code> é um apontador tipado para outro recurso — local, noutro servidor, ou embutido no próprio recurso. Não copia os dados; aponta para eles. O cliente que precisa dos dados resolve a referência com um <code>GET</code> ao <code>URL</code> alvo.</p>
-<p>A estrutura de uma <code>Reference()</code> tem três campos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>:</p>
+<p>A estrutura de uma <code>Reference()</code> tem três campos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>:</p>
 <div id="tbl-reference-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-reference-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;9.2: Campos de uma Reference() FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;9.2: Campos de uma Reference() FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-reference-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -405,7 +425,7 @@ Tabela&nbsp;9.2: Campos de uma Reference() FHIR R4 <span class="citation" data-c
 </section>
 <section id="sec-09-reference-tipos" class="level3" data-number="9.2.2">
 <h3 data-number="9.2.2" class="anchored" data-anchor-id="sec-09-reference-tipos"><span class="header-section-number">9.2.2</span> Tipos de referência e resolução</h3>
-<p>O <code>FHIR</code> define quatro formas de referenciar um recurso, com implicações distintas para portabilidade e dependência de rede <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>:</p>
+<p>O <code>FHIR</code> define quatro formas de referenciar um recurso, com implicações distintas para portabilidade e dependência de rede <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>:</p>
 <p><strong>Referência relativa</strong> — a mais comum. O <code>URL</code> é relativo ao servidor base da transacção. Simples e eficiente, mas só funciona no contexto do mesmo servidor <code>FHIR</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span> <span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span> <span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Referência absoluta</strong> — inclui o <code>URL</code> completo do servidor. Portátil entre servidores, mas exige que o servidor alvo esteja acessível no momento da resolução:</p>
@@ -440,7 +460,7 @@ Nota
 <div id="tbl-bundle-types" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bundle-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;9.3: Tipos de Bundle FHIR R4 e respectivos usos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;9.3: Tipos de Bundle FHIR R4 e respectivos usos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-bundle-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -499,7 +519,7 @@ Tabela&nbsp;9.3: Tipos de Bundle FHIR R4 e respectivos usos <span class="citatio
 <div id="tbl-patient-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-patient-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;9.4: Campos principais do recurso Patient FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;9.4: Campos principais do recurso Patient FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-patient-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -652,7 +672,7 @@ Tabela&nbsp;9.4: Campos principais do recurso Patient FHIR R4 <span class="citat
 <div id="tbl-organization-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-organization-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;9.5: Campos principais do recurso Organization FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;9.5: Campos principais do recurso Organization FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-organization-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -707,7 +727,7 @@ Tabela&nbsp;9.5: Campos principais do recurso Organization FHIR R4 <span class="
 <div id="tbl-encounter-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-encounter-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;9.6: Campos principais do recurso Encounter FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;9.6: Campos principais do recurso Encounter FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-encounter-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -984,7 +1004,7 @@ Tabela&nbsp;9.6: Campos principais do recurso Encounter FHIR R4 <span class="cit
 <div id="tbl-imagingstudy" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-imagingstudy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;9.7: Mapeamento entre conceitos DICOM e campos FHIR no ImagingStudy <span class="citation" data-cites="HL7_FHIR_R4 DICOM_PS318">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>; <a href="../referencias.html#ref-DICOM_PS318" role="doc-biblioref"><strong>DICOM_PS318?</strong></a>)</span>.
+Tabela&nbsp;9.7: Mapeamento entre conceitos DICOM e campos FHIR no ImagingStudy <span class="citation" data-cites="HL7_FHIR_R4 DICOM_PS318">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>; <a href="../referencias.html#ref-DICOM_PS318" role="doc-biblioref">NEMA / MITA, 2025</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-imagingstudy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1263,6 +1283,14 @@ Tabela&nbsp;9.8: As quatro dimensões da interoperabilidade em saúde.
 </ol>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-HL7_FHIR_R4" class="csl-entry" role="listitem">
+HL7 International. (2019). <em><span>HL7 FHIR</span> Release 4 Specification</em>. <a href="https://hl7.org/fhir/R4/" class="uri">https://hl7.org/fhir/R4/</a>.
+</div>
+<div id="ref-DICOM_PS318" class="csl-entry" role="listitem">
+NEMA / MITA. (2025). <em><span>DICOM PS3.18</span> 2025e — Web Services (<span>DICOMweb</span>)</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part18.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part18.html</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

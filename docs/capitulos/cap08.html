@@ -319,13 +319,13 @@ div.csl-indent {
 <h2 data-number="8.1" class="anchored" data-anchor-id="sec-fhir-contexto"><span class="header-section-number">8.1</span> Contexto Histórico — Porquê o FHIR</h2>
 <section id="o-hl7-v3-e-a-tentativa-falhada-do-rim" class="level3" data-number="8.1.1">
 <h3 data-number="8.1.1" class="anchored" data-anchor-id="o-hl7-v3-e-a-tentativa-falhada-do-rim"><span class="header-section-number">8.1.1</span> O HL7 v3 e a tentativa falhada do <code>RIM</code></h3>
-<p>Nos anos seguintes à publicação do <code>HL7</code> v2, ficou claro que o protocolo tinha limitações estruturais difíceis de superar: a ausência de semântica formal, a ambiguidade de implementação e o acoplamento forte entre pares de sistemas. Para as resolver, o consórcio HL7 International lançou, em 2003, o <strong>HL7 v3</strong> — uma reescrita completa assente num modelo de informação central chamado <code>RIM</code> (Reference Information Model — Modelo de Informação de Referência), um modelo <code>UML</code> (Unified Modeling Language — Linguagem de Modelação Unificada) único e formal destinado a representar <em>toda</em> a informação de saúde <span class="citation" data-cites="Heitmann2004">(<a href="../referencias.html#ref-Heitmann2004" role="doc-biblioref"><strong>Heitmann2004?</strong></a>)</span>.</p>
+<p>Nos anos seguintes à publicação do <code>HL7</code> v2, ficou claro que o protocolo tinha limitações estruturais difíceis de superar: a ausência de semântica formal, a ambiguidade de implementação e o acoplamento forte entre pares de sistemas. Para as resolver, o consórcio HL7 International lançou, em 2003, o <strong>HL7 v3</strong> — uma reescrita completa assente num modelo de informação central chamado <code>RIM</code> (Reference Information Model — Modelo de Informação de Referência), um modelo <code>UML</code> (Unified Modeling Language — Linguagem de Modelação Unificada) único e formal destinado a representar <em>toda</em> a informação de saúde <span class="citation" data-cites="Heitmann2004">(<a href="../referencias.html#ref-Heitmann2004" role="doc-biblioref">Heitmann, 2004</a>)</span>.</p>
 <p>A ambição era considerável: um único modelo unificaria toda a comunicação em saúde, eliminando a ambiguidade estrutural do <code>HL7</code> v2. Na prática, o resultado foi oposto. O <code>RIM</code> era extremamente abstracto — centenas de classes organizadas em múltiplas hierarquias — e a sua aprendizagem exigia meses para implementadores. As mensagens <code>HL7</code> v3 chegavam a centenas de kilobytes por transacção simples, transportadas em <em>envelopes</em> <code>SOAP</code> (Simple Object Access Protocol — Protocolo de Acesso a Objectos Simples) sobre Web Services <code>XML</code> (Extensible Markup Language — Linguagem de Marcação Extensível). Toda a arquitectura exigia <em>middleware</em> especializado — motores de integração como o Mirth Connect ou o Rhapsody — tornando a instalação e manutenção cara e tecnicamente exigente <span class="citation" data-cites="BensonGrieve2021">(<a href="../referencias.html#ref-BensonGrieve2021" role="doc-biblioref">Benson &amp; Grieve, 2021</a>)</span>.</p>
 <p>A adopção ficou muito aquém do esperado: o <code>HL7</code> v2, apesar das suas limitações, manteve-se dominante. O <code>HL7</code> v3 ficou maioritariamente no papel.</p>
 </section>
 <section id="o-cda-o-único-produto-hl7-v3-com-adopção-real" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="o-cda-o-único-produto-hl7-v3-com-adopção-real"><span class="header-section-number">8.1.2</span> O <code>CDA</code> — o único produto HL7 v3 com adopção real</h3>
-<p>A excepção foi o <code>CDA</code> (Clinical Document Architecture — Arquitectura de Documento Clínico), publicado em 2000 e revisto na versão R2 em 2005. O <code>CDA</code> usa o <code>RIM</code>, mas aplica-o a um domínio restrito e concreto: documentos clínicos — notas de alta, sumários clínicos, relatórios de consulta <span class="citation" data-cites="HL7_CDA2005">(<a href="../referencias.html#ref-HL7_CDA2005" role="doc-biblioref"><strong>HL7_CDA2005?</strong></a>)</span>.</p>
+<p>A excepção foi o <code>CDA</code> (Clinical Document Architecture — Arquitectura de Documento Clínico), publicado em 2000 e revisto na versão R2 em 2005. O <code>CDA</code> usa o <code>RIM</code>, mas aplica-o a um domínio restrito e concreto: documentos clínicos — notas de alta, sumários clínicos, relatórios de consulta <span class="citation" data-cites="HL7_CDA2005">(<a href="../referencias.html#ref-HL7_CDA2005" role="doc-biblioref">HL7 International, 2005</a>)</span>.</p>
 <p>A estrutura de um documento <code>CDA</code> é <code>XML</code> com um cabeçalho obrigatório (identificador, data, paciente, autor) e um <em>body</em> com secções codificadas em <code>LOINC</code> (Logical Observation Identifiers Names and Codes — Identificadores Lógicos de Nomes e Códigos para Observações). O documento é legível tanto por máquina como por humano. Esta dualidade foi uma das razões da sua adopção.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Excerto CDA R2 — cabeçalho de documento clínico --&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">ClinicalDocument</span>&gt;</span>
@@ -344,12 +344,12 @@ div.csl-indent {
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">patientRole</span>&gt;</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">recordTarget</span>&gt;</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">ClinicalDocument</span>&gt;</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Na Europa, o programa <strong>ELGA</strong> (<em>Elektronische Gesundheitsakte</em> — Registo Electrónico de Saúde austríaco) adoptou o <code>CDA</code> R2 como formato base para a troca de documentos clínicos, tornando-se um dos casos europeus mais notáveis de implementação em produção <span class="citation" data-cites="HL7_CDA2005">(<a href="../referencias.html#ref-HL7_CDA2005" role="doc-biblioref"><strong>HL7_CDA2005?</strong></a>)</span>.</p>
+<p>Na Europa, o programa <strong>ELGA</strong> (<em>Elektronische Gesundheitsakte</em> — Registo Electrónico de Saúde austríaco) adoptou o <code>CDA</code> R2 como formato base para a troca de documentos clínicos, tornando-se um dos casos europeus mais notáveis de implementação em produção <span class="citation" data-cites="HL7_CDA2005">(<a href="../referencias.html#ref-HL7_CDA2005" role="doc-biblioref">HL7 International, 2005</a>)</span>.</p>
 <p>Contudo, o <code>CDA</code> tem limites claros: é adequado para documentos, não para a troca granular de dados clínicos. Enviar um resultado laboratorial, uma observação de tensão arterial ou um registo de medicação através de <code>CDA</code> implicaria embrulhá-los num documento quando o que se quer é simplesmente transmitir um dado atómico. Este problema ficaria por resolver até ao surgimento do <code>FHIR</code>.</p>
 </section>
 <section id="grahame-grieve-e-o-fresh-look-2011" class="level3" data-number="8.1.3">
 <h3 data-number="8.1.3" class="anchored" data-anchor-id="grahame-grieve-e-o-fresh-look-2011"><span class="header-section-number">8.1.3</span> Grahame Grieve e o <em>Fresh Look</em> (2011)</h3>
-<p>Em 2011, Grahame Grieve, consultor neozelandês de interoperabilidade em saúde, publicou uma série de artigos num blogue intitulados <em>Fresh Look at HL7</em> <span class="citation" data-cites="Grieve2011">(<a href="../referencias.html#ref-Grieve2011" role="doc-biblioref"><strong>Grieve2011?</strong></a>)</span>. A tese central era simples: em vez de construir mais abstracções sobre o <code>RIM</code>, havia que recomeçar com os padrões da web moderna — <code>REST</code> e <code>JSON</code>.</p>
+<p>Em 2011, Grahame Grieve, consultor neozelandês de interoperabilidade em saúde, publicou uma série de artigos num blogue intitulados <em>Fresh Look at HL7</em> <span class="citation" data-cites="Grieve2011">(<a href="../referencias.html#ref-Grieve2011" role="doc-biblioref">Grieve, 2011</a>)</span>. A tese central era simples: em vez de construir mais abstracções sobre o <code>RIM</code>, havia que recomeçar com os padrões da web moderna — <code>REST</code> e <code>JSON</code>.</p>
 <p>As quatro ideias fundadoras do <em>Fresh Look</em> foram:</p>
 <p><strong>1. Recursos atómicos</strong> — cada conceito clínico (paciente, observação, medicação, episódio clínico) é um recurso independente, com identificador próprio, transmissível de forma autónoma. Não há documentos monolíticos que embrulhem tudo.</p>
 <p><strong>2. <code>REST</code> como transporte</strong> — em vez de <em>envelopes</em> <code>SOAP</code> e <em>middleware</em> obrigatório, qualquer servidor <code>HTTP</code> (HyperText Transfer Protocol — Protocolo de Transferência de Hipertexto) pode servir recursos clínicos. Um pedido <code>GET /Patient/123</code> devolve um paciente em <code>JSON</code>. A barreira de entrada baixa drasticamente.</p>
@@ -359,7 +359,7 @@ div.csl-indent {
 <div id="tbl-fhir-timeline" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fhir-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;8.1: Linha cronológica do FHIR — de DSTU1 a R5 <span class="citation" data-cites="HL7_FHIR_R4 HL7_FHIR_R5">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>; <a href="../referencias.html#ref-HL7_FHIR_R5" role="doc-biblioref"><strong>HL7_FHIR_R5?</strong></a>)</span>.
+Tabela&nbsp;8.1: Linha cronológica do FHIR — de DSTU1 a R5 <span class="citation" data-cites="HL7_FHIR_R4 HL7_FHIR_R5">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>, <a href="../referencias.html#ref-HL7_FHIR_R5" role="doc-biblioref">2023</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-fhir-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -411,7 +411,7 @@ Tabela&nbsp;8.1: Linha cronológica do FHIR — de DSTU1 a R5 <span class="citat
 <h3 data-number="8.1.4" class="anchored" data-anchor-id="adopção-regulatória-global"><span class="header-section-number">8.1.4</span> Adopção regulatória global</h3>
 <p>A velocidade de adopção do <code>FHIR</code> é inseparável do enquadramento regulatório. Dois marcos são particularmente relevantes.</p>
 <p>Na Europa, o <code>EHDS</code> (European Health Data Space — Espaço Europeu de Dados de Saúde), regulamento adoptado entre 2022 e 2024, designa o <code>FHIR</code> como formato de referência para a partilha transfronteiriça de dados de saúde entre Estados-Membros. O programa <strong>MyHealth@EU</strong>, que visa a continuidade de cuidados para cidadãos europeus em deslocação, assenta neste enquadramento.</p>
-<p>Nos Estados Unidos, legislação federal de 2016 (conhecida como <em>21st Century Cures Act</em>) impôs que qualquer sistema <code>EHR</code> (Electronic Health Record — Registo Electrónico de Saúde) certificado pelo <code>ONC</code> (Office of the National Coordinator for Health Information Technology — Gabinete do Coordenador Nacional para as Tecnologias de Informação em Saúde) expusesse uma <code>API</code> (Application Programming Interface — Interface de Programação de Aplicações) <code>FHIR</code> R4 acessível a aplicações de terceiros, proibindo simultaneamente práticas de <em>information blocking</em> — restrições deliberadas ao acesso de pacientes e profissionais aos seus dados <span class="citation" data-cites="ONC2020">(<a href="../referencias.html#ref-ONC2020" role="doc-biblioref"><strong>ONC2020?</strong></a>)</span>.</p>
+<p>Nos Estados Unidos, legislação federal de 2016 (conhecida como <em>21st Century Cures Act</em>) impôs que qualquer sistema <code>EHR</code> (Electronic Health Record — Registo Electrónico de Saúde) certificado pelo <code>ONC</code> (Office of the National Coordinator for Health Information Technology — Gabinete do Coordenador Nacional para as Tecnologias de Informação em Saúde) expusesse uma <code>API</code> (Application Programming Interface — Interface de Programação de Aplicações) <code>FHIR</code> R4 acessível a aplicações de terceiros, proibindo simultaneamente práticas de <em>information blocking</em> — restrições deliberadas ao acesso de pacientes e profissionais aos seus dados <span class="citation" data-cites="ONC2020">(<a href="../referencias.html#ref-ONC2020" role="doc-biblioref">Office of the National Coordinator for Health Information Technology, 2020</a>)</span>.</p>
 <p>A adopção estendeu-se também à Austrália (<code>ADHA</code> — Australian Digital Health Agency — Agência Australiana de Saúde Digital) e ao Canadá, tornando o <code>FHIR</code> R4 a versão de referência a nível global.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -423,7 +423,7 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Nota</strong> — O <code>SMART on FHIR</code> é uma <em>framework</em> de autorização e autenticação que permite a aplicações externas aceder a dados <code>FHIR</code> de forma segura e padronizada, usando OAuth 2.0 e OpenID Connect. É o mecanismo que permite a uma aplicação de saúde num telemóvel pedir autorização ao sistema hospitalar para aceder aos dados <code>FHIR</code> de um paciente sem conhecer os detalhes internos do sistema <span class="citation" data-cites="Mandl2020">(<a href="../referencias.html#ref-Mandl2020" role="doc-biblioref"><strong>Mandl2020?</strong></a>)</span>.</p>
+<p><strong>Nota</strong> — O <code>SMART on FHIR</code> é uma <em>framework</em> de autorização e autenticação que permite a aplicações externas aceder a dados <code>FHIR</code> de forma segura e padronizada, usando OAuth 2.0 e OpenID Connect. É o mecanismo que permite a uma aplicação de saúde num telemóvel pedir autorização ao sistema hospitalar para aceder aos dados <code>FHIR</code> de um paciente sem conhecer os detalhes internos do sistema <span class="citation" data-cites="Mandl2020">(<a href="../referencias.html#ref-Mandl2020" role="doc-biblioref">Mandl &amp; Kohane, 2020</a>)</span>.</p>
 </div>
 </div>
 </section>
@@ -438,7 +438,7 @@ Nota
 <div id="tbl-resource-anatomy" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-resource-anatomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;8.2: Anatomia de um Resource FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;8.2: Anatomia de um Resource FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-resource-anatomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -509,7 +509,7 @@ Tabela&nbsp;8.2: Anatomia de um Resource FHIR <span class="citation" data-cites=
 </section>
 <section id="hierarquia-de-tipos-resource-domainresource" class="level3" data-number="8.2.2">
 <h3 data-number="8.2.2" class="anchored" data-anchor-id="hierarquia-de-tipos-resource-domainresource"><span class="header-section-number">8.2.2</span> Hierarquia de tipos: <code>Resource</code> → <code>DomainResource</code></h3>
-<p>O <code>FHIR</code> define uma hierarquia formal de tipos. A classe de base <code>Resource</code> fornece os campos técnicos comuns — <code>id</code>, <code>meta</code>, <code>implicitRules</code>, <code>language</code>. A maior parte dos recursos clínicos não herda directamente de <code>Resource</code>, mas sim de <code>DomainResource</code>, que acrescenta três capacidades fundamentais <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>:</p>
+<p>O <code>FHIR</code> define uma hierarquia formal de tipos. A classe de base <code>Resource</code> fornece os campos técnicos comuns — <code>id</code>, <code>meta</code>, <code>implicitRules</code>, <code>language</code>. A maior parte dos recursos clínicos não herda directamente de <code>Resource</code>, mas sim de <code>DomainResource</code>, que acrescenta três capacidades fundamentais <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>:</p>
 <ul>
 <li><code>text</code> — narrativa <code>XHTML</code> legível por humano; permite que qualquer sistema que não conheça o tipo específico de recurso consiga ainda assim apresentar uma versão legível do conteúdo</li>
 <li><code>contained</code> — mecanismo para embutir recursos dentro de outros (ver secção 8.4)</li>
@@ -593,7 +593,7 @@ Tabela&nbsp;8.2: Anatomia de um Resource FHIR <span class="citation" data-cites=
 <div id="tbl-resource-categories" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-resource-categories-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;8.3: Categorias de recursos FHIR R4 e exemplos representativos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;8.3: Categorias de recursos FHIR R4 e exemplos representativos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-resource-categories-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -672,7 +672,7 @@ Nota
 <div id="tbl-id-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-id-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;8.4: Comparação entre id do sistema e id clínico em FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;8.4: Comparação entre id do sistema e id clínico em FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-id-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -748,7 +748,7 @@ Tabela&nbsp;8.4: Comparação entre id do sistema e id clínico em FHIR <span cl
 <h2 data-number="8.4" class="anchored" data-anchor-id="sec-fhir-references"><span class="header-section-number">8.4</span> Referências e Recursos Embutidos</h2>
 <section id="o-tipo-reference" class="level3" data-number="8.4.1">
 <h3 data-number="8.4.1" class="anchored" data-anchor-id="o-tipo-reference"><span class="header-section-number">8.4.1</span> O tipo <code>Reference</code></h3>
-<p>Os recursos <code>FHIR</code> raramente existem de forma isolada. Uma <code>Observation</code> (observação clínica) pertence a um paciente; um <code>Encounter</code> (episódio clínico) envolve um <code>Practitioner</code> (profissional de saúde); um <code>DiagnosticReport</code> (relatório diagnóstico) agrupa várias <code>Observation</code>. Estas relações são expressas através do tipo <code>Reference</code> — uma referência tipada a outro recurso <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.</p>
+<p>Os recursos <code>FHIR</code> raramente existem de forma isolada. Uma <code>Observation</code> (observação clínica) pertence a um paciente; um <code>Encounter</code> (episódio clínico) envolve um <code>Practitioner</code> (profissional de saúde); um <code>DiagnosticReport</code> (relatório diagnóstico) agrupa várias <code>Observation</code>. Estas relações são expressas através do tipo <code>Reference</code> — uma referência tipada a outro recurso <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.</p>
 <p>Uma <code>Reference</code> tem três formas possíveis:</p>
 <p><strong>Referência relativa</strong> (a mais comum) — aponta para um recurso no mesmo servidor:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="er">"subject":</span> <span class="fu">{</span></span>
@@ -817,11 +817,11 @@ Nota
 <h2 data-number="8.5" class="anchored" data-anchor-id="sec-fhir-datatypes"><span class="header-section-number">8.5</span> Tipos Primitivos e Compostos</h2>
 <section id="tipos-primitivos" class="level3" data-number="8.5.1">
 <h3 data-number="8.5.1" class="anchored" data-anchor-id="tipos-primitivos"><span class="header-section-number">8.5.1</span> Tipos primitivos</h3>
-<p>Os <strong>tipos primitivos</strong> são os blocos elementares de informação no <code>FHIR</code> — valores escalares simples, sem estrutura interna, que mapeiam directamente para os tipos de dados <code>JSON</code>. São equivalentes aos tipos base de qualquer linguagem de programação <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.</p>
+<p>Os <strong>tipos primitivos</strong> são os blocos elementares de informação no <code>FHIR</code> — valores escalares simples, sem estrutura interna, que mapeiam directamente para os tipos de dados <code>JSON</code>. São equivalentes aos tipos base de qualquer linguagem de programação <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.</p>
 <div id="tbl-primitive-types" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-primitive-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;8.5: Tipos primitivos FHIR e exemplos JSON <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;8.5: Tipos primitivos FHIR e exemplos JSON <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-primitive-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -892,7 +892,7 @@ Tabela&nbsp;8.5: Tipos primitivos FHIR e exemplos JSON <span class="citation" da
 </section>
 <section id="tipos-compostos" class="level3" data-number="8.5.2">
 <h3 data-number="8.5.2" class="anchored" data-anchor-id="tipos-compostos"><span class="header-section-number">8.5.2</span> Tipos compostos</h3>
-<p>Os <strong>tipos compostos</strong> são estruturas com campos internos, compostas por múltiplos primitivos (e eventualmente outros compostos). A designação “composto” significa apenas que têm estrutura interna — não que sejam complicados <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.</p>
+<p>Os <strong>tipos compostos</strong> são estruturas com campos internos, compostas por múltiplos primitivos (e eventualmente outros compostos). A designação “composto” significa apenas que têm estrutura interna — não que sejam complicados <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.</p>
 <p>Os tipos compostos mais frequentes em contexto clínico:</p>
 <p><strong><code>HumanName</code></strong> — nome de uma pessoa, com campos para apelido, nome(s) próprio(s), prefixo e sufixo:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="er">"name":</span> <span class="ot">[</span><span class="fu">{</span></span>
@@ -928,7 +928,7 @@ Tabela&nbsp;8.5: Tipos primitivos FHIR e exemplos JSON <span class="citation" da
 <div id="tbl-cardinality" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cardinality-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;8.6: Notação de cardinalidade FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;8.6: Notação de cardinalidade FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-cardinality-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -994,7 +994,7 @@ Tabela&nbsp;8.6: Notação de cardinalidade FHIR <span class="citation" data-cit
 <h2 data-number="8.6" class="anchored" data-anchor-id="sec-fhir-coding"><span class="header-section-number">8.6</span> Codificação e Terminologias</h2>
 <section id="o-tipo-codeableconcept" class="level3" data-number="8.6.1">
 <h3 data-number="8.6.1" class="anchored" data-anchor-id="o-tipo-codeableconcept"><span class="header-section-number">8.6.1</span> O tipo <code>CodeableConcept</code></h3>
-<p>O <code>FHIR</code> usa o tipo composto <code>CodeableConcept</code> para representar conceitos com código formal. A necessidade deste tipo surge de um problema estrutural: o mesmo conceito clínico existe em múltiplas terminologias. A <em>diabetes mellitus</em> tipo 2 é o código <code>73211009</code> em <code>SNOMED CT</code> (Systematized Nomenclature of Medicine Clinical Terms — Nomenclatura Sistematizada de Medicina — Termos Clínicos) e <code>E11</code> em <code>ICD-10</code> (International Classification of Diseases, 10th revision — Classificação Internacional de Doenças, 10ª revisão). Um código simples pressupõe que emissor e receptor usam a mesma terminologia. O <code>CodeableConcept</code> é resiliente — transporta o mesmo conceito em múltiplas terminologias simultaneamente, e o receptor usa a que conhece <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.</p>
+<p>O <code>FHIR</code> usa o tipo composto <code>CodeableConcept</code> para representar conceitos com código formal. A necessidade deste tipo surge de um problema estrutural: o mesmo conceito clínico existe em múltiplas terminologias. A <em>diabetes mellitus</em> tipo 2 é o código <code>73211009</code> em <code>SNOMED CT</code> (Systematized Nomenclature of Medicine Clinical Terms — Nomenclatura Sistematizada de Medicina — Termos Clínicos) e <code>E11</code> em <code>ICD-10</code> (International Classification of Diseases, 10th revision — Classificação Internacional de Doenças, 10ª revisão). Um código simples pressupõe que emissor e receptor usam a mesma terminologia. O <code>CodeableConcept</code> é resiliente — transporta o mesmo conceito em múltiplas terminologias simultaneamente, e o receptor usa a que conhece <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.</p>
 <p>A estrutura de um <code>CodeableConcept</code> tem dois componentes:</p>
 <ul>
 <li><strong><code>coding</code></strong> — <em>array</em> de codificações formais. Cada elemento é do tipo <code>Coding</code>, com três campos: <code>system</code> (a <code>URI</code> canónica da terminologia), <code>code</code> (o código na terminologia) e <code>display</code> (a designação legível por humano nessa terminologia).</li>
@@ -1020,7 +1020,7 @@ Tabela&nbsp;8.6: Notação de cardinalidade FHIR <span class="citation" data-cit
 <div id="tbl-terminology-uris" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-terminology-uris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;8.7: URIs canónicas das terminologias mais comuns em FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;8.7: URIs canónicas das terminologias mais comuns em FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-terminology-uris-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1059,7 +1059,7 @@ Tabela&nbsp;8.7: URIs canónicas das terminologias mais comuns em FHIR <span cla
 </section>
 <section id="binding-strength-a-força-de-ligação-a-terminologias" class="level3" data-number="8.6.2">
 <h3 data-number="8.6.2" class="anchored" data-anchor-id="binding-strength-a-força-de-ligação-a-terminologias"><span class="header-section-number">8.6.2</span> <em>Binding strength</em> — a força de ligação a terminologias</h3>
-<p>O <code>FHIR</code> define quatro níveis de obrigatoriedade (<em>binding strength</em>) para a ligação entre campos de recursos e <em>ValueSets</em> (conjuntos de valores válidos numa terminologia) <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>:</p>
+<p>O <code>FHIR</code> define quatro níveis de obrigatoriedade (<em>binding strength</em>) para a ligação entre campos de recursos e <em>ValueSets</em> (conjuntos de valores válidos numa terminologia) <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>:</p>
 <p><strong><code>required</code></strong> — obrigatório. O código <em>deve</em> provir do <code>ValueSet</code> especificado. Se não provir, a validação falha. Exemplo: <code>Patient.gender</code> aceita apenas <code>"male"</code>, <code>"female"</code>, <code>"other"</code> ou <code>"unknown"</code>.</p>
 <p><strong><code>extensible</code></strong> — preferencial. Se existir um código adequado no <code>ValueSet</code>, <em>deve</em> ser usado. Só se o conceito não estiver representado no <code>ValueSet</code> pode usar-se um código de outro sistema. Exemplo: especialidade médica — o <code>ValueSet</code> cobre as especialidades estabelecidas, mas uma especialidade emergente pode não estar ainda representada, e o <code>extensible</code> permite usar outro código nesse caso.</p>
 <p><strong><code>preferred</code></strong> — sugerido. Devia usar-se o <code>ValueSet</code> recomendado, mas não é obrigatório. O contexto local pode justificar vocabulário diferente sem invalidar o recurso. Exemplo: idioma preferido do paciente — há um <code>ValueSet</code> recomendado, mas um hospital pode precisar de registar uma língua regional ou dialecto que não consta da lista.</p>
@@ -1067,7 +1067,7 @@ Tabela&nbsp;8.7: URIs canónicas das terminologias mais comuns em FHIR <span cla
 <div id="tbl-binding-strength" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-binding-strength-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;8.8: Níveis de binding strength em FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.
+Tabela&nbsp;8.8: Níveis de binding strength em FHIR <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
 </figcaption>
 <div aria-describedby="tbl-binding-strength-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1116,7 +1116,7 @@ Tabela&nbsp;8.8: Níveis de binding strength em FHIR <span class="citation" data
 <h2 data-number="8.7" class="anchored" data-anchor-id="sec-fhir-bundle"><span class="header-section-number">8.7</span> <code>Bundle</code></h2>
 <section id="o-que-é-um-bundle" class="level3" data-number="8.7.1">
 <h3 data-number="8.7.1" class="anchored" data-anchor-id="o-que-é-um-bundle"><span class="header-section-number">8.7.1</span> O que é um <code>Bundle</code></h3>
-<p>Um <code>Bundle</code> é um contentor que agrupa múltiplos recursos <code>FHIR</code> numa única resposta ou transacção. É o mecanismo <em>standard</em> para enviar ou receber conjuntos de recursos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref"><strong>HL7_FHIR_R4?</strong></a>)</span>.</p>
+<p>Um <code>Bundle</code> é um contentor que agrupa múltiplos recursos <code>FHIR</code> numa única resposta ou transacção. É o mecanismo <em>standard</em> para enviar ou receber conjuntos de recursos <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.</p>
 <p>O <code>Bundle</code> não herda de <code>DomainResource</code> — é um recurso de infraestrutura com semântica própria. O seu campo principal é <code>type</code>, que define a finalidade do contentor, e <code>entry</code>, que é o <em>array</em> de recursos contidos.</p>
 <p>O <code>FHIR</code> define quatro tipos de <code>Bundle</code> principais:</p>
 <p><strong><code>searchset</code></strong> — resposta a uma pesquisa. Quando se envia <code>GET /Patient?family=Silva</code>, o servidor devolve um <code>Bundle</code> do tipo <code>searchset</code> com os <code>Patient</code> encontrados, metadados de paginação (total de resultados) e ligações de navegação.</p>
@@ -1323,6 +1323,27 @@ Tabela&nbsp;8.8: Níveis de binding strength em FHIR <span class="citation" data
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
 <div id="ref-BensonGrieve2021" class="csl-entry" role="listitem">
 Benson, T., &amp; Grieve, G. (2021). <em>Principles of Health Interoperability: <span>FHIR</span>, <span>HL7</span> and <span>SNOMED CT</span></em> (4.ª ed.). Springer. <a href="https://doi.org/10.1007/978-3-030-56883-2">https://doi.org/10.1007/978-3-030-56883-2</a>
+</div>
+<div id="ref-Grieve2011" class="csl-entry" role="listitem">
+Grieve, G. (2011). <em>A Fresh Look at <span>HL7</span></em>. Health Intersections Blog. <a href="http://www.healthintersections.com.au/?p=502" class="uri">http://www.healthintersections.com.au/?p=502</a>.
+</div>
+<div id="ref-Heitmann2004" class="csl-entry" role="listitem">
+Heitmann, K.-U. (2004). <em><span>HL7</span> Version 3 and the Reference Information Model (<span>RIM</span>)</em>. HL7 Working Group Documentation.
+</div>
+<div id="ref-HL7_CDA2005" class="csl-entry" role="listitem">
+HL7 International. (2005). <em><span>HL7</span> Clinical Document Architecture (<span>CDA</span>), Release 2</em>. <a href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=7" class="uri">https://www.hl7.org/implement/standards/product_brief.cfm?product_id=7</a>.
+</div>
+<div id="ref-HL7_FHIR_R4" class="csl-entry" role="listitem">
+HL7 International. (2019). <em><span>HL7 FHIR</span> Release 4 Specification</em>. <a href="https://hl7.org/fhir/R4/" class="uri">https://hl7.org/fhir/R4/</a>.
+</div>
+<div id="ref-HL7_FHIR_R5" class="csl-entry" role="listitem">
+HL7 International. (2023). <em><span>HL7 FHIR</span> Release 5 Specification</em>. <a href="https://hl7.org/fhir/R5/" class="uri">https://hl7.org/fhir/R5/</a>.
+</div>
+<div id="ref-Mandl2020" class="csl-entry" role="listitem">
+Mandl, K. D., &amp; Kohane, I. S. (2020). A 21st-Century Health <span>IT</span> System. <em>New England Journal of Medicine</em>, <em>382</em>(1), 3–5. <a href="https://doi.org/10.1056/NEJMp1913510">https://doi.org/10.1056/NEJMp1913510</a>
+</div>
+<div id="ref-ONC2020" class="csl-entry" role="listitem">
+Office of the National Coordinator for Health Information Technology. (2020). <em>21st Century Cures Act: Interoperability, Information Blocking, and the <span>ONC</span> Health <span>IT</span> Certification Program</em> [Final Rule]. U.S.&nbsp;Department of Health &amp; Human Services.
 </div>
 </div>
 </section>
