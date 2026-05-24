@@ -1,0 +1,2155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; IHE: Integration Profiles in Healthcare – Medical Informatics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/cap11.html" rel="next">
+<link href="../capitulos/cap09.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a023c9ade86a60361e96e3e3f11bc54.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-61bc4ac84974e0785b3107ee93e74bfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bc9f1d3aef906c45e091843ae87821a0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../assets/css/custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">IHE: Integration Profiles in Healthcare</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Medical Informatics</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations of Medical Informatics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hospital Information Systems and Electronic Health Records</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Web Architecture and REST</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">FHIR: Resource Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">FHIR: Inter-Hospital Interoperability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap10.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">IHE: Integration Profiles in Healthcare</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Privacy, Anonymisation and Health Data Governance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-10en-intro" id="toc-sec-10en-intro" class="nav-link active" data-scroll-target="#sec-10en-intro">Introduction</a></li>
+  <li><a href="#sec-10en-norma-perfil" id="toc-sec-10en-norma-perfil" class="nav-link" data-scroll-target="#sec-10en-norma-perfil"><span class="header-section-number">10.1</span> From Standard to Integration Profile</a>
+  <ul class="collapse">
+  <li><a href="#sec-10en-norma-sem-perfil" id="toc-sec-10en-norma-sem-perfil" class="nav-link" data-scroll-target="#sec-10en-norma-sem-perfil"><span class="header-section-number">10.1.1</span> The problem of a standard without a profile</a></li>
+  <li><a href="#sec-10en-logica-ihe" id="toc-sec-10en-logica-ihe" class="nav-link" data-scroll-target="#sec-10en-logica-ihe"><span class="header-section-number">10.1.2</span> The IHE logic</a></li>
+  </ul></li>
+  <li><a href="#sec-10en-triade" id="toc-sec-10en-triade" class="nav-link" data-scroll-target="#sec-10en-triade"><span class="header-section-number">10.2</span> The IHE Triad: Actor, Transaction, Profile</a>
+  <ul class="collapse">
+  <li><a href="#sec-10en-actor" id="toc-sec-10en-actor" class="nav-link" data-scroll-target="#sec-10en-actor"><span class="header-section-number">10.2.1</span> Actor</a></li>
+  <li><a href="#sec-10en-transaction" id="toc-sec-10en-transaction" class="nav-link" data-scroll-target="#sec-10en-transaction"><span class="header-section-number">10.2.2</span> Transaction</a></li>
+  <li><a href="#sec-10en-profile" id="toc-sec-10en-profile" class="nav-link" data-scroll-target="#sec-10en-profile"><span class="header-section-number">10.2.3</span> Integration Profile</a></li>
+  </ul></li>
+  <li><a href="#sec-10en-tf" id="toc-sec-10en-tf" class="nav-link" data-scroll-target="#sec-10en-tf"><span class="header-section-number">10.3</span> Technical Framework</a>
+  <ul class="collapse">
+  <li><a href="#sec-10en-tf-domains" id="toc-sec-10en-tf-domains" class="nav-link" data-scroll-target="#sec-10en-tf-domains"><span class="header-section-number">10.3.1</span> Domains and volumes</a></li>
+  <li><a href="#sec-10en-connectathon" id="toc-sec-10en-connectathon" class="nav-link" data-scroll-target="#sec-10en-connectathon"><span class="header-section-number">10.3.2</span> Conformance and Connectathon</a></li>
+  </ul></li>
+  <li><a href="#sec-10en-swf" id="toc-sec-10en-swf" class="nav-link" data-scroll-target="#sec-10en-swf"><span class="header-section-number">10.4</span> Scheduled Workflow — The Canonical Profile</a>
+  <ul class="collapse">
+  <li><a href="#sec-10en-swf-problem" id="toc-sec-10en-swf-problem" class="nav-link" data-scroll-target="#sec-10en-swf-problem"><span class="header-section-number">10.4.1</span> SWF — the problem it solves</a></li>
+  <li><a href="#sec-10en-swf-transactions" id="toc-sec-10en-swf-transactions" class="nav-link" data-scroll-target="#sec-10en-swf-transactions"><span class="header-section-number">10.4.2</span> The eight SWF Transactions</a></li>
+  <li><a href="#sec-10en-swf-example" id="toc-sec-10en-swf-example" class="nav-link" data-scroll-target="#sec-10en-swf-example"><span class="header-section-number">10.4.3</span> End-to-end example — Ana Ferreira</a></li>
+  </ul></li>
+  <li><a href="#sec-10en-xds" id="toc-sec-10en-xds" class="nav-link" data-scroll-target="#sec-10en-xds"><span class="header-section-number">10.5</span> Document Sharing — XDS.b</a>
+  <ul class="collapse">
+  <li><a href="#sec-10en-xds-actors" id="toc-sec-10en-xds-actors" class="nav-link" data-scroll-target="#sec-10en-xds-actors"><span class="header-section-number">10.5.1</span> The four XDS.b Actors</a></li>
+  <li><a href="#sec-10en-xds-flow" id="toc-sec-10en-xds-flow" class="nav-link" data-scroll-target="#sec-10en-xds-flow"><span class="header-section-number">10.5.2</span> The XDS.b flow in three steps</a></li>
+  <li><a href="#sec-10en-xds-affinity" id="toc-sec-10en-xds-affinity" class="nav-link" data-scroll-target="#sec-10en-xds-affinity"><span class="header-section-number">10.5.3</span> Affinity Domain Architecture</a></li>
+  </ul></li>
+  <li><a href="#sec-10en-pix-pdq" id="toc-sec-10en-pix-pdq" class="nav-link" data-scroll-target="#sec-10en-pix-pdq"><span class="header-section-number">10.6</span> Patient Identity — PIX and PDQ</a>
+  <ul class="collapse">
+  <li><a href="#sec-10en-pix" id="toc-sec-10en-pix" class="nav-link" data-scroll-target="#sec-10en-pix"><span class="header-section-number">10.6.1</span> PIX — Patient Identifier Cross-Referencing</a></li>
+  <li><a href="#sec-10en-pdq" id="toc-sec-10en-pdq" class="nav-link" data-scroll-target="#sec-10en-pdq"><span class="header-section-number">10.6.2</span> PDQ — Patient Demographics Query</a></li>
+  </ul></li>
+  <li><a href="#sec-10en-atna" id="toc-sec-10en-atna" class="nav-link" data-scroll-target="#sec-10en-atna"><span class="header-section-number">10.7</span> Security and Audit — ATNA</a>
+  <ul class="collapse">
+  <li><a href="#sec-10en-atna-tls" id="toc-sec-10en-atna-tls" class="nav-link" data-scroll-target="#sec-10en-atna-tls"><span class="header-section-number">10.7.1</span> Secure Node — mutual TLS authentication</a></li>
+  <li><a href="#sec-10en-atna-audit" id="toc-sec-10en-atna-audit" class="nav-link" data-scroll-target="#sec-10en-atna-audit"><span class="header-section-number">10.7.2</span> Audit Repository</a></li>
+  <li><a href="#sec-10en-atna-gdpr" id="toc-sec-10en-atna-gdpr" class="nav-link" data-scroll-target="#sec-10en-atna-gdpr"><span class="header-section-number">10.7.3</span> ATNA and the GDPR</a></li>
+  </ul></li>
+  <li><a href="#sec-10en-ihe-fhir" id="toc-sec-10en-ihe-fhir" class="nav-link" data-scroll-target="#sec-10en-ihe-fhir"><span class="header-section-number">10.8</span> IHE and FHIR — Mobile Profiles</a>
+  <ul class="collapse">
+  <li><a href="#sec-10en-mobile-profiles" id="toc-sec-10en-mobile-profiles" class="nav-link" data-scroll-target="#sec-10en-mobile-profiles"><span class="header-section-number">10.8.1</span> The main mobile profiles</a></li>
+  <li><a href="#sec-10en-mhd" id="toc-sec-10en-mhd" class="nav-link" data-scroll-target="#sec-10en-mhd"><span class="header-section-number">10.8.2</span> MHD — Mobile access to Health Documents</a></li>
+  <li><a href="#sec-10en-iua" id="toc-sec-10en-iua" class="nav-link" data-scroll-target="#sec-10en-iua"><span class="header-section-number">10.8.3</span> IUA — Internet User Authorization</a></li>
+  </ul></li>
+  <li><a href="#sec-10en-cenario" id="toc-sec-10en-cenario" class="nav-link" data-scroll-target="#sec-10en-cenario"><span class="header-section-number">10.9</span> Integrated Scenario — Ana Ferreira, ULSTMAD to CHUSJ</a>
+  <ul class="collapse">
+  <li><a href="#sec-10en-cenario-swf1" id="toc-sec-10en-cenario-swf1" class="nav-link" data-scroll-target="#sec-10en-cenario-swf1"><span class="header-section-number">10.9.1</span> SWF — Order to PACS</a></li>
+  <li><a href="#sec-10en-cenario-swf2" id="toc-sec-10en-cenario-swf2" class="nav-link" data-scroll-target="#sec-10en-cenario-swf2"><span class="header-section-number">10.9.2</span> SWF — Report to HIS</a></li>
+  <li><a href="#sec-10en-cenario-xds" id="toc-sec-10en-cenario-xds" class="nav-link" data-scroll-target="#sec-10en-cenario-xds"><span class="header-section-number">10.9.3</span> XDS.b — Report published to regional network</a></li>
+  <li><a href="#sec-10en-cenario-pix" id="toc-sec-10en-cenario-pix" class="nav-link" data-scroll-target="#sec-10en-cenario-pix"><span class="header-section-number">10.9.4</span> PIXm — Identity reconciled</a></li>
+  <li><a href="#sec-10en-cenario-mhd" id="toc-sec-10en-cenario-mhd" class="nav-link" data-scroll-target="#sec-10en-cenario-mhd"><span class="header-section-number">10.9.5</span> MHD — GP retrieves the report</a></li>
+  <li><a href="#sec-10en-cenario-atna" id="toc-sec-10en-cenario-atna" class="nav-link" data-scroll-target="#sec-10en-cenario-atna"><span class="header-section-number">10.9.6</span> ATNA — All accesses audited</a></li>
+  </ul></li>
+  <li><a href="#sec-10en-sintese" id="toc-sec-10en-sintese" class="nav-link" data-scroll-target="#sec-10en-sintese"><span class="header-section-number">10.10</span> Synthesis — FHIR and IHE as Complementary Layers</a></li>
+  <li><a href="#sec-10en-exercicios" id="toc-sec-10en-exercicios" class="nav-link" data-scroll-target="#sec-10en-exercicios">Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">IHE: Integration Profiles in Healthcare</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-10en-intro" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-10en-intro">Introduction</h2>
+<p>The previous chapter demonstrated how <code>FHIR</code> models clinical entities and transports them between servers: <code>Reference()</code> to link resources, <code>Bundle</code> to package workflows, and <code>SMART on FHIR</code> to authorise access. That framework answers the question of <em>what to transport</em> and <em>in what format</em>. It does not answer the question of <em>how to coordinate</em>: who sends what, to whom, when, in what order, and with what conformance guarantees.</p>
+<p>This is the function of <strong>IHE</strong> — <em>Integrating the Healthcare Enterprise</em>. IHE does not define new data formats: it uses existing standards (<code>HL7</code>, <code>DICOM</code>, <code>FHIR</code>) and specifies <em>integration profiles</em> — concrete scripts that determine which systems are involved, which messages they exchange, and in what sequence. An IHE profile transforms a generic standard into a testable operational protocol.</p>
+<p>Standards define the vocabulary; IHE defines how to use that vocabulary in a concrete clinical workflow. Without integration profiles, two systems that “speak <code>DICOM</code>” may still be unable to work together — the workflow agreement is missing.</p>
+<p>This chapter covers the IHE profiles most relevant to clinical information systems: the Scheduled Workflow (SWF) as the canonical radiology workflow model, XDS.b for cross-enterprise document sharing, PIX and PDQ for patient identity management, ATNA for security and audit, and the mobile profiles that bring those mechanisms to the <code>FHIR</code> ecosystem.</p>
+</section>
+<section id="sec-10en-norma-perfil" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="sec-10en-norma-perfil"><span class="header-section-number">10.1</span> From Standard to Integration Profile</h2>
+<section id="sec-10en-norma-sem-perfil" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="sec-10en-norma-sem-perfil"><span class="header-section-number">10.1.1</span> The problem of a standard without a profile</h3>
+<p>A standard such as <code>HL7</code> v2.x defines the structure of an examination request message — but does not define who sends it, to whom, under what conditions, or in what sequence relative to other messages. Each vendor implements the standard in their own way; the result is systems that speak the same language but cannot understand each other in practice.</p>
+<p>The problem is best illustrated by contrast. In a radiology department without IHE, the flow of an urgent CT examination may work like this:</p>
+<div id="tbl-10en-swf-comparacao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-swf-comparacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.1: Comparison between an ad-hoc workflow and an IHE SWF workflow.
+</figcaption>
+<div aria-describedby="tbl-10en-swf-comparacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 59%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Without IHE — the radiology technician</th>
+<th style="text-align: left;">With IHE Scheduled Workflow</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">The physician writes the order on paper or in a free-text field</td>
+<td style="text-align: left;">Physician creates order in HIS → automatic HL7 message to Radiology RIS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The technician reads the order and manually enters name, date of birth, patient number and exam type at the CT console</td>
+<td style="text-align: left;">RIS schedules and sends DICOM worklist to the modality</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Typing error → exam associated to the wrong patient</td>
+<td style="text-align: left;">Technician confirms the patient on screen — no manual entry</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The radiologist is unaware that the exam is ready — calls the technician</td>
+<td style="text-align: left;">Images stored in PACS with correct patient identity</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The report is dictated, transcribed, printed and sent by email</td>
+<td style="text-align: left;">Radiologist receives automatic notification — digital report</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The scenario “without IHE” works — but requires manual intervention at each step. Replacing any system with a product from a different vendor breaks the manual integrations. The scenario “with SWF” is testable, auditable and replaceable: any system that implements the SWF actors and transactions can be integrated without manual reconfiguration.</p>
+</section>
+<section id="sec-10en-logica-ihe" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="sec-10en-logica-ihe"><span class="header-section-number">10.1.2</span> The IHE logic</h3>
+<p>IHE starts from a real clinical problem and defines a profile that addresses it using only existing standards. IHE does not invent protocols: it selects, combines and specifies. The process follows four steps:</p>
+<ol type="1">
+<li><strong>Identify the clinical problem</strong> — a real workflow with real stakeholders.</li>
+<li><strong>Define the Actors</strong> — the systems that participate in the workflow, with their specific roles.</li>
+<li><strong>Specify the Transactions</strong> — the numbered messages the Actors exchange, using existing standards (<code>HL7</code>, <code>DICOM</code>, <code>FHIR</code>).</li>
+<li><strong>Publish the Profile</strong> — the complete script, with test cases for the Connectathon.</li>
+</ol>
+</section>
+</section>
+<section id="sec-10en-triade" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="sec-10en-triade"><span class="header-section-number">10.2</span> The IHE Triad: Actor, Transaction, Profile</h2>
+<p>The IHE vocabulary rests on three fundamental concepts: <strong>Actor</strong>, <strong>Transaction</strong> and <strong>Integration Profile</strong>. Understanding these three concepts is a prerequisite for reading any IHE Technical Framework document.</p>
+<section id="sec-10en-actor" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="sec-10en-actor"><span class="header-section-number">10.2.1</span> Actor</h3>
+<p>An Actor is a system or system component with a well-defined role in an IHE profile. An Actor is not a product — it is a <em>role</em> that a product may implement. The same product may implement multiple Actors from multiple profiles, declaring each combination in its <strong>Integration Statement</strong>.</p>
+<div id="tbl-10en-swf-actors" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-swf-actors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.2: SWF Actors and the systems that typically implement them.
+</figcaption>
+<div aria-describedby="tbl-10en-swf-actors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 17%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Actor (SWF)</th>
+<th style="text-align: left;">Role</th>
+<th style="text-align: left;">Typical system</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Order Placer</td>
+<td style="text-align: left;">Creates and manages examination orders</td>
+<td style="text-align: left;">HIS (hospital information system)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Order Filler / DSS</td>
+<td style="text-align: left;">Receives orders, schedules exams, maintains the worklist</td>
+<td style="text-align: left;">RIS (radiology information system)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Acquisition Modality</td>
+<td style="text-align: left;">Acquires the images</td>
+<td style="text-align: left;">CT, MRI, US, X-ray</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Image Manager / Archive</td>
+<td style="text-align: left;">Stores, indexes and makes images available</td>
+<td style="text-align: left;">PACS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Image Display</td>
+<td style="text-align: left;">Displays images for diagnostic interpretation</td>
+<td style="text-align: left;">Radiologist workstation</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Report Creator <em>(optional)</em></td>
+<td style="text-align: left;">Creates and stores the structured report</td>
+<td style="text-align: left;">RIS or dictation system</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The separation between Actor and product is deliberate: it allows the same RIS to implement both the Order Filler and Report Creator roles simultaneously, or for a product to be replaced by another without disrupting the rest of the workflow, provided the new product implements the same Actors.</p>
+</section>
+<section id="sec-10en-transaction" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="sec-10en-transaction"><span class="header-section-number">10.2.2</span> Transaction</h3>
+<p>A Transaction is a numbered, normative message exchange between two Actors. Each Transaction has:</p>
+<ul>
+<li>A <strong>code identifier</strong> (e.g.&nbsp;<code>RAD-1</code>, <code>ITI-18</code>, <code>ITI-41</code>)</li>
+<li>An <strong>initiating Actor</strong> and a <strong>responding Actor</strong></li>
+<li>A <strong>base standard</strong> (<code>HL7</code> v2.x, <code>DICOM</code>, <code>FHIR</code> REST)</li>
+<li>A <strong>precise semantics</strong> — what the message contains, what it triggers, and what is expected in response</li>
+</ul>
+<p>Transaction codes are unique within a Technical Framework domain. Transaction <code>RAD-1</code> (Placer Order Management) is always the same — any vendor implementing the Order Placer Actor of SWF must support <code>RAD-1</code> with the same semantics. Each transaction is specified down to the byte level: which <code>HL7</code> field, which <code>DICOM</code> tag, which expected return code.</p>
+</section>
+<section id="sec-10en-profile" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="sec-10en-profile"><span class="header-section-number">10.2.3</span> Integration Profile</h3>
+<p>An Integration Profile is a set of Actors and Transactions that addresses a specific clinical problem. The Profile specifies:</p>
+<ul>
+<li>Which Actors exist and which are mandatory vs.&nbsp;optional</li>
+<li>Which Transactions are exchanged between which Actors, and in what order</li>
+<li>Which options and extensions are permitted</li>
+<li>Which test cases must be passed at the Connectathon</li>
+</ul>
+<p>A system declaring conformance with an IHE Profile guarantees — verified by independent testing — that it implements all the mandatory Actors and Transactions of that Profile.</p>
+</section>
+</section>
+<section id="sec-10en-tf" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="sec-10en-tf"><span class="header-section-number">10.3</span> Technical Framework</h2>
+<section id="sec-10en-tf-domains" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="sec-10en-tf-domains"><span class="header-section-number">10.3.1</span> Domains and volumes</h3>
+<p>IHE organises its Profiles by clinical and technological domain. The six main domains are:</p>
+<div id="tbl-10en-tf-domains" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-tf-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.3: IHE Technical Framework domains and representative profiles.
+</figcaption>
+<div aria-describedby="tbl-10en-tf-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Domain</th>
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">Representative profiles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Radiology</td>
+<td style="text-align: left;"><code>RAD</code></td>
+<td style="text-align: left;">SWF, Post-Processing Workflow, Mammography</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IT Infrastructure</td>
+<td style="text-align: left;"><code>ITI</code></td>
+<td style="text-align: left;">XDS.b, PIX, PDQ, ATNA, MHD, IUA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Patient Care Coordination</td>
+<td style="text-align: left;"><code>PCC</code></td>
+<td style="text-align: left;">XDS-MS, XPHR, EDR, APS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cardiology</td>
+<td style="text-align: left;"><code>CARD</code></td>
+<td style="text-align: left;">Cath Report, Echo, Stress Testing</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Laboratory</td>
+<td style="text-align: left;"><code>LAB</code></td>
+<td style="text-align: left;">LTW, LCSD, LPOCT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pharmacy</td>
+<td style="text-align: left;"><code>PHARM</code></td>
+<td style="text-align: left;">MTP, DIS, CMPD</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Each domain publishes a <em>Technical Framework</em> comprising four volumes with distinct purposes:</p>
+<div id="tbl-10en-tf-volumes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-tf-volumes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.4: Structure of the IHE Technical Framework by volume.
+</figcaption>
+<div aria-describedby="tbl-10en-tf-volumes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Volume</th>
+<th style="text-align: left;">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Volume 1</td>
+<td style="text-align: left;">Profile descriptions — use cases, actors, options and transactions</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Volume 2</td>
+<td style="text-align: left;">Transaction specifications — messages, encoding, detailed semantics</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Volume 3</td>
+<td style="text-align: left;">Document content — CDA templates, FHIR document formats</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Volume 4</td>
+<td style="text-align: left;">National extensions — country-specific adaptations</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Volume 1 is the entry point for any implementer: it describes the <em>why</em> and the <em>how</em> of each Profile in accessible language, before referring to Volume 2 for the normative details. The Radiology TF and the IT Infrastructure TF are the two most relevant domains for integrated hospital information systems.</p>
+</section>
+<section id="sec-10en-connectathon" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="sec-10en-connectathon"><span class="header-section-number">10.3.2</span> Conformance and Connectathon</h3>
+<p>Conformance with an IHE Profile is not self-declared — it is tested at annual events called <strong>Connectathons</strong>. At a Connectathon:</p>
+<ol type="1">
+<li>Vendors install their systems in a controlled network environment.</li>
+<li>Each system declares the Actors and Profiles it implements.</li>
+<li>An automated testing engine — <strong>Gazelle</strong> — executes the test cases defined in the Technical Framework and records the results.</li>
+<li>Vendors whose systems pass the tests receive <em>IHE Certified</em> status.</li>
+</ol>
+<p>The results are publicly documented at <code>gazelle.ihe.net</code>: hospitals can check whether system X and system Y tested transaction T together — and with what outcome — before procurement decisions.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Note</strong> — IHE conformance is not regulatory certification (CE marking or FDA). It is a technical interoperability commitment between vendors that complements — but does not replace — medical device certifications. IHE conformance means “we tested together at the Connectathon and it worked.”</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-10en-swf" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="sec-10en-swf"><span class="header-section-number">10.4</span> Scheduled Workflow — The Canonical Profile</h2>
+<p>The SWF (<em>Scheduled Workflow</em>) is the reference IHE profile for medical imaging workflows. It defines the complete lifecycle of a radiology examination, from the medical order through to the archived report. It is the most widely implemented IHE profile and the starting point for understanding IHE logic.</p>
+<section id="sec-10en-swf-problem" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="sec-10en-swf-problem"><span class="header-section-number">10.4.1</span> SWF — the problem it solves</h3>
+<p>Without SWF, a radiology department faces six systematic failure points:</p>
+<div id="tbl-10en-swf-failures" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-swf-failures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.5: Failure points in a radiology workflow without IHE SWF.
+</figcaption>
+<div aria-describedby="tbl-10en-swf-failures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 55%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Failure point</th>
+<th style="text-align: left;">Without SWF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Order</strong></td>
+<td style="text-align: left;">Free text or paper — no structure, no LOINC code</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Worklist</strong></td>
+<td style="text-align: left;">Technician manually enters patient data at the console</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Identity</strong></td>
+<td style="text-align: left;">Typing error creates “orphaned” studies or misidentified exams</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Storage</strong></td>
+<td style="text-align: left;">Images stored with inconsistent metadata or outside PACS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Notification</strong></td>
+<td style="text-align: left;">Radiologist learns by phone that the exam is available</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Report</strong></td>
+<td style="text-align: left;">Paper or unstructured PDF — no link to the clinical episode</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>SWF addresses each of these points with standardised actors and transactions — without changing what existing systems do, only coordinating how they communicate.</p>
+</section>
+<section id="sec-10en-swf-transactions" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="sec-10en-swf-transactions"><span class="header-section-number">10.4.2</span> The eight SWF Transactions</h3>
+<p>The SWF defines eight numbered Transactions in the <code>RAD</code> domain:</p>
+<div id="tbl-10en-swf-transactions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-swf-transactions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.6: The eight SWF transactions with their base standards.
+</figcaption>
+<div aria-describedby="tbl-10en-swf-transactions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 9%">
+<col style="width: 27%">
+<col style="width: 22%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Transaction</th>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Sender → Receiver</th>
+<th style="text-align: left;">Base standard</th>
+<th style="text-align: left;">What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>RAD-1</code></td>
+<td style="text-align: left;">Placer Order Management</td>
+<td style="text-align: left;">Order Placer → Order Filler</td>
+<td style="text-align: left;">HL7 ORM^O01</td>
+<td style="text-align: left;">HIS sends examination order to RIS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>RAD-4</code></td>
+<td style="text-align: left;">Procedure Scheduled</td>
+<td style="text-align: left;">Order Filler → Modality (via MWL)</td>
+<td style="text-align: left;">HL7 ORM^O01</td>
+<td style="text-align: left;">RIS creates worklist entry for the modality</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>RAD-5</code></td>
+<td style="text-align: left;">Query Modality Worklist</td>
+<td style="text-align: left;">Modality → Order Filler</td>
+<td style="text-align: left;">DICOM C-FIND</td>
+<td style="text-align: left;">CT/MRI queries worklist from RIS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>RAD-6</code></td>
+<td style="text-align: left;">Modality Procedure Step</td>
+<td style="text-align: left;">Modality → Image Manager</td>
+<td style="text-align: left;">DICOM MPPS</td>
+<td style="text-align: left;">Modality notifies start of procedure</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>RAD-8</code></td>
+<td style="text-align: left;">Modality Images Stored</td>
+<td style="text-align: left;">Modality → Image Manager</td>
+<td style="text-align: left;">DICOM C-STORE</td>
+<td style="text-align: left;">Images sent to PACS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>RAD-9</code></td>
+<td style="text-align: left;">Instance Availability</td>
+<td style="text-align: left;">Image Manager → Image Display</td>
+<td style="text-align: left;">DICOM C-FIND</td>
+<td style="text-align: left;">PACS notifies that images are available</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>RAD-23</code></td>
+<td style="text-align: left;">Retrieve Images</td>
+<td style="text-align: left;">Image Display → Image Manager</td>
+<td style="text-align: left;">DICOM C-MOVE / WADO</td>
+<td style="text-align: left;">Workstation retrieves images from PACS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>RAD-27</code></td>
+<td style="text-align: left;">Report Issued</td>
+<td style="text-align: left;">Report Creator → Order Filler</td>
+<td style="text-align: left;">HL7 ORU^R01</td>
+<td style="text-align: left;">Signed report sent to RIS/HIS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-10en-swf-example" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="sec-10en-swf-example"><span class="header-section-number">10.4.3</span> End-to-end example — Ana Ferreira</h3>
+<p>Ana Ferreira, 46 years old, presents at the emergency department of the Unidade Local de Saúde de Trás-os-Montes e Alto Douro (ULSTMAD) with acute chest pain. The physician orders a chest CT with contrast. The SWF workflow proceeds as follows:</p>
+<p><strong>Step 1 — HIS → RIS (<code>RAD-1</code>):</strong> SAM registers the order: “Chest CT with contrast, urgent”. An HL7 ORM message is automatically sent to the Radiology RIS. Accession number generated: <code>ULST-2026-TC-00847</code>.</p>
+<p><strong>Step 2 — RIS → Worklist (<code>RAD-4</code> / <code>RAD-5</code>):</strong> The RIS schedules the exam on CT-1 (Siemens SOMATOM Definition). The worklist is updated: <code>"Ferreira, Ana · 1978-04-12 · Chest CT · ULST-2026-TC-00847"</code>. The technician opens the worklist on the CT console — sees the name and confirms. No manual entry.</p>
+<p><strong>Step 3 — CT acquires and stores (<code>RAD-6</code> + <code>RAD-8</code>):</strong> MPPS “In Progress” sent to PACS at the start of acquisition. 320 images acquired in 3 minutes with correct DICOM metadata. Images sent via C-STORE. MPPS “Completed” sent at the end. PACS confirms receipt and indexes by Patient/Study/Series/Instance.</p>
+<p><strong>Step 4 — Radiologist reads (<code>RAD-9</code>):</strong> Automatic notification on the radiologist workstation. The study appears in the worklist. The radiologist opens the images, dictates and validates the report.</p>
+<p><strong>Step 5 — Report issued (<code>RAD-27</code>):</strong> HL7 ORU message sent to RIS. Report visible in SAM within less than 1 hour of the start of acquisition. From order to report with zero manual data entry.</p>
+<!--
+  Diagram: SWF — 6 actors and main transactions.
+  Blue palette (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 720 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;font-family:sans-serif;">
+  <rect width="720" height="310" rx="10" fill="#f5f8fc"></rect>
+
+  <!-- Top row: Order Placer | Order Filler | Acquisition Modality -->
+  <rect x="20" y="40" width="140" height="46" rx="6" fill="#1a3a6b"></rect>
+  <text x="90" y="58" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Order Placer</text>
+  <text x="90" y="74" text-anchor="middle" font-size="8" fill="#b8d0f0">HIS</text>
+
+  <rect x="285" y="40" width="150" height="46" rx="6" fill="#1a3a6b"></rect>
+  <text x="360" y="58" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Order Filler / DSS</text>
+  <text x="360" y="74" text-anchor="middle" font-size="8" fill="#b8d0f0">RIS</text>
+
+  <rect x="560" y="40" width="140" height="46" rx="6" fill="#2d6abf"></rect>
+  <text x="630" y="58" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Acquisition</text>
+  <text x="630" y="74" text-anchor="middle" font-size="8" fill="#d0e4ff">Modality</text>
+
+  <!-- RAD-1 -->
+  <line x1="160" y1="60" x2="285" y2="60" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#sw1e)"></line>
+  <text x="222" y="52" text-anchor="middle" font-size="8" fill="#2d6abf">RAD-1 (HL7 ORM)</text>
+
+  <!-- RAD-4 -->
+  <line x1="435" y1="60" x2="560" y2="60" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#sw1e)"></line>
+  <text x="497" y="52" text-anchor="middle" font-size="8" fill="#2d6abf">RAD-4 (DICOM MWL)</text>
+
+  <!-- Bottom row: Report Creator | Image Manager | Image Display -->
+  <rect x="20" y="190" width="140" height="46" rx="6" fill="#2d6abf"></rect>
+  <text x="90" y="208" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Report Creator</text>
+  <text x="90" y="224" text-anchor="middle" font-size="8" fill="#d0e4ff">Dictation system</text>
+
+  <rect x="285" y="190" width="150" height="46" rx="6" fill="#1a3a6b"></rect>
+  <text x="360" y="208" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Image Manager</text>
+  <text x="360" y="224" text-anchor="middle" font-size="8" fill="#b8d0f0">PACS</text>
+
+  <rect x="560" y="190" width="140" height="46" rx="6" fill="#2d6abf"></rect>
+  <text x="630" y="208" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Image Display</text>
+  <text x="630" y="224" text-anchor="middle" font-size="8" fill="#d0e4ff">Workstation</text>
+
+  <!-- RAD-6 / RAD-8: Modality → PACS -->
+  <line x1="630" y1="86" x2="630" y2="150" stroke="#4a86d8" stroke-width="1.5"></line>
+  <line x1="630" y1="150" x2="435" y2="190" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#sw2e)"></line>
+  <text x="565" y="145" text-anchor="middle" font-size="8" fill="#4a86d8">RAD-6/8 (MPPS/C-STORE)</text>
+
+  <!-- RAD-23: PACS → Image Display -->
+  <line x1="435" y1="213" x2="560" y2="213" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#sw2e)"></line>
+  <text x="497" y="205" text-anchor="middle" font-size="8" fill="#4a86d8">RAD-23 (WADO)</text>
+
+  <!-- RAD-27: Report Creator → Order Filler -->
+  <line x1="160" y1="213" x2="285" y2="213" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#sw2e)"></line>
+  <text x="222" y="205" text-anchor="middle" font-size="8" fill="#4a86d8">RAD-27 (HL7 ORU)</text>
+
+  <!-- Result back to HIS (dashed) -->
+  <line x1="360" y1="190" x2="360" y2="130" stroke="#1a3a6b" stroke-width="1" stroke-dasharray="4"></line>
+  <line x1="360" y1="130" x2="90" y2="86" stroke="#1a3a6b" stroke-width="1" stroke-dasharray="4" marker-end="url(#sw3e)"></line>
+  <text x="210" y="122" text-anchor="middle" font-size="8" fill="#1a3a6b">report → HIS</text>
+
+  <text x="360" y="298" text-anchor="middle" font-size="13" fill="#64748b">
+    Figure 10.1 — SWF Actors and Transactions
+  </text>
+
+  <defs>
+    <marker id="sw1e" markerwidth="7" markerheight="7" refx="6" refy="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2d6abf"></path>
+    </marker>
+    <marker id="sw2e" markerwidth="7" markerheight="7" refx="6" refy="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#4a86d8"></path>
+    </marker>
+    <marker id="sw3e" markerwidth="7" markerheight="7" refx="6" refy="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#1a3a6b"></path>
+    </marker>
+  </defs>
+</svg>
+</div>
+</section>
+</section>
+<section id="sec-10en-xds" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="sec-10en-xds"><span class="header-section-number">10.5</span> Document Sharing — XDS.b</h2>
+<p>The XDS.b (<em>Cross-Enterprise Document Sharing</em>) profile addresses a different problem from SWF: not the intra-hospital flow of images, but the sharing of clinical documents between different institutions. A discharge summary, a pathology report, or an electronic prescription can be shared via XDS.b by any institution participating in an <em>Affinity Domain</em> — a trust network that has agreed to use the same central repository.</p>
+<p>Consider the example from the slides: the GP at Gaia Health Centre wants to access the CT report produced at ULSTMAD.</p>
+<section id="sec-10en-xds-actors" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="sec-10en-xds-actors"><span class="header-section-number">10.5.1</span> The four XDS.b Actors</h3>
+<div id="tbl-10en-xds-actors" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-xds-actors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.7: The four XDS.b Actors and their functions.
+</figcaption>
+<div aria-describedby="tbl-10en-xds-actors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 27%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Actor</th>
+<th style="text-align: left;">Role</th>
+<th style="text-align: left;">Analogy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Document Source</strong></td>
+<td style="text-align: left;">Publishes documents to the repository</td>
+<td style="text-align: left;">Author depositing a paper</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Document Repository</strong></td>
+<td style="text-align: left;">Stores the documents (bytes)</td>
+<td style="text-align: left;">File server</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Document Registry</strong></td>
+<td style="text-align: left;">Indexes document metadata</td>
+<td style="text-align: left;">Library catalogue</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Document Consumer</strong></td>
+<td style="text-align: left;">Queries and downloads documents</td>
+<td style="text-align: left;">Reader consulting the catalogue</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The separation between <em>Repository</em> and <em>Registry</em> is a deliberate architectural decision: the <em>Registry</em> contains only metadata — document type, date, patient identifier, source institution — enabling fast searches without transferring documents. The <em>Repository</em> stores the actual documents and is only consulted after the <em>Consumer</em> has identified the document it requires. XDS.b separates storage (Repository) from the index (Registry) — each hospital keeps its own data; the Registry knows where to find it.</p>
+</section>
+<section id="sec-10en-xds-flow" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="sec-10en-xds-flow"><span class="header-section-number">10.5.2</span> The XDS.b flow in three steps</h3>
+<p><strong>Step 1 — Publication (Document Source → Repository and Registry):</strong></p>
+<p>ULSTMAD’s PACS/RIS (Document Source) publishes the CT report. It sends the document to the Repository (<code>ITI-41</code>: Provide and Register Document Set) and registers the metadata in the Registry (<code>ITI-42</code>: Register Document Set).</p>
+<pre><code>ITI-41: document (CDA or FHIR Document) → Document Repository
+ITI-42: metadata (type, date, patient ID, confidentiality) → Document Registry</code></pre>
+<p><strong>Step 2 — Discovery (Document Consumer → Registry):</strong></p>
+<p>The GP at Gaia Health Centre queries the Registry to discover available documents for the patient (<code>ITI-18</code>: Registry Stored Query). The Registry returns a list of metadata entries with unique identifiers — the document itself is not transferred at this step.</p>
+<pre><code>ITI-18: Registry Stored Query
+  patientId=urn:oid:1.2.840.10008&amp;typeCode=18748-4  ← LOINC: Diagnostic imaging study
+→ List of DocumentEntry with EntryUUID</code></pre>
+<p><strong>Step 3 — Retrieval (Document Consumer → Repository):</strong></p>
+<p>The Consumer retrieves the document by its <code>EntryUUID</code> obtained in Step 2 (<code>ITI-43</code>: Retrieve Document Set). The Repository returns the complete document.</p>
+<pre><code>ITI-43: Retrieve Document Set
+  documentUniqueId=&lt;EntryUUID&gt;
+→ Complete CDA or FHIR Document</code></pre>
+<!--
+  Diagram: XDS.b — 4 actors and 3-step flow.
+  Blue palette (IM).
+-->
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<svg viewbox="0 0 700 290" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;font-family:sans-serif;">
+  <rect width="700" height="290" rx="10" fill="#f5f8fc"></rect>
+  <text x="350" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a3a6b">XDS.b — Cross-Enterprise Document Sharing</text>
+
+  <!-- Document Source (left, centre) -->
+  <rect x="20" y="100" width="140" height="52" rx="6" fill="#1a3a6b"></rect>
+  <text x="90" y="121" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Source</text>
+  <text x="90" y="139" text-anchor="middle" font-size="8" fill="#b8d0f0">ULSTMAD PACS / RIS</text>
+
+  <!-- Document Repository (centre, top) -->
+  <rect x="270" y="36" width="160" height="52" rx="6" fill="#2d6abf"></rect>
+  <text x="350" y="57" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Repository</text>
+  <text x="350" y="75" text-anchor="middle" font-size="8" fill="#d0e4ff">stores documents</text>
+
+  <!-- Document Registry (centre, bottom) -->
+  <rect x="270" y="162" width="160" height="52" rx="6" fill="#2d6abf"></rect>
+  <text x="350" y="183" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Registry</text>
+  <text x="350" y="201" text-anchor="middle" font-size="8" fill="#d0e4ff">indexes metadata</text>
+
+  <!-- Document Consumer (right, centre) -->
+  <rect x="540" y="100" width="140" height="52" rx="6" fill="#1a3a6b"></rect>
+  <text x="610" y="121" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">Document Consumer</text>
+  <text x="610" y="139" text-anchor="middle" font-size="8" fill="#b8d0f0">Gaia Health Centre</text>
+
+  <!-- Source → Repository: ITI-41 -->
+  <line x1="160" y1="112" x2="270" y2="68" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#xe1)"></line>
+  <text x="202" y="84" text-anchor="middle" font-size="8" fill="#2d6abf">① ITI-41</text>
+  <text x="202" y="96" text-anchor="middle" font-size="7" fill="#2d6abf">document</text>
+
+  <!-- Source → Registry: ITI-42 -->
+  <line x1="160" y1="136" x2="270" y2="182" stroke="#2d6abf" stroke-width="1.5" marker-end="url(#xe1)"></line>
+  <text x="202" y="172" text-anchor="middle" font-size="8" fill="#2d6abf">① ITI-42</text>
+  <text x="202" y="184" text-anchor="middle" font-size="7" fill="#2d6abf">metadata</text>
+
+  <!-- Consumer → Registry: ITI-18 -->
+  <line x1="540" y1="148" x2="430" y2="182" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#xe2)"></line>
+  <text x="500" y="180" text-anchor="middle" font-size="8" fill="#4a86d8">② ITI-18</text>
+  <text x="500" y="192" text-anchor="middle" font-size="7" fill="#4a86d8">discover</text>
+
+  <!-- Consumer → Repository: ITI-43 -->
+  <line x1="540" y1="114" x2="430" y2="72" stroke="#4a86d8" stroke-width="1.5" marker-end="url(#xe2)"></line>
+  <text x="500" y="86" text-anchor="middle" font-size="8" fill="#4a86d8">③ ITI-43</text>
+  <text x="500" y="98" text-anchor="middle" font-size="7" fill="#4a86d8">retrieve</text>
+
+  <text x="350" y="248" text-anchor="middle" font-size="9" fill="#1a3a6b">
+    ① Publish (ITI-41 + ITI-42)   ②  Discover (ITI-18)   ③  Retrieve (ITI-43)
+  </text>
+
+  <text x="350" y="278" text-anchor="middle" font-size="13" fill="#64748b">
+    Figure 10.2 — XDS.b Actors and Transaction flow
+  </text>
+
+  <defs>
+    <marker id="xe1" markerwidth="7" markerheight="7" refx="6" refy="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2d6abf"></path>
+    </marker>
+    <marker id="xe2" markerwidth="7" markerheight="7" refx="6" refy="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#4a86d8"></path>
+    </marker>
+  </defs>
+</svg>
+</div>
+</section>
+<section id="sec-10en-xds-affinity" class="level3" data-number="10.5.3">
+<h3 data-number="10.5.3" class="anchored" data-anchor-id="sec-10en-xds-affinity"><span class="header-section-number">10.5.3</span> Affinity Domain Architecture</h3>
+<p>An <em>Affinity Domain</em> is simultaneously a technical and a governance agreement between healthcare institutions. From a deployment perspective, IHE components divide into two groups with very different characteristics.</p>
+<p><strong>Shared components — belonging to the Affinity Domain, not to any institution:</strong></p>
+<div id="tbl-10en-affinity-shared" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-affinity-shared-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.8: Shared components of the Affinity Domain.
+</figcaption>
+<div aria-describedby="tbl-10en-affinity-shared-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 29%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Location</th>
+<th style="text-align: left;">Operated by</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Document Registry</td>
+<td style="text-align: left;">Single central infrastructure</td>
+<td style="text-align: left;">Regional authority / national health service / neutral party</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PIX Manager</td>
+<td style="text-align: left;">Single central infrastructure</td>
+<td style="text-align: left;">Same</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PDQ Supplier</td>
+<td style="text-align: left;">Typically co-located with PIX Manager</td>
+<td style="text-align: left;">Same</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Audit Repository (ATNA)</td>
+<td style="text-align: left;">Shared central infrastructure</td>
+<td style="text-align: left;">Same</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>Local components — belonging to each member institution:</strong></p>
+<div id="tbl-10en-affinity-local" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-affinity-local-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.9: Local components of each Affinity Domain member.
+</figcaption>
+<div aria-describedby="tbl-10en-affinity-local-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 29%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Location</th>
+<th style="text-align: left;">Operated by</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Document Repository</td>
+<td style="text-align: left;">Within the institution</td>
+<td style="text-align: left;">The institution itself (PACS / RIS / HIS)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Document Source</td>
+<td style="text-align: left;">Within the institution</td>
+<td style="text-align: left;">Same</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Document Consumer</td>
+<td style="text-align: left;">Within the institution</td>
+<td style="text-align: left;">Same</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The essential distinction is this: the <em>Registry</em> stores only metadata — it knows <em>what exists and where</em> — but the documents remain in each institution’s local <em>Repository</em>. Each hospital keeps its own data; the <em>Registry</em> knows where to find it.</p>
+<p>The PIX Manager is <strong>external to all institutions</strong>. It receives admission feeds from each member (<code>ITI-8</code>), builds the identity cross-reference table, and responds to cross-reference queries (<code>ITI-9</code>). No institution has privileged access — all are clients of the same central service. In practical terms, the PIX Manager does not sit “inside” any hospital in the network: it resides in a shared infrastructure above all of them.</p>
+<p>In Portugal, <strong>SPMS</strong> (<em>Serviços Partilhados do Ministério da Saúde</em>, the NHS Shared Services) operates the central RSE (<em>Rede de Saúde Electrónica</em>) infrastructure, which includes the national Registry and identity services. Hospital institutions connect via VPN/MPLS to the NHS network and maintain their Repositories locally. A regional Affinity Domain — such as one coordinated by the ARS Norte Regional Health Administration — may have its own central infrastructure for the institutions in its geographical area.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Note</strong> — The separation between central and local infrastructure has a direct governance implication: the <em>Affinity Domain</em> defines who operates the Registry and PIX Manager, what the confidentiality policies are, and which shared <em>Patient ID Domain</em> serves as the identity anchor for all members.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-10en-pix-pdq" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="sec-10en-pix-pdq"><span class="header-section-number">10.6</span> Patient Identity — PIX and PDQ</h2>
+<p>Patient identity is one of the hardest problems in healthcare interoperability. The same patient has different identifiers in each system: a record number at ULSTMAD, another at the Centro Hospitalar Universitário de São João (CHUSJ), the national health number, the tax number (NIF). Without a correlation mechanism, any attempt to share data between systems risks associating records with the wrong patient.</p>
+<p>Ana Ferreira has different IDs at ULSTMAD (<code>ULST-001</code>) and CHUSJ (<code>CHUSJ-456</code>). How does the CHUSJ physician know they are the same patient?</p>
+<section id="sec-10en-pix" class="level3" data-number="10.6.1">
+<h3 data-number="10.6.1" class="anchored" data-anchor-id="sec-10en-pix"><span class="header-section-number">10.6.1</span> PIX — Patient Identifier Cross-Referencing</h3>
+<p>The PIX profile defines a central component — the <strong>PIX Manager</strong> — that maintains a cross-reference table between identifiers for the same patient across different domains.</p>
+<p>The PIX flow:</p>
+<p><strong>Registration:</strong> When a patient is admitted at ULSTMAD, the HIS sends their local identifier (<code>ULST-001</code>) to the PIX Manager (<code>ITI-8</code>). When the same patient appears at CHUSJ as <code>CHUSJ-456</code>, the CHUSJ HIS also notifies the PIX Manager. The table is fed by admission feeds from each system.</p>
+<p><strong>Query:</strong> When CHUSJ needs to know who <code>ULST-001</code> is in their system, it queries the PIX Manager (<code>ITI-9</code>):</p>
+<pre><code>PIX Query: "Who is ULST-001?"
+PIX responds: "CHUSJ-456, NIF 123456789"
+Instant resolution with no data duplication.</code></pre>
+<div id="tbl-10en-pix-table" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-pix-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.10: PIX cross-reference table for the same patient.
+</figcaption>
+<div aria-describedby="tbl-10en-pix-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Domain</th>
+<th style="text-align: left;">Identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ULSTMAD</td>
+<td style="text-align: left;"><code>ULST-001</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHUSJ</td>
+<td style="text-align: left;"><code>CHUSJ-456</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NHS / NIF</td>
+<td style="text-align: left;"><code>123456789</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NHS number</td>
+<td style="text-align: left;"><code>NHS 00000001</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-10en-pdq" class="level3" data-number="10.6.2">
+<h3 data-number="10.6.2" class="anchored" data-anchor-id="sec-10en-pdq"><span class="header-section-number">10.6.2</span> PDQ — Patient Demographics Query</h3>
+<p>PDQ addresses a different problem: the patient’s identifier is unknown — only the name and date of birth are available. PDQ allows the patient to be searched by demographic data in a central server:</p>
+<pre><code>PDQ Query: "Is there a patient: family=Ferreira, given=Ana, birthDate=1978-04-12?"
+→ Returns a list of candidates with their identifiers.</code></pre>
+<p>If multiple results are returned, the user confirms the correct patient from the demographic data displayed (address, NIF, date of birth).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Note</strong> — PIX resolves “who is this ID in another system”. PDQ resolves “does this patient exist and what is their ID”. In production environments, the two profiles are used together: PDQ locates the patient when the identifier is unknown; PIX confirms and cross-references when the identifier exists but belongs to a different domain.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-10en-atna" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="sec-10en-atna"><span class="header-section-number">10.7</span> Security and Audit — ATNA</h2>
+<p>The ATNA (<em>Audit Trail and Node Authentication</em>) profile defines the security mechanisms that are cross-cutting to all other IHE profiles. Any system participating in an XDS.b Affinity Domain or SWF deployment must implement ATNA. ATNA is not optional in production — it is a legal requirement under the GDPR and is required by all IHE profiles involving health data.</p>
+<section id="sec-10en-atna-tls" class="level3" data-number="10.7.1">
+<h3 data-number="10.7.1" class="anchored" data-anchor-id="sec-10en-atna-tls"><span class="header-section-number">10.7.1</span> Secure Node — mutual TLS authentication</h3>
+<p>ATNA requires that all communication between IHE Actors be encrypted with mutual TLS (<em>Transport Layer Security</em>): both the client and the server present and validate an X.509 certificate. Any system — PACS, HIS, workstation — that accesses clinical data is required to use mutual TLS for all connections.</p>
+<p>This is distinct from the unilateral TLS used in standard HTTPS: in ATNA, both ends authenticate each other. Auditable events include login, resource access, export, print and failure.</p>
+</section>
+<section id="sec-10en-atna-audit" class="level3" data-number="10.7.2">
+<h3 data-number="10.7.2" class="anchored" data-anchor-id="sec-10en-atna-audit"><span class="header-section-number">10.7.2</span> Audit Repository</h3>
+<p>ATNA requires each Actor to log an audit entry after each relevant event. The format is the DICOM Audit Message Schema (RFC 3881 / DICOM Sup 95); entries are sent to a central <strong>Audit Repository</strong> via Syslog over TLS.</p>
+<p>Each entry records: <strong>who</strong> (user), <strong>what</strong> (resource), <strong>when</strong> (timestamp), <strong>where</strong> (network node), and <strong>why</strong> (event type).</p>
+<div id="tbl-10en-atna-fields" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-atna-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.11: Mandatory fields of an ATNA audit entry (DICOM Audit Message).
+</figcaption>
+<div aria-describedby="tbl-10en-atna-fields-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 36%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Content</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>EventID</code></td>
+<td style="text-align: left;">Type of action</td>
+<td style="text-align: left;"><code>Query</code>, <code>Import</code>, <code>Export</code>, <code>Delete</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>EventDateTime</code></td>
+<td style="text-align: left;">Date and time in UTC</td>
+<td style="text-align: left;"><code>2025-11-04T09:14:32Z</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ActiveParticipant</code></td>
+<td style="text-align: left;">System that performed the action</td>
+<td style="text-align: left;">HIS at CHUSJ, IP <code>10.1.2.3</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>PatientID</code></td>
+<td style="text-align: left;">Identifier of the accessed patient</td>
+<td style="text-align: left;"><code>ULST-001</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>AuditSourceID</code></td>
+<td style="text-align: left;">System that generated the record</td>
+<td style="text-align: left;"><code>HIS-CHUSJ-v3.2</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Example: <code>"Dr. Costa · Patient/ULST-001 · 14:32 · CT-Workstation-01 · read"</code>.</p>
+</section>
+<section id="sec-10en-atna-gdpr" class="level3" data-number="10.7.3">
+<h3 data-number="10.7.3" class="anchored" data-anchor-id="sec-10en-atna-gdpr"><span class="header-section-number">10.7.3</span> ATNA and the GDPR</h3>
+<div id="tbl-10en-atna-gdpr" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-atna-gdpr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.12: GDPR obligations and their ATNA technical implementation.
+</figcaption>
+<div aria-describedby="tbl-10en-atna-gdpr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 28%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">GDPR Article</th>
+<th style="text-align: left;">Obligation</th>
+<th style="text-align: left;">ATNA mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Art. 32</td>
+<td style="text-align: left;">Appropriate technical measures, including confidentiality and integrity</td>
+<td style="text-align: left;">Mutual TLS X.509, encryption in transit and at rest</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Art. 30</td>
+<td style="text-align: left;">Records of processing activities — log of who accessed what and when</td>
+<td style="text-align: left;">Audit Repository with configurable retention</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Art. 33–34</td>
+<td style="text-align: left;">Notification of data breaches</td>
+<td style="text-align: left;">Audit trail allows the incident to be reconstructed</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>ATNA is the technical implementation of the GDPR requirements in DICOM/HL7/FHIR environments. However, it addresses technical measures only — GDPR obligations around consent (Art. 6–9), data minimisation and international transfers (Chapter V) require organisational and legal measures beyond ATNA’s scope.</p>
+</section>
+</section>
+<section id="sec-10en-ihe-fhir" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="sec-10en-ihe-fhir"><span class="header-section-number">10.8</span> IHE and FHIR — Mobile Profiles</h2>
+<p>IHE recognised that REST/FHIR was becoming dominant and created “mobile” equivalents of its classic profiles — the same logic, over HTTP/FHIR. The “m” profiles do not replace the classics — they coexist and are bridged by XDS-on-FHIR adapters.</p>
+<section id="sec-10en-mobile-profiles" class="level3" data-number="10.8.1">
+<h3 data-number="10.8.1" class="anchored" data-anchor-id="sec-10en-mobile-profiles"><span class="header-section-number">10.8.1</span> The main mobile profiles</h3>
+<div id="tbl-10en-mobile-profiles" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-mobile-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.13: IHE mobile profiles and their classic equivalents.
+</figcaption>
+<div aria-describedby="tbl-10en-mobile-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 35%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Mobile profile</th>
+<th style="text-align: left;">Classic equivalent</th>
+<th style="text-align: left;">Standard</th>
+<th style="text-align: left;">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>MHD</code></td>
+<td style="text-align: left;">XDS.b</td>
+<td style="text-align: left;">FHIR REST</td>
+<td style="text-align: left;">Document sharing via FHIR</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>PDQm</code></td>
+<td style="text-align: left;">PDQ</td>
+<td style="text-align: left;">FHIR REST</td>
+<td style="text-align: left;">Patient demographic query — <code>GET /Patient?family=Ferreira&amp;birthdate=1978-04-12</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>PIXm</code></td>
+<td style="text-align: left;">PIX</td>
+<td style="text-align: left;">FHIR REST</td>
+<td style="text-align: left;">Patient identifier cross-referencing — returns FHIR Parameters</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>IUA</code></td>
+<td style="text-align: left;">ATNA (authentication)</td>
+<td style="text-align: left;">OAuth2 / SMART</td>
+<td style="text-align: left;">Cross-institutional FHIR resource access authorisation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>QEDm</code></td>
+<td style="text-align: left;">HL7 CCD</td>
+<td style="text-align: left;">FHIR REST</td>
+<td style="text-align: left;">Query for structured clinical data (Observation, Condition, MedicationRequest)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>mCSD</code></td>
+<td style="text-align: left;">HPD</td>
+<td style="text-align: left;">FHIR REST</td>
+<td style="text-align: left;">Directory of professionals and organisations — replaces classic LDAP</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-10en-mhd" class="level3" data-number="10.8.2">
+<h3 data-number="10.8.2" class="anchored" data-anchor-id="sec-10en-mhd"><span class="header-section-number">10.8.2</span> MHD — Mobile access to Health Documents</h3>
+<p>MHD transposes XDS.b to FHIR REST, preserving the same four-Actor architecture but replacing SOAP/ebXML with native FHIR operations.</p>
+<p>The practical difference is illustrated by the MHD in action example: Ana Ferreira uses a smartphone app to view her reports. The app implements the MHD Document Consumer actor.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 48%">
+<col style="width: 51%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Classic XDS.b</th>
+<th style="text-align: left;">MHD equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SOAP/ebXML — <code>AdhocQueryRequest</code> via <code>SOAPEnvelope</code></td>
+<td style="text-align: left;">HTTP GET — <code>GET /DocumentReference?patient=Patient/123&amp;status=current&amp;type=http://loinc.org\|18748-4</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Heavy SOAP library, complex XML — impractical for mobile</td>
+<td style="text-align: left;">Any HTTP client — including native app or browser</td>
+</tr>
+</tbody>
+</table>
+<p>MHD does not change what the server stores — it adds a REST/FHIR interface to the existing XDS via an adapter. The transaction equivalence:</p>
+<div id="tbl-10en-mhd-mapping" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-mhd-mapping-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.14: Transaction equivalence between XDS.b and MHD.
+</figcaption>
+<div aria-describedby="tbl-10en-mhd-mapping-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 18%">
+<col style="width: 29%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">XDS.b Transaction</th>
+<th style="text-align: left;">IHE code</th>
+<th style="text-align: left;">MHD equivalent</th>
+<th style="text-align: left;">IHE code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Provide and Register</td>
+<td style="text-align: left;"><code>ITI-41</code></td>
+<td style="text-align: left;">Provide Document Bundle</td>
+<td style="text-align: left;"><code>ITI-65</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Registry Stored Query</td>
+<td style="text-align: left;"><code>ITI-18</code></td>
+<td style="text-align: left;">Find Document References</td>
+<td style="text-align: left;"><code>ITI-67</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Retrieve Document Set</td>
+<td style="text-align: left;"><code>ITI-43</code></td>
+<td style="text-align: left;">Retrieve Document</td>
+<td style="text-align: left;"><code>ITI-68</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>In MHD, the document is published as a FHIR <code>Bundle</code> containing a <code>DocumentReference</code> (metadata), a <code>Binary</code> (the document — PDF, CDA or FHIR Document), and a <code>List</code> (manifest). The <code>DocumentReference</code> resource replaces the ebXML metadata of the classic XDS.b Document Entry.</p>
+</section>
+<section id="sec-10en-iua" class="level3" data-number="10.8.3">
+<h3 data-number="10.8.3" class="anchored" data-anchor-id="sec-10en-iua"><span class="header-section-number">10.8.3</span> IUA — Internet User Authorization</h3>
+<p>IUA defines OAuth2/SMART on FHIR authorisation for cross-institutional FHIR resource access. It defines scopes such as <code>patient/*.read</code> and <code>user/Observation.write</code>. The authorisation server issues a JWT access token; each FHIR request carries it in the <code>Authorization: Bearer &lt;token&gt;</code> header.</p>
+</section>
+</section>
+<section id="sec-10en-cenario" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="sec-10en-cenario"><span class="header-section-number">10.9</span> Integrated Scenario — Ana Ferreira, ULSTMAD to CHUSJ</h2>
+<p>An urgent chest CT at ULSTMAD. The report is accessed by the GP at CHUSJ three days later. Each step uses an IHE profile. One clinical episode — six IHE profiles working together, transparently to the clinician.</p>
+<section id="sec-10en-cenario-swf1" class="level3" data-number="10.9.1">
+<h3 data-number="10.9.1" class="anchored" data-anchor-id="sec-10en-cenario-swf1"><span class="header-section-number">10.9.1</span> SWF — Order to PACS</h3>
+<p>HIS (SAM) → RIS → CT → PACS. DICOM worklist sent, C-STORE executed, MPPS confirmed. Images with correct metadata stored in ULSTMAD’s PACS.</p>
+</section>
+<section id="sec-10en-cenario-swf2" class="level3" data-number="10.9.2">
+<h3 data-number="10.9.2" class="anchored" data-anchor-id="sec-10en-cenario-swf2"><span class="header-section-number">10.9.2</span> SWF — Report to HIS</h3>
+<p>The radiologist validates the report. HL7 ORU sent to HIS. A FHIR <code>ImagingStudy</code> resource is created by the PACS, referencing the DICOM images without moving them.</p>
+</section>
+<section id="sec-10en-cenario-xds" class="level3" data-number="10.9.3">
+<h3 data-number="10.9.3" class="anchored" data-anchor-id="sec-10en-cenario-xds"><span class="header-section-number">10.9.3</span> XDS.b — Report published to regional network</h3>
+<p>ULSTMAD (Document Source) publishes the report (CDA or FHIR Document) to the regional Repository. A <code>DocumentReference</code> is registered in the regional Registry with metadata including patient ID, document type (<code>18748-4</code> — CT report), date and confidentiality level.</p>
+</section>
+<section id="sec-10en-cenario-pix" class="level3" data-number="10.9.4">
+<h3 data-number="10.9.4" class="anchored" data-anchor-id="sec-10en-cenario-pix"><span class="header-section-number">10.9.4</span> PIXm — Identity reconciled</h3>
+<p>CHUSJ queries PIXm: “Who is ULST-001 in my system?” Answer: <code>CHUSJ-456</code>. The CHUSJ physician sees the correct patient in their local system without any manual reconciliation.</p>
+</section>
+<section id="sec-10en-cenario-mhd" class="level3" data-number="10.9.5">
+<h3 data-number="10.9.5" class="anchored" data-anchor-id="sec-10en-cenario-mhd"><span class="header-section-number">10.9.5</span> MHD — GP retrieves the report</h3>
+<pre><code>GET /DocumentReference
+    ?patient=Patient/CHUSJ-456
+    &amp;type=18748-4</code></pre>
+<p>The Registry returns the document reference. The GP downloads and reads the ULSTMAD CT report directly from their FHIR-native system.</p>
+</section>
+<section id="sec-10en-cenario-atna" class="level3" data-number="10.9.6">
+<h3 data-number="10.9.6" class="anchored" data-anchor-id="sec-10en-cenario-atna"><span class="header-section-number">10.9.6</span> ATNA — All accesses audited</h3>
+<p>Every access — publication, query, download — generates an audit entry in the Audit Repository. GDPR Art. 30 and 32 obligations are met automatically.</p>
+<div id="tbl-10en-cenario-resumo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-cenario-resumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.15: IHE profiles in the integrated Ana Ferreira scenario.
+</figcaption>
+<div aria-describedby="tbl-10en-cenario-resumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 35%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Phase</th>
+<th style="text-align: left;">IHE Profile</th>
+<th style="text-align: left;">Main Transaction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Imaging</td>
+<td style="text-align: left;">SWF</td>
+<td style="text-align: left;"><code>RAD-1</code>, <code>RAD-4</code>, <code>RAD-6</code>, <code>RAD-8</code>, <code>RAD-23</code>, <code>RAD-27</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Report to HIS</td>
+<td style="text-align: left;">SWF</td>
+<td style="text-align: left;"><code>RAD-27</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Publish report</td>
+<td style="text-align: left;">XDS.b</td>
+<td style="text-align: left;"><code>ITI-41</code>, <code>ITI-42</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Reconcile identity</td>
+<td style="text-align: left;">PIXm</td>
+<td style="text-align: left;">FHIR GET with <code>$ihe-pix</code> operation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Retrieve report</td>
+<td style="text-align: left;">MHD</td>
+<td style="text-align: left;"><code>ITI-67</code>, <code>ITI-68</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Audit</td>
+<td style="text-align: left;">ATNA</td>
+<td style="text-align: left;">Syslog over TLS → Audit Repository</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-10en-sintese" class="level2" data-number="10.10">
+<h2 data-number="10.10" class="anchored" data-anchor-id="sec-10en-sintese"><span class="header-section-number">10.10</span> Synthesis — FHIR and IHE as Complementary Layers</h2>
+<p><code>FHIR</code> and IHE are not alternatives: they are complementary layers of the same interoperability stack. <code>FHIR</code> defines the <em>vocabulary</em> and the <em>transport</em>; IHE defines the <em>scripts</em>.</p>
+<div id="tbl-10en-fhir-ihe" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-10en-fhir-ihe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.16: FHIR and IHE as interoperability layers.
+</figcaption>
+<div aria-describedby="tbl-10en-fhir-ihe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 27%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dimension</th>
+<th style="text-align: left;">FHIR</th>
+<th style="text-align: left;">IHE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">What it defines</td>
+<td style="text-align: left;">Clinical resource format + REST API</td>
+<td style="text-align: left;">Integration profiles — Actors, Transactions, sequences</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Directed at</td>
+<td style="text-align: left;">Clinical API developers</td>
+<td style="text-align: left;">Hospital systems integrators</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Level of abstraction</td>
+<td style="text-align: left;">Format and transport</td>
+<td style="text-align: left;">Process and workflow</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">How it is tested</td>
+<td style="text-align: left;">FHIR validators (Inferno, Touchstone)</td>
+<td style="text-align: left;">Connectathon + Gazelle</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Where they overlap</td>
+<td style="text-align: left;">MHD, PIXm, PDQm, IUA, QEDm, mCSD</td>
+<td style="text-align: left;">Mobile profiles use FHIR REST</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>DICOM and HL7 define the vocabulary. IHE defines how to use that vocabulary in a concrete workflow. The “m” profiles bring REST/FHIR to IHE architecture. XDS, PIX and ATNA remain active — MHD, PDQm and IUA complement them. A modern system can be FHIR-native and IHE-compliant simultaneously.</p>
+</section>
+<section id="sec-10en-exercicios" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-10en-exercicios">Exercises</h2>
+<p><strong>1.</strong> A hospital plans to implement the IHE Scheduled Workflow (SWF) in its radiology department.</p>
+<ol type="a">
+<li>List the six SWF Actors and the type of system that typically implements each one.</li>
+<li>Which Transaction ensures that the modality automatically receives patient and examination data before starting acquisition?</li>
+<li>What base standard is used by Transaction <code>RAD-8</code>?</li>
+<li>A radiology technician argues the system works without IHE because “exams always end up in the PACS”. Explain why this argument is insufficient from a systems integration perspective.</li>
+</ol>
+<p><strong>2.</strong> An XDS.b Affinity Domain includes ULSTMAD and CHUSJ. ULSTMAD publishes a discharge summary; CHUSJ needs to retrieve it.</p>
+<ol type="a">
+<li>Identify the four Actors involved and the role of each.</li>
+<li>Why are the Document Registry and Document Repository two distinct components rather than one?</li>
+<li>Which Transaction does the Consumer use to search for metadata? Which Transaction does it use to retrieve the document?</li>
+<li>CHUSJ has its own Document Registry. ULSTMAD has its own. How must the Affinity Domain be configured for the two hospitals to share documents?</li>
+</ol>
+<p><strong>3.</strong> The CHUSJ admission system receives a patient who says their name is “António Ferreira”, but has no health card. The system finds no local record with that exact name.</p>
+<ol type="a">
+<li>Which IHE profile allows the patient to be searched by demographic data in a central database?</li>
+<li>Which Transaction is used for this search?</li>
+<li>After identifying the patient, the system needs to know whether they have records at ULSTMAD. Which IHE profile allows identifiers from the two domains to be cross-referenced?</li>
+<li>What is the fundamental difference between PIX and PDQ?</li>
+</ol>
+<p><strong>4.</strong> Analyse the following ATNA audit entry:</p>
+<pre><code>EventID:            E_PatientRecord
+EventDateTime:      2025-11-04T09:14:32Z
+EventAction:        R  (Read)
+ActiveParticipant:
+  UserID:           dr.costa@chusj.pt
+  NetworkAccessPointID: 10.1.2.3
+PatientID:          CHUSJ-456@urn:oid:2.16.840.1.113883.3.239</code></pre>
+<ol type="a">
+<li>What clinical action does this record represent?</li>
+<li>What is the purpose of the <code>NetworkAccessPointID</code> field in a security audit?</li>
+<li>Which GDPR article requires this record to exist?</li>
+<li>The hospital has not implemented mutual TLS between the HIS and the Audit Repository. What specific security risk does this create?</li>
+</ol>
+<p><strong>5.</strong> A hospital’s IT department is evaluating the adoption of MHD to replace XDS.b.</p>
+<ol type="a">
+<li>Which MHD Transaction is equivalent to XDS.b’s <code>ITI-41</code>?</li>
+<li>Which FHIR resource type replaces the XDS.b Document Entry metadata?</li>
+<li>What is the main advantage of MHD for modern development?</li>
+<li>The hospital has partners that still use classic XDS.b. What infrastructure component may be necessary to ensure interoperability between both worlds?</li>
+</ol>
+<p><strong>6.</strong> Consider the integrated scenario with Ana Ferreira described in this chapter.</p>
+<ol type="a">
+<li>Which IHE profile confirms that the “Ana Ferreira” admitted at CHUSJ is the same person registered at ULSTMAD?</li>
+<li>The GP at CHUSJ retrieves the previous CT report. Which pair of Transactions (discover + retrieve) is required in classic XDS.b? And in MHD?</li>
+<li>The CT report is published with MHD. ULSTMAD uses classic XDS.b. Can the ULSTMAD physician access the report? What architectural component makes this possible?</li>
+<li>The CHUSJ DPO wants to know who accessed Ana Ferreira’s data during her stay. Which IHE profile allows this history to be reconstructed?</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/cap09.html" class="pagination-link" aria-label="FHIR: Inter-Hospital Interoperability">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">FHIR: Inter-Hospital Interoperability</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/cap11.html" class="pagination-link" aria-label="Privacy, Anonymisation and Health Data Governance">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Privacy, Anonymisation and Health Data Governance</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Medical Informatics — Master’s in Biomedical Engineering · UTAD</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><a href="https://joaoagostinhopavao.github.io/sebenta-im/">🇵🇹 Português</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

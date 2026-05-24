@@ -1,0 +1,521 @@
+---
+title: "Privacy, Anonymisation and Health Data Governance"
+lang: en-GB
+---
+
+## Introduction {#sec-11-intro .unnumbered}
+
+Clinical information systems handle the most sensitive category of data that
+exists: health data. Its circulation raises questions that go beyond engineering
+— *under what right*, *under what conditions*, and *with what guarantees for
+the patient*?
+
+The answer to these questions rests on two complementary legal instruments:
+the General Data Protection Regulation [@RGPD2016] and Decree-Law No. 125/2025
+[@DL125_2025], which transposes the NIS2 Directive [@NIS2Dir2022] into
+Portuguese law. Beyond the legal framework, this chapter covers the
+anonymisation mechanisms that make it possible to use clinical data for
+research, the principles of *Privacy by Design*, and the institutional
+governance that articulates the obligations of both regimes.
+
+## Legal Framework {#sec-11-legal}
+
+### General Data Protection Regulation {#sec-11-rgpd}
+
+The GDPR [@RGPD2016] defines in Article 4 the concept of *personal data* as
+"any information relating to an identified or identifiable natural person".
+Health data are treated as a *special category* (Article 9), subject to a more
+restrictive regime: their processing is prohibited by default, only being
+permitted on an explicit legal basis — the data subject's consent, vital
+interests, health care, scientific research with adequate safeguards, or
+another basis recognised by European or national law.
+
+The GDPR distinguishes two fundamental roles in the chain of responsibility:
+
+| Role | Definition (Art. 4) | Hospital example |
+|:-----|:--------------------|:----------------|
+| **Data Controller** | The entity that determines the purposes and means of processing | The hospital |
+| **Data Processor** | The entity that processes data on behalf of the controller | PACS vendor, cloud provider |
+
+: Roles of responsibility under the GDPR [@RGPD2016]. {#tbl-rgpd-papeis}
+
+Legal responsibility rests with the *data controller* even when the actual
+processing is carried out by a data processor. The contract between them — the
+Data Processing Agreement (DPA) — is mandatory and must specify the purposes,
+the categories of data processed, the required security measures, and the
+conditions for data deletion (Article 28 GDPR).
+
+The **DPO** (*Data Protection Officer*, Article 37) is mandatory for entities
+that process health data on a large scale, notably hospitals. The DPO monitors
+compliance, advises the controller, and serves as a point of contact with the
+national supervisory authority — the CNPD (*Comissão Nacional de Protecção de
+Dados*, Portugal's Data Protection Authority). Articles 30 (records of
+processing activities) and 32 (technical security measures) have direct
+architectural implications for clinical systems: every access to clinical data
+must be logged and every connection between systems must be encrypted.
+
+### Decree-Law No. 125/2025 — NIS2 Regime {#sec-11-nis2}
+
+In force since 3 April 2026, Decree-Law No. 125/2025 [@DL125_2025] transposes
+the NIS2 Directive [@NIS2Dir2022] into Portuguese law, revoking Law No.
+46/2018. This legislation creates a second legal regime running in parallel with
+the GDPR, focused exclusively on the security of networks and information
+systems.
+
+DL 125/2025 classifies covered entities based on the sectors listed in Annexes
+I and II:
+
+| Classification | Sector | Examples |
+|:---|:---|:---|
+| **Essential entity** (Annex I) | Sector 5 — Health | Hospitals; healthcare providers |
+| **Important entity** (Annex II) | Sector 7 — Research | Research organisations; universities |
+
+: Classification of hospital and academic entities under DL 125/2025 [@DL125_2025]. {#tbl-nis2-classif}
+
+The distinction has direct implications for fines: for essential entities, the
+most serious infringements can reach € 10,000,000 or 2% of annual worldwide
+turnover; for important entities, the limit is € 7,000,000 or 1.4% (Article 61).
+
+The main obligations introduced by DL 125/2025 include:
+
+- **Cybersecurity measures** (Article 27): risk management policies,
+  operational continuity, supply chain security, cryptography, multi-factor
+  authentication, and training.
+- **Cybersecurity Officer** (Article 31): mandatory designation, distinct from
+  the DPO — the DPO answers to the GDPR and the CNPD; the Cybersecurity Officer
+  answers to NIS2 and the CNCS (*Centro Nacional de Cibersegurança*, Portugal's
+  National Cybersecurity Centre).
+- **Registration with CNCS** (Article 35): within 60 days of qualification.
+- **Annual cybersecurity report** (Article 30): submitted to CNCS by the last
+  working day of January.
+- **Incident notification** (Articles 40–44): initial alert to CNCS within
+  24 hours, update within 72 hours, final report within 30 working days.
+
+Article 79 establishes a coordination mechanism between the CNCS and the CNPD:
+when an infringement of cybersecurity obligations simultaneously constitutes a
+personal data breach, the CNCS notifies the CNPD. The two regimes are
+complementary — the same audit architecture serves both.
+
+## Anonymisation and the Risk of Re-identification {#sec-11-anonimizacao}
+
+### Anonymisation, Pseudonymisation and Encryption {#sec-11-anon-distinc}
+
+The GDPR distinguishes three concepts that are frequently confused in practice:
+
+**Anonymisation** is the irreversible transformation that prevents the
+identification of the data subject. Recital 26 of the GDPR — one of the
+introductory paragraphs that guide the interpretation of the articles —
+establishes that genuinely anonymised data are not personal data and fall
+outside the scope of the regulation. The criterion is demanding: it is not
+sufficient that the controller cannot reverse the process — it is necessary
+that no third party, using reasonably available means, could do so either.
+
+**Pseudonymisation** (Article 4(5)) is the replacement of direct identifiers
+with a pseudonym, whilst retaining a correspondence key stored separately.
+Pseudonymised data *remain personal data*: anyone with access to the key can
+re-identify the data subject. Pseudonymisation is recognised by the GDPR as a
+security measure that reduces risk (Article 32), but does not eliminate legal
+obligations.
+
+**Encryption** transforms data into an unreadable format without the decryption
+key. It is not anonymisation: encrypted data remain personal data — anyone with
+the key can recover them. Encryption is a mandatory security measure for data in
+transit and strongly recommended for data at rest.
+
+| Technique | Personal data? | GDPR applies? |
+|:----------|:--------------|:-------------|
+| Identifiable data | Yes | Yes |
+| Pseudonymised data | Yes | Yes |
+| Encrypted data | Yes | Yes |
+| Anonymised data | No | No (Recital 26) |
+
+: Scope of the GDPR according to data type [@RGPD2016]. {#tbl-anon-rgpd}
+
+### The Risk of Re-identification {#sec-11-reident}
+
+The principal reason why genuine anonymisation is difficult to guarantee is the
+risk of re-identification through *attribute linkage*. Even without a name or
+identification number, the combination of apparently innocuous attributes can
+uniquely single out an individual. Three real-world cases illustrate this risk.
+
+**The Sweeney study (2000)** is the founding reference for this phenomenon.
+Latanya Sweeney analysed health data from the state of Massachusetts, published
+as "anonymised" with names and addresses removed, and found that 87% of
+Americans could be uniquely identified using only three attributes: postal code,
+date of birth, and sex [@Sweeney2000]. The demonstration was unequivocal:
+Sweeney cross-referenced the health file with publicly registered voter rolls
+and identified the state governor from his postal code, date of birth, and sex —
+information present in the "anonymised" data.
+
+**The Netflix case (2006–2008)** extended this vulnerability to behavioural
+data. In 2006, Netflix published 100 million film ratings from 480,000 users,
+replacing names with numerical identifiers, for a competition to improve its
+recommendation algorithm. In 2008, Narayanan and Shmatikov demonstrated that
+these data were vulnerable to re-identification [@NarayananShmatikov2008]. The
+method involved cross-referencing the anonymous ratings with public ratings from
+the same user on IMDb: just 8 ratings with approximate dates (a margin of two
+days) were sufficient to identify a user with a probability greater than 99%.
+Netflix was taken to court and cancelled the second Netflix Prize competition
+(for film recommendations). The study demonstrated that the re-identification of
+sparse datasets is computationally feasible even without access to the
+pseudonymisation key.
+
+**The AOL Search case (2006)** illustrated the same vulnerability in textual
+data. In August 2006, AOL released 20 million searches from 658,000 users over
+three months, with names replaced by numerical IDs. Days later, the *New York
+Times* identified user no. 4417749 through the content of her searches: chronic
+diseases, family members' names, location, and personal preferences
+[@BarbaroZeller2006]. The user, a 62-year-old woman from Georgia, had not made
+a single search with her own name — but the totality of her searches was, in
+practice, a unique fingerprint. AOL dismissed those responsible for the release
+and the case prompted specific legislation in the United States.
+
+In a clinical context, the risk is amplified. Health data have far more
+attributes than behavioural data: diagnoses (including rare diseases), admission
+dates, attending physician, medication combinations, laboratory results, and
+medical images. A rare disease can, in itself, be identifying in a given
+geographical area.
+
+### k-Anonymity {#sec-11-k-anonimato}
+
+*k-Anonymity* is the most widely used formal model for quantifying and
+controlling the risk of re-identification through attribute linkage. It was
+defined by Sweeney in 2002 [@Sweeney2002]:
+
+> A dataset satisfies *k-anonymity* if, for every combination of values of the
+> *quasi-identifier* attributes, there are at least *k* records with that same
+> combination — making each individual indistinguishable from at least *k* − 1
+> others.
+
+**Quasi-identifier attributes** are those that, individually, do not identify
+the data subject, but that combined can single them out. In the clinical context,
+typical quasi-identifiers are: postal code, date of birth, sex, ethnicity, and
+type of admission. Directly identifying attributes (name, patient number) are
+usually suppressed in a first step — k-anonymity handles those that remain.
+
+To illustrate, consider a hospital table with 8 records:
+
+| Postal code | Age | Sex | Diagnosis |
+|:-----------|:----|:----|:---------|
+| 5000-xxx | 23 | M | Pneumonia |
+| 5000-xxx | 23 | M | Bronchitis |
+| 4200-xxx | 45 | F | Diabetes |
+| 4200-xxx | 45 | F | Hypertension |
+| 4200-xxx | 45 | F | Renal disease |
+| 3800-xxx | 67 | M | Oncology |
+| 3800-xxx | 67 | M | Cardiac disease |
+| 1600-xxx | 31 | F | Arthritis |
+
+: Example of a hospital table without k-anonymity. {#tbl-kanon-original}
+
+The record `1600-xxx / 31 / F` is unique (k = 1): anyone who knows this
+patient's postal code, age, and sex can immediately identify them and learn
+their diagnosis. To achieve 2-anonymity, it would be necessary to generalise
+the quasi-identifiers of the problematic records — for example, broadening the
+postal code to the first two digits or generalising the age to an age band.
+This tension between *utility* (the value of data for research) and *privacy*
+(protection of the data subject) is the central problem of anonymisation.
+
+**Limitations of k-anonymity.** k-Anonymity protects against linkage attacks,
+but not against *homogeneity attacks*: if within a group of *k* records all
+values of the sensitive attribute (the diagnosis) are identical, an attacker
+who knows that their target belongs to the group learns the diagnosis without
+needing to identify the individual record. To address this problem, Machanavajjhala
+and colleagues proposed *l-diversity* in 2007 [@Machanavajjhala2007]: a dataset
+satisfies *l-diversity* if, within each quasi-identifier group, the sensitive
+attribute takes at least *l* well-represented values — preventing the group from
+being homogeneous with respect to sensitive information.
+
+### Anonymisation Techniques {#sec-11-tecnicas}
+
+The data privacy literature [@ElEmamArbuckle2013; @ENISA2019pseudo] identifies
+six main techniques, each with different characteristics and trade-offs:
+
+**Suppression** is the complete removal of an attribute or record. It is
+typically applied to direct identifiers (name, patient record number, address)
+before any other processing.
+
+**Generalisation** replaces a specific value with a less precise value belonging
+to a broader category. It is the central mechanism of k-anonymity: an exact
+postal code becomes a region; an exact date of birth becomes an age band; a rare
+diagnosis is mapped to its more general nosological category.
+
+**Perturbation** (or noise addition) introduces controlled statistical
+variations: dates are shifted by a random number of days; numerical values
+receive a random increment within a defined interval. Perturbation belongs to
+the family of *differential privacy*, which formally guarantees that the
+presence or absence of a specific individual has negligible impact on published
+statistics.
+
+**Pseudonymisation** replaces direct identifiers with synthetic identifiers,
+retaining a correspondence table stored separately with strict access controls.
+The data remain personal data, but the technique is useful in longitudinal
+studies where it is necessary to track the same individual over time without
+exposing their identity to all participants.
+
+**Synthesis** produces a new artificial dataset with the same statistical
+properties as the original, without any direct correspondence to real records.
+Techniques such as Generative Adversarial Networks (*GANs*) are used to generate
+synthetic clinical data for training machine learning models, eliminating the
+source risk.
+
+**Aggregation** publishes only statistics computed over groups of records —
+means, distributions, counts — without exposing individual data. It is the
+technique with the lowest residual re-identification risk, but also the one that
+imposes the greatest loss of utility for detailed research.
+
+| Technique | Reversible? | Utility loss | Typical use case |
+|:----------|:-----------|:------------|:----------------|
+| Suppression | No | High | Direct identifiers |
+| Generalisation | No | Medium | k-anonymity in research |
+| Perturbation | No | Low–Medium | Model training |
+| Pseudonymisation | Yes (with key) | Low | Longitudinal studies |
+| Synthesis | N/A | Variable | Clinical AI training |
+| Aggregation | No | Very high | Public health reports |
+
+: Comparison of anonymisation techniques [@ElEmamArbuckle2013; @ENISA2019pseudo]. {#tbl-tecnicas-anon}
+
+### Health Data — Why the Sensitivity is Different {#sec-11-sensibilidade}
+
+Health data combine three properties that make them especially sensitive:
+
+**Diagnostic specificity** stems from the rarity of certain conditions. Rare
+diseases have, by definition, few cases per geographical area — which makes the
+diagnosis itself identifying at a local level. The combination of three common
+diagnoses can be equally identifying in a given hospital.
+
+**Temporal persistence** is a unique property of health data. A diagnosis from
+1995 may still be sensitive in 2025 — or in 2045. Financial data expire,
+location data change, but health data remain relevant throughout the data
+subject's lifetime and, in the case of genomic data, beyond it.
+
+**Social impact potential** manifests as discrimination in employment (chronic,
+oncological, and mental health conditions) and exclusion from insurance products.
+In the case of genomic data, identification also compromises the privacy of
+biological relatives who never participated in the treatment: Gymrek and
+colleagues demonstrated in 2013 that DNA sequences from men can be linked to
+the family surname with high precision using publicly available genealogical
+databases [@Gymrek2013]; Erlich and Narayanan established in 2014 that an
+individual can be genetically identified even within anonymised datasets,
+compromising the privacy of their relatives [@ErlichNarayanan2014].
+
+## Technical Privacy Standards in Clinical Environments {#sec-11-normas}
+
+The legal framework is realised through four technical instruments used together
+by clinical systems:
+
+**DICOM file anonymisation.** A DICOM file is not just an image — it is a
+container with hundreds of structured attributes that include the patient's
+name, date of birth, referring physician, and institution name. The DICOM
+standard defines in Annex E of Part 3.15 a set of *Confidentiality Profiles*
+that specify, for each attribute, which action to apply (deletion, replacement
+with an empty value, or generation of a new identifier). There is also a
+specific risk — *burned-in text* — where the patient's name is recorded
+directly onto the image pixels and escapes attribute-level processing.
+
+**FHIR Consent.** The FHIR R4 `Consent` resource enables the patient's consent
+to be represented in a *machine-readable* form — directly readable by the
+server, without human interpretation. The server automatically verifies, before
+serving any clinical resource, whether the requested access is covered by an
+active and valid consent, for which purposes and for how long.
+
+**SMART on FHIR.** SMART on FHIR (*Substitutable Medical Apps, Reusable
+Technologies on FHIR*) defines how an application obtains authorisation to
+access FHIR data on behalf of a patient or healthcare professional
+[@MandelSMART2016; @HL7_SMART2023]. It is built on the OAuth 2.0 protocol and
+adds granular authorisations by FHIR resource type and clinical purpose.
+
+**ATNA — Audit Trail as a Dual Legal Obligation.** The IHE ATNA (*Audit Trail
+and Node Authentication*) profile [@IHE_ATNA2024] logs every access to clinical
+data in a persistent audit trail. With DL 125/2025 in force, ATNA serves two
+regimes simultaneously: it implements the records of processing activities
+required by GDPR Article 30 and the security measures of Article 32; and it
+provides the documentary evidence needed to notify an incident to CNCS within
+the 24-hour deadline imposed by Article 40 of DL 125/2025. A hospital without
+an audit log may not have the capacity to reconstruct the timeline of an
+incident — compromising the mandatory notification.
+
+## *Privacy by Design* {#sec-11-pbd}
+
+The concept of *Privacy by Design* was formulated by Ann Cavoukian, Privacy
+Commissioner of Ontario, in the early 1990s, and systematised into seven
+principles [@Cavoukian2011]. Article 25 of the GDPR converted these principles
+from best practice into a legal obligation.
+
+**1. Proactive, not reactive.** Privacy is designed before problems occur. The
+privacy requirements — what data are needed, for how long, with what access
+controls — are defined before choosing the architecture, not after the system
+is in production.
+
+**2. Privacy as the default setting.** The maximum level of privacy is the
+default state of the system. The patient need not do anything to protect their
+data — it is the system that must be explicitly configured to share.
+
+**3. Privacy embedded into design.** Privacy is not a layer added at the end of
+development, but an integral part of the architecture. Access control verified
+directly by the clinical server is an example of embedded privacy; an external
+module that checks consent in a separate layer is the opposite pattern.
+
+**4. Full functionality.** Privacy and functionality are not mutually exclusive.
+The data needed for research can be obtained with adequate anonymisation without
+compromising scientific utility; granular consent allows specific purposes to be
+authorised without blocking the entire system.
+
+**5. End-to-end security.** Protection applies throughout the entire data
+lifecycle: from creation to archiving and deletion. Encryption in transit and
+at rest, and verified and documented secure deletion processes are the technical
+expressions of this principle.
+
+**6. Visibility and transparency.** The patient knows what is done with their
+data. Audit logs must be accessible to the patient on request; data breaches
+must be notified in plain language (GDPR Article 34).
+
+**7. Respect for user privacy.** The system is centred on the data subject's
+needs. Granular consent, the right of access, rectification and erasure (GDPR
+Article 17), and an interface that allows the patient to manage their
+preferences are implementations of this principle.
+
+## Health Data Governance {#sec-11-governanca}
+
+### Roles and Responsibilities {#sec-11-gov-papeis}
+
+Health data governance articulates roles defined by the GDPR with the new roles
+introduced by DL 125/2025:
+
+| Role | Regime | Responsibility | External interlocutor |
+|:-----|:-------|:--------------|:---------------------|
+| **Data Controller** | GDPR Art. 4 | Defines purposes and means | CNPD |
+| **Data Processor** | GDPR Art. 4 | Processes data on behalf of controller | Controller (via DPA) |
+| **DPO** | GDPR Art. 37 | Monitors GDPR compliance | CNPD |
+| **Cybersecurity Officer** | DL 125/2025 Art. 31 | Proposes NIS2 measures; signs annual report | CNCS |
+| **Point of contact** | DL 125/2025 Art. 32 | 24/7 availability for incidents | CNCS / CERT.PT |
+
+: Governance roles — GDPR and DL 125/2025 [@RGPD2016; @DL125_2025]. {#tbl-gov-papeis}
+
+The DPO answers to the CNPD within the scope of personal data protection; the
+Cybersecurity Officer answers to the CNCS within the scope of network and
+information security. A hospital must have both figures with non-overlapping
+functions — although they must collaborate when a cybersecurity incident
+simultaneously involves a personal data breach (Article 79 of DL 125/2025).
+
+### Competent Authorities {#sec-11-gov-autoridades}
+
+**CNPD** (*Comissão Nacional de Protecção de Dados*) is the national supervisory
+authority for the GDPR in Portugal. It may impose fines of up to € 20,000,000
+or 4% of annual worldwide turnover. It receives notifications of personal data
+breaches within 72 hours (GDPR Article 33).
+
+**CNCS** (*Centro Nacional de Cibersegurança*) is the competent authority for
+supervising DL 125/2025 in Portugal. It manages the register of essential and
+important entities, receives annual cybersecurity reports, and is the recipient
+of incident notifications. **CERT.PT** is integrated within the CNCS as the
+operational incident response team.
+
+**ENISA** (*European Union Agency for Cybersecurity*) is the European reference
+agency for cybersecurity and publishes technical guidance [@ENISA2019pseudo],
+coordinating the network of national CSIRTs of which CERT.PT is a member.
+
+**EDPB** (*European Data Protection Board*) issues harmonised guidelines for
+the 27 Member States, binding on national authorities such as the CNPD.
+
+### NIS2 Obligations for Hospitals and Universities {#sec-11-gov-nis2-obrig}
+
+| Obligation | Article | Deadline |
+|:-----------|:--------|:--------|
+| Registration with CNCS | Art. 35 | 60 days after qualification |
+| Designation of Cybersecurity Officer | Art. 31 | 20 working days |
+| Annual cybersecurity report | Art. 30 | Last working day of January |
+| Initial incident alert | Art. 40 | 24 hours |
+| Incident update | Art. 41 | 72 hours |
+| Final incident report | Art. 43 | 30 working days |
+
+: NIS2 obligations and respective deadlines for hospitals (essential entities) [@DL125_2025]. {#tbl-nis2-obrigacoes}
+
+## Summary {#sec-11-sintese .unnumbered}
+
+| Concept | Key point |
+|:--------|:---------|
+| **Health data** | Special category (GDPR Art. 9) — processing prohibited by default |
+| **Anonymisation** | Irreversible; outside the scope of the GDPR (Recital 26) |
+| **Pseudonymisation** | Personal data — reduces risk but maintains GDPR obligations |
+| **k-anonymity** | Each record indistinguishable from at least k−1 others on quasi-identifiers |
+| **l-diversity** | k-anonymity + diversity of sensitive values within each group |
+| **ATNA** | Access audit = GDPR compliance (Art. 30+32) and NIS2 (Art. 27+40) |
+| **DPO** | Mandatory in hospitals — answers to GDPR before the CNPD |
+| **Cybersecurity Officer** | Mandatory under DL 125/2025 — distinct from DPO; answers to CNCS |
+| **Hospitals** | Essential entities (Annex I, Sector 5 — DL 125/2025) |
+| **Universities** | Important entities (Annex II, Sector 7 — DL 125/2025) |
+| ***Privacy by Design*** | GDPR Art. 25 — privacy from conception, not added at the end |
+
+: Summary of Chapter 11 concepts. {#tbl-sintese-11}
+
+The medical informatics engineer has direct responsibility in three domains:
+
+- **By law (GDPR + NIS2):** health data processed only on an explicit legal
+  basis; audit logs maintained as evidence of compliance; encryption on all
+  connections; DPA contract with all data processors; Cybersecurity Officer
+  designated and registered with CNCS; incident notifications to CNCS within
+  the legal deadlines.
+- **By architecture:** data anonymised before leaving the hospital for research
+  purposes; consent verified by the server before serving any clinical resource;
+  audit of all accesses to clinical data.
+- **By process:** DPIA (*Data Protection Impact Assessment*) before new systems
+  processing health data; DPO involved in architecture decisions; notification
+  of breaches to the CNPD within 72 hours (GDPR Article 33); training for all
+  staff with access to clinical data.
+
+## Suggested Exercises {#sec-11-exercicios .unnumbered}
+
+**1.** A hospital research department wishes to share clinical records with a
+university for training a sepsis detection model.
+
+(a) Which GDPR article establishes that health data are a special category and
+    what type of legal basis is required for their processing?
+(b) The team removes only the patient's name and patient number from the records.
+    Argue technically why these data may not be genuinely anonymised, using the
+    concept of quasi-identifier.
+(c) Propose an anonymisation process that reduces the re-identification risk to
+    a reasonable level, specifying the techniques used and the attributes to which
+    each is applied.
+(d) After anonymisation, are the data subject to the GDPR? Justify with reference
+    to the regulation's articles.
+
+**2.** A hospital has a database of 10,000 patients with the following attributes:
+postal code (4 digits), age band (5 years), sex, and primary diagnosis.
+
+(a) Formally define the concept of k-anonymity and explain what it means to say
+    that this database satisfies 5-anonymity.
+(b) A quasi-identifier group has 7 records, all with the diagnosis "breast
+    neoplasm". The table satisfies 7-anonymity. What attack allows the diagnosis
+    of this group to be revealed without identifying the individual record?
+(c) What formal property was proposed by Machanavajjhala and colleagues to
+    mitigate this attack? Describe informally what it consists of.
+(d) The hospital applies generalisation and increases k from 5 to 10. What effect
+    does this operation have on the statistical utility of the data for research?
+
+**3.** A hospital suffers an unauthorised access to its medical imaging archive
+system during the night. The intruder accessed files belonging to 340 patients
+that had not been anonymised.
+
+(a) Under the GDPR, which article obliges the notification of this breach to the
+    CNPD? What is the deadline?
+(b) Must the CNCS also be notified? Under which legislation and which article?
+    Within what deadline?
+(c) The hospital had no access audit system implemented. What specific operational
+    difficulties does this absence create in responding to the incident and in
+    meeting the mandatory notification requirements?
+(d) The DPO and the Cybersecurity Officer have distinct roles in this incident.
+    Describe the specific responsibility of each.
+
+**4.** Consider the three re-identification cases studied in this chapter
+(Sweeney, Netflix, AOL).
+
+(a) Which attributes were used as quasi-identifiers in each case? Build a
+    comparative table.
+(b) All three cases involved data published as "anonymised". Would Recital 26
+    of the GDPR protect the data subjects in any of the cases? Justify.
+(c) Which anonymisation technique could have reduced the re-identification risk
+    in the Netflix case? And in the AOL case?
+(d) Genomic data present a different re-identification risk from behavioural data.
+    Explain the difference, with reference to the research by Gymrek et al. (2013)
+    and Erlich & Narayanan (2014).

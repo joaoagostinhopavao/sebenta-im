@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>11&nbsp; Privacy, Anonymisation and Health Data Governance – Medical Informatics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../references.html" rel="next">
+<link href="../capitulos/cap10.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a023c9ade86a60361e96e3e3f11bc54.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-61bc4ac84974e0785b3107ee93e74bfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bc9f1d3aef906c45e091843ae87821a0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../assets/css/custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap11.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Privacy, Anonymisation and Health Data Governance</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Medical Informatics</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Foundations of Medical Informatics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hospital Information Systems and Electronic Health Records</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologies and Semantic Interoperability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM as a Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">DICOM Services and PACS Architecture</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Message Model and Limitations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Web Architecture and REST</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">FHIR: Resource Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">FHIR: Inter-Hospital Interoperability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">IHE: Integration Profiles in Healthcare</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap11.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Privacy, Anonymisation and Health Data Governance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-11-intro" id="toc-sec-11-intro" class="nav-link active" data-scroll-target="#sec-11-intro">Introduction</a></li>
+  <li><a href="#sec-11-legal" id="toc-sec-11-legal" class="nav-link" data-scroll-target="#sec-11-legal"><span class="header-section-number">11.1</span> Legal Framework</a>
+  <ul class="collapse">
+  <li><a href="#sec-11-rgpd" id="toc-sec-11-rgpd" class="nav-link" data-scroll-target="#sec-11-rgpd"><span class="header-section-number">11.1.1</span> General Data Protection Regulation</a></li>
+  <li><a href="#sec-11-nis2" id="toc-sec-11-nis2" class="nav-link" data-scroll-target="#sec-11-nis2"><span class="header-section-number">11.1.2</span> Decree-Law No.&nbsp;125/2025 — NIS2 Regime</a></li>
+  </ul></li>
+  <li><a href="#sec-11-anonimizacao" id="toc-sec-11-anonimizacao" class="nav-link" data-scroll-target="#sec-11-anonimizacao"><span class="header-section-number">11.2</span> Anonymisation and the Risk of Re-identification</a>
+  <ul class="collapse">
+  <li><a href="#sec-11-anon-distinc" id="toc-sec-11-anon-distinc" class="nav-link" data-scroll-target="#sec-11-anon-distinc"><span class="header-section-number">11.2.1</span> Anonymisation, Pseudonymisation and Encryption</a></li>
+  <li><a href="#sec-11-reident" id="toc-sec-11-reident" class="nav-link" data-scroll-target="#sec-11-reident"><span class="header-section-number">11.2.2</span> The Risk of Re-identification</a></li>
+  <li><a href="#sec-11-k-anonimato" id="toc-sec-11-k-anonimato" class="nav-link" data-scroll-target="#sec-11-k-anonimato"><span class="header-section-number">11.2.3</span> k-Anonymity</a></li>
+  <li><a href="#sec-11-tecnicas" id="toc-sec-11-tecnicas" class="nav-link" data-scroll-target="#sec-11-tecnicas"><span class="header-section-number">11.2.4</span> Anonymisation Techniques</a></li>
+  <li><a href="#sec-11-sensibilidade" id="toc-sec-11-sensibilidade" class="nav-link" data-scroll-target="#sec-11-sensibilidade"><span class="header-section-number">11.2.5</span> Health Data — Why the Sensitivity is Different</a></li>
+  </ul></li>
+  <li><a href="#sec-11-normas" id="toc-sec-11-normas" class="nav-link" data-scroll-target="#sec-11-normas"><span class="header-section-number">11.3</span> Technical Privacy Standards in Clinical Environments</a></li>
+  <li><a href="#sec-11-pbd" id="toc-sec-11-pbd" class="nav-link" data-scroll-target="#sec-11-pbd"><span class="header-section-number">11.4</span> <em>Privacy by Design</em></a></li>
+  <li><a href="#sec-11-governanca" id="toc-sec-11-governanca" class="nav-link" data-scroll-target="#sec-11-governanca"><span class="header-section-number">11.5</span> Health Data Governance</a>
+  <ul class="collapse">
+  <li><a href="#sec-11-gov-papeis" id="toc-sec-11-gov-papeis" class="nav-link" data-scroll-target="#sec-11-gov-papeis"><span class="header-section-number">11.5.1</span> Roles and Responsibilities</a></li>
+  <li><a href="#sec-11-gov-autoridades" id="toc-sec-11-gov-autoridades" class="nav-link" data-scroll-target="#sec-11-gov-autoridades"><span class="header-section-number">11.5.2</span> Competent Authorities</a></li>
+  <li><a href="#sec-11-gov-nis2-obrig" id="toc-sec-11-gov-nis2-obrig" class="nav-link" data-scroll-target="#sec-11-gov-nis2-obrig"><span class="header-section-number">11.5.3</span> NIS2 Obligations for Hospitals and Universities</a></li>
+  </ul></li>
+  <li><a href="#sec-11-sintese" id="toc-sec-11-sintese" class="nav-link" data-scroll-target="#sec-11-sintese">Summary</a></li>
+  <li><a href="#sec-11-exercicios" id="toc-sec-11-exercicios" class="nav-link" data-scroll-target="#sec-11-exercicios">Suggested Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Privacy, Anonymisation and Health Data Governance</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-11-intro" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-11-intro">Introduction</h2>
+<p>Clinical information systems handle the most sensitive category of data that exists: health data. Its circulation raises questions that go beyond engineering — <em>under what right</em>, <em>under what conditions</em>, and <em>with what guarantees for the patient</em>?</p>
+<p>The answer to these questions rests on two complementary legal instruments: the General Data Protection Regulation <span class="citation" data-cites="RGPD2016">(<a href="../references.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span> and Decree-Law No.&nbsp;125/2025 <span class="citation" data-cites="DL125_2025">(<a href="../references.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>)</span>, which transposes the NIS2 Directive <span class="citation" data-cites="NIS2Dir2022">(<a href="../references.html#ref-NIS2Dir2022" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2022</a>)</span> into Portuguese law. Beyond the legal framework, this chapter covers the anonymisation mechanisms that make it possible to use clinical data for research, the principles of <em>Privacy by Design</em>, and the institutional governance that articulates the obligations of both regimes.</p>
+</section>
+<section id="sec-11-legal" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="sec-11-legal"><span class="header-section-number">11.1</span> Legal Framework</h2>
+<section id="sec-11-rgpd" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="sec-11-rgpd"><span class="header-section-number">11.1.1</span> General Data Protection Regulation</h3>
+<p>The GDPR <span class="citation" data-cites="RGPD2016">(<a href="../references.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span> defines in Article 4 the concept of <em>personal data</em> as “any information relating to an identified or identifiable natural person”. Health data are treated as a <em>special category</em> (Article 9), subject to a more restrictive regime: their processing is prohibited by default, only being permitted on an explicit legal basis — the data subject’s consent, vital interests, health care, scientific research with adequate safeguards, or another basis recognised by European or national law.</p>
+<p>The GDPR distinguishes two fundamental roles in the chain of responsibility:</p>
+<div id="tbl-rgpd-papeis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rgpd-papeis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.1: Roles of responsibility under the GDPR <span class="citation" data-cites="RGPD2016">(<a href="../references.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-rgpd-papeis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 47%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Role</th>
+<th style="text-align: left;">Definition (Art. 4)</th>
+<th style="text-align: left;">Hospital example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Data Controller</strong></td>
+<td style="text-align: left;">The entity that determines the purposes and means of processing</td>
+<td style="text-align: left;">The hospital</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Data Processor</strong></td>
+<td style="text-align: left;">The entity that processes data on behalf of the controller</td>
+<td style="text-align: left;">PACS vendor, cloud provider</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Legal responsibility rests with the <em>data controller</em> even when the actual processing is carried out by a data processor. The contract between them — the Data Processing Agreement (DPA) — is mandatory and must specify the purposes, the categories of data processed, the required security measures, and the conditions for data deletion (Article 28 GDPR).</p>
+<p>The <strong>DPO</strong> (<em>Data Protection Officer</em>, Article 37) is mandatory for entities that process health data on a large scale, notably hospitals. The DPO monitors compliance, advises the controller, and serves as a point of contact with the national supervisory authority — the CNPD (<em>Comissão Nacional de Protecção de Dados</em>, Portugal’s Data Protection Authority). Articles 30 (records of processing activities) and 32 (technical security measures) have direct architectural implications for clinical systems: every access to clinical data must be logged and every connection between systems must be encrypted.</p>
+</section>
+<section id="sec-11-nis2" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="sec-11-nis2"><span class="header-section-number">11.1.2</span> Decree-Law No.&nbsp;125/2025 — NIS2 Regime</h3>
+<p>In force since 3 April 2026, Decree-Law No.&nbsp;125/2025 <span class="citation" data-cites="DL125_2025">(<a href="../references.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>)</span> transposes the NIS2 Directive <span class="citation" data-cites="NIS2Dir2022">(<a href="../references.html#ref-NIS2Dir2022" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2022</a>)</span> into Portuguese law, revoking Law No. 46/2018. This legislation creates a second legal regime running in parallel with the GDPR, focused exclusively on the security of networks and information systems.</p>
+<p>DL 125/2025 classifies covered entities based on the sectors listed in Annexes I and II:</p>
+<div id="tbl-nis2-classif" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nis2-classif-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.2: Classification of hospital and academic entities under DL 125/2025 <span class="citation" data-cites="DL125_2025">(<a href="../references.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-nis2-classif-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Classification</th>
+<th style="text-align: left;">Sector</th>
+<th style="text-align: left;">Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Essential entity</strong> (Annex I)</td>
+<td style="text-align: left;">Sector 5 — Health</td>
+<td style="text-align: left;">Hospitals; healthcare providers</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Important entity</strong> (Annex II)</td>
+<td style="text-align: left;">Sector 7 — Research</td>
+<td style="text-align: left;">Research organisations; universities</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The distinction has direct implications for fines: for essential entities, the most serious infringements can reach € 10,000,000 or 2% of annual worldwide turnover; for important entities, the limit is € 7,000,000 or 1.4% (Article 61).</p>
+<p>The main obligations introduced by DL 125/2025 include:</p>
+<ul>
+<li><strong>Cybersecurity measures</strong> (Article 27): risk management policies, operational continuity, supply chain security, cryptography, multi-factor authentication, and training.</li>
+<li><strong>Cybersecurity Officer</strong> (Article 31): mandatory designation, distinct from the DPO — the DPO answers to the GDPR and the CNPD; the Cybersecurity Officer answers to NIS2 and the CNCS (<em>Centro Nacional de Cibersegurança</em>, Portugal’s National Cybersecurity Centre).</li>
+<li><strong>Registration with CNCS</strong> (Article 35): within 60 days of qualification.</li>
+<li><strong>Annual cybersecurity report</strong> (Article 30): submitted to CNCS by the last working day of January.</li>
+<li><strong>Incident notification</strong> (Articles 40–44): initial alert to CNCS within 24 hours, update within 72 hours, final report within 30 working days.</li>
+</ul>
+<p>Article 79 establishes a coordination mechanism between the CNCS and the CNPD: when an infringement of cybersecurity obligations simultaneously constitutes a personal data breach, the CNCS notifies the CNPD. The two regimes are complementary — the same audit architecture serves both.</p>
+</section>
+</section>
+<section id="sec-11-anonimizacao" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="sec-11-anonimizacao"><span class="header-section-number">11.2</span> Anonymisation and the Risk of Re-identification</h2>
+<section id="sec-11-anon-distinc" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="sec-11-anon-distinc"><span class="header-section-number">11.2.1</span> Anonymisation, Pseudonymisation and Encryption</h3>
+<p>The GDPR distinguishes three concepts that are frequently confused in practice:</p>
+<p><strong>Anonymisation</strong> is the irreversible transformation that prevents the identification of the data subject. Recital 26 of the GDPR — one of the introductory paragraphs that guide the interpretation of the articles — establishes that genuinely anonymised data are not personal data and fall outside the scope of the regulation. The criterion is demanding: it is not sufficient that the controller cannot reverse the process — it is necessary that no third party, using reasonably available means, could do so either.</p>
+<p><strong>Pseudonymisation</strong> (Article 4(5)) is the replacement of direct identifiers with a pseudonym, whilst retaining a correspondence key stored separately. Pseudonymised data <em>remain personal data</em>: anyone with access to the key can re-identify the data subject. Pseudonymisation is recognised by the GDPR as a security measure that reduces risk (Article 32), but does not eliminate legal obligations.</p>
+<p><strong>Encryption</strong> transforms data into an unreadable format without the decryption key. It is not anonymisation: encrypted data remain personal data — anyone with the key can recover them. Encryption is a mandatory security measure for data in transit and strongly recommended for data at rest.</p>
+<div id="tbl-anon-rgpd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-anon-rgpd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.3: Scope of the GDPR according to data type <span class="citation" data-cites="RGPD2016">(<a href="../references.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-anon-rgpd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Technique</th>
+<th style="text-align: left;">Personal data?</th>
+<th style="text-align: left;">GDPR applies?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Identifiable data</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pseudonymised data</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Encrypted data</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Anonymised data</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">No (Recital 26)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-11-reident" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="sec-11-reident"><span class="header-section-number">11.2.2</span> The Risk of Re-identification</h3>
+<p>The principal reason why genuine anonymisation is difficult to guarantee is the risk of re-identification through <em>attribute linkage</em>. Even without a name or identification number, the combination of apparently innocuous attributes can uniquely single out an individual. Three real-world cases illustrate this risk.</p>
+<p><strong>The Sweeney study (2000)</strong> is the founding reference for this phenomenon. Latanya Sweeney analysed health data from the state of Massachusetts, published as “anonymised” with names and addresses removed, and found that 87% of Americans could be uniquely identified using only three attributes: postal code, date of birth, and sex <span class="citation" data-cites="Sweeney2000">(<a href="../references.html#ref-Sweeney2000" role="doc-biblioref">Sweeney, 2000</a>)</span>. The demonstration was unequivocal: Sweeney cross-referenced the health file with publicly registered voter rolls and identified the state governor from his postal code, date of birth, and sex — information present in the “anonymised” data.</p>
+<p><strong>The Netflix case (2006–2008)</strong> extended this vulnerability to behavioural data. In 2006, Netflix published 100 million film ratings from 480,000 users, replacing names with numerical identifiers, for a competition to improve its recommendation algorithm. In 2008, Narayanan and Shmatikov demonstrated that these data were vulnerable to re-identification <span class="citation" data-cites="NarayananShmatikov2008">(<a href="../references.html#ref-NarayananShmatikov2008" role="doc-biblioref">Narayanan &amp; Shmatikov, 2008</a>)</span>. The method involved cross-referencing the anonymous ratings with public ratings from the same user on IMDb: just 8 ratings with approximate dates (a margin of two days) were sufficient to identify a user with a probability greater than 99%. Netflix was taken to court and cancelled the second Netflix Prize competition (for film recommendations). The study demonstrated that the re-identification of sparse datasets is computationally feasible even without access to the pseudonymisation key.</p>
+<p><strong>The AOL Search case (2006)</strong> illustrated the same vulnerability in textual data. In August 2006, AOL released 20 million searches from 658,000 users over three months, with names replaced by numerical IDs. Days later, the <em>New York Times</em> identified user no. 4417749 through the content of her searches: chronic diseases, family members’ names, location, and personal preferences <span class="citation" data-cites="BarbaroZeller2006">(<a href="../references.html#ref-BarbaroZeller2006" role="doc-biblioref">Barbaro &amp; Zeller, 2006</a>)</span>. The user, a 62-year-old woman from Georgia, had not made a single search with her own name — but the totality of her searches was, in practice, a unique fingerprint. AOL dismissed those responsible for the release and the case prompted specific legislation in the United States.</p>
+<p>In a clinical context, the risk is amplified. Health data have far more attributes than behavioural data: diagnoses (including rare diseases), admission dates, attending physician, medication combinations, laboratory results, and medical images. A rare disease can, in itself, be identifying in a given geographical area.</p>
+</section>
+<section id="sec-11-k-anonimato" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="sec-11-k-anonimato"><span class="header-section-number">11.2.3</span> k-Anonymity</h3>
+<p><em>k-Anonymity</em> is the most widely used formal model for quantifying and controlling the risk of re-identification through attribute linkage. It was defined by Sweeney in 2002 <span class="citation" data-cites="Sweeney2002">(<a href="../references.html#ref-Sweeney2002" role="doc-biblioref">Sweeney, 2002</a>)</span>:</p>
+<blockquote class="blockquote">
+<p>A dataset satisfies <em>k-anonymity</em> if, for every combination of values of the <em>quasi-identifier</em> attributes, there are at least <em>k</em> records with that same combination — making each individual indistinguishable from at least <em>k</em> − 1 others.</p>
+</blockquote>
+<p><strong>Quasi-identifier attributes</strong> are those that, individually, do not identify the data subject, but that combined can single them out. In the clinical context, typical quasi-identifiers are: postal code, date of birth, sex, ethnicity, and type of admission. Directly identifying attributes (name, patient number) are usually suppressed in a first step — k-anonymity handles those that remain.</p>
+<p>To illustrate, consider a hospital table with 8 records:</p>
+<div id="tbl-kanon-original" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-kanon-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.4: Example of a hospital table without k-anonymity.
+</figcaption>
+<div aria-describedby="tbl-kanon-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Postal code</th>
+<th style="text-align: left;">Age</th>
+<th style="text-align: left;">Sex</th>
+<th style="text-align: left;">Diagnosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">5000-xxx</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Pneumonia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5000-xxx</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Bronchitis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4200-xxx</td>
+<td style="text-align: left;">45</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Diabetes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4200-xxx</td>
+<td style="text-align: left;">45</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Hypertension</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4200-xxx</td>
+<td style="text-align: left;">45</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Renal disease</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3800-xxx</td>
+<td style="text-align: left;">67</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Oncology</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3800-xxx</td>
+<td style="text-align: left;">67</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Cardiac disease</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1600-xxx</td>
+<td style="text-align: left;">31</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Arthritis</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The record <code>1600-xxx / 31 / F</code> is unique (k = 1): anyone who knows this patient’s postal code, age, and sex can immediately identify them and learn their diagnosis. To achieve 2-anonymity, it would be necessary to generalise the quasi-identifiers of the problematic records — for example, broadening the postal code to the first two digits or generalising the age to an age band. This tension between <em>utility</em> (the value of data for research) and <em>privacy</em> (protection of the data subject) is the central problem of anonymisation.</p>
+<p><strong>Limitations of k-anonymity.</strong> k-Anonymity protects against linkage attacks, but not against <em>homogeneity attacks</em>: if within a group of <em>k</em> records all values of the sensitive attribute (the diagnosis) are identical, an attacker who knows that their target belongs to the group learns the diagnosis without needing to identify the individual record. To address this problem, Machanavajjhala and colleagues proposed <em>l-diversity</em> in 2007 <span class="citation" data-cites="Machanavajjhala2007">(<a href="../references.html#ref-Machanavajjhala2007" role="doc-biblioref">Machanavajjhala et al., 2007</a>)</span>: a dataset satisfies <em>l-diversity</em> if, within each quasi-identifier group, the sensitive attribute takes at least <em>l</em> well-represented values — preventing the group from being homogeneous with respect to sensitive information.</p>
+</section>
+<section id="sec-11-tecnicas" class="level3" data-number="11.2.4">
+<h3 data-number="11.2.4" class="anchored" data-anchor-id="sec-11-tecnicas"><span class="header-section-number">11.2.4</span> Anonymisation Techniques</h3>
+<p>The data privacy literature <span class="citation" data-cites="ElEmamArbuckle2013 ENISA2019pseudo">(<a href="../references.html#ref-ElEmamArbuckle2013" role="doc-biblioref">El Emam &amp; Arbuckle, 2013</a>; <a href="../references.html#ref-ENISA2019pseudo" role="doc-biblioref">European Union Agency for Cybersecurity (ENISA), 2019</a>)</span> identifies six main techniques, each with different characteristics and trade-offs:</p>
+<p><strong>Suppression</strong> is the complete removal of an attribute or record. It is typically applied to direct identifiers (name, patient record number, address) before any other processing.</p>
+<p><strong>Generalisation</strong> replaces a specific value with a less precise value belonging to a broader category. It is the central mechanism of k-anonymity: an exact postal code becomes a region; an exact date of birth becomes an age band; a rare diagnosis is mapped to its more general nosological category.</p>
+<p><strong>Perturbation</strong> (or noise addition) introduces controlled statistical variations: dates are shifted by a random number of days; numerical values receive a random increment within a defined interval. Perturbation belongs to the family of <em>differential privacy</em>, which formally guarantees that the presence or absence of a specific individual has negligible impact on published statistics.</p>
+<p><strong>Pseudonymisation</strong> replaces direct identifiers with synthetic identifiers, retaining a correspondence table stored separately with strict access controls. The data remain personal data, but the technique is useful in longitudinal studies where it is necessary to track the same individual over time without exposing their identity to all participants.</p>
+<p><strong>Synthesis</strong> produces a new artificial dataset with the same statistical properties as the original, without any direct correspondence to real records. Techniques such as Generative Adversarial Networks (<em>GANs</em>) are used to generate synthetic clinical data for training machine learning models, eliminating the source risk.</p>
+<p><strong>Aggregation</strong> publishes only statistics computed over groups of records — means, distributions, counts — without exposing individual data. It is the technique with the lowest residual re-identification risk, but also the one that imposes the greatest loss of utility for detailed research.</p>
+<div id="tbl-tecnicas-anon" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tecnicas-anon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.5: Comparison of anonymisation techniques <span class="citation" data-cites="ElEmamArbuckle2013 ENISA2019pseudo">(<a href="../references.html#ref-ElEmamArbuckle2013" role="doc-biblioref">El Emam &amp; Arbuckle, 2013</a>; <a href="../references.html#ref-ENISA2019pseudo" role="doc-biblioref">European Union Agency for Cybersecurity (ENISA), 2019</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-tecnicas-anon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Technique</th>
+<th style="text-align: left;">Reversible?</th>
+<th style="text-align: left;">Utility loss</th>
+<th style="text-align: left;">Typical use case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Suppression</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Direct identifiers</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Generalisation</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">k-anonymity in research</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Perturbation</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Low–Medium</td>
+<td style="text-align: left;">Model training</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pseudonymisation</td>
+<td style="text-align: left;">Yes (with key)</td>
+<td style="text-align: left;">Low</td>
+<td style="text-align: left;">Longitudinal studies</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Synthesis</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">Variable</td>
+<td style="text-align: left;">Clinical AI training</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Aggregation</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Very high</td>
+<td style="text-align: left;">Public health reports</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-11-sensibilidade" class="level3" data-number="11.2.5">
+<h3 data-number="11.2.5" class="anchored" data-anchor-id="sec-11-sensibilidade"><span class="header-section-number">11.2.5</span> Health Data — Why the Sensitivity is Different</h3>
+<p>Health data combine three properties that make them especially sensitive:</p>
+<p><strong>Diagnostic specificity</strong> stems from the rarity of certain conditions. Rare diseases have, by definition, few cases per geographical area — which makes the diagnosis itself identifying at a local level. The combination of three common diagnoses can be equally identifying in a given hospital.</p>
+<p><strong>Temporal persistence</strong> is a unique property of health data. A diagnosis from 1995 may still be sensitive in 2025 — or in 2045. Financial data expire, location data change, but health data remain relevant throughout the data subject’s lifetime and, in the case of genomic data, beyond it.</p>
+<p><strong>Social impact potential</strong> manifests as discrimination in employment (chronic, oncological, and mental health conditions) and exclusion from insurance products. In the case of genomic data, identification also compromises the privacy of biological relatives who never participated in the treatment: Gymrek and colleagues demonstrated in 2013 that DNA sequences from men can be linked to the family surname with high precision using publicly available genealogical databases <span class="citation" data-cites="Gymrek2013">(<a href="../references.html#ref-Gymrek2013" role="doc-biblioref">Gymrek et al., 2013</a>)</span>; Erlich and Narayanan established in 2014 that an individual can be genetically identified even within anonymised datasets, compromising the privacy of their relatives <span class="citation" data-cites="ErlichNarayanan2014">(<a href="../references.html#ref-ErlichNarayanan2014" role="doc-biblioref">Erlich &amp; Narayanan, 2014</a>)</span>.</p>
+</section>
+</section>
+<section id="sec-11-normas" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="sec-11-normas"><span class="header-section-number">11.3</span> Technical Privacy Standards in Clinical Environments</h2>
+<p>The legal framework is realised through four technical instruments used together by clinical systems:</p>
+<p><strong>DICOM file anonymisation.</strong> A DICOM file is not just an image — it is a container with hundreds of structured attributes that include the patient’s name, date of birth, referring physician, and institution name. The DICOM standard defines in Annex E of Part 3.15 a set of <em>Confidentiality Profiles</em> that specify, for each attribute, which action to apply (deletion, replacement with an empty value, or generation of a new identifier). There is also a specific risk — <em>burned-in text</em> — where the patient’s name is recorded directly onto the image pixels and escapes attribute-level processing.</p>
+<p><strong>FHIR Consent.</strong> The FHIR R4 <code>Consent</code> resource enables the patient’s consent to be represented in a <em>machine-readable</em> form — directly readable by the server, without human interpretation. The server automatically verifies, before serving any clinical resource, whether the requested access is covered by an active and valid consent, for which purposes and for how long.</p>
+<p><strong>SMART on FHIR.</strong> SMART on FHIR (<em>Substitutable Medical Apps, Reusable Technologies on FHIR</em>) defines how an application obtains authorisation to access FHIR data on behalf of a patient or healthcare professional <span class="citation" data-cites="MandelSMART2016 HL7_SMART2023">(<a href="../references.html#ref-HL7_SMART2023" role="doc-biblioref">HL7 International, 2023</a>; <a href="../references.html#ref-MandelSMART2016" role="doc-biblioref">Mandel et al., 2016</a>)</span>. It is built on the OAuth 2.0 protocol and adds granular authorisations by FHIR resource type and clinical purpose.</p>
+<p><strong>ATNA — Audit Trail as a Dual Legal Obligation.</strong> The IHE ATNA (<em>Audit Trail and Node Authentication</em>) profile <span class="citation" data-cites="IHE_ATNA2024">(<a href="../references.html#ref-IHE_ATNA2024" role="doc-biblioref">IHE International, 2024</a>)</span> logs every access to clinical data in a persistent audit trail. With DL 125/2025 in force, ATNA serves two regimes simultaneously: it implements the records of processing activities required by GDPR Article 30 and the security measures of Article 32; and it provides the documentary evidence needed to notify an incident to CNCS within the 24-hour deadline imposed by Article 40 of DL 125/2025. A hospital without an audit log may not have the capacity to reconstruct the timeline of an incident — compromising the mandatory notification.</p>
+</section>
+<section id="sec-11-pbd" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="sec-11-pbd"><span class="header-section-number">11.4</span> <em>Privacy by Design</em></h2>
+<p>The concept of <em>Privacy by Design</em> was formulated by Ann Cavoukian, Privacy Commissioner of Ontario, in the early 1990s, and systematised into seven principles <span class="citation" data-cites="Cavoukian2011">(<a href="../references.html#ref-Cavoukian2011" role="doc-biblioref">Cavoukian, 2011</a>)</span>. Article 25 of the GDPR converted these principles from best practice into a legal obligation.</p>
+<p><strong>1. Proactive, not reactive.</strong> Privacy is designed before problems occur. The privacy requirements — what data are needed, for how long, with what access controls — are defined before choosing the architecture, not after the system is in production.</p>
+<p><strong>2. Privacy as the default setting.</strong> The maximum level of privacy is the default state of the system. The patient need not do anything to protect their data — it is the system that must be explicitly configured to share.</p>
+<p><strong>3. Privacy embedded into design.</strong> Privacy is not a layer added at the end of development, but an integral part of the architecture. Access control verified directly by the clinical server is an example of embedded privacy; an external module that checks consent in a separate layer is the opposite pattern.</p>
+<p><strong>4. Full functionality.</strong> Privacy and functionality are not mutually exclusive. The data needed for research can be obtained with adequate anonymisation without compromising scientific utility; granular consent allows specific purposes to be authorised without blocking the entire system.</p>
+<p><strong>5. End-to-end security.</strong> Protection applies throughout the entire data lifecycle: from creation to archiving and deletion. Encryption in transit and at rest, and verified and documented secure deletion processes are the technical expressions of this principle.</p>
+<p><strong>6. Visibility and transparency.</strong> The patient knows what is done with their data. Audit logs must be accessible to the patient on request; data breaches must be notified in plain language (GDPR Article 34).</p>
+<p><strong>7. Respect for user privacy.</strong> The system is centred on the data subject’s needs. Granular consent, the right of access, rectification and erasure (GDPR Article 17), and an interface that allows the patient to manage their preferences are implementations of this principle.</p>
+</section>
+<section id="sec-11-governanca" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="sec-11-governanca"><span class="header-section-number">11.5</span> Health Data Governance</h2>
+<section id="sec-11-gov-papeis" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="sec-11-gov-papeis"><span class="header-section-number">11.5.1</span> Roles and Responsibilities</h3>
+<p>Health data governance articulates roles defined by the GDPR with the new roles introduced by DL 125/2025:</p>
+<div id="tbl-gov-papeis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-gov-papeis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.6: Governance roles — GDPR and DL 125/2025 <span class="citation" data-cites="RGPD2016 DL125_2025">(<a href="../references.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>; <a href="../references.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-gov-papeis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 29%">
+<col style="width: 43%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Role</th>
+<th style="text-align: left;">Regime</th>
+<th style="text-align: left;">Responsibility</th>
+<th style="text-align: left;">External interlocutor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Data Controller</strong></td>
+<td style="text-align: left;">GDPR Art. 4</td>
+<td style="text-align: left;">Defines purposes and means</td>
+<td style="text-align: left;">CNPD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Data Processor</strong></td>
+<td style="text-align: left;">GDPR Art. 4</td>
+<td style="text-align: left;">Processes data on behalf of controller</td>
+<td style="text-align: left;">Controller (via DPA)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>DPO</strong></td>
+<td style="text-align: left;">GDPR Art. 37</td>
+<td style="text-align: left;">Monitors GDPR compliance</td>
+<td style="text-align: left;">CNPD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Cybersecurity Officer</strong></td>
+<td style="text-align: left;">DL 125/2025 Art. 31</td>
+<td style="text-align: left;">Proposes NIS2 measures; signs annual report</td>
+<td style="text-align: left;">CNCS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Point of contact</strong></td>
+<td style="text-align: left;">DL 125/2025 Art. 32</td>
+<td style="text-align: left;">24/7 availability for incidents</td>
+<td style="text-align: left;">CNCS / CERT.PT</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The DPO answers to the CNPD within the scope of personal data protection; the Cybersecurity Officer answers to the CNCS within the scope of network and information security. A hospital must have both figures with non-overlapping functions — although they must collaborate when a cybersecurity incident simultaneously involves a personal data breach (Article 79 of DL 125/2025).</p>
+</section>
+<section id="sec-11-gov-autoridades" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="sec-11-gov-autoridades"><span class="header-section-number">11.5.2</span> Competent Authorities</h3>
+<p><strong>CNPD</strong> (<em>Comissão Nacional de Protecção de Dados</em>) is the national supervisory authority for the GDPR in Portugal. It may impose fines of up to € 20,000,000 or 4% of annual worldwide turnover. It receives notifications of personal data breaches within 72 hours (GDPR Article 33).</p>
+<p><strong>CNCS</strong> (<em>Centro Nacional de Cibersegurança</em>) is the competent authority for supervising DL 125/2025 in Portugal. It manages the register of essential and important entities, receives annual cybersecurity reports, and is the recipient of incident notifications. <strong>CERT.PT</strong> is integrated within the CNCS as the operational incident response team.</p>
+<p><strong>ENISA</strong> (<em>European Union Agency for Cybersecurity</em>) is the European reference agency for cybersecurity and publishes technical guidance <span class="citation" data-cites="ENISA2019pseudo">(<a href="../references.html#ref-ENISA2019pseudo" role="doc-biblioref">European Union Agency for Cybersecurity (ENISA), 2019</a>)</span>, coordinating the network of national CSIRTs of which CERT.PT is a member.</p>
+<p><strong>EDPB</strong> (<em>European Data Protection Board</em>) issues harmonised guidelines for the 27 Member States, binding on national authorities such as the CNPD.</p>
+</section>
+<section id="sec-11-gov-nis2-obrig" class="level3" data-number="11.5.3">
+<h3 data-number="11.5.3" class="anchored" data-anchor-id="sec-11-gov-nis2-obrig"><span class="header-section-number">11.5.3</span> NIS2 Obligations for Hospitals and Universities</h3>
+<div id="tbl-nis2-obrigacoes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nis2-obrigacoes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.7: NIS2 obligations and respective deadlines for hospitals (essential entities) <span class="citation" data-cites="DL125_2025">(<a href="../references.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-nis2-obrigacoes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Obligation</th>
+<th style="text-align: left;">Article</th>
+<th style="text-align: left;">Deadline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Registration with CNCS</td>
+<td style="text-align: left;">Art. 35</td>
+<td style="text-align: left;">60 days after qualification</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Designation of Cybersecurity Officer</td>
+<td style="text-align: left;">Art. 31</td>
+<td style="text-align: left;">20 working days</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Annual cybersecurity report</td>
+<td style="text-align: left;">Art. 30</td>
+<td style="text-align: left;">Last working day of January</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Initial incident alert</td>
+<td style="text-align: left;">Art. 40</td>
+<td style="text-align: left;">24 hours</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Incident update</td>
+<td style="text-align: left;">Art. 41</td>
+<td style="text-align: left;">72 hours</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Final incident report</td>
+<td style="text-align: left;">Art. 43</td>
+<td style="text-align: left;">30 working days</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-11-sintese" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-11-sintese">Summary</h2>
+<div id="tbl-sintese-11" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sintese-11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.8: Summary of Chapter 11 concepts.
+</figcaption>
+<div aria-describedby="tbl-sintese-11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Concept</th>
+<th style="text-align: left;">Key point</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Health data</strong></td>
+<td style="text-align: left;">Special category (GDPR Art. 9) — processing prohibited by default</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Anonymisation</strong></td>
+<td style="text-align: left;">Irreversible; outside the scope of the GDPR (Recital 26)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Pseudonymisation</strong></td>
+<td style="text-align: left;">Personal data — reduces risk but maintains GDPR obligations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>k-anonymity</strong></td>
+<td style="text-align: left;">Each record indistinguishable from at least k−1 others on quasi-identifiers</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>l-diversity</strong></td>
+<td style="text-align: left;">k-anonymity + diversity of sensitive values within each group</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>ATNA</strong></td>
+<td style="text-align: left;">Access audit = GDPR compliance (Art. 30+32) and NIS2 (Art. 27+40)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>DPO</strong></td>
+<td style="text-align: left;">Mandatory in hospitals — answers to GDPR before the CNPD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Cybersecurity Officer</strong></td>
+<td style="text-align: left;">Mandatory under DL 125/2025 — distinct from DPO; answers to CNCS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Hospitals</strong></td>
+<td style="text-align: left;">Essential entities (Annex I, Sector 5 — DL 125/2025)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Universities</strong></td>
+<td style="text-align: left;">Important entities (Annex II, Sector 7 — DL 125/2025)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong><em>Privacy by Design</em></strong></td>
+<td style="text-align: left;">GDPR Art. 25 — privacy from conception, not added at the end</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The medical informatics engineer has direct responsibility in three domains:</p>
+<ul>
+<li><strong>By law (GDPR + NIS2):</strong> health data processed only on an explicit legal basis; audit logs maintained as evidence of compliance; encryption on all connections; DPA contract with all data processors; Cybersecurity Officer designated and registered with CNCS; incident notifications to CNCS within the legal deadlines.</li>
+<li><strong>By architecture:</strong> data anonymised before leaving the hospital for research purposes; consent verified by the server before serving any clinical resource; audit of all accesses to clinical data.</li>
+<li><strong>By process:</strong> DPIA (<em>Data Protection Impact Assessment</em>) before new systems processing health data; DPO involved in architecture decisions; notification of breaches to the CNPD within 72 hours (GDPR Article 33); training for all staff with access to clinical data.</li>
+</ul>
+</section>
+<section id="sec-11-exercicios" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-11-exercicios">Suggested Exercises</h2>
+<p><strong>1.</strong> A hospital research department wishes to share clinical records with a university for training a sepsis detection model.</p>
+<ol type="a">
+<li>Which GDPR article establishes that health data are a special category and what type of legal basis is required for their processing?</li>
+<li>The team removes only the patient’s name and patient number from the records. Argue technically why these data may not be genuinely anonymised, using the concept of quasi-identifier.</li>
+<li>Propose an anonymisation process that reduces the re-identification risk to a reasonable level, specifying the techniques used and the attributes to which each is applied.</li>
+<li>After anonymisation, are the data subject to the GDPR? Justify with reference to the regulation’s articles.</li>
+</ol>
+<p><strong>2.</strong> A hospital has a database of 10,000 patients with the following attributes: postal code (4 digits), age band (5 years), sex, and primary diagnosis.</p>
+<ol type="a">
+<li>Formally define the concept of k-anonymity and explain what it means to say that this database satisfies 5-anonymity.</li>
+<li>A quasi-identifier group has 7 records, all with the diagnosis “breast neoplasm”. The table satisfies 7-anonymity. What attack allows the diagnosis of this group to be revealed without identifying the individual record?</li>
+<li>What formal property was proposed by Machanavajjhala and colleagues to mitigate this attack? Describe informally what it consists of.</li>
+<li>The hospital applies generalisation and increases k from 5 to 10. What effect does this operation have on the statistical utility of the data for research?</li>
+</ol>
+<p><strong>3.</strong> A hospital suffers an unauthorised access to its medical imaging archive system during the night. The intruder accessed files belonging to 340 patients that had not been anonymised.</p>
+<ol type="a">
+<li>Under the GDPR, which article obliges the notification of this breach to the CNPD? What is the deadline?</li>
+<li>Must the CNCS also be notified? Under which legislation and which article? Within what deadline?</li>
+<li>The hospital had no access audit system implemented. What specific operational difficulties does this absence create in responding to the incident and in meeting the mandatory notification requirements?</li>
+<li>The DPO and the Cybersecurity Officer have distinct roles in this incident. Describe the specific responsibility of each.</li>
+</ol>
+<p><strong>4.</strong> Consider the three re-identification cases studied in this chapter (Sweeney, Netflix, AOL).</p>
+<ol type="a">
+<li>Which attributes were used as quasi-identifiers in each case? Build a comparative table.</li>
+<li>All three cases involved data published as “anonymised”. Would Recital 26 of the GDPR protect the data subjects in any of the cases? Justify.</li>
+<li>Which anonymisation technique could have reduced the re-identification risk in the Netflix case? And in the AOL case?</li>
+<li>Genomic data present a different re-identification risk from behavioural data. Explain the difference, with reference to the research by Gymrek et al.&nbsp;(2013) and Erlich &amp; Narayanan (2014).</li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-BarbaroZeller2006" class="csl-entry" role="listitem">
+Barbaro, M., &amp; Zeller, T. (2006). A face is exposed for <span>AOL</span> searcher no. 4417749. <em>The New York Times</em>. <a href="https://www.nytimes.com/2006/08/09/technology/09aol.html">https://www.nytimes.com/2006/08/09/technology/09aol.html</a>
+</div>
+<div id="ref-Cavoukian2011" class="csl-entry" role="listitem">
+Cavoukian, A. (2011). <em>Privacy by design: The 7 foundational principles</em>. Information; Privacy Commissioner of Ontario. <a href="https://www.ipc.on.ca/wp-content/uploads/resources/7foundationalprinciples.pdf">https://www.ipc.on.ca/wp-content/uploads/resources/7foundationalprinciples.pdf</a>
+</div>
+<div id="ref-ElEmamArbuckle2013" class="csl-entry" role="listitem">
+El Emam, K., &amp; Arbuckle, L. (2013). <em>Anonymizing health data: Case studies and methods to get you started</em>. O’Reilly Media.
+</div>
+<div id="ref-ErlichNarayanan2014" class="csl-entry" role="listitem">
+Erlich, Y., &amp; Narayanan, A. (2014). Routes for breaching and protecting genetic privacy. <em>Nature Reviews Genetics</em>, <em>15</em>(6), 409–421. <a href="https://doi.org/10.1038/nrg3723">https://doi.org/10.1038/nrg3723</a>
+</div>
+<div id="ref-ENISA2019pseudo" class="csl-entry" role="listitem">
+European Union Agency for Cybersecurity (ENISA). (2019). <em>Pseudonymisation techniques and best practices</em>. ENISA. <a href="https://doi.org/10.2824/556345">https://doi.org/10.2824/556345</a>
+</div>
+<div id="ref-DL125_2025" class="csl-entry" role="listitem">
+Governo de Portugal. (2025). <em>Decreto-lei n.º 125/2025, de 4 de dezembro — transpõe a directiva (<span>UE</span>) 2022/2555 (<span>NIS2</span>), estabelece o regime jurídico da segurança do ciberespaço</em>. Diário da República n.º 234/2025, Série I, 4 de dezembro de 2025. <a href="https://dre.pt/dre/detalhe/decreto-lei/125-2025-907696596" class="uri">https://dre.pt/dre/detalhe/decreto-lei/125-2025-907696596</a>.
+</div>
+<div id="ref-Gymrek2013" class="csl-entry" role="listitem">
+Gymrek, M., McGuire, A. L., Golan, D., Halperin, E., &amp; Erlich, Y. (2013). Identifying personal genomes by surname inference. <em>Science</em>, <em>339</em>(6117), 321–324. <a href="https://doi.org/10.1126/science.1229566">https://doi.org/10.1126/science.1229566</a>
+</div>
+<div id="ref-HL7_SMART2023" class="csl-entry" role="listitem">
+HL7 International. (2023). <em><span>SMART</span> app launch implementation guide, release 2.1.0</em>. <a href="https://hl7.org/fhir/smart-app-launch/" class="uri">https://hl7.org/fhir/smart-app-launch/</a>.
+</div>
+<div id="ref-IHE_ATNA2024" class="csl-entry" role="listitem">
+IHE International. (2024). <em><span>IHE IT</span> infrastructure technical framework, volume 2: Transactions (<span>ITI TF-2</span>) — <span>ATNA</span> profile (<span>ITI-19</span>, <span>ITI-20</span>)</em>. Revision 23.0. <a href="https://profiles.ihe.net/ITI/TF/" class="uri">https://profiles.ihe.net/ITI/TF/</a>.
+</div>
+<div id="ref-Machanavajjhala2007" class="csl-entry" role="listitem">
+Machanavajjhala, A., Kifer, D., Gehrke, J., &amp; Venkitasubramaniam, M. (2007). L-diversity: Privacy beyond k-anonymity. <em>ACM Transactions on Knowledge Discovery from Data</em>, <em>1</em>(1), 3. <a href="https://doi.org/10.1145/1217299.1217302">https://doi.org/10.1145/1217299.1217302</a>
+</div>
+<div id="ref-MandelSMART2016" class="csl-entry" role="listitem">
+Mandel, J. C., Kreda, D. A., Mandl, K. D., Kohane, I. S., &amp; Ramoni, R. B. (2016). <span>SMART</span> on <span>FHIR</span>: A standards-based, interoperable apps platform for electronic health records. <em>Journal of the American Medical Informatics Association</em>, <em>23</em>(5), 899–908. <a href="https://doi.org/10.1093/jamia/ocv189">https://doi.org/10.1093/jamia/ocv189</a>
+</div>
+<div id="ref-NarayananShmatikov2008" class="csl-entry" role="listitem">
+Narayanan, A., &amp; Shmatikov, V. (2008). Robust de-anonymization of large sparse datasets. <em>Proceedings of the 2008 <span>IEEE</span> Symposium on Security and Privacy</em>, 111–125. <a href="https://doi.org/10.1109/SP.2008.33">https://doi.org/10.1109/SP.2008.33</a>
+</div>
+<div id="ref-RGPD2016" class="csl-entry" role="listitem">
+Parlamento Europeu e Conselho da União Europeia. (2016). <em>Regulamento (<span>UE</span>) 2016/679 do parlamento europeu e do conselho, de 27 de abril de 2016, relativo à protecção das pessoas singulares no que diz respeito ao tratamento de dados pessoais e à livre circulação desses dados (<span>RGPD</span>)</em>. Jornal Oficial da União Europeia, L 119, 4 de maio de 2016, pp. 1–88. <a href="https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX:32016R0679" class="uri">https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX:32016R0679</a>.
+</div>
+<div id="ref-NIS2Dir2022" class="csl-entry" role="listitem">
+Parlamento Europeu e Conselho da União Europeia. (2022). <em>Directiva (<span>UE</span>) 2022/2555 do parlamento europeu e do conselho, de 14 de dezembro de 2022, relativa a medidas destinadas a garantir um elevado nível comum de cibersegurança na união (<span>NIS2</span>)</em>. Jornal Oficial da União Europeia, L 333, 27 de dezembro de 2022, pp. 80–152. <a href="https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX:32022L2555" class="uri">https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX:32022L2555</a>.
+</div>
+<div id="ref-Sweeney2000" class="csl-entry" role="listitem">
+Sweeney, L. (2000). <em>Simple demographics often identify people uniquely</em> (Technical Report LIDAP-WP4). Carnegie Mellon University, Data Privacy Laboratory.
+</div>
+<div id="ref-Sweeney2002" class="csl-entry" role="listitem">
+Sweeney, L. (2002). K-anonymity: A model for protecting privacy. <em>International Journal of Uncertainty, Fuzziness and Knowledge-Based Systems</em>, <em>10</em>(5), 557–570. <a href="https://doi.org/10.1142/S0218488502001648">https://doi.org/10.1142/S0218488502001648</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/cap10.html" class="pagination-link" aria-label="IHE: Integration Profiles in Healthcare">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">IHE: Integration Profiles in Healthcare</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Medical Informatics — Master’s in Biomedical Engineering · UTAD</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><a href="https://joaoagostinhopavao.github.io/sebenta-im/">🇵🇹 Português</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
