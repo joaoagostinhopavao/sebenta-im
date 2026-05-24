@@ -4,19 +4,18 @@
 <div class="hero">
   <div class="hero-badge">UTAD · 2025/2026</div>
   <h1>Informática Médica</h1>
-  <h2>Sebenta da Unidade Curricular</h2>
-  <p>Mestrado em Engenharia Biomédica &nbsp;·&nbsp; 1.º Ano<br>
-     Universidade de Trás-os-Montes e Alto Douro</p>
+  <h2>Sebenta de estudo</h2>
+  <p>Universidade de Trás-os-Montes e Alto Douro</p>
 </div>
 ```
 
-Esta sebenta acompanha a unidade curricular de **Informática Médica** do
-Mestrado em Engenharia Biomédica da Universidade de Trás-os-Montes e Alto Douro.
+Esta sebenta é um documento de estudo autónomo para a disciplina de
+**Informática Médica**, cobrindo os principais temas de sistemas de informação
+em saúde, normas de interoperabilidade e arquitecturas de integração clínica.
 
 ## Organização da sebenta {.unnumbered}
 
-A sebenta está organizada em capítulos correspondentes aos blocos temáticos
-da unidade curricular:
+A sebenta está organizada em seis blocos temáticos:
 
 1. **Fundamentos e Contexto** — informática médica, sistemas de informação
    hospitalares e interoperabilidade

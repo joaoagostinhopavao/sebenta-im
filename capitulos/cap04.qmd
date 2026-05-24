@@ -1,5 +1,5 @@
 ---
-title: "DICOM e PACS"
+title: "DICOM como Data Model"
 lang: pt-PT
 ---
 
@@ -565,3 +565,4 @@ dados externa [@DICOM_PS310; @Pianykh2012].
 5. O preâmbulo de 128 bytes de um ficheiro DICOM está corrompido.
    Discuta o impacto desta corrupção na capacidade de um sistema
    conforme com PS3.10 de processar o ficheiro.
+

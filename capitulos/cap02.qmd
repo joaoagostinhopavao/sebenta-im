@@ -543,3 +543,4 @@ Retêm-se os seguintes pontos essenciais:
    cuidados (informacional, de gestão, relacional), um exemplo
    concreto de falha que poderia ocorrer na ausência de um EHR
    operacional.
+

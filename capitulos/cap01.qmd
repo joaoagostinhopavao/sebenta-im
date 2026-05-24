@@ -641,3 +641,4 @@ Retêm-se os seguintes pontos essenciais:
    continuidade → aumento do risco clínico*, identifique um cenário
    real ou plausível em que a falha de um sistema de informação
    hospitalar teve ou poderia ter consequências clínicas directas.
+

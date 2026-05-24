@@ -562,3 +562,4 @@ organizacional que as instituições devem avaliar e mitigar activamente.
 5. O campo *Data Set Type* de uma mensagem DIMSE tem o valor `0101h`.
    O que indica este valor ao receptor e qual o serviço DICOM que
    tipicamente gera mensagens com este valor?
+

@@ -1,0 +1,12 @@
+---
+title: "Privacidade, Anonimização e Governança de Dados em Saúde"
+lang: pt-PT
+---
+
+::: {.content-visible when-format="html"}
+{{< include _cap11-short.qmd >}}
+:::
+
+::: {.content-visible when-format="pdf"}
+{{< include _cap11-estendido.qmd >}}
+:::

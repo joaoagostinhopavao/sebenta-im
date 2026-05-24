@@ -646,3 +646,4 @@ Retêm-se os seguintes pontos essenciais:
    pneumonia bacteriana. Indique, para cada etapa do fluxo
    (registo clínico, laboratório, alta/faturação), qual a
    terminologia utilizada e qual o código correspondente.
+
