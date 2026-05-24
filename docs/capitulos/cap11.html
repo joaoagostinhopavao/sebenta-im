@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-PT" xml:lang="pt-PT"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>11&nbsp; Privacidade, Anonimização e Governança de Dados em Saúde – Informática Médica</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../referencias.html" rel="next">
+<link href="../capitulos/cap10.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9a023c9ade86a60361e96e3e3f11bc54.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-61bc4ac84974e0785b3107ee93e74bfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bc9f1d3aef906c45e091843ae87821a0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../assets/css/custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/cap11.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Privacidade, Anonimização e Governança de Dados em Saúde</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Informática Médica</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos da Informática Médica</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas de Informação Hospitalares e Registos Electrónicos de Saúde</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Terminologias e Interoperabilidade Semântica</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">DICOM como Data Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Serviços DICOM e Arquitectura PACS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">HL7 v2 — Modelo de Mensagens e Limitações</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Arquitectura Web e REST</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">FHIR: Modelo de Recursos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">FHIR: Interoperabilidade Inter-Hospitalar</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">IHE: Perfis de Integração em Saúde</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/cap11.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Privacidade, Anonimização e Governança de Dados em Saúde</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../referencias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#sec-11-intro" id="toc-sec-11-intro" class="nav-link active" data-scroll-target="#sec-11-intro">Introdução</a></li>
+  <li><a href="#sec-11-legal" id="toc-sec-11-legal" class="nav-link" data-scroll-target="#sec-11-legal"><span class="header-section-number">11.1</span> Enquadramento Legal</a>
+  <ul class="collapse">
+  <li><a href="#sec-11-rgpd" id="toc-sec-11-rgpd" class="nav-link" data-scroll-target="#sec-11-rgpd"><span class="header-section-number">11.1.1</span> Regulamento Geral sobre a Protecção de Dados</a></li>
+  <li><a href="#sec-11-nis2" id="toc-sec-11-nis2" class="nav-link" data-scroll-target="#sec-11-nis2"><span class="header-section-number">11.1.2</span> DL 125/2025 — Regime NIS2</a></li>
+  </ul></li>
+  <li><a href="#sec-11-anonimizacao" id="toc-sec-11-anonimizacao" class="nav-link" data-scroll-target="#sec-11-anonimizacao"><span class="header-section-number">11.2</span> Anonimização e o Risco de Reidentificação</a>
+  <ul class="collapse">
+  <li><a href="#sec-11-anon-distinc" id="toc-sec-11-anon-distinc" class="nav-link" data-scroll-target="#sec-11-anon-distinc"><span class="header-section-number">11.2.1</span> Anonimização, Pseudonimização e Encriptação</a></li>
+  <li><a href="#sec-11-reident" id="toc-sec-11-reident" class="nav-link" data-scroll-target="#sec-11-reident"><span class="header-section-number">11.2.2</span> O Risco de Reidentificação</a></li>
+  <li><a href="#sec-11-k-anonimato" id="toc-sec-11-k-anonimato" class="nav-link" data-scroll-target="#sec-11-k-anonimato"><span class="header-section-number">11.2.3</span> k-Anonimato</a></li>
+  <li><a href="#sec-11-tecnicas" id="toc-sec-11-tecnicas" class="nav-link" data-scroll-target="#sec-11-tecnicas"><span class="header-section-number">11.2.4</span> Técnicas de Anonimização</a></li>
+  <li><a href="#sec-11-sensibilidade" id="toc-sec-11-sensibilidade" class="nav-link" data-scroll-target="#sec-11-sensibilidade"><span class="header-section-number">11.2.5</span> Dados de Saúde — Por que a Sensibilidade é Diferente</a></li>
+  </ul></li>
+  <li><a href="#sec-11-dicom-anon" id="toc-sec-11-dicom-anon" class="nav-link" data-scroll-target="#sec-11-dicom-anon"><span class="header-section-number">11.3</span> Anonimização em DICOM</a>
+  <ul class="collapse">
+  <li><a href="#sec-11-dicom-tags" id="toc-sec-11-dicom-tags" class="nav-link" data-scroll-target="#sec-11-dicom-tags"><span class="header-section-number">11.3.1</span> Tags Sensíveis nos Ficheiros DICOM</a></li>
+  <li><a href="#sec-11-dicom-profiles" id="toc-sec-11-dicom-profiles" class="nav-link" data-scroll-target="#sec-11-dicom-profiles"><span class="header-section-number">11.3.2</span> DICOM Confidentiality Profiles — PS 3.15 Annex E</a></li>
+  <li><a href="#sec-11-dicom-pipeline" id="toc-sec-11-dicom-pipeline" class="nav-link" data-scroll-target="#sec-11-dicom-pipeline"><span class="header-section-number">11.3.3</span> Pipeline de Anonimização em Prática</a></li>
+  </ul></li>
+  <li><a href="#sec-11-fhir" id="toc-sec-11-fhir" class="nav-link" data-scroll-target="#sec-11-fhir"><span class="header-section-number">11.4</span> Consentimento e Autorização em FHIR</a>
+  <ul class="collapse">
+  <li><a href="#sec-11-fhir-consent" id="toc-sec-11-fhir-consent" class="nav-link" data-scroll-target="#sec-11-fhir-consent"><span class="header-section-number">11.4.1</span> FHIR Consent — Consentimento Estruturado</a></li>
+  <li><a href="#sec-11-smart" id="toc-sec-11-smart" class="nav-link" data-scroll-target="#sec-11-smart"><span class="header-section-number">11.4.2</span> SMART on FHIR — Autorização Granular</a></li>
+  </ul></li>
+  <li><a href="#sec-11-atna" id="toc-sec-11-atna" class="nav-link" data-scroll-target="#sec-11-atna"><span class="header-section-number">11.5</span> ATNA — Auditoria como Obrigação Legal Dupla</a>
+  <ul class="collapse">
+  <li><a href="#sec-11-atna-dual" id="toc-sec-11-atna-dual" class="nav-link" data-scroll-target="#sec-11-atna-dual"><span class="header-section-number">11.5.1</span> Dois Regimes, Uma Arquitectura</a></li>
+  <li><a href="#sec-11-atna-estrutura" id="toc-sec-11-atna-estrutura" class="nav-link" data-scroll-target="#sec-11-atna-estrutura"><span class="header-section-number">11.5.2</span> Estrutura de uma Entrada de Auditoria ATNA</a></li>
+  <li><a href="#sec-11-atna-tls" id="toc-sec-11-atna-tls" class="nav-link" data-scroll-target="#sec-11-atna-tls"><span class="header-section-number">11.5.3</span> Autenticação de Nó (<em>Node Authentication</em>)</a></li>
+  <li><a href="#sec-11-atna-consent" id="toc-sec-11-atna-consent" class="nav-link" data-scroll-target="#sec-11-atna-consent"><span class="header-section-number">11.5.4</span> <code>Consent</code> + ATNA — Prova de Conformidade</a></li>
+  </ul></li>
+  <li><a href="#sec-11-pbd" id="toc-sec-11-pbd" class="nav-link" data-scroll-target="#sec-11-pbd"><span class="header-section-number">11.6</span> <em>Privacy by Design</em></a>
+  <ul class="collapse">
+  <li><a href="#sec-11-pbd-principios" id="toc-sec-11-pbd-principios" class="nav-link" data-scroll-target="#sec-11-pbd-principios"><span class="header-section-number">11.6.1</span> Os Sete Princípios de Cavoukian</a></li>
+  </ul></li>
+  <li><a href="#sec-11-governanca" id="toc-sec-11-governanca" class="nav-link" data-scroll-target="#sec-11-governanca"><span class="header-section-number">11.7</span> Governança de Dados em Saúde</a>
+  <ul class="collapse">
+  <li><a href="#sec-11-gov-papeis" id="toc-sec-11-gov-papeis" class="nav-link" data-scroll-target="#sec-11-gov-papeis"><span class="header-section-number">11.7.1</span> Papéis e Responsabilidades</a></li>
+  <li><a href="#sec-11-gov-autoridades" id="toc-sec-11-gov-autoridades" class="nav-link" data-scroll-target="#sec-11-gov-autoridades"><span class="header-section-number">11.7.2</span> Autoridades Competentes</a></li>
+  <li><a href="#sec-11-gov-nis2-obrig" id="toc-sec-11-gov-nis2-obrig" class="nav-link" data-scroll-target="#sec-11-gov-nis2-obrig"><span class="header-section-number">11.7.3</span> Obrigações NIS2 para Hospitais e Universidades</a></li>
+  </ul></li>
+  <li><a href="#sec-11-cenario" id="toc-sec-11-cenario" class="nav-link" data-scroll-target="#sec-11-cenario"><span class="header-section-number">11.8</span> Cenário Integrado — Privacidade no Fluxo Clínico</a></li>
+  <li><a href="#sec-11-sintese" id="toc-sec-11-sintese" class="nav-link" data-scroll-target="#sec-11-sintese">Síntese</a></li>
+  <li><a href="#sec-11-exercicios" id="toc-sec-11-exercicios" class="nav-link" data-scroll-target="#sec-11-exercicios">Exercícios Propostos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Privacidade, Anonimização e Governança de Dados em Saúde</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-11-intro" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-11-intro">Introdução</h2>
+<p>O capítulo anterior mostrou como o IHE coordena a troca de documentos entre instituições: o XDS.b organiza a publicação e a recuperação, o PIX e o PDQ gerem a identidade do paciente, e o ATNA regista cada acesso numa trilha de auditoria. Esse conjunto resolve o problema <em>como trocar</em> — mas não responde a uma questão anterior: <em>com que direito</em>, <em>em que condições</em>, e <em>com que garantias para o doente</em>.</p>
+<p>A resposta a essa questão é o território deste capítulo. Os sistemas de informação clínica tratam a categoria de dados mais sensível que existe: dados de saúde. A sua circulação é regulada por um quadro legal que combina o Regulamento Geral sobre a Protecção de Dados <span class="citation" data-cites="RGPD2016">(<a href="../referencias.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span> com o novo regime de cibersegurança introduzido pelo Decreto-Lei n.º 125/2025 <span class="citation" data-cites="DL125_2025">(<a href="../referencias.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>)</span>, que transpõe a Directiva NIS2 <span class="citation" data-cites="NIS2Dir2022">(<a href="../referencias.html#ref-NIS2Dir2022" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2022</a>)</span> para o direito português. Estes dois instrumentos legais criam obrigações distintas e complementares que recaem directamente sobre quem concebe e opera sistemas de informação em saúde.</p>
+<p>Para além do enquadramento legal, este capítulo aprofunda os mecanismos técnicos que permitem cumprir essas obrigações: anonimização de registos clínicos e de ficheiros DICOM, consentimento estruturado em <code>FHIR</code>, autorização granular via SMART on FHIR, e auditoria de acessos com ATNA. A narrativa termina com um cenário integrado que mostra como todos estes mecanismos cooperam num fluxo clínico real.</p>
+</section>
+<section id="sec-11-legal" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="sec-11-legal"><span class="header-section-number">11.1</span> Enquadramento Legal</h2>
+<section id="sec-11-rgpd" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="sec-11-rgpd"><span class="header-section-number">11.1.1</span> Regulamento Geral sobre a Protecção de Dados</h3>
+<p>O RGPD <span class="citation" data-cites="RGPD2016">(<a href="../referencias.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span> define no seu Artigo 4.º o conceito de <em>dado pessoal</em> como “qualquer informação relativa a uma pessoa singular identificada ou identificável”. A pessoa é <em>identificável</em> quando pode ser individualizada, directa ou indirectamente, por referência a um nome, número de identificação, dados de localização, identificadores <em>online</em> ou a um ou mais factores específicos da sua identidade física, fisiológica, genética, mental, económica, cultural ou social.</p>
+<p>Os dados de saúde são tratados pelo RGPD como uma <em>categoria especial</em> (Artigo 9.º), sujeita a um regime mais restritivo: o seu tratamento é proibido por defeito, só sendo permitido com base jurídica explícita — consentimento do titular, interesse vital, cuidados de saúde, investigação científica com salvaguardas adequadas, ou outro fundamento reconhecido pelo direito europeu ou nacional. O médico que abre o processo electrónico de um doente, o engenheiro que constrói o sistema que o alberga, e a instituição que o opera estão todos abrangidos por este quadro.</p>
+<p>O RGPD distingue dois papéis fundamentais na cadeia de responsabilidade:</p>
+<div id="tbl-rgpd-papeis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rgpd-papeis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.1: Papéis de responsabilidade no RGPD <span class="citation" data-cites="RGPD2016">(<a href="../referencias.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-rgpd-papeis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 44%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Papel</th>
+<th style="text-align: left;">Definição (Art. 4.º)</th>
+<th style="text-align: left;">Exemplo hospitalar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Responsável pelo tratamento</strong></td>
+<td style="text-align: left;">A entidade que determina as finalidades e os meios do tratamento</td>
+<td style="text-align: left;">O hospital / ULSTMAD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Subcontratante</strong></td>
+<td style="text-align: left;">A entidade que trata dados em nome do responsável</td>
+<td style="text-align: left;">Fornecedor do PACS, empresa de <em>cloud</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A responsabilidade legal recai sobre o <em>responsável pelo tratamento</em> mesmo quando o processamento efectivo é feito por um subcontratante. O contrato entre ambos — o Acordo de Subcontratação de Dados (<em>Data Processing Agreement</em>) — é obrigatório e deve especificar as finalidades, as categorias de dados tratados, as medidas de segurança exigidas, e as condições de eliminação dos dados no final da relação contratual (Artigo 28.º RGPD).</p>
+<p>O <strong>DPO</strong> (<em>Data Protection Officer</em>, Artigo 37.º) é obrigatório para entidades que tratam dados de saúde em grande escala, designadamente hospitais e grandes instituições de saúde pública. O DPO monitoriza a conformidade, assessora o responsável, e serve de ponto de contacto com a autoridade supervisora nacional — a CNPD, Comissão Nacional de Protecção de Dados.</p>
+<p>Dois artigos do RGPD têm tradução arquitectural directa nos sistemas de informação clínica:</p>
+<ul>
+<li><strong>Artigo 30.º</strong> — O responsável pelo tratamento deve manter um registo das actividades de tratamento, com as categorias de titulares, as finalidades, os destinatários e os prazos de conservação dos dados.</li>
+<li><strong>Artigo 32.º</strong> — O responsável deve implementar medidas técnicas adequadas para garantir a confidencialidade, a integridade, a disponibilidade e a resiliência dos sistemas.</li>
+</ul>
+<p>O ATNA (ver <a href="#sec-11-atna" class="quarto-xref"><span>Seção 11.5</span></a>) é a implementação técnica destes dois artigos: cada acesso a dados clínicos gera uma entrada de auditoria que constitui a evidência de que o sistema cumpre ambas as obrigações.</p>
+</section>
+<section id="sec-11-nis2" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="sec-11-nis2"><span class="header-section-number">11.1.2</span> DL 125/2025 — Regime NIS2</h3>
+<p>Em vigor desde 3 de abril de 2026, o Decreto-Lei n.º 125/2025 <span class="citation" data-cites="DL125_2025">(<a href="../referencias.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>)</span> transpõe para o direito português a Directiva NIS2 <span class="citation" data-cites="NIS2Dir2022">(<a href="../referencias.html#ref-NIS2Dir2022" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2022</a>)</span> — <em>Network and Information Security</em> — e revoga a Lei n.º 46/2018 (o anterior regime NIS1). Este diploma cria um segundo regime legal paralelo ao RGPD, com foco exclusivo na segurança de redes e sistemas de informação.</p>
+<p>O DL 125/2025 classifica as entidades abrangidas em dois grupos com base nos sectores listados nos Anexos I e II:</p>
+<div id="tbl-nis2-classif" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nis2-classif-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.2: Classificação de entidades hospitalares e académicas no DL 125/2025 <span class="citation" data-cites="DL125_2025">(<a href="../referencias.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-nis2-classif-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Classificação</th>
+<th style="text-align: left;">Sector</th>
+<th style="text-align: left;">Exemplos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Entidade essencial</strong> (Anexo I)</td>
+<td style="text-align: left;">Sector 5 — Saúde</td>
+<td style="text-align: left;">Hospitais; prestadores de cuidados de saúde</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Entidade importante</strong> (Anexo II)</td>
+<td style="text-align: left;">Sector 7 — Investigação</td>
+<td style="text-align: left;">Organismos de investigação; universidades</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A distinção entre essencial e importante tem implicações directas no regime de coimas: para entidades essenciais, as contraordenações muito graves podem atingir € 10 000 000 ou 2% do volume de negócios anual a nível mundial (o que for mais elevado); para entidades importantes, o limite é € 7 000 000 ou 1,4% (Artigo 61.º do DL 125/2025).</p>
+<p>As obrigações de cibersegurança introduzidas pelo DL 125/2025 incluem, entre outras:</p>
+<ul>
+<li><strong>Medidas de cibersegurança</strong> (Artigo 27.º): implementação de políticas de gestão de risco, continuidade operacional, segurança da cadeia de fornecimento, criptografia, autenticação multifactor e formação.</li>
+<li><strong>Responsável de cibersegurança</strong> (Artigo 31.º): designação obrigatória de um responsável que deve ser comunicado ao CNCS (Centro Nacional de Cibersegurança) no prazo de 20 dias úteis. Este papel é distinto do DPO — o DPO responde ao RGPD, o responsável de cibersegurança responde à NIS2.</li>
+<li><strong>Registo no CNCS</strong> (Artigo 35.º): a entidade deve registar-se na plataforma electrónica do CNCS no prazo de 60 dias após qualificação.</li>
+<li><strong>Relatório anual de cibersegurança</strong> (Artigo 30.º): entregue ao CNCS até ao último dia útil de Janeiro.</li>
+<li><strong>Notificação de incidentes</strong> (Artigos 40.º a 44.º): alerta inicial ao CNCS em 24 horas, actualização em 72 horas, relatório final em 30 dias úteis.</li>
+</ul>
+<p>O Artigo 79.º do DL 125/2025 estabelece um mecanismo de coordenação entre o CNCS e a CNPD: sempre que uma infracção às obrigações de cibersegurança possa constituir simultaneamente uma violação de dados pessoais, o CNCS notifica a CNPD. Os dois regimes são complementares e a mesma arquitectura de auditoria — o ATNA — serve ambos.</p>
+</section>
+</section>
+<section id="sec-11-anonimizacao" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="sec-11-anonimizacao"><span class="header-section-number">11.2</span> Anonimização e o Risco de Reidentificação</h2>
+<section id="sec-11-anon-distinc" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="sec-11-anon-distinc"><span class="header-section-number">11.2.1</span> Anonimização, Pseudonimização e Encriptação</h3>
+<p>O RGPD distingue três conceitos que são frequentemente confundidos na prática:</p>
+<p><strong>Anonimização</strong> é o processo de transformação irreversível que impede a identificação do titular dos dados. O Considerando 26 do RGPD estabelece que dados genuinamente anonimizados não são dados pessoais e, portanto, ficam fora do âmbito de aplicação do regulamento. O critério de irreversibilidade é exigente: não basta que o responsável não consiga reverter o processo — é necessário que nenhum terceiro, com os meios razoavelmente disponíveis, o consiga fazer.</p>
+<p><strong>Pseudonimização</strong> (Artigo 4.º, n.º 5) é a substituição dos identificadores directos por um pseudónimo, mantendo uma chave de correspondência guardada separadamente. Os dados pseudonimizados <em>continuam a ser dados pessoais</em>: quem tiver acesso à chave consegue reidentificar o titular. A pseudonimização é reconhecida pelo RGPD como uma medida de segurança que reduz o risco (Artigo 32.º), mas não elimina as obrigações legais.</p>
+<p><strong>Encriptação</strong> transforma os dados num formato ilegível sem a chave de desencriptação. Não é anonimização: os dados encriptados continuam a ser dados pessoais — quem tiver a chave pode recuperá-los. A encriptação é uma medida de segurança obrigatória para dados em trânsito (TLS) e fortemente recomendada para dados em repouso.</p>
+<div id="tbl-anon-rgpd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-anon-rgpd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.3: Âmbito de aplicação do RGPD consoante o tipo de dado <span class="citation" data-cites="RGPD2016">(<a href="../referencias.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-anon-rgpd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 31%">
+<col style="width: 29%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Técnica</th>
+<th style="text-align: left;">Dado pessoal?</th>
+<th style="text-align: left;">RGPD aplica?</th>
+<th style="text-align: left;">Regime</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dado identificável</td>
+<td style="text-align: left;">Sim</td>
+<td style="text-align: left;">Sim</td>
+<td style="text-align: left;">Art. 9.º — categoria especial</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dado pseudonimizado</td>
+<td style="text-align: left;">Sim</td>
+<td style="text-align: left;">Sim</td>
+<td style="text-align: left;">Art. 32.º — medida de segurança reconhecida</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dado encriptado</td>
+<td style="text-align: left;">Sim</td>
+<td style="text-align: left;">Sim</td>
+<td style="text-align: left;">Art. 32.º — medida de segurança obrigatória</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dado anonimizado</td>
+<td style="text-align: left;">Não</td>
+<td style="text-align: left;">Não</td>
+<td style="text-align: left;">Considerando 26 — fora do âmbito</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-11-reident" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="sec-11-reident"><span class="header-section-number">11.2.2</span> O Risco de Reidentificação</h3>
+<p>A principal razão pela qual a anonimização genuína é difícil de garantir é o risco de reidentificação por <em>cruzamento de atributos</em>. Mesmo sem nome ou número de identificação, a combinação de atributos aparentemente inócuos pode individualizar uma pessoa de forma única.</p>
+<p><strong>O estudo de Sweeney (2000)</strong> é a referência fundadora deste fenómeno. Latanya Sweeney analisou os dados de saúde do estado de Massachusetts, publicados “anonimizados” com remoção de nome e morada, e verificou que 87% dos americanos podiam ser identificados de forma única apenas com três atributos: código postal, data de nascimento e sexo <span class="citation" data-cites="Sweeney2000">(<a href="../referencias.html#ref-Sweeney2000" role="doc-biblioref">Sweeney, 2000</a>)</span>. A demonstração foi feita de forma inequívoca: Sweeney cruzou o ficheiro de saúde com as listas de eleitores registadas publicamente e identificou o governador do estado pelo seu código postal, data de nascimento e sexo.</p>
+<p><strong>O caso Netflix (2006–2008)</strong> estendeu esta vulnerabilidade a dados comportamentais. Em 2006, a Netflix publicou 100 milhões de avaliações de filmes de 480 000 utilizadores, substituindo os nomes por identificadores numéricos, para um concurso de melhoria do algoritmo de recomendação. Em 2008, Narayanan e Shmatikov demonstraram que estes dados eram vulneráveis a reidentificação <span class="citation" data-cites="NarayananShmatikov2008">(<a href="../referencias.html#ref-NarayananShmatikov2008" role="doc-biblioref">Narayanan &amp; Shmatikov, 2008</a>)</span>. O método consistia em cruzar as avaliações anónimas com avaliações públicas do mesmo utilizador na plataforma IMDb: bastavam 8 avaliações com datas aproximadas (margem de dois dias) para identificar um utilizador com probabilidade superior a 99%. A Netflix foi processada em tribunal e cancelou o segundo concurso de anonimização. O estudo é uma referência fundamental em privacidade diferencial porque mostrou que a reidentificação de conjuntos de dados esparsos é computacionalmente acessível mesmo sem acesso à chave de pseudonimização.</p>
+<p><strong>O caso AOL Search (2006)</strong> ilustrou a mesma vulnerabilidade em dados textuais. Em Agosto de 2006, a AOL divulgou 20 milhões de pesquisas de 658 000 utilizadores ao longo de três meses, com os nomes substituídos por IDs numéricos. Dias depois, o <em>New York Times</em> identificou a utilizadora n.º 4417749 através do conteúdo das suas pesquisas: doenças crónicas, nomes de familiares, localização, e preferências pessoais <span class="citation" data-cites="BarbaroZeller2006">(<a href="../referencias.html#ref-BarbaroZeller2006" role="doc-biblioref">Barbaro &amp; Zeller, 2006</a>)</span>. A utilizadora, uma mulher de 62 anos do Georgia, não tinha feito nenhuma pesquisa com o seu nome — mas o conjunto das suas pesquisas era, na prática, uma impressão digital. A AOL despediu os responsáveis pela divulgação e o caso gerou legislação específica.</p>
+<p>Em contexto clínico, o risco é amplificado. Os dados de saúde têm muito mais atributos do que dados comportamentais: diagnósticos (incluindo doenças raras), datas de internamento, médico assistente, combinações de medicação, resultados laboratoriais, e imagens médicas. Uma doença rara como a síndrome de Huntington pode, por si só, ser identificadora numa dada região geográfica. A combinação de três diagnósticos comuns — diabetes tipo 2, insuficiência renal crónica e neuropatia periférica — pode ser única num hospital de média dimensão.</p>
+</section>
+<section id="sec-11-k-anonimato" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="sec-11-k-anonimato"><span class="header-section-number">11.2.3</span> k-Anonimato</h3>
+<p>O <em>k-anonimato</em> é o modelo formal mais utilizado para quantificar e controlar o risco de reidentificação por cruzamento de atributos. Foi definido por Sweeney em 2002 <span class="citation" data-cites="Sweeney2002">(<a href="../referencias.html#ref-Sweeney2002" role="doc-biblioref">Sweeney, 2002</a>)</span>:</p>
+<blockquote class="blockquote">
+<p>Um conjunto de dados verifica <em>k-anonimato</em> se, para cada combinação de valores dos atributos <em>quasi-identificadores</em>, existem pelo menos <em>k</em> registos com essa mesma combinação — tornando cada indivíduo indistinguível de pelo menos <em>k</em> − 1 outros.</p>
+</blockquote>
+<p>Os <strong>atributos quasi-identificadores</strong> são aqueles que, isoladamente, não identificam o titular, mas que combinados o podem individualizar. No contexto clínico, os quasi-identificadores típicos são: código postal, data de nascimento, sexo, etnia, e tipo de admissão. Os atributos directamente identificativos (nome, número de utente, NIF) são habitualmente suprimidos numa primeira fase — o k-anonimato cuida dos que sobram.</p>
+<p>Para ilustrar, considere uma tabela de dados hospitalares com 8 registos:</p>
+<div id="tbl-kanon-original" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-kanon-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.4: Exemplo de tabela hospitalar sem k-anonimato.
+</figcaption>
+<div aria-describedby="tbl-kanon-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Código postal</th>
+<th style="text-align: left;">Idade</th>
+<th style="text-align: left;">Sexo</th>
+<th style="text-align: left;">Diagnóstico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">5000-xxx</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Pneumonia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5000-xxx</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Bronquite</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4200-xxx</td>
+<td style="text-align: left;">45</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Diabetes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4200-xxx</td>
+<td style="text-align: left;">45</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Hipertensão</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4200-xxx</td>
+<td style="text-align: left;">45</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Doença renal</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3800-xxx</td>
+<td style="text-align: left;">67</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Oncologia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3800-xxx</td>
+<td style="text-align: left;">67</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Cardiopatia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1600-xxx</td>
+<td style="text-align: left;">31</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Artrite</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Os registos <code>5000-xxx / 23 / M</code> formam um grupo de 2 (k = 2). O registo <code>1600-xxx / 31 / F</code> é único (k = 1) — qualquer pessoa que conheça o código postal, a idade e o sexo da utilizadora identifica-a de imediato e sabe o seu diagnóstico. Esta tabela não verifica 2-anonimato nem k-anonimato para k &gt; 1 nos registos únicos.</p>
+<p>Para obter 2-anonimato, seria necessário generalizar os quasi-identificadores dos registos problemáticos — por exemplo, alargando o código postal para os primeiros dois dígitos ou generalizando a idade para uma faixa etária:</p>
+<div id="tbl-kanon-parcial" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-kanon-parcial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.5: Tabela após generalização — mas o último registo ainda não verifica 2-anonimato.
+</figcaption>
+<div aria-describedby="tbl-kanon-parcial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Código postal</th>
+<th style="text-align: left;">Faixa etária</th>
+<th style="text-align: left;">Sexo</th>
+<th style="text-align: left;">Diagnóstico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">50**</td>
+<td style="text-align: left;">20–30</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Pneumonia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">50**</td>
+<td style="text-align: left;">20–30</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Bronquite</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">42**</td>
+<td style="text-align: left;">40–50</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Diabetes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">42**</td>
+<td style="text-align: left;">40–50</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Hipertensão</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">42**</td>
+<td style="text-align: left;">40–50</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Doença renal</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">38**</td>
+<td style="text-align: left;">60–70</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Oncologia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">38**</td>
+<td style="text-align: left;">60–70</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">Cardiopatia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">16**</td>
+<td style="text-align: left;">30–40</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">Artrite</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>O registo <code>16** / 30–40 / F</code> continua único. Para atingir 2-anonimato seria necessário generalizar ainda mais (ex: suprimir o código postal) ou eliminar o registo. Esta tensão entre <em>utilidade</em> (o valor dos dados para a investigação) e <em>privacidade</em> (a protecção do titular) é o problema central da anonimização.</p>
+<p><strong>Limitações do k-anonimato.</strong> O k-anonimato protege contra ataques de ligação — mas não contra ataques de <em>homogeneidade</em>. Se num grupo de <em>k</em> registos todos os valores do atributo sensível (o diagnóstico) forem iguais, o atacante que saiba que o alvo pertence ao grupo fica a saber o diagnóstico sem precisar de identificar o registo individual.</p>
+<p>Para contornar este problema, Machanavajjhala e colaboradores propuseram o <em>l-diversidade</em> em 2007 <span class="citation" data-cites="Machanavajjhala2007">(<a href="../referencias.html#ref-Machanavajjhala2007" role="doc-biblioref">Machanavajjhala et al., 2007</a>)</span>: um conjunto de dados verifica <em>l-diversidade</em> se, em cada grupo quasi-identificador, o atributo sensível toma pelo menos <em>l</em> valores bem representados. Num grupo de doentes com o mesmo código postal, faixa etária e sexo, a l-diversidade exige que haja pelo menos <em>l</em> diagnósticos distintos — impedindo que o grupo seja homogéneo quanto à informação sensível.</p>
+</section>
+<section id="sec-11-tecnicas" class="level3" data-number="11.2.4">
+<h3 data-number="11.2.4" class="anchored" data-anchor-id="sec-11-tecnicas"><span class="header-section-number">11.2.4</span> Técnicas de Anonimização</h3>
+<p>A literatura de privacidade de dados <span class="citation" data-cites="ElEmamArbuckle2013 ENISA2019pseudo">(<a href="../referencias.html#ref-ElEmamArbuckle2013" role="doc-biblioref">El Emam &amp; Arbuckle, 2013</a>; <a href="../referencias.html#ref-ENISA2019pseudo" role="doc-biblioref">European Union Agency for Cybersecurity (ENISA), 2019</a>)</span> identifica seis técnicas principais de anonimização, com características e compromissos diferentes:</p>
+<p><strong>Supressão</strong> é a eliminação completa de um atributo ou de um registo. É a técnica mais radical: o atributo suprimido não contribui para nenhum risco de reidentificação, mas também não contribui para nenhuma análise. Em dados clínicos, a supressão aplica-se tipicamente aos atributos directamente identificativos (nome, número de processo, morada) antes de qualquer outro processamento.</p>
+<p><strong>Generalização</strong> substitui um valor específico por um valor menos preciso, pertencente a uma categoria mais ampla. A generalização é o mecanismo central do k-anonimato: o código postal <code>5000-123</code> torna-se <code>5000-xxx</code> ou <code>50**</code>; a data de nascimento exacta torna-se uma faixa etária; um diagnóstico raro é mapeado para a categoria nosológica mais geral da ICD. A generalização preserva a utilidade para análises estatísticas e epidemiológicas, mas reduz a granularidade dos dados.</p>
+<p><strong>Perturbação</strong> (ou adição de ruído) introduz variações estatísticas controladas nos valores dos atributos. Datas são deslocadas de um número aleatório de dias; valores numéricos como a glicemia ou o peso recebem um incremento aleatório dentro de um intervalo ε. A perturbação é especialmente útil quando é necessário preservar a distribuição estatística dos dados para treino de modelos — os valores individuais mudam, mas as propriedades populacionais mantêm-se. Tecnicamente enquadra-se na família da <em>privacidade diferencial</em>, que garante formalmente que a presença ou ausência de um indivíduo específico tem impacto negligenciável nas estatísticas publicadas.</p>
+<p><strong>Pseudonimização</strong> substitui os identificadores directos por identificadores sintéticos — normalmente UUIDs gerados aleatoriamente — mantendo uma tabela de correspondência guardada separadamente, com controlos de acesso estritos. Como já referido, os dados pseudonimizados continuam a ser dados pessoais, porque a chave de correspondência permite reverter o processo. A pseudonimização é, no entanto, muito útil em ensaios clínicos e investigação longitudinal, onde é necessário acompanhar o mesmo indivíduo ao longo do tempo sem expor a sua identidade a todos os intervenientes no estudo.</p>
+<p><strong>Síntese</strong> (ou geração de dados sintéticos) produz um novo conjunto de dados artificial com as mesmas propriedades estatísticas do conjunto original, mas sem qualquer correspondência directa entre registos reais e registos sintéticos. Técnicas como as Redes Generativas Adversariais (<em>GANs</em>) e modelos de difusão são cada vez mais usadas para gerar dados clínicos sintéticos destinados ao treino de modelos de aprendizagem automática. A vantagem é a eliminação do risco de origem — não existe registo real que possa ser reidentificado porque os dados nunca existiram. A limitação é a validação: é difícil garantir que os dados sintéticos preservam todas as propriedades estatísticas relevantes sem introduzir artefactos.</p>
+<p><strong>Agregação</strong> publica apenas estatísticas calculadas sobre grupos de registos — médias, distribuições, contagens — sem nunca expor dados individuais. É a técnica com menor risco residual de reidentificação, mas também a que impõe maior perda de utilidade. Útil para relatórios de saúde pública e para as publicações do tipo <em>dashboard</em> das entidades reguladoras.</p>
+<div id="tbl-tecnicas-anon" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tecnicas-anon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.6: Comparação das técnicas de anonimização <span class="citation" data-cites="ElEmamArbuckle2013 ENISA2019pseudo">(<a href="../referencias.html#ref-ElEmamArbuckle2013" role="doc-biblioref">El Emam &amp; Arbuckle, 2013</a>; <a href="../referencias.html#ref-ENISA2019pseudo" role="doc-biblioref">European Union Agency for Cybersecurity (ENISA), 2019</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-tecnicas-anon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Técnica</th>
+<th style="text-align: left;">Reversível?</th>
+<th style="text-align: left;">Perda de utilidade</th>
+<th style="text-align: left;">Caso de uso típico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Supressão</td>
+<td style="text-align: left;">Não</td>
+<td style="text-align: left;">Alta</td>
+<td style="text-align: left;">Identificadores directos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Generalização</td>
+<td style="text-align: left;">Não</td>
+<td style="text-align: left;">Média</td>
+<td style="text-align: left;">k-anonimato em investigação</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Perturbação</td>
+<td style="text-align: left;">Não</td>
+<td style="text-align: left;">Baixa–Média</td>
+<td style="text-align: left;">Treino de modelos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pseudonimização</td>
+<td style="text-align: left;">Sim (com chave)</td>
+<td style="text-align: left;">Baixa</td>
+<td style="text-align: left;">Estudos longitudinais</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Síntese</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">Variável</td>
+<td style="text-align: left;">Treino de IA clínica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Agregação</td>
+<td style="text-align: left;">Não</td>
+<td style="text-align: left;">Muito alta</td>
+<td style="text-align: left;">Relatórios de saúde pública</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-11-sensibilidade" class="level3" data-number="11.2.5">
+<h3 data-number="11.2.5" class="anchored" data-anchor-id="sec-11-sensibilidade"><span class="header-section-number">11.2.5</span> Dados de Saúde — Por que a Sensibilidade é Diferente</h3>
+<p>Dados de saúde combinam três propriedades que os tornam especialmente sensíveis: especificidade diagnóstica, persistência temporal, e potencial de impacto social.</p>
+<p>A <strong>especificidade diagnóstica</strong> decorre da raridade de certas condições. Doenças raras têm, por definição, poucos casos por região geográfica — o que torna o diagnóstico, por si só, identificador a nível local. Doenças comuns podem ser igualmente identificadoras quando surgem em combinação: a tríade “diabetes tipo 2 + insuficiência renal crónica + neuropatia periférica” pode ser única num dado hospital.</p>
+<p>A <strong>persistência temporal</strong> é uma propriedade única dos dados de saúde. Um diagnóstico de 1995 pode continuar a ser sensível em 2025 — ou em 2045. Os dados financeiros prescrevem, os dados de localização mudam, os dados de saúde permanecem relevantes durante toda a vida do titular e, no caso de dados genómicos, para além dela.</p>
+<p>O <strong>potencial de impacto social</strong> manifesta-se em discriminação no emprego (em especial para doenças crónicas, oncológicas e de saúde mental), em exclusão de produtos de seguros (por revelação de pré-condições), e em consequências para terceiros que nunca participaram no tratamento (no caso de dados genómicos, que revelam informação sobre familiares biológicos). Gymrek e colaboradores demonstraram em 2013 que sequências de DNA de homens podem ser ligadas ao apelido familiar com elevada precisão através de bases de dados genealógicas públicas <span class="citation" data-cites="Gymrek2013">(<a href="../referencias.html#ref-Gymrek2013" role="doc-biblioref">Gymrek et al., 2013</a>)</span>; Erlich e Narayanan estabeleceram em 2014 que um indivíduo pode ser identificado geneticamente mesmo em conjuntos de dados anonimizados, e que essa identificação compromete a privacidade dos seus familiares <span class="citation" data-cites="ErlichNarayanan2014">(<a href="../referencias.html#ref-ErlichNarayanan2014" role="doc-biblioref">Erlich &amp; Narayanan, 2014</a>)</span>.</p>
+</section>
+</section>
+<section id="sec-11-dicom-anon" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="sec-11-dicom-anon"><span class="header-section-number">11.3</span> Anonimização em DICOM</h2>
+<section id="sec-11-dicom-tags" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="sec-11-dicom-tags"><span class="header-section-number">11.3.1</span> Tags Sensíveis nos Ficheiros DICOM</h3>
+<p>Um ficheiro DICOM não é apenas uma imagem — é um contentor que combina pixels de imagem com centenas de atributos estruturados descrevendo o doente, o exame, a modalidade e a instituição. O estudo dos Capítulos 4 e 5 desta sebenta revelou que os atributos DICOM são organizados em módulos. Vários desses módulos contêm informação directamente identificativa:</p>
+<div id="tbl-dicom-tags" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dicom-tags-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.7: Tags DICOM com impacto na privacidade do doente <span class="citation" data-cites="DICOM_PS33 DICOM_PS315">(<a href="../referencias.html#ref-DICOM_PS33" role="doc-biblioref">NEMA / MITA, 2025b</a>, <a href="../referencias.html#ref-DICOM_PS315" role="doc-biblioref">2025a</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-dicom-tags-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 42%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tag</th>
+<th style="text-align: left;">Nome</th>
+<th style="text-align: left;">Grupo de risco</th>
+<th style="text-align: left;">Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>(0010,0010)</code></td>
+<td style="text-align: left;"><code>PatientName</code></td>
+<td style="text-align: left;">Identificação directa</td>
+<td style="text-align: left;"><code>FERREIRA^ANA^MARIA</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>(0010,0020)</code></td>
+<td style="text-align: left;"><code>PatientID</code></td>
+<td style="text-align: left;">Identificação directa</td>
+<td style="text-align: left;"><code>CHU-001</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>(0010,0030)</code></td>
+<td style="text-align: left;"><code>PatientBirthDate</code></td>
+<td style="text-align: left;">Quasi-identificador</td>
+<td style="text-align: left;"><code>19780412</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>(0010,0040)</code></td>
+<td style="text-align: left;"><code>PatientSex</code></td>
+<td style="text-align: left;">Quasi-identificador</td>
+<td style="text-align: left;"><code>F</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>(0008,0020)</code></td>
+<td style="text-align: left;"><code>StudyDate</code></td>
+<td style="text-align: left;">Quasi-identificador</td>
+<td style="text-align: left;"><code>20260522</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>(0008,0080)</code></td>
+<td style="text-align: left;"><code>InstitutionName</code></td>
+<td style="text-align: left;">Contexto clínico</td>
+<td style="text-align: left;"><code>CHUPorto</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>(0008,0090)</code></td>
+<td style="text-align: left;"><code>ReferringPhysicianName</code></td>
+<td style="text-align: left;">Contexto clínico</td>
+<td style="text-align: left;"><code>COSTA^PAULO</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>(0040,A124)</code></td>
+<td style="text-align: left;"><code>UID</code> (vários)</td>
+<td style="text-align: left;">Ligação entre exames</td>
+<td style="text-align: left;">Permite correlacionar exames do mesmo doente</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>(0010,21B0)</code></td>
+<td style="text-align: left;"><code>AdditionalPatientHistory</code></td>
+<td style="text-align: left;">Clínico sensível</td>
+<td style="text-align: left;">Texto livre com comorbilidades e história</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>O caso dos <strong>UIDs</strong> merece atenção especial. Cada estudo, série e imagem tem um <em>SOP Instance UID</em> único e persistente. Se um conjunto de dados “anonimizado” mantiver os UIDs originais, dois ficheiros do mesmo doente podem ser facilmente correlacionados — anulando o efeito da remoção do nome e do identificador de processo. Qualquer processo de anonimização DICOM deve substituir todos os UIDs por novos UIDs gerados internamente, quebrando a ligação entre ficheiros.</p>
+<p>Existe ainda um risco específico aos dados de imagem: o <strong>texto <em>burned-in</em></strong> (<em>burned-in text</em>). Em várias modalidades, especialmente radiografias mais antigas e capturas de écran de ecografia, o nome do doente é gravado directamente sobre os pixels da imagem, como parte do conteúdo visual. Este texto não está em nenhuma <em>tag</em> DICOM — está nos pixels — e escapa inteiramente ao processamento de <em>tags</em>. A detecção requer reconhecimento óptico de caracteres (<em>OCR</em>) ou análise de visão computacional aplicada ao conteúdo da imagem.</p>
+</section>
+<section id="sec-11-dicom-profiles" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="sec-11-dicom-profiles"><span class="header-section-number">11.3.2</span> DICOM Confidentiality Profiles — PS 3.15 Annex E</h3>
+<p>A norma DICOM define no Anexo E da Parte 3.15 <span class="citation" data-cites="DICOM_PS315">(<a href="../referencias.html#ref-DICOM_PS315" role="doc-biblioref">NEMA / MITA, 2025a</a>)</span> um conjunto de <em>Perfis de Confidencialidade</em> que especificam, para cada atributo identificativo, qual a acção que deve ser aplicada numa anonimização conforme.</p>
+<p>O <strong>Basic Application Level Confidentiality Profile</strong> é o perfil base e o único obrigatório. Cobre os atributos identificativos mais comuns, especificando para cada um a acção a aplicar. Os perfis adicionais são opcionais e representam compromissos entre privacidade e utilidade:</p>
+<div id="tbl-dicom-profiles" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dicom-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.8: Perfis de Confidencialidade DICOM (PS 3.15 Annex E) <span class="citation" data-cites="DICOM_PS315">(<a href="../referencias.html#ref-DICOM_PS315" role="doc-biblioref">NEMA / MITA, 2025a</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-dicom-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 34%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Perfil</th>
+<th style="text-align: left;">Natureza</th>
+<th style="text-align: left;">Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Basic Application Level Confidentiality</td>
+<td style="text-align: left;">Obrigatório (base)</td>
+<td style="text-align: left;">Ponto de partida de qualquer anonimização</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Retain Longitudinal Temporal Information</td>
+<td style="text-align: left;">Opcional</td>
+<td style="text-align: left;">Manter datas reais em estudos longitudinais</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Retain Patient Characteristics</td>
+<td style="text-align: left;">Opcional</td>
+<td style="text-align: left;">Manter peso, altura, sexo, idade para análise clínica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Clean Pixel Data</td>
+<td style="text-align: left;">Opcional</td>
+<td style="text-align: left;">Remover texto <em>burned-in</em> dos pixels</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>As acções definidas pelo Anexo E para cada atributo usam um código de uma letra:</p>
+<ul>
+<li><strong>D</strong> (<em>Delete</em>): remover completamente o atributo.</li>
+<li><strong>Z</strong> (<em>Zero</em>): substituir por valor vazio (<em>zero-length</em>).</li>
+<li><strong>X</strong> (<em>Remove</em>): remover o atributo (equivalente a D em muitos perfis).</li>
+<li><strong>K</strong> (<em>Keep</em>): manter o valor original — para atributos que não são sensíveis no contexto do perfil.</li>
+<li><strong>C</strong> (<em>Clean</em>): substituir por um valor de substituição definido pelo utilizador.</li>
+<li><strong>U</strong> (<em>UID</em>): substituir por um novo UID gerado internamente, mantendo a consistência interna entre ficheiros do mesmo estudo.</li>
+</ul>
+<p>A distinção entre <strong>Z</strong> e <strong>D</strong> é relevante quando o atributo é de presença obrigatória na norma: se um <em>tag</em> obrigatório for eliminado, o ficheiro deixa de ser DICOM-conforme; nesse caso, <strong>Z</strong> (valor vazio) preserva a conformidade estrutural.</p>
+</section>
+<section id="sec-11-dicom-pipeline" class="level3" data-number="11.3.3">
+<h3 data-number="11.3.3" class="anchored" data-anchor-id="sec-11-dicom-pipeline"><span class="header-section-number">11.3.3</span> Pipeline de Anonimização em Prática</h3>
+<p>Em Python, a biblioteca <code>pydicom</code> permite implementar um <em>pipeline</em> de anonimização conforme com o PS 3.15 Annex E. O exemplo seguinte é um esqueleto funcional para preparar imagens para publicação académica:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pydicom</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydicom.uid <span class="im">import</span> generate_uid</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime, timedelta</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> shift_date(date_str: <span class="bu">str</span>, days: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Desloca uma data DICOM (YYYYMMDD) de um número aleatório de dias."""</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> datetime.strptime(date_str, <span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (dt <span class="op">+</span> timedelta(days<span class="op">=</span>days)).strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Atributos a remover (acção D / X)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>REMOVE <span class="op">=</span> [</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PatientName"</span>, <span class="st">"PatientID"</span>, <span class="st">"PatientBirthDate"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PatientAddress"</span>, <span class="st">"ReferringPhysicianName"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"InstitutionName"</span>, <span class="st">"InstitutionAddress"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AdditionalPatientHistory"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> pydicom.dcmread(<span class="st">"TC_Ferreira.dcm"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Supressão de identificadores directos</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tag <span class="kw">in</span> REMOVE:</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">hasattr</span>(ds, tag):</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">delattr</span>(ds, tag)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Perturbação da data de estudo (acção C — até ±30 dias)</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">hasattr</span>(ds, <span class="st">"StudyDate"</span>):</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    ds.StudyDate <span class="op">=</span> shift_date(ds.StudyDate, random.randint(<span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Substituição de UIDs (acção U)</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>ds.StudyInstanceUID  <span class="op">=</span> generate_uid()</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>ds.SeriesInstanceUID <span class="op">=</span> generate_uid()</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>ds.SOPInstanceUID    <span class="op">=</span> generate_uid()</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>ds.save_as(<span class="st">"TC_anon.dcm"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Este <em>pipeline</em> trata os atributos mais comuns — mas não verifica pixels <em>burned-in</em>, o que requer uma etapa adicional de análise dos dados de imagem. Ferramentas especializadas como o DicomCleaner (PixelMed) e o RSNA Anonymizer integram OCR para detecção automática de texto nos pixels.</p>
+<p>Um aspecto crítico na implementação de qualquer <em>pipeline</em> de anonimização é a <strong>manutenção da consistência interna</strong>: todos os ficheiros do mesmo estudo devem receber o mesmo <code>StudyInstanceUID</code> substituído, todas as séries da mesma modalidade devem ter o mesmo <code>SeriesInstanceUID</code>, e a deslocação de datas deve ser consistente para o mesmo doente se existirem múltiplos estudos. Sem esta consistência, o conjunto de dados anonimizado perde a coerência temporal necessária para estudos longitudinais.</p>
+</section>
+</section>
+<section id="sec-11-fhir" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="sec-11-fhir"><span class="header-section-number">11.4</span> Consentimento e Autorização em FHIR</h2>
+<section id="sec-11-fhir-consent" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="sec-11-fhir-consent"><span class="header-section-number">11.4.1</span> FHIR Consent — Consentimento Estruturado</h3>
+<p>O recurso <code>Consent</code> do FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span> permite representar o consentimento do doente de forma <em>machine-readable</em> — legível directamente pelo servidor, sem interpretação humana. Isto permite que o sistema de informação verifique automaticamente, antes de servir qualquer recurso clínico, se o acesso pedido está coberto por um consentimento activo e válido.</p>
+<p>A estrutura do recurso <code>Consent</code> organiza-se em torno de quatro conceitos:</p>
+<div id="tbl-fhir-consent-campos" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fhir-consent-campos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.9: Campos principais do recurso Consent FHIR R4 <span class="citation" data-cites="HL7_FHIR_R4">(<a href="../referencias.html#ref-HL7_FHIR_R4" role="doc-biblioref">HL7 International, 2019</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-fhir-consent-campos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Papel</th>
+<th style="text-align: left;">Valores possíveis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>status</code></td>
+<td style="text-align: left;">Estado do consentimento</td>
+<td style="text-align: left;"><code>active</code>, <code>inactive</code>, <code>entered-in-error</code>, <code>proposed</code>, <code>rejected</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>scope</code></td>
+<td style="text-align: left;">Âmbito do consentimento</td>
+<td style="text-align: left;"><code>patient-privacy</code>, <code>research</code>, <code>adr</code> (reacções adversas)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>provision.type</code></td>
+<td style="text-align: left;">Tipo de autorização</td>
+<td style="text-align: left;"><code>permit</code> (autoriza), <code>deny</code> (proíbe explicitamente)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>provision.actor</code></td>
+<td style="text-align: left;">A quem se aplica</td>
+<td style="text-align: left;">Referência a <code>Organization</code>, <code>Practitioner</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>provision.purpose</code></td>
+<td style="text-align: left;">Finalidade autorizada</td>
+<td style="text-align: left;"><code>TREAT</code>, <code>RESEARCH</code>, <code>HPAYMT</code> (facturação)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>provision.period</code></td>
+<td style="text-align: left;">Validade temporal</td>
+<td style="text-align: left;">Datas de início e fim</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Um aspecto relevante é o significado do <code>status: "rejected"</code>: um consentimento rejeitado tem tanta relevância legal como um activo — documenta explicitamente que o doente recusou um determinado tratamento dos seus dados. O servidor deve tratar este estado como uma proibição e recusar os pedidos cobertos por essa recusa.</p>
+<p>As <code>provision</code> podem ser aninhadas (<em>nested</em>), permitindo autorizar um âmbito geral e revogar sub-âmbitos específicos. Por exemplo, um doente pode autorizar o acesso aos seus dados clínicos para fins de tratamento (<code>TREAT</code>) e proibir explicitamente o acesso para fins de investigação (<code>RESEARCH</code>), tudo no mesmo recurso <code>Consent</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"resourceType"</span><span class="fu">:</span> <span class="st">"Consent"</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"status"</span><span class="fu">:</span>       <span class="st">"active"</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"scope"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span><span class="dt">"system"</span><span class="fu">:</span> <span class="st">"http://terminology.hl7.org/CodeSystem/consentscope"</span><span class="fu">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"code"</span><span class="fu">:</span> <span class="st">"patient-privacy"</span><span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"patient"</span><span class="fu">:</span>   <span class="fu">{</span><span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Patient/p-123"</span><span class="fu">},</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"dateTime"</span><span class="fu">:</span>  <span class="st">"2026-05-22"</span><span class="fu">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"provision"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span>   <span class="st">"permit"</span><span class="fu">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"period"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"end"</span><span class="fu">:</span> <span class="st">"2028-05-22"</span><span class="fu">},</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"actor"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"role"</span><span class="fu">:</span>      <span class="fu">{</span><span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span><span class="dt">"code"</span><span class="fu">:</span> <span class="st">"PRCP"</span><span class="fu">}</span><span class="ot">]</span><span class="fu">},</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"reference"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"reference"</span><span class="fu">:</span> <span class="st">"Organization/CHUPorto"</span><span class="fu">}</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"action"</span><span class="fu">:</span>  <span class="ot">[</span><span class="fu">{</span><span class="dt">"coding"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span><span class="dt">"code"</span><span class="fu">:</span> <span class="st">"access"</span><span class="fu">}</span><span class="ot">]</span><span class="fu">}</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"purpose"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span><span class="dt">"code"</span><span class="fu">:</span> <span class="st">"TREAT"</span><span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Neste exemplo, o consentimento autoriza a <code>Organization/CHUPorto</code> a aceder aos dados de <code>Patient/p-123</code> para fins de tratamento (<code>TREAT</code>) até 22 de Maio de 2028. Um segundo <code>provision</code> aninhado poderia restringir o acesso a determinadas categorias de dados ou proibir finalidades específicas.</p>
+</section>
+<section id="sec-11-smart" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="sec-11-smart"><span class="header-section-number">11.4.2</span> SMART on FHIR — Autorização Granular</h3>
+<p>O SMART on FHIR (<em>Substitutable Medical Apps, Reusable Technologies on FHIR</em>) é uma especificação que define como uma aplicação de terceiros obtém autorização para aceder a dados FHIR em nome de um doente ou de um profissional de saúde <span class="citation" data-cites="MandelSMART2016 HL7_SMART2023">(<a href="../referencias.html#ref-HL7_SMART2023" role="doc-biblioref">HL7 International, 2023</a>; <a href="../referencias.html#ref-MandelSMART2016" role="doc-biblioref">Mandel et al., 2016</a>)</span>. Baseia-se no protocolo OAuth 2.0 e acrescenta um conjunto de convenções específicas para o domínio da saúde.</p>
+<p>O fluxo de autorização SMART desenrola-se em seis passos:</p>
+<p><strong>1. Lançamento (<em>Launch</em>).</strong> A aplicação é lançada — a partir do EHR (fluxo <em>EHR Launch</em>) ou directamente pelo utilizador (fluxo <em>Standalone Launch</em>). No fluxo EHR, o servidor envia à aplicação um parâmetro <code>launch</code> que encapsula o contexto clínico (o doente em foco, o episódio activo).</p>
+<p><strong>2. Descoberta (<em>Discovery</em>).</strong> A aplicação lê o <em>endpoint</em> de metadados FHIR (<code>/.well-known/smart-configuration</code>) para descobrir os URLs do <em>Authorization Server</em> e do <em>Token Server</em>.</p>
+<p><strong>3. Pedido de autorização (<em>Authorization Request</em>).</strong> A aplicação redirige o utilizador para o <em>Authorization Server</em>, especificando os <em>scopes</em> que precisa. Os <em>scopes</em> SMART têm a forma <code>&lt;contexto&gt;/&lt;RecursoFHIR&gt;.&lt;permissão&gt;</code>:</p>
+<div id="tbl-smart-scopes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-smart-scopes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.10: <em>Scopes</em> SMART on FHIR e o seu significado <span class="citation" data-cites="HL7_SMART2023">(<a href="../referencias.html#ref-HL7_SMART2023" role="doc-biblioref">HL7 International, 2023</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-smart-scopes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><em>Scope</em></th>
+<th style="text-align: left;">Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>patient/Patient.read</code></td>
+<td style="text-align: left;">Leitura do recurso <code>Patient</code> no contexto do doente autenticado</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>patient/Observation.read</code></td>
+<td style="text-align: left;">Leitura de observações (análises, sinais vitais)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>user/MedicationRequest.write</code></td>
+<td style="text-align: left;">O clínico pode criar prescrições</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>launch/patient</code></td>
+<td style="text-align: left;">Acesso ao identificador do doente em contexto de EHR</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>openid fhirUser</code></td>
+<td style="text-align: left;">Autenticação OpenID Connect — identidade do utilizador</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>offline_access</code></td>
+<td style="text-align: left;"><em>Refresh token</em> — acesso prolongado sem reautenticação</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>4. Autenticação e consentimento.</strong> O <em>Authorization Server</em> autentica o utilizador (clínico ou doente) e apresenta um écran de consentimento com os <em>scopes</em> pedidos pela aplicação. O utilizador aprova ou recusa.</p>
+<p><strong>5. Emissão do token.</strong> O <em>Authorization Server</em> emite um <em>access token</em> (JWT — <em>JSON Web Token</em>) assinado que codifica a identidade do utilizador e os <em>scopes</em> aprovados. O token tem um prazo de validade curto (tipicamente 15 a 60 minutos). Se o <em>scope</em> <code>offline_access</code> foi aprovado, é também emitido um <em>refresh token</em> de prazo mais longo.</p>
+<p><strong>6. Acesso ao recurso.</strong> A aplicação usa o <em>access token</em> em todos os pedidos ao servidor FHIR, no cabeçalho HTTP <code>Authorization: Bearer &lt;token&gt;</code>. O servidor FHIR valida o token e serve apenas os recursos que os <em>scopes</em> aprovados autorizam.</p>
+<pre><code>GET /fhir/Observation?patient=p-123&amp;category=laboratory
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</code></pre>
+<p>O servidor verifica a assinatura do token, confirma que o <em>scope</em> <code>patient/Observation.read</code> está incluído, e devolve apenas as observações do doente <code>p-123</code> — mesmo que a aplicação tente aceder a dados de outros doentes ou a recursos não cobertos pelos <em>scopes</em> aprovados.</p>
+<p>O princípio de <strong>mínimo privilégio</strong> é fundamental no SMART: a aplicação deve pedir apenas os <em>scopes</em> estritamente necessários para a sua função. Uma aplicação de monitorização de sinais vitais não deve pedir <code>user/MedicationRequest.write</code>; uma aplicação de consulta de resultados laboratoriais não precisa de <code>launch/patient</code> se funcionar em modo <em>Standalone</em>.</p>
+<p>O <strong>IHE IUA</strong> (<em>Internet User Authorization</em>) estende o SMART on FHIR para contextos inter-institucionais: define como o <em>access token</em> OAuth2 é transportado entre organizações diferentes, como os <em>scopes</em> SMART são mapeados para os perfis IHE (MHD, PDQm, QEDm), e como os servidores de autorização de instituições distintas estabelecem relações de confiança federada.</p>
+</section>
+</section>
+<section id="sec-11-atna" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="sec-11-atna"><span class="header-section-number">11.5</span> ATNA — Auditoria como Obrigação Legal Dupla</h2>
+<section id="sec-11-atna-dual" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="sec-11-atna-dual"><span class="header-section-number">11.5.1</span> Dois Regimes, Uma Arquitectura</h3>
+<p>O perfil ATNA (<em>Audit Trail and Node Authentication</em>) do IHE foi introduzido no Capítulo 10 como mecanismo de auditoria de acessos. Com o DL 125/2025 em vigor, o ATNA passa a servir dois regimes legais em simultâneo, o que reforça significativamente a sua relevância arquitectural.</p>
+<div id="tbl-atna-dual" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-atna-dual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.11: O ATNA como instrumento de conformidade RGPD e NIS2 <span class="citation" data-cites="IHE_ATNA2024 RGPD2016 DL125_2025">(<a href="../referencias.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>; <a href="../referencias.html#ref-IHE_ATNA2024" role="doc-biblioref">IHE International, 2024</a>; <a href="../referencias.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-atna-dual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 36%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Regime</th>
+<th style="text-align: left;">Artigos relevantes</th>
+<th style="text-align: left;">O que o ATNA implementa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">RGPD</td>
+<td style="text-align: left;">Art. 30.º — Registo das actividades</td>
+<td style="text-align: left;">Cada acesso gera uma entrada de auditoria com categorias, finalidades e destinatários</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RGPD</td>
+<td style="text-align: left;">Art. 32.º — Segurança do tratamento</td>
+<td style="text-align: left;">TLS mútuo (<em>node authentication</em>) + logs = medida técnica de segurança</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NIS2 / DL 125/2025</td>
+<td style="text-align: left;">Art. 27.º — Medidas de cibersegurança</td>
+<td style="text-align: left;">O log ATNA é a evidência de controlos técnicos activos documentados</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NIS2 / DL 125/2025</td>
+<td style="text-align: left;">Art. 40.º — Notificação de incidentes</td>
+<td style="text-align: left;">Os registos ATNA fornecem a prova precisa (quem, quando, o quê) necessária para a notificação em 24h ao CNCS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-11-atna-estrutura" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="sec-11-atna-estrutura"><span class="header-section-number">11.5.2</span> Estrutura de uma Entrada de Auditoria ATNA</h3>
+<p>O ATNA define um esquema XML para as mensagens de auditoria, baseado no perfil DICOM Audit Trail Message Format (PS 3.15 Annex A). Cada entrada de auditoria contém os seguintes campos obrigatórios <span class="citation" data-cites="IHE_ATNA2024">(<a href="../referencias.html#ref-IHE_ATNA2024" role="doc-biblioref">IHE International, 2024</a>)</span>:</p>
+<div id="tbl-atna-campos" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-atna-campos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.12: Campos de uma entrada de auditoria ATNA <span class="citation" data-cites="IHE_ATNA2024">(<a href="../referencias.html#ref-IHE_ATNA2024" role="doc-biblioref">IHE International, 2024</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-atna-campos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 38%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Conteúdo</th>
+<th style="text-align: left;">Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>EventID</code></td>
+<td style="text-align: left;">Tipo de evento clínico</td>
+<td style="text-align: left;"><code>E_PatientRecord</code>, <code>UserAuthentication</code>, <code>Export</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>EventAction</code></td>
+<td style="text-align: left;">Acção CRUD</td>
+<td style="text-align: left;"><code>C</code> (Create), <code>R</code> (Read), <code>U</code> (Update), <code>D</code> (Delete), <code>E</code> (Execute)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>EventDateTime</code></td>
+<td style="text-align: left;">Timestamp UTC exacto</td>
+<td style="text-align: left;"><code>2026-05-22T09:14:32Z</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ActiveParticipant</code> / <code>UserID</code></td>
+<td style="text-align: left;">Identidade de quem executou</td>
+<td style="text-align: left;"><code>dr.costa@chusj.pt</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ActiveParticipant</code> / <code>NetworkAccessPointID</code></td>
+<td style="text-align: left;">IP ou <em>hostname</em> da origem</td>
+<td style="text-align: left;"><code>10.1.2.3</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>PatientParticipantObject</code></td>
+<td style="text-align: left;">Identificador do doente afectado</td>
+<td style="text-align: left;"><code>CHUSJ-456@urn:oid:...</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>AuditSourceID</code></td>
+<td style="text-align: left;">Sistema de origem</td>
+<td style="text-align: left;"><code>PACS-CHUSJ</code>, <code>HIS-ULSTMAD</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>O campo <code>NetworkAccessPointID</code> tem importância particular no contexto de incidentes de segurança: um acesso não autorizado que deixe um registo ATNA com um IP externo à rede hospitalar é imediatamente identificável como anómalo. Sem este registo, o hospital não tem capacidade de reconstituir a cronologia de um incidente — o que compromete tanto a investigação interna como a notificação obrigatória ao CNCS no prazo de 24 horas.</p>
+</section>
+<section id="sec-11-atna-tls" class="level3" data-number="11.5.3">
+<h3 data-number="11.5.3" class="anchored" data-anchor-id="sec-11-atna-tls"><span class="header-section-number">11.5.3</span> Autenticação de Nó (<em>Node Authentication</em>)</h3>
+<p>Para além da auditoria de acessos, o ATNA define um mecanismo de autenticação mútua entre os sistemas participantes: o TLS (<em>Transport Layer Security</em>) com autenticação de cliente. Cada sistema que integra a rede ATNA deve possuir um certificado digital — emitido por uma autoridade de certificação de confiança do domínio hospitalar — e apresentá-lo ao estabelecer qualquer ligação com outro sistema.</p>
+<p>Esta autenticação mútua garante duas propriedades complementares:</p>
+<ul>
+<li><strong>Autenticidade</strong>: cada sistema sabe com que sistema está a comunicar. Um PACS não aceita ligações de um sistema desconhecido; um HIS não envia dados a um servidor que não apresente o certificado correcto.</li>
+<li><strong>Confidencialidade</strong>: o conteúdo da comunicação é encriptado pelo TLS, não podendo ser interceptado por um terceiro na rede.</li>
+</ul>
+<p>A ausência de TLS mútuo cria duas vulnerabilidades distintas: um atacante com acesso à rede pode interceptar dados clínicos em trânsito (<em>eavesdropping</em>), e pode injectar mensagens falsas fingindo ser um sistema legítimo (<em>impersonation</em>). Ambas as vulnerabilidades violam o Artigo 32.º do RGPD e o Artigo 27.º do DL 125/2025.</p>
+</section>
+<section id="sec-11-atna-consent" class="level3" data-number="11.5.4">
+<h3 data-number="11.5.4" class="anchored" data-anchor-id="sec-11-atna-consent"><span class="header-section-number">11.5.4</span> <code>Consent</code> + ATNA — Prova de Conformidade</h3>
+<p>A combinação de um recurso <code>Consent</code> activo com um registo ATNA correspondente constitui a evidência auditável de que cada acesso a dados clínicos foi autorizado, registado e atribuído a um utilizador identificado. Esta é a demonstração técnica de conformidade que tanto a CNPD (em sede de RGPD) como o CNCS (em sede de NIS2) podem exigir em contexto de fiscalização ou investigação de incidente.</p>
+</section>
+</section>
+<section id="sec-11-pbd" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="sec-11-pbd"><span class="header-section-number">11.6</span> <em>Privacy by Design</em></h2>
+<section id="sec-11-pbd-principios" class="level3" data-number="11.6.1">
+<h3 data-number="11.6.1" class="anchored" data-anchor-id="sec-11-pbd-principios"><span class="header-section-number">11.6.1</span> Os Sete Princípios de Cavoukian</h3>
+<p>O conceito de <em>Privacy by Design</em> foi formulado por Ann Cavoukian, comissária de privacidade do Ontário, no início dos anos 1990, e sistematizado em sete princípios fundamentais <span class="citation" data-cites="Cavoukian2011">(<a href="../referencias.html#ref-Cavoukian2011" role="doc-biblioref">Cavoukian, 2011</a>)</span>. A adopção pelo Artigo 25.º do RGPD converteu estes princípios de boas práticas em obrigação legal.</p>
+<p><strong>1. Proactivo, não reactivo.</strong> A privacidade é concebida antes de os problemas ocorrerem. Em sistemas de informação clínica, isto significa que os requisitos de privacidade — quais os dados necessários, por quanto tempo, com que controlo de acesso — são definidos antes de escolher a arquitectura, não depois de o sistema estar em produção.</p>
+<p><strong>2. Privacidade como configuração por defeito.</strong> O nível máximo de privacidade é o estado de omissão do sistema. O doente não precisa de fazer nada para proteger os seus dados — é o sistema que tem de ser explicitamente configurado para partilhar. Um PACS que, por omissão, não permite exportação sem auditoria está a implementar este princípio.</p>
+<p><strong>3. Privacidade incorporada no design.</strong> A privacidade não é uma camada que se acrescenta no fim do desenvolvimento. O controlo de acesso baseado em <code>Consent FHIR</code> verificado directamente pelo servidor FHIR é um exemplo de privacidade incorporada; um <em>middleware</em> que verifica o consentimento externamente ao servidor, numa camada separada, é um exemplo do padrão oposto.</p>
+<p><strong>4. Funcionalidade plena.</strong> Privacidade e funcionalidade não são antagónicas. A arquitectura deve maximizar ambas: os dados necessários para investigação podem ser obtidos com anonimização adequada sem comprometer a utilidade científica; o consentimento granular permite autorizar finalidades específicas sem bloquear o sistema todo.</p>
+<p><strong>5. Segurança de ponta a ponta.</strong> A protecção aplica-se ao longo de todo o ciclo de vida do dado: da criação ao arquivo e à eliminação. TLS no transporte, encriptação em repouso, processos de eliminação segura (verificados e documentados) são as expressões técnicas deste princípio.</p>
+<p><strong>6. Visibilidade e transparência.</strong> O doente sabe o que é feito com os seus dados. Os registos de auditoria ATNA devem ser acessíveis ao doente a pedido; as políticas de privacidade devem ser compreensíveis; as violações de dados devem ser notificadas ao titular em linguagem clara (Artigo 34.º RGPD).</p>
+<p><strong>7. Respeito pela privacidade do utilizador.</strong> O sistema é centrado nas necessidades do titular. O consentimento granular via <code>Consent FHIR</code>, o direito de acesso, rectificação e apagamento (Artigo 17.º RGPD), e uma interface <em>self-service</em> que permita ao doente gerir as suas preferências são implementações deste princípio.</p>
+<p>O Artigo 25.º do RGPD operacionaliza os princípios 1 e 2 de Cavoukian como obrigações legais: o responsável pelo tratamento deve implementar “medidas técnicas e organizativas adequadas” tanto no momento da concepção como por defeito, para garantir que apenas os dados necessários para cada finalidade são tratados.</p>
+</section>
+</section>
+<section id="sec-11-governanca" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="sec-11-governanca"><span class="header-section-number">11.7</span> Governança de Dados em Saúde</h2>
+<section id="sec-11-gov-papeis" class="level3" data-number="11.7.1">
+<h3 data-number="11.7.1" class="anchored" data-anchor-id="sec-11-gov-papeis"><span class="header-section-number">11.7.1</span> Papéis e Responsabilidades</h3>
+<p>A governança de dados em saúde articula papéis definidos pelo RGPD com os novos papéis introduzidos pelo DL 125/2025. Os dois regimes criam figuras distintas com responsabilidades complementares:</p>
+<div id="tbl-gov-papeis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-gov-papeis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.13: Papéis de governança de dados em saúde — RGPD e DL 125/2025 <span class="citation" data-cites="RGPD2016 DL125_2025">(<a href="../referencias.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>; <a href="../referencias.html#ref-RGPD2016" role="doc-biblioref">Parlamento Europeu e Conselho da União Europeia, 2016</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-gov-papeis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 14%">
+<col style="width: 31%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Papel</th>
+<th style="text-align: left;">Regime</th>
+<th style="text-align: left;">Responsabilidade</th>
+<th style="text-align: left;">Interlocutor externo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Responsável pelo tratamento</strong></td>
+<td style="text-align: left;">RGPD Art. 4.º, 7</td>
+<td style="text-align: left;">Define finalidades e meios</td>
+<td style="text-align: left;">CNPD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Subcontratante</strong></td>
+<td style="text-align: left;">RGPD Art. 4.º, 8</td>
+<td style="text-align: left;">Trata dados em nome do responsável</td>
+<td style="text-align: left;">Responsável (via DPA)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>DPO</strong></td>
+<td style="text-align: left;">RGPD Art. 37.º</td>
+<td style="text-align: left;">Monitoriza conformidade RGPD</td>
+<td style="text-align: left;">CNPD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Responsável de cibersegurança</strong></td>
+<td style="text-align: left;">DL 125/2025 Art. 31.º</td>
+<td style="text-align: left;">Propõe medidas NIS2; assina relatório anual</td>
+<td style="text-align: left;">CNCS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Ponto de contacto</strong></td>
+<td style="text-align: left;">DL 125/2025 Art. 32.º</td>
+<td style="text-align: left;">Disponibilidade 24/7 para incidentes</td>
+<td style="text-align: left;">CNCS / CERT.PT</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A distinção entre o DPO e o Responsável de Cibersegurança é conceptualmente importante: o DPO responde à CNPD no âmbito da protecção de dados pessoais; o Responsável de Cibersegurança responde ao CNCS no âmbito da segurança de redes e sistemas. Um hospital é obrigado a ter ambas as figuras, e as suas funções não se sobrepõem — embora devam colaborar, especialmente quando um incidente de cibersegurança implica simultaneamente uma violação de dados pessoais (situação regulada pelo Artigo 79.º do DL 125/2025).</p>
+</section>
+<section id="sec-11-gov-autoridades" class="level3" data-number="11.7.2">
+<h3 data-number="11.7.2" class="anchored" data-anchor-id="sec-11-gov-autoridades"><span class="header-section-number">11.7.2</span> Autoridades Competentes</h3>
+<p>As entidades reguladoras em Portugal organizam-se em dois planos:</p>
+<p><strong>CNPD — Comissão Nacional de Protecção de Dados</strong> é a autoridade supervisora nacional para o RGPD. Pode aplicar advertências, ordens correctivas, e coimas até 20 000 000 € ou 4% do volume de negócios anual a nível mundial, consoante o que for mais elevado. Recebe as notificações de violações de dados pessoais no prazo de 72 horas (Artigo 33.º RGPD).</p>
+<p><strong>CNCS — Centro Nacional de Cibersegurança</strong> é a autoridade competente para a supervisão do DL 125/2025. Gere o registo de entidades essenciais e importantes, recebe os relatórios anuais de cibersegurança, e é o destinatário das notificações de incidentes. O <strong>CERT.PT</strong> está integrado no CNCS e é a equipa operacional de resposta a incidentes de cibersegurança.</p>
+<p><strong>ENISA</strong> (<em>European Union Agency for Cybersecurity</em>) é a agência europeia de referência em cibersegurança. Publica guias técnicos — incluindo o guia de pseudonimização <span class="citation" data-cites="ENISA2019pseudo">(<a href="../referencias.html#ref-ENISA2019pseudo" role="doc-biblioref">European Union Agency for Cybersecurity (ENISA), 2019</a>)</span> — e coordena a rede de CSIRTs nacionais da qual o CERT.PT faz parte.</p>
+<p><strong>EDPB</strong> (<em>European Data Protection Board</em>) emite <em>guidelines</em> e recomendações harmonizadas para os 27 Estados-Membros, vinculativas para as autoridades nacionais como a CNPD.</p>
+</section>
+<section id="sec-11-gov-nis2-obrig" class="level3" data-number="11.7.3">
+<h3 data-number="11.7.3" class="anchored" data-anchor-id="sec-11-gov-nis2-obrig"><span class="header-section-number">11.7.3</span> Obrigações NIS2 para Hospitais e Universidades</h3>
+<p>O DL 125/2025 <span class="citation" data-cites="DL125_2025">(<a href="../referencias.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>)</span> concretiza um conjunto de obrigações com prazos e procedimentos específicos:</p>
+<div id="tbl-nis2-obrigacoes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nis2-obrigacoes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.14: Obrigações NIS2 e respectivos prazos para hospitais (entidades essenciais) <span class="citation" data-cites="DL125_2025">(<a href="../referencias.html#ref-DL125_2025" role="doc-biblioref">Governo de Portugal, 2025</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-nis2-obrigacoes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 19%">
+<col style="width: 53%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Obrigação</th>
+<th style="text-align: left;">Artigo</th>
+<th style="text-align: left;">Prazo / Periodicidade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Registo no CNCS</td>
+<td style="text-align: left;">Art. 35.º</td>
+<td style="text-align: left;">60 dias após qualificação</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Designação do responsável de cibersegurança</td>
+<td style="text-align: left;">Art. 31.º</td>
+<td style="text-align: left;">Comunicado ao CNCS em 20 dias úteis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Relatório anual de cibersegurança</td>
+<td style="text-align: left;">Art. 30.º</td>
+<td style="text-align: left;">Último dia útil de Janeiro</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alerta inicial de incidente</td>
+<td style="text-align: left;">Art. 40.º</td>
+<td style="text-align: left;">24 horas após tomada de conhecimento</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Actualização de incidente</td>
+<td style="text-align: left;">Art. 41.º</td>
+<td style="text-align: left;">72 horas</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Relatório final de incidente</td>
+<td style="text-align: left;">Art. 43.º</td>
+<td style="text-align: left;">30 dias úteis</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A notificação de incidentes em 24 horas é uma das obrigações mais exigentes do ponto de vista operacional. Implica que, no momento em que um incidente é detectado, o hospital deve dispor de informação suficiente para caracterizá-lo — o que requer que os sistemas de monitorização e os logs ATNA estejam a funcionar e sejam imediatamente consultáveis. Um hospital que não implemente ATNA pode não ter capacidade de responder a esta obrigação no prazo legal.</p>
+</section>
+</section>
+<section id="sec-11-cenario" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="sec-11-cenario"><span class="header-section-number">11.8</span> Cenário Integrado — Privacidade no Fluxo Clínico</h2>
+<p>Ana Ferreira, 47 anos, é admitida em urgência no CHUPorto com quadro clínico sugestivo de tromboembolismo pulmonar. É realizada uma TC torácica. O relatório e as imagens são depois consultados pelo médico de família da doente no Centro de Saúde. Mais tarde, a investigadora Professora Lúcia Andrade solicita acesso às imagens para um estudo sobre padrões de TEP. Cada passo activa mecanismos de privacidade distintos.</p>
+<p><strong>Admissão.</strong> O HIS regista o episódio com uma mensagem ADT HL7 v2. O ATNA regista o evento <code>UserAuthentication</code> (enfermeiro que efectua o registo) e <code>PatientRecord</code> (criação do registo). O dado de saúde — um episódio de urgência — fica sujeito ao Artigo 9.º do RGPD desde este momento.</p>
+<p><strong>Consentimento.</strong> O serviço de urgência cria um recurso <code>Consent FHIR</code> com <code>status: "active"</code>, <code>scope: patient-privacy</code>, que autoriza o CHUPorto (<code>Organization/CHUPorto</code>) a tratar os dados para fins de prestação de cuidados (<code>purpose: TREAT</code>), e o médico de família da doente (<code>Practitioner/dr-mf-789</code>) a consultar o relatório para fins de continuidade de cuidados.</p>
+<p><strong>Aquisição da TC.</strong> O IHE Scheduled Workflow (SWF) coordena o fluxo: o pedido de TC chega ao RIS, a modalidade recebe a <em>worklist</em>, o ficheiro DICOM é adquirido e enviado para o PACS por <code>C-STORE</code>. O ATNA regista o evento <code>Order</code> (pedido criado pelo médico de urgência) e <code>ProcedureRecord</code> (aquisição concluída pela modalidade). O ficheiro DICOM no PACS contém todos os dados identificativos — acesso restrito ao CHUPorto, com TLS mútuo.</p>
+<p><strong>Consulta pelo médico de família.</strong> O médico acede ao relatório via SMART on FHIR. A aplicação pede o <em>scope</em> <code>patient/DiagnosticReport.read</code>; o servidor verifica o <code>Consent</code> activo e confirma que <code>Practitioner/dr-mf-789</code> tem acesso para <code>purpose: TREAT</code>; o relatório é devolvido. O ATNA regista o evento <code>Read</code> com <code>UserID: dr.mf@cs-braga.pt</code> e <code>NetworkAccessPointID: 193.136.xx.xx</code>.</p>
+<p><strong>Investigação.</strong> A Professora Andrade não tem <code>Consent</code> activo que autorize o acesso para fins de investigação. O servidor recusa o pedido. O DPO do CHUPorto é consultado para definir o processo: anonimização das imagens com remoção dos atributos identificativos (Acção D/U no PS 3.15 Annex E), perturbação das datas de estudo (Acção C), substituição dos UIDs (Acção U) e verificação de pixels <em>burned-in</em>. As imagens anonimizadas são fornecidas sem necessidade de <code>Consent</code> — saem do âmbito do RGPD (Considerando 26).</p>
+<p>Este cenário ilustra a arquitectura de privacidade como um conjunto de mecanismos que cooperam: o <code>Consent FHIR</code> define quem pode fazer o quê, o SMART on FHIR verifica esse consentimento na camada de autorização, o ATNA regista cada acesso como evidência auditável, e a anonimização DICOM torna possível a investigação científica sem comprometer a privacidade dos doentes.</p>
+</section>
+<section id="sec-11-sintese" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-11-sintese">Síntese</h2>
+<div id="tbl-sintese-11" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sintese-11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;11.15: Síntese dos conceitos do Capítulo 11.
+</figcaption>
+<div aria-describedby="tbl-sintese-11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Conceito</th>
+<th style="text-align: left;">Ponto-chave</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Dado de saúde</strong></td>
+<td style="text-align: left;">Categoria especial (RGPD Art. 9.º) — tratamento proibido por defeito</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Anonimização</strong></td>
+<td style="text-align: left;">Irreversível; sem chave de retorno; fora do âmbito do RGPD (Considerando 26)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Pseudonimização</strong></td>
+<td style="text-align: left;">Dado pessoal — reduz risco mas mantém obrigações RGPD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>k-anonimato</strong></td>
+<td style="text-align: left;">Cada registo é indistinguível de pelo menos k−1 outros nos quasi-identificadores</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>l-diversidade</strong></td>
+<td style="text-align: left;">k-anonimato + diversidade de valores sensíveis em cada grupo</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>DICOM PS 3.15 Annex E</strong></td>
+<td style="text-align: left;">Perfis de anonimização standardizados; acções D/Z/X/K/C/U por atributo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Pixels <em>burned-in</em></strong></td>
+<td style="text-align: left;">Texto nos pixels — invisível ao processamento de <em>tags</em>; requer OCR</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>FHIR <code>Consent</code></strong></td>
+<td style="text-align: left;">Consentimento <em>machine-readable</em>, granular, verificável automaticamente</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>SMART on FHIR</strong></td>
+<td style="text-align: left;">OAuth2 aplicado à saúde — <em>scopes</em> por recurso FHIR e finalidade clínica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>ATNA</strong></td>
+<td style="text-align: left;">Auditoria de acessos = conformidade RGPD (Art. 30+32) e NIS2 (Art. 27+40)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>DPO</strong></td>
+<td style="text-align: left;">Obrigatório em hospitais — responde ao RGPD perante a CNPD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Responsável de cibersegurança</strong></td>
+<td style="text-align: left;">Obrigatório pelo DL 125/2025 — distinto do DPO; responde ao CNCS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Hospitais</strong></td>
+<td style="text-align: left;">Entidades essenciais (Anexo I, Setor 5 — DL 125/2025)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Universidades</strong></td>
+<td style="text-align: left;">Entidades importantes (Anexo II, Setor 7 — DL 125/2025)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong><em>Privacy by Design</em></strong></td>
+<td style="text-align: left;">RGPD Art. 25.º — privacidade desde a concepção, não adicionada no fim</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>O engenheiro de informática médica tem responsabilidade directa em três domínios:</p>
+<ul>
+<li><strong>Por lei (RGPD + NIS2):</strong> dados de saúde só tratados com base jurídica explícita; logs ATNA mantidos como evidência de conformidade RGPD e NIS2; TLS em todas as ligações; contrato DPA com todos os subcontratantes; responsável de cibersegurança designado e registado no CNCS; notificação de incidentes ao CNCS dentro dos prazos legais.</li>
+<li><strong>Por arquitectura:</strong> DICOM anonimizado antes de sair do hospital para fins de investigação; <code>Consent FHIR</code> verificado pelo servidor antes de servir qualquer recurso clínico; <em>scopes</em> SMART mínimos necessários; verificação de pixels <em>burned-in</em> em imagens DICOM.</li>
+<li><strong>Por processo:</strong> DPIA (<em>Data Protection Impact Assessment</em>) antes de novos sistemas que tratem dados de saúde; DPO envolvido nas decisões de arquitectura; notificação de violações em 72 horas à CNPD (Artigo 33.º RGPD); treino de toda a equipa com acesso a dados clínicos.</li>
+</ul>
+</section>
+<section id="sec-11-exercicios" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="sec-11-exercicios">Exercícios Propostos</h2>
+<p><strong>1.</strong> O departamento de investigação de um hospital pretende partilhar registos clínicos com uma universidade para treino de um modelo de detecção de sepsis.</p>
+<ol type="a">
+<li>Que artigo do RGPD estabelece que os dados de saúde são uma categoria especial e que tipo de base jurídica é necessária para o tratamento?</li>
+<li>A equipa remove apenas o nome e o número de utente dos registos. Argumente tecnicamente por que razão estes dados podem não ser genuinamente anonimizados, usando o conceito de quasi-identificador.</li>
+<li>Proponha um processo de anonimização que reduza o risco de reidentificação para um nível razoável, especificando as técnicas usadas e os atributos a que cada uma se aplica.</li>
+<li>Após a anonimização, os dados estão sujeitos ao RGPD? Justifique com referência ao articulado do regulamento.</li>
+</ol>
+<p><strong>2.</strong> Um hospital tem uma base de dados de 10 000 doentes com os seguintes atributos: código postal (4 dígitos), faixa etária (5 anos), sexo, e diagnóstico principal (ICD-10).</p>
+<ol type="a">
+<li>Defina formalmente o conceito de k-anonimato e explique o que significa dizer que esta base de dados verifica 5-anonimato.</li>
+<li>Um grupo quasi-identificador <code>4200-xxx / 45–50 / F</code> tem 7 registos, todos com o diagnóstico “neoplasia da mama”. Esta tabela verifica 7-anonimato. Que ataque permite revelar o diagnóstico deste grupo mesmo sem identificar o registo individual?</li>
+<li>Que propriedade formal foi proposta por Machanavajjhala e colaboradores para mitigar este ataque? Descreva informalmente em que consiste.</li>
+<li>O hospital aplica generalização e aumenta o k de 5 para 10. Que efeito tem esta operação na utilidade estatística dos dados para investigação?</li>
+</ol>
+<p><strong>3.</strong> Analise o seguinte fragmento de código Python de anonimização DICOM:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> pydicom.dcmread(<span class="st">"TC_Ferreira.dcm"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">delattr</span>(ds, <span class="st">"PatientName"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">delattr</span>(ds, <span class="st">"PatientID"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ds.save_as(<span class="st">"TC_anon.dcm"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="a">
+<li>Que tags identificativas não são tratadas por este código? Liste pelo menos quatro atributos com potencial de reidentificação que ficam por remover.</li>
+<li>Que acção do PS 3.15 Annex E deveria ser aplicada ao <code>StudyInstanceUID</code>? Porquê é importante tratar os UIDs e não apenas suprimi-los?</li>
+<li>O ficheiro contém o nome da doente gravado nos pixels da imagem. Como pode esta situação ser detectada? O código acima trata-a?</li>
+<li>Após a execução deste código, o ficheiro resultante sai do âmbito do RGPD? Justifique tecnicamente.</li>
+</ol>
+<p><strong>4.</strong> Uma aplicação móvel de monitorização de doentes crónicos pretende aceder ao historial de observações do doente num servidor FHIR hospitalar.</p>
+<ol type="a">
+<li>Que protocolo de autorização é usado pelo SMART on FHIR? Que <em>scope</em> deve a aplicação pedir para ler observações do doente autenticado?</li>
+<li>Descreva os seis passos do fluxo SMART on FHIR desde o lançamento da aplicação até à recepção dos dados.</li>
+<li>O doente autorizou a aplicação para <code>patient/Observation.read</code>. A aplicação tenta aceder a <code>GET /Patient/p-123</code>. O servidor deve responder com êxito? Justifique.</li>
+<li>Que vantagem tem o SMART on FHIR face a uma autenticação simples por <em>username</em> e <em>password</em> no contexto da partilha inter-institucional?</li>
+</ol>
+<p><strong>5.</strong> Um hospital sofre um acesso não autorizado ao PACS durante a madrugada. O intruso acedeu a imagens de 340 doentes e exportou os ficheiros DICOM originais (sem anonimização).</p>
+<ol type="a">
+<li>Ao abrigo do RGPD, que artigo obriga à notificação desta violação à CNPD? Qual o prazo?</li>
+<li>O CNCS também deve ser notificado? Ao abrigo de que diploma e de que artigo? Em que prazo?</li>
+<li>O hospital não tinha ATNA implementado. Que dificuldades operacionais específicas cria esta ausência na resposta ao incidente?</li>
+<li>O DPO e o Responsável de Cibersegurança têm papéis distintos neste incidente. Descreva a responsabilidade específica de cada um.</li>
+</ol>
+<p><strong>6.</strong> Considere o cenário integrado de Ana Ferreira descrito neste capítulo.</p>
+<ol type="a">
+<li>O médico de família consulta o relatório da TC usando SMART on FHIR. Que campo do recurso <code>Consent</code> activo autoriza especificamente este acesso?</li>
+<li>O ATNA regista o acesso do médico de família. Que campos do registo ATNA permitem provar, numa auditoria da CNPD, que o acesso foi legítimo?</li>
+<li>A Professora Andrade recebe as imagens anonimizadas. O hospital aplicou o <em>Basic Application Level Confidentiality Profile</em> do PS 3.15. Que operação adicional deveria ter sido realizada para garantir que o nome da doente não está presente nos pixels?</li>
+<li>Se o hospital for classificado como entidade essencial ao abrigo do DL 125/2025, que coima máxima pode ser aplicada por incumprimento do dever de notificação de incidentes?</li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-BarbaroZeller2006" class="csl-entry" role="listitem">
+Barbaro, M., &amp; Zeller, T. (2006). A Face Is Exposed for <span>AOL</span> Searcher No. 4417749. <em>The New York Times</em>. <a href="https://www.nytimes.com/2006/08/09/technology/09aol.html">https://www.nytimes.com/2006/08/09/technology/09aol.html</a>
+</div>
+<div id="ref-Cavoukian2011" class="csl-entry" role="listitem">
+Cavoukian, A. (2011). <em>Privacy by Design: The 7 Foundational Principles</em>. Information; Privacy Commissioner of Ontario. <a href="https://www.ipc.on.ca/wp-content/uploads/resources/7foundationalprinciples.pdf">https://www.ipc.on.ca/wp-content/uploads/resources/7foundationalprinciples.pdf</a>
+</div>
+<div id="ref-ElEmamArbuckle2013" class="csl-entry" role="listitem">
+El Emam, K., &amp; Arbuckle, L. (2013). <em>Anonymizing Health Data: Case Studies and Methods to Get You Started</em>. O’Reilly Media.
+</div>
+<div id="ref-ErlichNarayanan2014" class="csl-entry" role="listitem">
+Erlich, Y., &amp; Narayanan, A. (2014). Routes for Breaching and Protecting Genetic Privacy. <em>Nature Reviews Genetics</em>, <em>15</em>(6), 409–421. <a href="https://doi.org/10.1038/nrg3723">https://doi.org/10.1038/nrg3723</a>
+</div>
+<div id="ref-ENISA2019pseudo" class="csl-entry" role="listitem">
+European Union Agency for Cybersecurity (ENISA). (2019). <em>Pseudonymisation Techniques and Best Practices</em>. ENISA. <a href="https://doi.org/10.2824/556345">https://doi.org/10.2824/556345</a>
+</div>
+<div id="ref-DL125_2025" class="csl-entry" role="listitem">
+Governo de Portugal. (2025). <em>Decreto-Lei n.º 125/2025, de 4 de dezembro — Transpõe a Directiva (<span>UE</span>) 2022/2555 (<span>NIS2</span>), estabelece o regime jurídico da segurança do ciberespaço</em>. Diário da República n.º 234/2025, Série I, 4 de dezembro de 2025. <a href="https://dre.pt/dre/detalhe/decreto-lei/125-2025-907696596" class="uri">https://dre.pt/dre/detalhe/decreto-lei/125-2025-907696596</a>.
+</div>
+<div id="ref-Gymrek2013" class="csl-entry" role="listitem">
+Gymrek, M., McGuire, A. L., Golan, D., Halperin, E., &amp; Erlich, Y. (2013). Identifying Personal Genomes by Surname Inference. <em>Science</em>, <em>339</em>(6117), 321–324. <a href="https://doi.org/10.1126/science.1229566">https://doi.org/10.1126/science.1229566</a>
+</div>
+<div id="ref-HL7_FHIR_R4" class="csl-entry" role="listitem">
+HL7 International. (2019). <em><span>HL7 FHIR</span> Release 4 Specification</em>. <a href="https://hl7.org/fhir/R4/" class="uri">https://hl7.org/fhir/R4/</a>.
+</div>
+<div id="ref-HL7_SMART2023" class="csl-entry" role="listitem">
+HL7 International. (2023). <em><span>SMART</span> App Launch Implementation Guide, Release 2.1.0</em>. <a href="https://hl7.org/fhir/smart-app-launch/" class="uri">https://hl7.org/fhir/smart-app-launch/</a>.
+</div>
+<div id="ref-IHE_ATNA2024" class="csl-entry" role="listitem">
+IHE International. (2024). <em><span>IHE IT</span> Infrastructure Technical Framework, Volume 2: Transactions (<span>ITI TF-2</span>) — <span>ATNA</span> Profile (<span>ITI-19</span>, <span>ITI-20</span>)</em>. Revision 23.0. <a href="https://profiles.ihe.net/ITI/TF/" class="uri">https://profiles.ihe.net/ITI/TF/</a>.
+</div>
+<div id="ref-Machanavajjhala2007" class="csl-entry" role="listitem">
+Machanavajjhala, A., Kifer, D., Gehrke, J., &amp; Venkitasubramaniam, M. (2007). l-diversity: Privacy beyond k-anonymity. <em>ACM Transactions on Knowledge Discovery from Data</em>, <em>1</em>(1), 3. <a href="https://doi.org/10.1145/1217299.1217302">https://doi.org/10.1145/1217299.1217302</a>
+</div>
+<div id="ref-MandelSMART2016" class="csl-entry" role="listitem">
+Mandel, J. C., Kreda, D. A., Mandl, K. D., Kohane, I. S., &amp; Ramoni, R. B. (2016). <span>SMART</span> on <span>FHIR</span>: A Standards-Based, Interoperable Apps Platform for Electronic Health Records. <em>Journal of the American Medical Informatics Association</em>, <em>23</em>(5), 899–908. <a href="https://doi.org/10.1093/jamia/ocv189">https://doi.org/10.1093/jamia/ocv189</a>
+</div>
+<div id="ref-NarayananShmatikov2008" class="csl-entry" role="listitem">
+Narayanan, A., &amp; Shmatikov, V. (2008). Robust De-anonymization of Large Sparse Datasets. <em>Proceedings of the 2008 <span>IEEE</span> Symposium on Security and Privacy</em>, 111–125. <a href="https://doi.org/10.1109/SP.2008.33">https://doi.org/10.1109/SP.2008.33</a>
+</div>
+<div id="ref-DICOM_PS315" class="csl-entry" role="listitem">
+NEMA / MITA. (2025a). <em><span>DICOM PS3.15</span> 2025e — Security and System Management Profiles</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part15.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part15.html</a>.
+</div>
+<div id="ref-DICOM_PS33" class="csl-entry" role="listitem">
+NEMA / MITA. (2025b). <em><span>DICOM PS3.3</span> 2025e — Information Object Definitions</em>. <a href="https://dicom.nema.org/medical/dicom/current/output/html/part03.html" class="uri">https://dicom.nema.org/medical/dicom/current/output/html/part03.html</a>.
+</div>
+<div id="ref-RGPD2016" class="csl-entry" role="listitem">
+Parlamento Europeu e Conselho da União Europeia. (2016). <em>Regulamento (<span>UE</span>) 2016/679 do Parlamento Europeu e do Conselho, de 27 de abril de 2016, relativo à protecção das pessoas singulares no que diz respeito ao tratamento de dados pessoais e à livre circulação desses dados (<span>RGPD</span>)</em>. Jornal Oficial da União Europeia, L 119, 4 de maio de 2016, pp. 1–88. <a href="https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX:32016R0679" class="uri">https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX:32016R0679</a>.
+</div>
+<div id="ref-NIS2Dir2022" class="csl-entry" role="listitem">
+Parlamento Europeu e Conselho da União Europeia. (2022). <em>Directiva (<span>UE</span>) 2022/2555 do Parlamento Europeu e do Conselho, de 14 de dezembro de 2022, relativa a medidas destinadas a garantir um elevado nível comum de cibersegurança na União (<span>NIS2</span>)</em>. Jornal Oficial da União Europeia, L 333, 27 de dezembro de 2022, pp. 80–152. <a href="https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX:32022L2555" class="uri">https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX:32022L2555</a>.
+</div>
+<div id="ref-Sweeney2000" class="csl-entry" role="listitem">
+Sweeney, L. (2000). <em>Simple Demographics Often Identify People Uniquely</em> (Technical Report LIDAP-WP4). Carnegie Mellon University, Data Privacy Laboratory.
+</div>
+<div id="ref-Sweeney2002" class="csl-entry" role="listitem">
+Sweeney, L. (2002). k-anonymity: A Model for Protecting Privacy. <em>International Journal of Uncertainty, Fuzziness and Knowledge-Based Systems</em>, <em>10</em>(5), 557–570. <a href="https://doi.org/10.1142/S0218488502001648">https://doi.org/10.1142/S0218488502001648</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/cap10.html" class="pagination-link" aria-label="IHE: Perfis de Integração em Saúde">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">IHE: Perfis de Integração em Saúde</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../referencias.html" class="pagination-link" aria-label="Referências">
+        <span class="nav-page-text">Referências</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Informática Médica — Mestrado em Engenharia Biomédica · UTAD</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><a href="https://joaoagostinhopavao.github.io/sebenta-im/en/">🇬🇧 English</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
